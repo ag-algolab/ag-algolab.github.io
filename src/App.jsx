@@ -1,7 +1,5 @@
 import React from "react";
 import "./index.css";
-import logo from "./logo.png";
-import founder from "./founder.png";
 
 function App() {
   return (
@@ -9,7 +7,7 @@ function App() {
       {/* HEADER */}
       <header className="header">
         <div className="logo-section">
-          <img src={logo} alt="AG AlgoLab Logo" className="logo" />
+         <img src="/logo.png" alt="AG AlgoLab Logo" className="logo" />
           <h1 className="title">AG AlgoLab</h1>
         </div>
         <nav className="nav">
@@ -74,7 +72,7 @@ function App() {
       <section id="team" className="section">
         <h2>Our Team</h2>
         <div className="team-member">
-          <img src={founder} alt="Founder" className="founder-pic" />
+          <img src="/founder.png" alt="Founder" className="founder-pic" />
           <h3>Anthony Gocmen</h3>
           <p>Founder & Lead Researcher</p>
           <p>
