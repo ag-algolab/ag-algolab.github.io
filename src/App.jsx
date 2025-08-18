@@ -113,7 +113,7 @@ function App() {
       {/* FOOTER */}
       <footer className="footer">
         <div className="logo-section">
-          <img src={logo} alt="AG AlgoLab Logo" className="logo" />
+          <img src="/logo.png" alt="AG AlgoLab Logo" className="logo" />
           <span>AG AlgoLab</span>
         </div>
         <div className="socials">
