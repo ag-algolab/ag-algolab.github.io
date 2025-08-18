@@ -9,8 +9,8 @@ import { toast } from '@/components/ui/use-toast';
 function App() {
   const handleContactClick = () => {
     toast({
-      title: "🚧 Cette fonctionnalité n'est pas encore implémentée",
-      description: "Mais ne vous inquiétez pas ! Vous pouvez la demander dans votre prochaine requête ! 🚀"
+      title: "🚧 We're building something here...",
+      description: "This page will be live very soon! 🚀"
     });
   };
 
@@ -251,8 +251,8 @@ function App() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  name: "Dr. Alexandre Girard",
-                  role: "Directeur R&D",
+                  name: "Anthony Gocmen",
+                  role: "Founder",
                   expertise: "Deep Learning & Finance Quantitative",
                   image: "Portrait professionnel d'un directeur R&D en costume"
                 },
@@ -416,9 +416,9 @@ function App() {
                 <h3 className="text-2xl font-bold mb-8 text-white">Informations de contact</h3>
                 <div className="space-y-6">
                   {[
-                    { icon: <Mail className="w-6 h-6" />, label: "Email", value: "contact@agalgolab.com" },
-                    { icon: <Phone className="w-6 h-6" />, label: "Téléphone", value: "+33 1 23 45 67 89" },
-                    { icon: <MapPin className="w-6 h-6" />, label: "Adresse", value: "123 Avenue de l'Innovation, 75001 Paris" }
+                    { icon: <Mail className="w-6 h-6" />, label: "Email", value: "anthony.gocmen@gmail.com" },
+                    { icon: <Phone className="w-6 h-6" />, label: "Phone", value: "+33 6 51 87 13 74" },
+                    { icon: <MapPin className="w-6 h-6" />, label: "Adress", value: "123 Avenue de l'Innovation, 75001 Paris" }
                   ].map((contact, index) => (
                     <motion.div
                       key={index}
@@ -437,12 +437,12 @@ function App() {
                 </div>
 
                 <div className="mt-8">
-                  <h4 className="text-lg font-semibold mb-4 text-white">Suivez-nous</h4>
+                  <h4 className="text-lg font-semibold mb-4 text-white">Follow the Process</h4>
                   <div className="flex space-x-4">
                     {[
                       { icon: <Github className="w-5 h-5" />, label: "GitHub" },
                       { icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn" },
-                      { icon: <Twitter className="w-5 h-5" />, label: "Twitter" }
+                      { icon: <Youtube className="w-5 h-5" />, label: "Youtube" }
                     ].map((social, index) => (
                       <motion.button
                         key={index}
@@ -525,7 +525,7 @@ function App() {
                 </span>
               </div>
               <p className="text-white/60 text-center md:text-right">
-                © 2024 AG Algo Lab. Tous droits réservés. | R&D en Trading Algorithmique & Deep Learning
+                © 2025 AG Algo Lab. All rights reserved. | R&D in Algo Trading
               </p>
             </div>
           </div>
