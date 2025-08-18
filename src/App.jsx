@@ -410,7 +410,7 @@ function App() {
                 <div className="flex space-x-5">
                   {[
                     { icon: <Github className="w-5 h-5" />, url: 'https://github.com/ag-algolab' },
-                    { icon: <Linkedin className="w-5 h-5" />, url: 'https://linkedin.com' },
+                    { icon: <Linkedin className="w-5 h-5" />, url: 'https://www.linkedin.com/in/anthony-gocmen' },
                     { icon: <Twitter className="w-5 h-5" />, url: 'https://twitter.com' },
                   ].map((social, index) => (
                     <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition">
