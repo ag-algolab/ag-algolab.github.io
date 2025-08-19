@@ -317,7 +317,7 @@ function App() {
 
 
         {/* Projects Section */}
-        <section id="Main Project" className="py-20 bg-black/20">
+        <section id="main-project" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
