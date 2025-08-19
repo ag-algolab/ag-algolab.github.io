@@ -237,9 +237,6 @@ function App() {
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
               Founder
             </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Artificial Intelligence & Quantitative Finance
-            </p>
           </motion.div>
         
           {/* Grid : 1/3 (gauche) + 2/3 (droite) */}
@@ -255,8 +252,8 @@ function App() {
             >
 
             {/* Photo avec bordure gradient cyan-violet */}
-            <div className="w-40 h-40 mx-auto rounded-xl overflow-hidden mb-4 p-[3px] bg-gradient-to-r from-cyan-400 to-violet-500 shadow-lg">
-              <div className="w-full h-full rounded-xl overflow-hidden border border-black/80">
+            <div className="w-40 h-40 mx-auto mb-4 rounded-xl p-[2px] bg-gradient-to-r from-cyan-400 to-violet-500 shadow-lg">
+              <div className="w-full h-full rounded-xl overflow-hidden border border-white/20">
                 <img
                   src="/founder.png"
                   alt="Portrait of Anthony Gocmen"
@@ -305,8 +302,7 @@ function App() {
                 <p className="text-lg md:text-xl text-white/90 leading-relaxed">
                   <span className="block">
                     AG AlgoLab is currently led by its founder, Anthony Gocmen, who drives all research and development activities. <br /><br />
-                    He is pursuing a Master’s degree in Finance at Université Paris Dauphine (PSL), with a strong academic foundation
-                    in quantitative finance and artificial intelligence. <br /><br />
+                    He is currently pursuing a Master’s degree in Finance at Université Paris Dauphine (PSL). <br /><br />
                     In 2025, he won the Space Hackathon organized by Arizona State University, showcasing his ability to combine innovation, data, and advanced modeling in real-world challenges.
                   </span>
                 </p>
