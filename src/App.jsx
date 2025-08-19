@@ -101,7 +101,7 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent">
                 AG Algo Lab
               </h1>
               <h2 className="text-3xl md:text-5xl font-semibold mb-6 text-white/90">
@@ -558,7 +558,6 @@ function App() {
                 {[
                   { icon: <Github className="w-5 h-5" />, url: 'https://github.com/ag-algolab' },
                   { icon: <Linkedin className="w-5 h-5" />, url: 'https://www.linkedin.com/in/anthony-gocmen' },
-                  { icon: <Twitter className="w-5 h-5" />, url: 'https://twitter.com' },
                 ].map((social, index) => (
                   <a
                     key={index}
