@@ -353,7 +353,7 @@ function App() {
                     {project.tech.map((tech, techIndex) => (
                       <span
                         key={techIndex}
-                        className="px-3 py-1 bg-gradient-to-r from-emerald-500/20 to-emerald-700/20 rounded-full text-white text-xs"
+                        className="px-3 py-1 bg-gradient-to-r from-[#6E2FCF]/20 to-[#2A3BB7]/20 rounded-full text-white text-xs"
                       >
                         {tech}
                       </span>
@@ -398,7 +398,7 @@ function App() {
                   href="https://www.youtube.com/@ag_algolab"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-emerald-400 hover:underline"
+                  className="text-[#6E2FCF] hover:text-[#9D7AF5] hover:underline"
                 >
                   Visit channel →
                 </a>
@@ -430,7 +430,7 @@ function App() {
                   href="https://www.youtube.com/@ag_algolab_fr"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-emerald-400 hover:underline"
+                  className="text-[#6E2FCF] hover:text-[#9D7AF5] hover:underline"
                 >
                   Visit channel →
                 </a>
