@@ -1,47 +1,24 @@
-import React from "react";
-import { Helmet } from "react-helmet";
-import { motion } from "framer-motion";
-import {
-  Brain,
-  TrendingUp,
-  Cpu,
-  BarChart3,
-  Users,
-  Mail,
-  Phone,
-  Github,
-  Linkedin,
-  Twitter,
-  ChevronDown,
-  Play,
-  Code,
-  Database,
-  Zap,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/toaster";
-import { toast } from "@/components/ui/use-toast";
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { motion } from 'framer-motion';
+import { Brain, TrendingUp, Cpu, BarChart3, Users, Mail, Phone, MapPin, Github, Linkedin, Twitter, ChevronDown, Play, Code, Database, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/toaster';
+import { toast } from '@/components/ui/use-toast';
 
 function App() {
   const handleContactClick = () => {
     toast({
       title: "We're building something here...",
-      description: "This page will be live very soon!",
+      description: "This page will be live very soon!"
     });
   };
 
-  const NAV = [
-    { id: "home", label: "Home" },
-    { id: "services", label: "Services" },
-    { id: "founder", label: "Founder" },
-    { id: "main-project", label: "Main Project" },
-    { id: "knowledge-hub", label: "Knowledge Hub" },
-    { id: "contact", label: "Contact" },
-  ];
-
   const scrollToSection = (sectionId) => {
-    const el = document.getElementById(sectionId);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -50,38 +27,39 @@ function App() {
         <title>AG Algo Lab - Predict the Unpredictable</title>
         <meta
           name="description"
-          content="AG Algo Lab specializes in research and development in algorithmic trading using deep learning."
+          content="AG Algo Lab specializes in research and development in algorithmic trading using deep learning. We focus on advanced predictions and high‑performance Python execution pipelines."
         />
+        <meta property="og:title" content="AG Algo Lab - Predict the Unpredictable" />
+        <meta property="og:description" content="Expertise in research and development for algorithmic trading with artificial intelligence and deep learning." />
       </Helmet>
 
-      {/* Fond global clair */}
-      <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
-
+      <div className="min-h-screen bg-gradient-to-br from-[#3C0D66] via-[#6E2FCF] to-[#0D47A1] text-white overflow-x-hidden">
         {/* Navigation */}
         <motion.nav
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-lg border-b border-gray-200"
+          className="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-lg border-b border-white/10"
         >
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
               <motion.div whileHover={{ scale: 1.05 }} className="flex items-center space-x-3">
                 <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
-                <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+
+                <span className="text-xl font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
                   Algo Lab
                 </span>
               </motion.div>
 
               <div className="hidden md:flex space-x-8">
-                {NAV.map(({ id, label }) => (
+                {['Home', 'Services', 'Founder', 'Main Project', 'Knowledge Hub', 'Contact'].map((item) => (
                   <motion.button
-                    key={id}
-                    whileHover={{ scale: 1.1 }}
-                    onClick={() => scrollToSection(id)}
-                    className="text-gray-700 hover:text-purple-600 transition-colors font-medium"
+                    key={item}
+                    whileHover={{ scale: 1.1, color: '#10b981' }}
+                    onClick={() => scrollToSection(item.toLowerCase())}
+                    className="text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium"
                   >
-                    {label}
+                    {item}
                   </motion.button>
                 ))}
               </div>
@@ -91,58 +69,59 @@ function App() {
 
         {/* Hero Section */}
         <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-          {/* Particules flottantes */}
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-black/20"></div>
+
+          {/* Animated Background Elements */}
           <div className="absolute inset-0">
-            {[...Array(25)].map((_, i) => (
+            {[...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-2 h-2 rounded-full"
-                style={{
-                  backgroundColor: i % 2 ? "rgba(147, 51, 234, 0.25)" : "rgba(59, 130, 246, 0.25)",
-                  left: Math.random() * 100 + "%",
-                  top: Math.random() * 100 + "%",
-                }}
+                className="absolute w-2 h-2 bg-[#6E2FCF]/30 rounded-full"
                 animate={{
-                  x: [0, Math.random() * 800],
-                  y: [0, Math.random() * 600],
+                  x: [0, Math.random() * 1000],
+                  y: [0, Math.random() * 800],
                   opacity: [0, 1, 0],
                 }}
                 transition={{
-                  duration: Math.random() * 12 + 6,
+                  duration: Math.random() * 10 + 5,
                   repeat: Infinity,
                   delay: Math.random() * 5,
+                }}
+                style={{
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 100 + '%',
                 }}
               />
             ))}
           </div>
 
-          <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent">
                 AG Algo Lab
               </h1>
-              <h2 className="text-2xl md:text-4xl font-semibold mb-6 text-gray-800">
+              <h2 className="text-3xl md:text-5xl font-semibold mb-6 text-white/90">
                 Predict the Unpredictable
               </h2>
-              <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+              <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto">
                 Specializing in advanced predictions and the execution of high-performance Python pipelines
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
                   onClick={handleContactClick}
-                  className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-500 hover:to-blue-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-md"
+                  className="border-2 border-white/30 text-white hover:bg-white/10 hover:text-[#9D7AF5] px-8 py-3 text-lg font-semibold rounded-full"
                 >
                   Discover our services
                 </Button>
                 <Button
                   variant="outline"
                   onClick={handleContactClick}
-                  className="border-2 border-purple-400 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg font-semibold rounded-full"
+                  className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-3 text-lg font-semibold rounded-full"
                 >
                   <Play className="w-5 h-5 mr-2" />
                   See our projects
@@ -157,17 +136,17 @@ function App() {
               className="mt-16"
             >
               <button
-                onClick={() => scrollToSection("services")}
-                className="w-10 h-10 text-purple-500 hover:text-blue-500 transition-colors"
+                onClick={() => scrollToSection('services')}
+                className="w-8 h-8 text-white/60 hover:text-emerald-400 transition-colors"
               >
-                <ChevronDown className="w-10 h-10" />
+                <ChevronDown className="w-8 h-8" />
               </button>
             </motion.div>
           </div>
         </section>
 
-        {/* Services */}
-        <section id="services" className="py-20 bg-gray-50">
+        {/* Services Section */}
+        <section id="services" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -175,91 +154,414 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
               Our Services
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
               Innovative solutions in artificial intelligence for algorithmic trading
             </p>
           </motion.div>
 
-          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: <Cpu className="w-8 h-8" />, title: "Deep Learning", description: "Models for predictive analysis of financial markets" },
-              { icon: <TrendingUp className="w-8 h-8" />, title: "Advanced Predictions", description: "Algorithms to anticipate market movements with precision" },
-              { icon: <Code className="w-8 h-8" />, title: "Python Pipelines", description: "Development and optimization of execution pipelines" },
-              { icon: <Database className="w-8 h-8" />, title: "Data Management", description: "Real-time processing and analysis of massive datasets" },
-              { icon: <BarChart3 className="w-8 h-8" />, title: "Continuous Improvement", description: "Ongoing refinement of algorithmic performance" },
-              { icon: <Zap className="w-8 h-8" />, title: "Rapid Execution", description: "Ultra-fast systems to seize market opportunities" },
+              {
+                icon: <Cpu className="w-8 h-8" />,
+                title: 'Deep Learning',
+                description: 'Deep learning models for predictive analysis of financial markets',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
+              },
+              {
+                icon: <TrendingUp className="w-8 h-8" />,
+                title: 'Advanced Predictions',
+                description: 'Sophisticated algorithms to anticipate market movements with precision',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
+              },
+              {
+                icon: <Code className="w-8 h-8" />,
+                title: 'Python Pipelines',
+                description: 'Development and optimization of high-performance execution pipelines',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
+              },
+              {
+                icon: <Database className="w-8 h-8" />,
+                title: 'Data Management',
+                description: 'Real‑time processing and analysis of massive volumes of financial data',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
+              },
+              {
+                icon: <BarChart3 className="w-8 h-8" />,
+                title: 'Continuous Improvement',
+                description: 'Continuous improvement of algorithm performance and precision',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
+              },
+              {
+                icon: <Zap className="w-8 h-8" />,
+                title: 'Rapid Execution',
+                description: 'Ultra-fast execution systems to seize market opportunities',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
+              },
             ].map((service, index) => (
               <motion.div
                 key={index}
-                className="bg-white rounded-2xl p-8 border border-gray-200 hover:shadow-lg transition"
+                className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10 hover:border-white/20"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                whileHover={{ scale: 1.05, rotateY: 3 }}
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-500 rounded-xl flex items-center justify-center mb-4 text-white">
+                <div className={`w-16 h-16 bg-gradient-to-r ${service.gradient} rounded-xl flex items-center justify-center mb-4`}>
                   {service.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-gray-800">{service.title}</h3>
-                <p className="text-gray-600">{service.description}</p>
+                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-emerald-400 transition-colors">
+                  {service.title}
+                </h3>
+                <p className="text-white/70 leading-relaxed">
+                  {service.description}
+                </p>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* Contact */}
-        <section id="contact" className="py-20 bg-gray-100">
+        {/* Team Section */}
+        <section id="founder" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            viewport={{ once: true }}
+            className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent mb-4">
-              Contact
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+              Founder
             </h2>
-            <p className="text-lg text-gray-600">Get in touch with us</p>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              Passionate experts in artificial intelligence and quantitative finance
+            </p>
           </motion.div>
-
-          <div className="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
-            <a href="tel:+33651871374" className="block p-6 bg-white rounded-xl border border-gray-200 hover:shadow-md transition">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center">
-                  <Phone className="w-6 h-6" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'Anthony Gocmen',
+                role: 'Founder',
+                expertise: 'Deep Learning & Quantitative Finance',
+                image: '/founder.png',
+              },
+              {
+                name: 'Sarah Chen',
+                role: 'Lead Data Scientist',
+                expertise: 'Machine Learning & Predictive Analysis',
+                image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d',
+              },
+              {
+                name: 'Marc Dubois',
+                role: 'Algorithm Engineer',
+                expertise: 'Optimization & High-Frequency Trading',
+                image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d',
+              },
+            ].map((member, index) => (
+              <motion.div
+                key={index}
+                className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10 hover:border-white/20"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-full h-48 rounded-2xl overflow-hidden mb-4">
+                  <img src={member.image} alt={`Portrait of ${member.name}`} className="w-full h-full object-cover bg-gray-300" />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-500">Phone</p>
-                  <p className="text-gray-800 font-semibold">+33 6 51 87 13 74</p>
-                </div>
-              </div>
-            </a>
-            <a href="mailto:anthony.gocmen@gmail.com" className="block p-6 bg-white rounded-xl border border-gray-200 hover:shadow-md transition">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Email</p>
-                  <p className="text-gray-800 font-semibold">anthony.gocmen@gmail.com</p>
-                </div>
-              </div>
-            </a>
+                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-emerald-400 transition-colors">
+                  {member.name}
+                </h3>
+                <p className="text-emerald-400 font-semibold mb-3">
+                  {member.role}
+                </p>
+                <p className="text-white/70 text-sm">
+                  {member.expertise}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-8 bg-white border-t border-gray-200">
-          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-600">
-            <div className="flex items-center space-x-3 mb-4 md:mb-0">
-              <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded-lg" />
-              <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-                Algo Lab
-              </span>
+        {/* Projects Section */}
+        <section id="Main Project" className="py-20 bg-black/20">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+              Main Project
+            </h2>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential.
+              For the moment, it remains confidential and not available for sale
+              < br/>
+              < br/>
+              The project builds on a four-step cycle, structured as follows:
+            </p>
+          </motion.div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8">
+            {[
+              {
+                title: '1. Exploration & Training',
+                description: 'Exploring promising ideas and preparing the foundations of the predictive model. Different approaches are tested, financial data is preprocessed, and initial versions of the AI are trained to identify valuable directions.',
+                tech: ['Scikit-learn', 'TensorFlow', 'Pandas', 'Joblib'],
+                image: '/exploration.png',
+              },
+              {
+                title: '2. Optimization & Validation',
+                description: 'Once a candidate model shows potential, it is refined through hyperparameter optimization, robustness checks, and extensive backtests. Scenarios are simulated, stability is measured, and adaptability to changing market conditions is assessed.',
+                tech: ['Matplotlib', 'Scikit-learn', 'TensorFlow'],
+                image: '/opti.png',
+              },
+              {
+                title: '3. Live Market Deployment',
+                description: 'The model is connected directly to live markets and tested under real conditions. The bot operates autonomously, executing trades and adapting continuously to market dynamics.',
+                tech: ['MetaTrader 5', 'TensorFlow', 'Joblib'],
+                image: '/orderfilled.png',
+              },
+              {
+                title: '4. Signal Transmission',
+                description: 'The final step is the broadcasting of signals generated by the AI in real time. Predictions are transformed into actionable insights and delivered seamlessly through Telegram, APIs, or other platforms.',
+                tech: ['Requests', 'Python-Telegram-Bot'],
+                image: '/broadcasting.png',
+              },
+            ].map((project, index) => (
+              <motion.div
+                key={index}
+                className="bg-white/5 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 hover:border-white/20"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                <div className="p-8">
+                  <h3 className="text-xl font-bold mb-2 text-white group-hover:text-emerald-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-white/70 leading-relaxed mb-4">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((tech, techIndex) => (
+                      <span
+                        key={techIndex}
+                        className="px-3 py-1 bg-gradient-to-r from-[#6E2FCF]/20 to-[#2A3BB7]/20 rounded-full text-white text-xs"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+
+        {/* Knowledge Hub */}
+        <section id="knowledge hub" className="py-20 bg-black/20">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+              Knowledge Hub
+            </h2>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              Latest videos on Algorithmic Trading, Python, and Deep Learning.
+            </p>
+          </motion.div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
+            {/* Chaîne 1 */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white text-lg font-semibold">English Channel</h3>
+                <a
+                  href="https://www.youtube.com/@ag_algolab"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[#6E2FCF] hover:text-[#9D7AF5] hover:underline"
+                >
+                  Visit channel →
+                </a>
+              </div>
+
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/videoseries?list=UUto-h4A_cbDnivcjJWDuFxg&modestbranding=1&rel=0"
+                  title="YouTube Uploads – Channel En"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+
+            {/* Chaîne 2 */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white text-lg font-semibold">French Channel</h3>
+                <a
+                  href="https://www.youtube.com/@ag_algolab_fr"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[#6E2FCF] hover:text-[#9D7AF5] hover:underline"
+                >
+                  Visit channel →
+                </a>
+              </div>
+
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/videoseries?list=UUl8YYrmlWMsemuq4TvXnkZQ&modestbranding=1&rel=0"
+                  title="YouTube Uploads – Channel 2"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+
+        {/* Contact Section */}
+        <section id="contact" className="py-20 bg-black/20">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+              Contact
+            </h2>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              Get in touch with us for collaborations or inquiries
+            </p>
+          </motion.div>
+
+          {/* Deux cartes centrées : Phone (gauche) / Email (droite) */}
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 gap-8 items-stretch">
+              {/* Phone */}
+              <motion.a
+                href="tel:+33651871374"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="block p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                    <Phone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-sm">Phone</p>
+                    <p className="text-white font-semibold group-hover:text-emerald-400 transition">
+                      +33 6 51 87 13 74
+                    </p>
+                  </div>
+                </div>
+              </motion.a>
+
+              {/* Email */}
+              <motion.a
+                href="mailto:anthony.gocmen@gmail.com"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="block p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                    <Mail className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-sm">Email</p>
+                    <p className="text-white font-semibold group-hover:text-emerald-400 transition">
+                      anthony.gocmen@gmail.com
+                    </p>
+                  </div>
+                </div>
+              </motion.a>
             </div>
-            <p>© {new Date().getFullYear()} AG Algo Lab. All rights reserved.</p>
+
+            {/* Réseaux sociaux, centrés */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="mt-10"
+            >
+              <h4 className="text-lg font-semibold mb-4 text-white text-center">Follow us</h4>
+              <div className="flex items-center justify-center space-x-5">
+                {[
+                  { icon: <Github className="w-5 h-5" />, url: 'https://github.com/ag-algolab' },
+                  { icon: <Linkedin className="w-5 h-5" />, url: 'https://www.linkedin.com/in/anthony-gocmen' },
+                  { icon: <Twitter className="w-5 h-5" />, url: 'https://twitter.com' },
+                ].map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition"
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+
+        {/* Footer */}
+        <footer className="py-12 border-t border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="flex items-center space-x-3 mb-4 md:mb-0">
+                <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded-lg" />
+
+                <span className="text-lg font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+                  Algo Lab
+                </span>
+              </div>
+              <p className="text-white/60 text-center md:text-right">
+                © {new Date().getFullYear()} AG Algo Lab. All rights reserved. | Predict the Unpredictable
+              </p>
+            </div>
           </div>
         </footer>
 
