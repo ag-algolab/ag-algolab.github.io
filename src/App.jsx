@@ -265,7 +265,6 @@ function App() {
               {/* Nom / Rôle */}
               <div className="text-center mb-4">
                 <h3 className="text-2xl font-bold text-white">Anthony Gocmen</h3>
-                <p className="text-emerald-400 font-semibold">Founder</p>
               </div>
         
               {/* “Data tags” futuristes */}
@@ -304,15 +303,12 @@ function App() {
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 md:p-10 border border-white/10 hover:border-white/20 shadow-xl">
                 <p className="text-lg md:text-xl text-white/90 leading-relaxed">
                   <span className="block">
-                    AG AlgoLab is currently led by its founder, Anthony Gocmen, who drives all research and development activities.
+                    AG AlgoLab is currently led by its founder, Anthony Gocmen, who drives all research and development activities. <br /><br />
                     He is pursuing a Master’s degree in Finance at Université Paris Dauphine (PSL), with a strong academic foundation
-                    in quantitative finance and artificial intelligence. In 2025, he won the Space Hackathon organized by Arizona State
-                    University, showcasing his ability to combine innovation, data, and advanced modeling in real-world challenges.
+                    in quantitative finance and artificial intelligence. <br /><br />
+                    In 2025, he won the Space Hackathon organized by Arizona State University, showcasing his ability to combine innovation, data, and advanced modeling in real-world challenges.
                   </span>
                 </p>
-        
-                {/* Soulignement gradient animé (subtil) */}
-                <div className="mt-6 h-1 w-24 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] rounded-full animate-pulse" />
               </div>
             </motion.div>
           </div>
