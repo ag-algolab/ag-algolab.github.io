@@ -5,8 +5,6 @@ import { Brain, TrendingUp, Cpu, BarChart3, Users, Mail, Phone, MapPin, Github, 
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
-import TechOrbit from "@/components/TechOrbit";
-
 
 function App() {
   const handleContactClick = () => {
@@ -22,16 +20,6 @@ function App() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
-    const NAV = [
-    { label: 'Home',          id: 'home' },
-    { label: 'Services',      id: 'services' },
-    { label: 'Founder',       id: 'founder' },
-    { label: 'Main Project',  id: 'main-project' },
-    { label: 'Knowledge Hub', id: 'knowledge-hub' },
-    { label: 'Contact',       id: 'contact' },
-  ];
-
 
   return (
     <>
@@ -63,17 +51,17 @@ function App() {
                 </span>
               </motion.div>
 
-                <div className="hidden md:flex space-x-8">
-                  {NAV.map(({label, id}) => (
-                    <motion.button
-                      key={id}
-                      whileHover={{ scale: 1.1, color: '#10b981' }}
-                      onClick={() => scrollToSection(id)}
-                      className="text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium"
-                    >
-                      {label}
-                    </motion.button>
-                  ))}
+              <div className="hidden md:flex space-x-8">
+                {['Home', 'Services', 'Founder', 'Main Project', 'Knowledge Hub', 'Contact'].map((item) => (
+                  <motion.button
+                    key={item}
+                    whileHover={{ scale: 1.1, color: '#10b981' }}
+                    onClick={() => scrollToSection(item.toLowerCase())}
+                    className="text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium"
+                  >
+                    {item}
+                  </motion.button>
+                ))}
               </div>
             </div>
           </div>
@@ -235,7 +223,7 @@ function App() {
             ))}
           </div>
         </section>
-        
+
         {/* Founder Section */}
         <section id="founder" className="py-20 bg-black/20">
           {/* Titre */}
@@ -257,7 +245,7 @@ function App() {
           {/* Grid : 1/3 (gauche) + 2/3 (droite) */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
         
-            {/* Colonne Gauche — Portrait + orbite + infos */}
+            {/* Colonne Gauche — Card portrait + “data” */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -265,17 +253,42 @@ function App() {
               viewport={{ once: true }}
               className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-white/20"
             >
-              {/* 1) Photo + cercle tournant des logos */}
-              <div className="flex justify-center">
-                <TechOrbit />
+              {/* Photo */}
+              <div className="w-40 h-40 mx-auto rounded-xl overflow-hidden mb-4 border border-white/20 shadow-lg">
+                <img
+                  src="/founder.jpg"
+                  alt="Portrait of Anthony Gocmen"
+                  className="w-full h-full object-cover"
+                />
               </div>
         
-              {/* 2) Nom / Rôle */}
-              <div className="mt-6 text-center">
+              {/* Nom / Rôle */}
+              <div className="text-center mb-4">
                 <h3 className="text-2xl font-bold text-white">Anthony Gocmen</h3>
-                <p className="text-emerald-400 font-semibold">Founder</p>
               </div>
         
+              {/* “Data tags” futuristes */}
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <span className="text-white/60">Location</span>
+                  <span className="text-white/90">Paris, France</span>
+                </div>
+                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <span className="text-white/60">Focus</span>
+                  <span className="text-white/90">Deep Learning · Quant Finance</span>
+                </div>
+                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <span className="text-white/60">Email</span>
+                  <span className="text-white/90">contact@agalgolab.com</span>
+                </div>
+              </div>
+        
+              {/* Mini “console” décorative */}
+              <div className="mt-6 rounded-lg bg-gradient-to-b from-[#111827]/70 to-transparent p-3 border border-white/10 font-mono text-[12px] leading-5 text-white/70">
+                <div className="opacity-70">[LOG] Status: <span className="text-emerald-400">OK</span></div>
+                <div className="opacity-70">[DATA] Signals: EURUSD · US500 · USTEC</div>
+                <div className="opacity-70">[LAT] 52ms · drift: 0.002</div>
+              </div>
             </motion.div>
         
             {/* Colonne Droite — Bloc x2 avec la phrase */}
@@ -290,7 +303,7 @@ function App() {
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 md:p-10 border border-white/10 hover:border-white/20 shadow-xl">
                 <p className="text-lg md:text-xl text-white/90 leading-relaxed">
                   <span className="block">
-                    AG AlgoLab is currently led by its founder, Anthony Gocmen, who drives all research and development activities.<br /><br />
+                    AG AlgoLab is currently led by its founder, Anthony Gocmen, who drives all research and development activities. <br /><br />
                     He is pursuing a Master’s degree in Finance at Université Paris Dauphine (PSL), with a strong academic foundation
                     in quantitative finance and artificial intelligence. <br /><br />
                     In 2025, he won the Space Hackathon organized by Arizona State University, showcasing his ability to combine innovation, data, and advanced modeling in real-world challenges.
@@ -302,9 +315,8 @@ function App() {
         </section>
 
 
-
         {/* Projects Section */}
-        <section id="main-project" className="py-20 bg-black/20">
+        <section id="Main Project" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -317,8 +329,9 @@ function App() {
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential.
-              For the moment, it remains confidential and not available for sale <br /><br />
-
+              For the moment, it remains confidential and not available for sale
+              < br/>
+              < br/>
               The project builds on a four-step cycle, structured as follows:
             </p>
           </motion.div>
@@ -383,7 +396,7 @@ function App() {
 
 
         {/* Knowledge Hub */}
-        <section id="knowledge-hub" className="py-20 bg-black/20">
+        <section id="knowledge hub" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
