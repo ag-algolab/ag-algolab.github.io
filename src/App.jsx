@@ -74,7 +74,7 @@ function App() {
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
               {/* Petits points lumineux */}
-              {[...Array(20)].map((_, i) => (
+              {[...Array(40)].map((_, i) => (
                 <motion.div
                   key={`dot-${i}`}
                   className="absolute w-2 h-2 bg-[#6E2FCF]/30 rounded-full"
@@ -96,12 +96,12 @@ function App() {
               ))}
             
               {/* Logos qui bugent */}
-              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png"].map((logo, i) => (
+              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png", "mt5.png"].map((logo, i) => (
                 <motion.img
                   key={`logo-${i}`}
                   src={`/logos/${logo}`}
                   alt={logo}
-                  className="absolute w-10 h-10 opacity-40"
+                  className="absolute w-16 h-16 opacity-40"
                   animate={{
                     x: [0, Math.random() * 800],
                     y: [0, Math.random() * 600],
@@ -109,9 +109,9 @@ function App() {
                     opacity: [0, 0.7, 0],
                   }}
                   transition={{
-                    duration: Math.random() * 15 + 5,
+                    duration: Math.random() * 10 + 5,
                     repeat: Infinity,
-                    delay: Math.random() * 10,
+                    delay: Math.random() * 3,
                   }}
                   style={{
                     left: Math.random() * 100 + '%',
