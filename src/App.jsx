@@ -253,7 +253,7 @@ function App() {
 
             {/* Photo avec bordure gradient cyan-violet */}
             <div className="w-40 h-40 mx-auto mb-4 rounded-xl p-[2px] bg-gradient-to-r from-cyan-400 to-violet-500 shadow-lg">
-              <div className="w-full h-full rounded-xl overflow-hidden border border-white/20">
+              <div className="w-full h-full rounded-xl overflow-hidden border border-white/20 bg-transparent">
                 <img
                   src="/founder.png"
                   alt="Portrait of Anthony Gocmen"
@@ -266,21 +266,28 @@ function App() {
               <div className="text-center mb-4">
                 <h3 className="text-2xl font-bold text-white">Anthony Gocmen</h3>
               </div>
-        
       
-              <div className="mt-6 rounded-lg bg-black p-3 border border-white/20 font-mono text-[13px] leading-6 text-green-400 space-y-1">
-                <div className="flex items-center gap-2">
-                  <span>[SKILLS] Python · Pandas · Numpy · TensorFlow</span>
-                  <img src="/logos/python.png" alt="Python" className="w-5 h-5" />
-                  <img src="/logos/pandas.png" alt="Pandas" className="w-5 h-5" />
-                  <img src="/logos/numpy.png" alt="Numpy" className="w-5 h-5" />
-                  <img src="/logos/tensorflow.png" alt="TensorFlow" className="w-5 h-5" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>[TOOLS] MetaTrader 5 · PyPi</span>
-                  <img src="/logos/mt5.png" alt="MetaTrader 5" className="w-5 h-5" />
-                  <img src="/logos/pypi.png" alt="PyPi" className="w-5 h-5" />
-                </div>
+              <div className="mt-6 rounded-lg bg-black p-4 border border-white/20 font-mono text-[13px] leading-6">
+                <pre className="text-sm">
+                  <code>
+                    <span className="text-purple-400">from</span>{" "}
+                    <span className="text-blue-400">Anthony</span>{" "}
+                    <span className="text-purple-400">import</span>
+                    <span className="text-pink-400">*</span>
+                    {"\n"}
+                    <span className="text-purple-400">while</span>{" "}
+                    <span className="text-green-400">not</span>{" "}
+                    <span className="text-yellow-300">success</span>
+                    <span className="text-white">:</span>
+                    {"\n    "}
+                    <span className="text-cyan-400">keep_learning</span>
+                    <span className="text-white">()</span>
+                    {"\n    "}
+                    <span className="text-cyan-400">keep_building</span>
+                    <span className="text-white">()</span>
+                  </code>
+                </pre>
+              </div>
 
 
               
