@@ -406,7 +406,7 @@ function App() {
               <div className="aspect-video rounded-xl overflow-hidden">
                 <iframe
                   className="w-full h-full"
-                  src="https://www.youtube.com/embed/videoseries?list=UUUCto-h4A_cbDnivcjJWDuFxg&modestbranding=1&rel=0"
+                  src="https://www.youtube.com/embed/videoseries?list=UUto-h4A_cbDnivcjJWDuFxg&modestbranding=1&rel=0"
                   title="YouTube Uploads – Channel En"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -424,7 +424,7 @@ function App() {
               className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white text-lg font-semibold">Chaîne Française#2</h3>
+                <h3 className="text-white text-lg font-semibold">French Channel</h3>
                 <a
                   href="https://www.youtube.com/@ag_algolab_fr"
                   target="_blank"
@@ -438,7 +438,7 @@ function App() {
               <div className="aspect-video rounded-xl overflow-hidden">
                 <iframe
                   className="w-full h-full"
-                  src="https://www.youtube.com/embed/videoseries?list=UUyyyyyyyyyyyyyyyy&modestbranding=1&rel=0"
+                  src="https://www.youtube.com/embed/videoseries?list=UUl8YYrmlWMsemuq4TvXnkZQ&modestbranding=1&rel=0"
                   title="YouTube Uploads – Channel 2"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
