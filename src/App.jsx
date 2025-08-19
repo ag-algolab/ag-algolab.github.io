@@ -71,29 +71,56 @@ function App() {
         <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-black/20"></div>
 
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0">
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-[#6E2FCF]/30 rounded-full"
-                animate={{
-                  x: [0, Math.random() * 1000],
-                  y: [0, Math.random() * 800],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: Math.random() * 10 + 5,
-                  repeat: Infinity,
-                  delay: Math.random() * 5,
-                }}
-                style={{
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
-                }}
-              />
-            ))}
-          </div>
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 overflow-hidden">
+              {/* Petits points lumineux */}
+              {[...Array(20)].map((_, i) => (
+                <motion.div
+                  key={`dot-${i}`}
+                  className="absolute w-2 h-2 bg-[#6E2FCF]/30 rounded-full"
+                  animate={{
+                    x: [0, Math.random() * 1000],
+                    y: [0, Math.random() * 800],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: Math.random() * 10 + 5,
+                    repeat: Infinity,
+                    delay: Math.random() * 5,
+                  }}
+                  style={{
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                  }}
+                />
+              ))}
+            
+              {/* Logos qui bugent */}
+              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png"].map((logo, i) => (
+                <motion.img
+                  key={`logo-${i}`}
+                  src={`/logos/${logo}`}
+                  alt={logo}
+                  className="absolute w-10 h-10 opacity-40"
+                  animate={{
+                    x: [0, Math.random() * 800],
+                    y: [0, Math.random() * 600],
+                    rotate: [0, 15, -15, 0],
+                    opacity: [0, 0.7, 0],
+                  }}
+                  transition={{
+                    duration: Math.random() * 15 + 5,
+                    repeat: Infinity,
+                    delay: Math.random() * 10,
+                  }}
+                  style={{
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                  }}
+                />
+              ))}
+            </div>
+
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <motion.div
