@@ -267,67 +267,22 @@ function App() {
                 <h3 className="text-2xl font-bold text-white">Anthony Gocmen</h3>
               </div>
         
-              {/* “Data tags” futuristes */}
-              <div className="space-y-1 text-sm">
-                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
-                  <span className="text-white/60">Location</span>
-                  <span className="text-white/90">Paris, France</span>
+      
+              <div className="mt-6 rounded-lg bg-black p-3 border border-white/20 font-mono text-[13px] leading-6 text-green-400 space-y-1">
+                <div className="flex items-center gap-2">
+                  <span>[SKILLS] Python · Pandas · Numpy · TensorFlow</span>
+                  <img src="/logos/python.png" alt="Python" className="w-5 h-5" />
+                  <img src="/logos/pandas.png" alt="Pandas" className="w-5 h-5" />
+                  <img src="/logos/numpy.png" alt="Numpy" className="w-5 h-5" />
+                  <img src="/logos/tensorflow.png" alt="TensorFlow" className="w-5 h-5" />
                 </div>
-              </div>
-        
-              {/* Bloc compétences stylisé */}
-              <div className="mt-6 rounded-lg bg-black p-3 border border-white/20 font-mono text-[13px] leading-6 text-green-400">
-              
-                {/* Core Language */}
-                <div>
-                  <div className="opacity-80 mb-1">
-                    [LANG] <span className="text-emerald-400">Core</span>
-                  </div>
-                  <div className="flex gap-3">
-                    <img src="/logos/python.png" alt="Python" className="h-7 w-7 object-contain" />
-                  </div>
+                <div className="flex items-center gap-2">
+                  <span>[TOOLS] MetaTrader 5 · PyPi</span>
+                  <img src="/logos/mt5.png" alt="MetaTrader 5" className="w-5 h-5" />
+                  <img src="/logos/pypi.png" alt="PyPi" className="w-5 h-5" />
                 </div>
-              
-                {/* Data Science */}
-                <div>
-                  <div className="opacity-80 mb-1">
-                    [SKILLS] <span className="text-emerald-400">Data Science</span>
-                  </div>
-                  <div className="flex gap-3">
-                    <img src="/logos/pandas.png" alt="Pandas" className="h-7 w-7 object-contain" />
-                    <img src="/logos/numpy.png" alt="Numpy" className="h-7 w-7 object-contain" />
-                  </div>
-                </div>
-              
-                {/* Deep Learning */}
-                <div>
-                  <div className="opacity-80 mb-1">
-                    [SKILLS] <span className="text-emerald-400">Deep Learning</span>
-                  </div>
-                  <div className="flex gap-3">
-                    <img src="/logos/tensorflow.png" alt="TensorFlow" className="h-7 w-7 object-contain" />
-                  </div>
-                </div>
-              
-                {/* Tools */}
-                <div>
-                  <div className="opacity-80 mb-1">
-                    [TOOLS] <span className="text-emerald-400">Development</span>
-                  </div>
-                  <div className="flex gap-3">
-                    <img src="/logos/pypi.png" alt="PyPI" className="h-7 w-7 object-contain" />
-                  </div>
-                </div>
-              
-                {/* Trading */}
-                <div>
-                  <div className="opacity-80 mb-1">
-                    [TOOLS] <span className="text-emerald-400">Trading</span>
-                  </div>
-                  <div className="flex gap-3">
-                    <img src="/logos/mt5.png" alt="MetaTrader 5" className="h-7 w-7 object-contain" />
-                  </div>
-                </div>
+
+
               
               </div>
 
