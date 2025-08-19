@@ -251,16 +251,15 @@ function App() {
               className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-white/20"
             >
 
-            {/* Photo avec bordure gradient cyan-violet */}
-            <div className="w-40 h-40 mx-auto mb-4 rounded-xl p-[2px] bg-gradient-to-r from-cyan-400 to-violet-500 shadow-lg">
-              <div className="w-full h-full rounded-xl overflow-hidden border border-white/20 bg-transparent">
-                <img
-                  src="/founder.png"
-                  alt="Portrait of Anthony Gocmen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            {/* Photo */} 
+            <div className="w-40 h-40 mx-auto rounded-xl overflow-hidden mb-4 border border-white/20 shadow-lg"> 
+              <img 
+                src="/founder.png" 
+                alt="Portrait of Anthony Gocmen" 
+                className="w-full h-full object-cover" 
+              /> 
             </div>
+
       
               <div className="mt-6 rounded-lg bg-black p-4 border border-white/20 font-mono text-[13px] leading-6">
                 <pre className="text-sm">
