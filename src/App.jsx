@@ -290,10 +290,6 @@ function App() {
               </div>
 
 
-              
-              </div>
-
-
             </motion.div>
         
             {/* Colonne Droite — Bloc x2 avec la phrase */}
