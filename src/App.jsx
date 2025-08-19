@@ -302,6 +302,7 @@ function App() {
               The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential. 
               For the moment, it remains confidential and not available for sale
               < br/>
+              < br/>
               The project builds on a four-step cycle, structured as follows:
             </p>
           </motion.div>
