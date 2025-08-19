@@ -286,7 +286,7 @@ function App() {
         
               {/* Mini “console” décorative */}
               <div className="mt-6 rounded-lg bg-gradient-to-b from-[#111827]/70 to-transparent p-3 border border-white/10 font-mono text-[12px] leading-5 text-white/70">
-                <div className="opacity-70">[LOG] Model: CNN+LSTM — status: <span className="text-emerald-400">OK</span></div>
+                <div className="opacity-70">[LOG] Status: <span className="text-emerald-400">OK</span></div>
                 <div className="opacity-70">[DATA] Signals: EURUSD · US500 · USTEC</div>
                 <div className="opacity-70">[LAT] 52ms · drift: 0.002</div>
               </div>
