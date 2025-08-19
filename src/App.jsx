@@ -52,7 +52,7 @@ function App() {
               </motion.div>
 
               <div className="hidden md:flex space-x-8">
-                {['Home', 'Services', 'Team', 'Projects', 'Contact'].map((item) => (
+                {['Home', 'Services', 'Founder', 'Main Project', 'Knowledge Hub', 'Contact'].map((item) => (
                   <motion.button
                     key={item}
                     whileHover={{ scale: 1.1, color: '#10b981' }}
@@ -225,7 +225,7 @@ function App() {
         </section>
 
         {/* Team Section */}
-        <section id="team" className="py-20 bg-black/20">
+        <section id="founder" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -287,7 +287,7 @@ function App() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-20 bg-black/20">
+        <section id="Main Project" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -366,7 +366,7 @@ function App() {
         
         
         {/* Knowledge Hub */}
-        <section id="knowledge" className="py-20 bg-black/20">
+        <section id="knowledge hub" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
