@@ -363,6 +363,92 @@ function App() {
             ))}
           </div>
         </section>
+        
+        
+        {/* Knowledge Hub */}
+        <section id="knowledge" className="py-20 bg-black/20">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+              Knowledge Hub
+            </h2>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              Latest videos on Algorithmic Trading, Python, and Deep Learning.
+            </p>
+          </motion.div>
+        
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
+            {/* Chaîne 1 */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white text-lg font-semibold">Channel #1</h3>
+                <a
+                  href="https://www.youtube.com/@yourChannelHandle1"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-emerald-400 hover:underline"
+                >
+                  Visit channel →
+                </a>
+              </div>
+        
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/videoseries?list=UUUCto-h4A_cbDnivcjJWDuFxg&modestbranding=1&rel=0"
+                  title="YouTube Uploads – Channel En"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+        
+            {/* Chaîne 2 */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white text-lg font-semibold">Channel #2</h3>
+                <a
+                  href="https://www.youtube.com/@yourChannelHandle2"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-emerald-400 hover:underline"
+                >
+                  Visit channel →
+                </a>
+              </div>
+        
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/videoseries?list=UUyyyyyyyyyyyyyyyy&modestbranding=1&rel=0"
+                  title="YouTube Uploads – Channel 2"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
 
         {/* Contact Section */}
         <section id="contact" className="py-20 bg-black/20">
