@@ -1,7 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { Brain, TrendingUp, Cpu, BarChart3, Users, Mail, Phone, MapPin, Github, Linkedin, Twitter, ChevronDown, Play, Code, Database, Zap } from 'lucide-react';
+import {
+  Brain, TrendingUp, Cpu, BarChart3, Users, Mail, Phone, MapPin,
+  Github, Linkedin, Twitter, ChevronDown, Play, Code, Database, Zap
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
@@ -14,11 +17,19 @@ function App() {
     });
   };
 
+  // Navigation IDs propres (pas d'espaces)
+  const NAV = [
+    { id: 'home', label: 'Home' },
+    { id: 'services', label: 'Services' },
+    { id: 'founder', label: 'Founder' },
+    { id: 'main-project', label: 'Main Project' },
+    { id: 'knowledge-hub', label: 'Knowledge Hub' },
+    { id: 'contact', label: 'Contact' },
+  ];
+
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    const el = document.getElementById(sectionId);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -27,13 +38,15 @@ function App() {
         <title>AG Algo Lab - Predict the Unpredictable</title>
         <meta
           name="description"
-          content="AG Algo Lab specializes in research and development in algorithmic trading using deep learning. We focus on advanced predictions and high‑performance Python execution pipelines."
+          content="AG Algo Lab specializes in research and development in algorithmic trading using deep learning. We focus on advanced predictions and high-performance Python execution pipelines."
         />
         <meta property="og:title" content="AG Algo Lab - Predict the Unpredictable" />
         <meta property="og:description" content="Expertise in research and development for algorithmic trading with artificial intelligence and deep learning." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-[#3C0D66] via-[#6E2FCF] to-[#0D47A1] text-white overflow-x-hidden">
+      {/* Fond global : gradient violet → bleu */}
+      <div className="min-h-screen bg-gradient-to-br from-brand.purpleDark via-brand.purple to-brand.blueDeep text-white overflow-x-hidden">
+
         {/* Navigation */}
         <motion.nav
           initial={{ y: -100, opacity: 0 }}
@@ -45,21 +58,20 @@ function App() {
             <div className="flex justify-between items-center py-4">
               <motion.div whileHover={{ scale: 1.05 }} className="flex items-center space-x-3">
                 <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
-
-                <span className="text-xl font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+                <span className="text-xl font-bold bg-gradient-to-r from-brand.purpleLite to-brand.blue bg-clip-text text-transparent">
                   Algo Lab
                 </span>
               </motion.div>
 
               <div className="hidden md:flex space-x-8">
-                {['Home', 'Services', 'Founder', 'Main Project', 'Knowledge Hub', 'Contact'].map((item) => (
+                {NAV.map(({ id, label }) => (
                   <motion.button
-                    key={item}
-                    whileHover={{ scale: 1.1, color: '#10b981' }}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium"
+                    key={id}
+                    whileHover={{ scale: 1.1, color: 'hsl(var(--accent))' }}
+                    onClick={() => scrollToSection(id)}
+                    className="text-white/80 hover:text-accent transition-colors duration-300 font-medium"
                   >
-                    {item}
+                    {label}
                   </motion.button>
                 ))}
               </div>
@@ -69,14 +81,16 @@ function App() {
 
         {/* Hero Section */}
         <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-black/20"></div>
+          {/* léger overlay pour le contraste */}
+          <div className="absolute inset-0 bg-gradient-to-r from-brand.purpleDark/20 to-black/20"></div>
 
-          {/* Animated Background Elements */}
+          {/* Particules */}
           <div className="absolute inset-0">
             {[...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-2 h-2 bg-[#6E2FCF]/30 rounded-full"
+                className="absolute w-2 h-2 rounded-full"
+                style={{ backgroundColor: i % 2 ? 'hsl(var(--brand-purple) / 0.30)' : 'hsl(var(--brand-blue) / 0.30)' }}
                 animate={{
                   x: [0, Math.random() * 1000],
                   y: [0, Math.random() * 800],
@@ -101,7 +115,7 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-brand.purpleLite via-brand.purple to-brand.blue bg-clip-text text-transparent">
                 AG Algo Lab
               </h1>
               <h2 className="text-3xl md:text-5xl font-semibold mb-6 text-white/90">
@@ -112,16 +126,19 @@ function App() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                {/* CTA principal plein (gradient) */}
                 <Button
                   onClick={handleContactClick}
-                  className="border-2 border-white/30 text-white hover:bg-white/10 hover:text-[#9D7AF5] px-8 py-3 text-lg font-semibold rounded-full"
+                  className="bg-gradient-to-r from-brand.purple to-brand.blue hover:from-brand.purpleLite hover:to-brand.blueDeep text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   Discover our services
                 </Button>
+
+                {/* CTA secondaire outline */}
                 <Button
                   variant="outline"
                   onClick={handleContactClick}
-                  className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-3 text-lg font-semibold rounded-full"
+                  className="border-2 border-white/30 text-white hover:bg-white/10 hover:text-accent px-8 py-3 text-lg font-semibold rounded-full"
                 >
                   <Play className="w-5 h-5 mr-2" />
                   See our projects
@@ -137,7 +154,7 @@ function App() {
             >
               <button
                 onClick={() => scrollToSection('services')}
-                className="w-8 h-8 text-white/60 hover:text-emerald-400 transition-colors"
+                className="w-8 h-8 text-white/60 hover:text-accent transition-colors"
               >
                 <ChevronDown className="w-8 h-8" />
               </button>
@@ -154,7 +171,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-brand.purpleLite to-brand.blue bg-clip-text text-transparent">
               Our Services
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -164,42 +181,12 @@ function App() {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              {
-                icon: <Cpu className="w-8 h-8" />,
-                title: 'Deep Learning',
-                description: 'Deep learning models for predictive analysis of financial markets',
-                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
-              },
-              {
-                icon: <TrendingUp className="w-8 h-8" />,
-                title: 'Advanced Predictions',
-                description: 'Sophisticated algorithms to anticipate market movements with precision',
-                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
-              },
-              {
-                icon: <Code className="w-8 h-8" />,
-                title: 'Python Pipelines',
-                description: 'Development and optimization of high-performance execution pipelines',
-                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
-              },
-              {
-                icon: <Database className="w-8 h-8" />,
-                title: 'Data Management',
-                description: 'Real‑time processing and analysis of massive volumes of financial data',
-                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
-              },
-              {
-                icon: <BarChart3 className="w-8 h-8" />,
-                title: 'Continuous Improvement',
-                description: 'Continuous improvement of algorithm performance and precision',
-                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
-              },
-              {
-                icon: <Zap className="w-8 h-8" />,
-                title: 'Rapid Execution',
-                description: 'Ultra-fast execution systems to seize market opportunities',
-                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
-              },
+              { icon: <Cpu className="w-8 h-8" />, title: 'Deep Learning', description: 'Deep learning models for predictive analysis of financial markets', gradient: 'from-brand.purple to-brand.blue' },
+              { icon: <TrendingUp className="w-8 h-8" />, title: 'Advanced Predictions', description: 'Sophisticated algorithms to anticipate market movements with precision', gradient: 'from-brand.purple to-brand.blue' },
+              { icon: <Code className="w-8 h-8" />, title: 'Python Pipelines', description: 'Development and optimization of high-performance execution pipelines', gradient: 'from-brand.purple to-brand.blue' },
+              { icon: <Database className="w-8 h-8" />, title: 'Data Management', description: 'Real-time processing and analysis of massive volumes of financial data', gradient: 'from-brand.purple to-brand.blue' },
+              { icon: <BarChart3 className="w-8 h-8" />, title: 'Continuous Improvement', description: 'Continuous improvement of algorithm performance and precision', gradient: 'from-brand.purple to-brand.blue' },
+              { icon: <Zap className="w-8 h-8" />, title: 'Rapid Execution', description: 'Ultra-fast execution systems to seize market opportunities', gradient: 'from-brand.purple to-brand.blue' },
             ].map((service, index) => (
               <motion.div
                 key={index}
@@ -213,7 +200,7 @@ function App() {
                 <div className={`w-16 h-16 bg-gradient-to-r ${service.gradient} rounded-xl flex items-center justify-center mb-4`}>
                   {service.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-emerald-400 transition-colors">
+                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-accent transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-white/70 leading-relaxed">
@@ -233,33 +220,19 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-brand.purpleLite to-brand.blue bg-clip-text text-transparent">
               Founder
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               Passionate experts in artificial intelligence and quantitative finance
             </p>
           </motion.div>
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              {
-                name: 'Anthony Gocmen',
-                role: 'Founder',
-                expertise: 'Deep Learning & Quantitative Finance',
-                image: '/founder.png',
-              },
-              {
-                name: 'Sarah Chen',
-                role: 'Lead Data Scientist',
-                expertise: 'Machine Learning & Predictive Analysis',
-                image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d',
-              },
-              {
-                name: 'Marc Dubois',
-                role: 'Algorithm Engineer',
-                expertise: 'Optimization & High-Frequency Trading',
-                image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d',
-              },
+              { name: 'Anthony Gocmen', role: 'Founder', expertise: 'Deep Learning & Quantitative Finance', image: '/founder.png' },
+              { name: 'Sarah Chen', role: 'Lead Data Scientist', expertise: 'Machine Learning & Predictive Analysis', image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d' },
+              { name: 'Marc Dubois', role: 'Algorithm Engineer', expertise: 'Optimization & High-Frequency Trading', image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d' },
             ].map((member, index) => (
               <motion.div
                 key={index}
@@ -272,10 +245,10 @@ function App() {
                 <div className="w-full h-48 rounded-2xl overflow-hidden mb-4">
                   <img src={member.image} alt={`Portrait of ${member.name}`} className="w-full h-full object-cover bg-gray-300" />
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-emerald-400 transition-colors">
+                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-accent transition-colors">
                   {member.name}
                 </h3>
-                <p className="text-emerald-400 font-semibold mb-3">
+                <p className="text-brand.purpleLite font-semibold mb-3">
                   {member.role}
                 </p>
                 <p className="text-white/70 text-sm">
@@ -287,7 +260,7 @@ function App() {
         </section>
 
         {/* Projects Section */}
-        <section id="Main Project" className="py-20 bg-black/20">
+        <section id="main-project" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -295,17 +268,18 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-brand.purpleLite to-brand.blue bg-clip-text text-transparent">
               Main Project
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential.
               For the moment, it remains confidential and not available for sale
-              < br/>
-              < br/>
+              <br />
+              <br />
               The project builds on a four-step cycle, structured as follows:
             </p>
           </motion.div>
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8">
             {[
               {
@@ -343,7 +317,7 @@ function App() {
               >
                 <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
                 <div className="p-8">
-                  <h3 className="text-xl font-bold mb-2 text-white group-hover:text-emerald-400 transition-colors">
+                  <h3 className="text-xl font-bold mb-2 text-white group-hover:text-accent transition-colors">
                     {project.title}
                   </h3>
                   <p className="text-white/70 leading-relaxed mb-4">
@@ -353,7 +327,7 @@ function App() {
                     {project.tech.map((tech, techIndex) => (
                       <span
                         key={techIndex}
-                        className="px-3 py-1 bg-gradient-to-r from-[#6E2FCF]/20 to-[#2A3BB7]/20 rounded-full text-white text-xs"
+                        className="px-3 py-1 bg-gradient-to-r from-brand.purple/20 to-brand.blue/20 rounded-full text-white text-xs"
                       >
                         {tech}
                       </span>
@@ -365,9 +339,8 @@ function App() {
           </div>
         </section>
 
-
         {/* Knowledge Hub */}
-        <section id="knowledge hub" className="py-20 bg-black/20">
+        <section id="knowledge-hub" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -375,7 +348,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-brand.purpleLite to-brand.blue bg-clip-text text-transparent">
               Knowledge Hub
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -384,7 +357,7 @@ function App() {
           </motion.div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
-            {/* Chaîne 1 */}
+            {/* Chaine 1 */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -398,7 +371,7 @@ function App() {
                   href="https://www.youtube.com/@ag_algolab"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[#6E2FCF] hover:text-[#9D7AF5] hover:underline"
+                  className="text-brand.purple hover:text-brand.purpleLite hover:underline"
                 >
                   Visit channel →
                 </a>
@@ -416,7 +389,7 @@ function App() {
               </div>
             </motion.div>
 
-            {/* Chaîne 2 */}
+            {/* Chaine 2 */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -430,7 +403,7 @@ function App() {
                   href="https://www.youtube.com/@ag_algolab_fr"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[#6E2FCF] hover:text-[#9D7AF5] hover:underline"
+                  className="text-brand.purple hover:text-brand.purpleLite hover:underline"
                 >
                   Visit channel →
                 </a>
@@ -450,7 +423,6 @@ function App() {
           </div>
         </section>
 
-
         {/* Contact Section */}
         <section id="contact" className="py-20 bg-black/20">
           <motion.div
@@ -460,7 +432,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-brand.purpleLite to-brand.blue bg-clip-text text-transparent">
               Contact
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -468,7 +440,7 @@ function App() {
             </p>
           </motion.div>
 
-          {/* Deux cartes centrées : Phone (gauche) / Email (droite) */}
+          {/* Deux cartes centrées : Phone / Email */}
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-8 items-stretch">
               {/* Phone */}
@@ -486,7 +458,7 @@ function App() {
                   </div>
                   <div>
                     <p className="text-white/60 text-sm">Phone</p>
-                    <p className="text-white font-semibold group-hover:text-emerald-400 transition">
+                    <p className="text-white font-semibold group-hover:text-accent transition">
                       +33 6 51 87 13 74
                     </p>
                   </div>
@@ -508,7 +480,7 @@ function App() {
                   </div>
                   <div>
                     <p className="text-white/60 text-sm">Email</p>
-                    <p className="text-white font-semibold group-hover:text-emerald-400 transition">
+                    <p className="text-white font-semibold group-hover:text-accent transition">
                       anthony.gocmen@gmail.com
                     </p>
                   </div>
@@ -516,7 +488,7 @@ function App() {
               </motion.a>
             </div>
 
-            {/* Réseaux sociaux, centrés */}
+            {/* Réseaux sociaux */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -536,7 +508,7 @@ function App() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition"
+                    className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-brand.purple transition"
                   >
                     {social.icon}
                   </a>
@@ -546,15 +518,13 @@ function App() {
           </div>
         </section>
 
-
         {/* Footer */}
         <footer className="py-12 border-t border-white/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center space-x-3 mb-4 md:mb-0">
                 <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded-lg" />
-
-                <span className="text-lg font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+                <span className="text-lg font-bold bg-gradient-to-r from-brand.purpleLite to-brand.blue bg-clip-text text-transparent">
                   Algo Lab
                 </span>
               </div>
