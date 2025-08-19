@@ -68,11 +68,9 @@ function App() {
         </motion.nav>
 
         {/* Hero Section */}
-        <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-black/20"></div>
-
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0">
+        <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Animated Background Elements */}
             {[...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
@@ -94,6 +92,7 @@ function App() {
               />
             ))}
           </div>
+
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <motion.div
@@ -234,9 +233,6 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
-              Founder
-            </h2>
           </motion.div>
         
           {/* Grid : 1/3 (gauche) + 2/3 (droite) */}
