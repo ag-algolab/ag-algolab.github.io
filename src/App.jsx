@@ -253,14 +253,25 @@ function App() {
               viewport={{ once: true }}
               className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-white/20"
             >
-              {/* Photo */}
-              <div className="w-40 h-40 mx-auto rounded-2xl overflow-hidden mb-4 p-[3px] bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 shadow-[0_0_20px_rgba(59,130,246,0.45)]">
-                <img
-                  src="/founder.png"
-                  alt="Portrait of Anthony Gocmen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+
+              {/* Photo avec bordure gradient animée */}
+              <motion.div
+                className="w-40 h-40 mx-auto rounded-2xl overflow-hidden mb-4 p-[3px]"
+                style={{
+                  background: "conic-gradient(from 0deg, cyan, blue, violet, cyan)",
+                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+              >
+                {/* Contenu intérieur (fond sombre + photo) */}
+                <div className="w-full h-full rounded-2xl overflow-hidden bg-black/40 border border-white/10 shadow-lg">
+                  <img
+                    src="/founder.png"
+                    alt="Portrait of Anthony Gocmen"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
         
               {/* Nom / Rôle */}
               <div className="text-center mb-4">
