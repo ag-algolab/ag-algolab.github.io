@@ -392,9 +392,9 @@ function App() {
               className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white text-lg font-semibold">Channel #1</h3>
+                <h3 className="text-white text-lg font-semibold">English Channel</h3>
                 <a
-                  href="https://www.youtube.com/@yourChannelHandle1"
+                  href="https://www.youtube.com/@ag_algolab"
                   target="_blank"
                   rel="noreferrer"
                   className="text-emerald-400 hover:underline"
@@ -424,9 +424,9 @@ function App() {
               className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white text-lg font-semibold">Channel #2</h3>
+                <h3 className="text-white text-lg font-semibold">Chaîne Française#2</h3>
                 <a
-                  href="https://www.youtube.com/@yourChannelHandle2"
+                  href="https://www.youtube.com/@ag_algolab_fr"
                   target="_blank"
                   rel="noreferrer"
                   className="text-emerald-400 hover:underline"
@@ -558,7 +558,7 @@ function App() {
                 </span>
               </div>
               <p className="text-white/60 text-center md:text-right">
-                © {new Date().getFullYear()} AG Algo Lab. All rights reserved. | R&D in Algo Trading
+                © {new Date().getFullYear()} AG Algo Lab. All rights reserved. | Predict the Unpredictable
               </p>
             </div>
           </div>
