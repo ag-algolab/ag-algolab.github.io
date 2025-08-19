@@ -33,7 +33,7 @@ function App() {
         <meta property="og:description" content="Expertise in research and development for algorithmic trading with artificial intelligence and deep learning." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-black via-emerald-950 to-black text-white overflow-x-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-[#3C0D66] via-[#6E2FCF] to-[#0D47A1] text-white overflow-x-hidden">
         {/* Navigation */}
         <motion.nav
           initial={{ y: -100, opacity: 0 }}
@@ -46,7 +46,7 @@ function App() {
               <motion.div whileHover={{ scale: 1.05 }} className="flex items-center space-x-3">
                 <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
 
-                <span className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+                <span className="text-xl font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
                   Algo Lab
                 </span>
               </motion.div>
@@ -76,7 +76,7 @@ function App() {
             {[...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-2 h-2 bg-emerald-400/30 rounded-full"
+                className="absolute w-2 h-2 bg-[#6E2FCF]/30 rounded-full"
                 animate={{
                   x: [0, Math.random() * 1000],
                   y: [0, Math.random() * 800],
@@ -114,7 +114,7 @@ function App() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
                   onClick={handleContactClick}
-                  className="bg-gradient-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="border-2 border-white/30 text-white hover:bg-white/10 hover:text-[#9D7AF5] px-8 py-3 text-lg font-semibold rounded-full"
                 >
                   Discover our services
                 </Button>
@@ -154,7 +154,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
               Our Services
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -168,37 +168,37 @@ function App() {
                 icon: <Cpu className="w-8 h-8" />,
                 title: 'Deep Learning',
                 description: 'Deep learning models for predictive analysis of financial markets',
-                gradient: 'from-emerald-500 to-emerald-700',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
               },
               {
                 icon: <TrendingUp className="w-8 h-8" />,
                 title: 'Advanced Predictions',
                 description: 'Sophisticated algorithms to anticipate market movements with precision',
-                gradient: 'from-emerald-500 to-emerald-700',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
               },
               {
                 icon: <Code className="w-8 h-8" />,
                 title: 'Python Pipelines',
                 description: 'Development and optimization of high-performance execution pipelines',
-                gradient: 'from-emerald-500 to-emerald-700',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
               },
               {
                 icon: <Database className="w-8 h-8" />,
                 title: 'Data Management',
                 description: 'Real‑time processing and analysis of massive volumes of financial data',
-                gradient: 'from-emerald-500 to-emerald-700',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
               },
               {
                 icon: <BarChart3 className="w-8 h-8" />,
                 title: 'Continuous Improvement',
                 description: 'Continuous improvement of algorithm performance and precision',
-                gradient: 'from-emerald-500 to-emerald-700',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
               },
               {
                 icon: <Zap className="w-8 h-8" />,
                 title: 'Rapid Execution',
                 description: 'Ultra-fast execution systems to seize market opportunities',
-                gradient: 'from-emerald-500 to-emerald-700',
+                gradient: 'from-[#6E2FCF] to-[#2A3BB7]',
               },
             ].map((service, index) => (
               <motion.div
@@ -233,7 +233,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
               Founder
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -295,11 +295,11 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
               Main Project
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential. 
+              The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential.
               For the moment, it remains confidential and not available for sale
               < br/>
               < br/>
@@ -364,8 +364,8 @@ function App() {
             ))}
           </div>
         </section>
-        
-        
+
+
         {/* Knowledge Hub */}
         <section id="knowledge hub" className="py-20 bg-black/20">
           <motion.div
@@ -375,14 +375,14 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
               Knowledge Hub
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               Latest videos on Algorithmic Trading, Python, and Deep Learning.
             </p>
           </motion.div>
-        
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
             {/* Chaîne 1 */}
             <motion.div
@@ -403,7 +403,7 @@ function App() {
                   Visit channel →
                 </a>
               </div>
-        
+
               <div className="aspect-video rounded-xl overflow-hidden">
                 <iframe
                   className="w-full h-full"
@@ -415,7 +415,7 @@ function App() {
                 />
               </div>
             </motion.div>
-        
+
             {/* Chaîne 2 */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
@@ -435,7 +435,7 @@ function App() {
                   Visit channel →
                 </a>
               </div>
-        
+
               <div className="aspect-video rounded-xl overflow-hidden">
                 <iframe
                   className="w-full h-full"
@@ -460,14 +460,14 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
               Contact
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               Get in touch with us for collaborations or inquiries
             </p>
           </motion.div>
-        
+
           {/* Deux cartes centrées : Phone (gauche) / Email (droite) */}
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-8 items-stretch">
@@ -492,7 +492,7 @@ function App() {
                   </div>
                 </div>
               </motion.a>
-        
+
               {/* Email */}
               <motion.a
                 href="mailto:anthony.gocmen@gmail.com"
@@ -515,7 +515,7 @@ function App() {
                 </div>
               </motion.a>
             </div>
-        
+
             {/* Réseaux sociaux, centrés */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -554,7 +554,7 @@ function App() {
               <div className="flex items-center space-x-3 mb-4 md:mb-0">
                 <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded-lg" />
 
-                <span className="text-lg font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+                <span className="text-lg font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
                   Algo Lab
                 </span>
               </div>
