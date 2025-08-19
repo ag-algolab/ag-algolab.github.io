@@ -2,7 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+/* === Variables de thème violet → bleu === */
+:root {
+  --brand-purple-dark: 270 76% 23%;  /* #3C0D66 */
+  --brand-purple:      267 64% 51%;  /* #6E2FCF */
+  --brand-purple-lite: 262 83% 67%;  /* #8B5CF6 */
+  --brand-blue:        217 91% 60%;  /* #3B82F6 */
+  --brand-blue-deep:   217 89% 33%;  /* #0D47A1 */
+
+  --background: 222 47% 5%;
+  --foreground: 210 40% 98%;
+
+  --primary: 267 64% 51%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 217 91% 60%;
+  --secondary-foreground: 0 0% 100%;
+
+  --accent: 262 83% 67%;
+  --accent-foreground: 0 0% 100%;
+
+  --border: 220 14% 25%;
+  --input: 220 14% 20%;
+  --ring: 262 83% 67%;
+  --radius: 1rem;
+}
+
+/* Mode sombre (si tu ajoutes .dark sur <html>) */
+.dark {
+  --background: 222 47% 4%;
+  --foreground: 210 40% 96%;
+  --primary: 267 64% 58%;
+  --secondary: 217 91% 64%;
+  --accent: 262 83% 72%;
+  --ring: 262 83% 72%;
+}
+
+/* Ensuite ton import de police */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 
 * {
   margin: 0;
