@@ -254,7 +254,7 @@ function App() {
               className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-white/20"
             >
               {/* Photo */}
-              <div className="w-40 h-40 mx-auto rounded-xl overflow-hidden mb-4 border border-white/20 shadow-lg">
+              <div className="w-40 h-40 mx-auto rounded-2xl overflow-hidden mb-4 p-[3px] bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 shadow-[0_0_20px_rgba(59,130,246,0.45)]">
                 <img
                   src="/founder.png"
                   alt="Portrait of Anthony Gocmen"
