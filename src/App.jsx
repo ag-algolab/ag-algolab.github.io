@@ -256,7 +256,7 @@ function App() {
               {/* Photo */}
               <div className="w-40 h-40 mx-auto rounded-xl overflow-hidden mb-4 border border-white/20 shadow-lg">
                 <img
-                  src="/founder.jpg"
+                  src="/founder.png"
                   alt="Portrait of Anthony Gocmen"
                   className="w-full h-full object-cover"
                 />
@@ -268,18 +268,10 @@ function App() {
               </div>
         
               {/* “Data tags” futuristes */}
-              <div className="space-y-3 text-sm">
+              <div className="space-y-1 text-sm">
                 <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
                   <span className="text-white/60">Location</span>
                   <span className="text-white/90">Paris, France</span>
-                </div>
-                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
-                  <span className="text-white/60">Focus</span>
-                  <span className="text-white/90">Deep Learning · Quant Finance</span>
-                </div>
-                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
-                  <span className="text-white/60">Email</span>
-                  <span className="text-white/90">contact@agalgolab.com</span>
                 </div>
               </div>
         
