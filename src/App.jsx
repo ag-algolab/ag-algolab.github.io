@@ -296,36 +296,37 @@ function App() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
-              Our Projects
+              Main Project
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Discover our achievements in algorithmic trading and artificial intelligence
+              The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential. 
+              For the moment, it remains confidential and not available for sale
             </p>
           </motion.div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8">
             {[
               {
-                title: 'AlphaPredict Pro',
-                description: 'Advanced prediction system using deep neural networks to anticipate price movements',
-                tech: ['Python', 'TensorFlow', 'Pandas', 'NumPy'],
+                title: 'Training',
+                description: 'Preparation and training of the AI model on financial data',
+                tech: ['Scikit-learn', 'TensorFlow', 'Pandas', 'NumPy'],
                 image: 'https://images.unsplash.com/photo-1485217911927-2984c7b1d92e',
               },
               {
-                title: 'TradingBot AI',
-                description: 'Autonomous trading bot capable of executing complex strategies in real time with risk management',
+                title: 'Optimization',
+                description: 'Hyperparameter optimization - Result visualization and scenario simulations',
                 tech: ['Python', 'PyTorch', 'FastAPI', 'Redis'],
                 image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
               },
               {
-                title: 'MarketSense Analytics',
-                description: 'Market sentiment analysis platform using NLP to process thousands of financial documents',
-                tech: ['Python', 'BERT', 'Elasticsearch', 'Kafka'],
+                title: 'Application in Real Markets',
+                description: 'Real-world testing under live conditions - Autonomous bot execution and validation',
+                tech: ['MetaTrader 5', 'BERT', 'Elasticsearch', 'Kafka'],
                 image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085',
               },
               {
-                title: 'QuantumRisk Engine',
-                description: 'Risk management engine using quantum algorithms to optimize portfolios',
-                tech: ['Python', 'Qiskit', 'scikit-learn', 'PostgreSQL'],
+                title: 'Information Transmission',
+                description: 'Real-time signal broadcasting',
+                tech: ['Requests', 'Telegram'],
                 image: 'https://images.unsplash.com/photo-1526378722445-81bbe18b5cf0',
               },
             ].map((project, index) => (
