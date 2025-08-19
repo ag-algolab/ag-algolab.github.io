@@ -257,25 +257,26 @@ function App() {
           {/* Grid : 1/3 (gauche) + 2/3 (droite) */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
         
-            <div className="flex justify-center">
-              <TechOrbit
-                size={400}            // ↑/↓ taille globale
-                photoSize={140}       // taille du portrait central
-                orbitRadius={140}     // rayon où circulent les logos
-                innerRingRadius={95}  // anneau fin intermédiaire
-                neonThickness={22}    // épaisseur du néon
-                animateOrbit={true}   // true = orbite animée ; false = statique comme le mock
-                orbitPeriod={38}      // plus grand = plus lent
-                neonPeriod={16}       // vitesse du néon
-                showFounderBand={true}
-              />
-            </div>
-            
-            <div className="mt-6 text-center">
-              <h3 className="text-2xl font-bold text-white tracking-tight">Anthony Gocmen</h3>
-              <p className="text-emerald-400 font-semibold tracking-wide">Founder</p>
-            </div>
-
+            {/* Colonne Gauche — Portrait + orbite + infos */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-white/20"
+            >
+              {/* 1) Photo + cercle tournant des logos */}
+              <div className="flex justify-center">
+                <TechOrbit />
+              </div>
+        
+              {/* 2) Nom / Rôle */}
+              <div className="mt-6 text-center">
+                <h3 className="text-2xl font-bold text-white">Anthony Gocmen</h3>
+                <p className="text-emerald-400 font-semibold">Founder</p>
+              </div>
+        
+            </motion.div>
         
             {/* Colonne Droite — Bloc x2 avec la phrase */}
             <motion.div
