@@ -24,12 +24,12 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>AG Algo Lab - R&D in Algorithmic Trading & Deep Learning</title>
+        <title>AG Algo Lab - Predict the Unpredictable</title>
         <meta
           name="description"
           content="AG Algo Lab specializes in research and development in algorithmic trading using deep learning. We focus on advanced predictions and high‑performance Python execution pipelines."
         />
-        <meta property="og:title" content="AG Algo Lab - R&D in Algorithmic Trading & Deep Learning" />
+        <meta property="og:title" content="AG Algo Lab - Predict the Unpredictable" />
         <meta property="og:description" content="Expertise in research and development for algorithmic trading with artificial intelligence and deep learning." />
       </Helmet>
 
@@ -101,13 +101,12 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent">
                 AG Algo Lab
               </h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-4xl mx-auto leading-relaxed">
-                Research & Development in <span className="text-emerald-400 font-semibold">Algorithmic Trading</span>
-                <br />using <span className="text-emerald-400 font-semibold">Deep Learning</span>
-              </p>
+              <h2 className="text-3xl md:text-5xl font-semibold mb-6 text-white/90">
+                Predict the Unpredictable
+              </h2>
               <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto">
                 Specializing in advanced predictions and the execution of high-performance Python pipelines
               </p>
