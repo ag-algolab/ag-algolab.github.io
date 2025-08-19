@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+
+
 export default function TechOrbit({
   size = 380,
   photoSize = 132,
