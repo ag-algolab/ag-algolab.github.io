@@ -309,13 +309,13 @@ function App() {
                 title: '1. Exploration & Training',
                 description: 'Exploring promising ideas and preparing the foundations of the predictive model. Different approaches are tested, financial data is preprocessed, and initial versions of the AI are trained to identify valuable directions.',
                 tech: ['Scikit-learn', 'TensorFlow', 'Pandas', 'Joblib'],
-                image: 'https://images.unsplash.com/photo-1485217911927-2984c7b1d92e',
+                image: '/exploration.png',
               },
               {
                 title: '2. Optimization & Validation',
                 description: 'Once a candidate model shows potential, it is refined through hyperparameter optimization, robustness checks, and extensive backtests. Scenarios are simulated, stability is measured, and adaptability to changing market conditions is assessed.',
                 tech: ['Matplotlib', 'Scikit-learn', 'TensorFlow'],
-                image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
+                image: '/opti.png',
               },
               {
                 title: '3. Live Market Deployment',
