@@ -321,7 +321,7 @@ function App() {
                 title: '3. Live Market Deployment',
                 description: 'The model is connected directly to live markets and tested under real conditions. The bot operates autonomously, executing trades and adapting continuously to market dynamics.',
                 tech: ['MetaTrader 5', 'TensorFlow', 'Joblib'],
-                image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085',
+                image: '/orderfilled.png',
               },
               {
                 title: 'Signal Transmission',
