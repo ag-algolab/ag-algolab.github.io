@@ -28,15 +28,6 @@
   --radius: 1rem;
 }
 
-/* Mode sombre (si tu ajoutes .dark sur <html>) */
-.dark {
-  --background: 222 47% 4%;
-  --foreground: 210 40% 96%;
-  --primary: 267 64% 58%;
-  --secondary: 217 91% 64%;
-  --accent: 262 83% 72%;
-  --ring: 262 83% 72%;
-}
 
 /* Ensuite ton import de police */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -54,10 +45,15 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #0f172a 0%, #581c87 50%, #1e40af 100%);
-  color: white;
+  /* Fond clair avec une légère touche violet→bleu */
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(139,92,246,0.10), transparent 60%),
+    radial-gradient(1000px 500px at 90% 20%, rgba(59,130,246,0.10), transparent 60%),
+    #ffffff; /* base blanche */
+  color: #0f172a; /* slate-900 */
   overflow-x: hidden;
 }
+
 
 
 /* Custom scrollbar */
