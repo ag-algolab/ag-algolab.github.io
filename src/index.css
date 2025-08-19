@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === Palette marque violet → bleu (HSL) === */
+/* === Variables de thème violet → bleu === */
 :root {
   --brand-purple-dark: 270 76% 23%;  /* #3C0D66 */
   --brand-purple:      267 64% 51%;  /* #6E2FCF */
@@ -10,76 +10,85 @@
   --brand-blue:        217 91% 60%;  /* #3B82F6 */
   --brand-blue-deep:   217 89% 33%;  /* #0D47A1 */
 
-  /* Tokens Tailwind/shadcn — THÈME CLAIR UNIQUEMENT */
-  --background: 0 0% 100%;           /* blanc */
-  --foreground: 222 47% 11%;         /* #0f172a (slate-900) */
+  --background: 222 47% 5%;
+  --foreground: 210 40% 98%;
 
-  --primary: 267 64% 51%;            /* violet */
+  --primary: 267 64% 51%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 217 91% 60%;          /* bleu */
+  --secondary: 217 91% 60%;
   --secondary-foreground: 0 0% 100%;
 
-  --accent: 262 83% 67%;             /* violet clair */
+  --accent: 262 83% 67%;
   --accent-foreground: 0 0% 100%;
 
-  --muted: 220 14% 96%;
-  --muted-foreground: 217 19% 35%;
-
-  --border: 220 14% 90%;
-  --input: 220 14% 90%;
+  --border: 220 14% 25%;
+  --input: 220 14% 20%;
   --ring: 262 83% 67%;
-
   --radius: 1rem;
 }
 
-/* Police */
+
+/* Ensuite ton import de police */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: 'Inter', sans-serif;
-  /* Fond CLAIR avec touches violettes/bleues très légères */
+  /* Fond clair avec une légère touche violet→bleu */
   background:
-    radial-gradient(1200px 600px at 10% 0%, hsl(var(--brand-purple-lite) / 0.10), transparent 60%),
-    radial-gradient(1000px 500px at 90% 20%, hsl(var(--brand-blue) / 0.10), transparent 60%),
-    #ffffff;
+    radial-gradient(1200px 600px at 10% 0%, rgba(139,92,246,0.10), transparent 60%),
+    radial-gradient(1000px 500px at 90% 20%, rgba(59,130,246,0.10), transparent 60%),
+    #ffffff; /* base blanche */
   color: #0f172a; /* slate-900 */
   overflow-x: hidden;
 }
 
-/* ===== Scrollbar (corrige le noir/vert) ===== */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #eef2ff; } /* indigo-50 */
+
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, hsl(var(--brand-purple)), hsl(var(--brand-blue)));
+  background: linear-gradient(to bottom, #000000, #10b981);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, hsl(var(--brand-purple-lite)), hsl(var(--brand-blue-deep)));
+  background: linear-gradient(to bottom, #000000, #059669);
 }
 
-/* ===== Glassmorphism sur fond clair ===== */
+/* Glassmorphism effect */
 .glass {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(15, 23, 42, 0.08); /* slate-900 @ 8% */
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ===== Texte en gradient animé (palette marque) ===== */
+/* Gradient text animation */
 @keyframes gradient-shift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
 .animate-gradient {
-  background: linear-gradient(-45deg,
-    hsl(var(--brand-blue)),
-    hsl(var(--brand-purple-lite)),
-    hsl(var(--brand-purple)),
-    hsl(var(--brand-blue)));
+  background: linear-gradient(-45deg, #06b6d4, #8b5cf6, #ec4899, #06b6d4);
   background-size: 400% 400%;
   animation: gradient-shift 3s ease infinite;
   -webkit-background-clip: text;
@@ -87,68 +96,115 @@ body {
   background-clip: text;
 }
 
-/* ===== Particules (couleurs marque) ===== */
-@keyframes particle-float {
-  0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse glow effect */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.6); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Custom button hover effects */
+.btn-gradient {
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #0891b2, #7c3aed);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+}
+
+/* Particle animation */
+@keyframes particle-float {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
 .particle {
   position: absolute;
   width: 4px;
   height: 4px;
-  background: linear-gradient(45deg, hsl(var(--brand-purple)), hsl(var(--brand-blue)));
+  background: linear-gradient(45deg, #06b6d4, #8b5cf6);
   border-radius: 50%;
   animation: particle-float 15s linear infinite;
 }
 
-/* ===== Animations utilitaires ===== */
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-.animate-float { animation: float 6s ease-in-out infinite; }
-
-@keyframes pulse-glow {
-  0%,100% { box-shadow: 0 0 20px hsl(var(--brand-blue) / 0.30); }
-  50%     { box-shadow: 0 0 40px hsl(var(--brand-blue) / 0.60); }
-}
-.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-
-@keyframes spin { to { transform: rotate(360deg); } }
-.animate-spin-slow { animation: spin 3s linear infinite; }
-
-@keyframes text-reveal {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.animate-text-reveal { animation: text-reveal 0.8s ease-out forwards; }
-
-/* ===== Boutons (violet → bleu) ===== */
-.btn-gradient {
-  background: linear-gradient(135deg, hsl(var(--brand-purple)), hsl(var(--brand-blue)));
-  transition: all 0.3s ease;
-  color: white;
-}
-.btn-gradient:hover {
-  background: linear-gradient(135deg, hsl(var(--brand-purple-lite)), hsl(var(--brand-blue-deep)));
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px hsl(var(--brand-blue) / 0.30);
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .text-7xl {
+    font-size: 3rem;
+  }
+  
+  .text-5xl {
+    font-size: 2.5rem;
+  }
 }
 
-/* ===== Accessibilité ===== */
-button:focus, input:focus, textarea:focus {
-  outline: 2px solid hsl(var(--accent));
+/* Focus states for accessibility */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #06b6d4;
   outline-offset: 2px;
 }
 
-/* ===== Cartes ===== */
-.card-hover { transition: all 0.3s ease; }
-.card-hover:hover {
-  transform: translateY(-10px) rotateX(5deg);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15); /* slate-900 @ 15% */
+/* Loading animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-/* ===== Responsive tweaks ===== */
-@media (max-width: 768px) {
-  .text-7xl { font-size: 3rem; }
-  .text-5xl { font-size: 2.5rem; }
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-10px) rotateX(5deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Text reveal animation */
+@keyframes text-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-text-reveal {
+  animation: text-reveal 0.8s ease-out forwards;
 }
