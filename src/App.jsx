@@ -246,7 +246,7 @@ function App() {
                 name: 'Anthony Gocmen',
                 role: 'Founder',
                 expertise: 'Deep Learning & Quantitative Finance',
-                image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d',
+                image: '/founder.png',
               },
               {
                 name: 'Sarah Chen',
