@@ -379,110 +379,86 @@ function App() {
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               Get in touch with us for collaborations or inquiries
             </p>
+          </motion.div>
+        
+          {/* Deux cartes centrées : Phone (gauche) / Email (droite) */}
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 gap-8 items-stretch">
+              {/* Phone */}
+              <motion.a
+                href="tel:+33651871374"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="block p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                    <Phone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-sm">Phone</p>
+                    <p className="text-white font-semibold group-hover:text-emerald-400 transition">
+                      +33 6 51 87 13 74
+                    </p>
+                  </div>
+                </div>
+              </motion.a>
+        
+              {/* Email */}
+              <motion.a
+                href="mailto:anthony.gocmen@gmail.com"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="block p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition group"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                    <Mail className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-sm">Email</p>
+                    <p className="text-white font-semibold group-hover:text-emerald-400 transition">
+                      anthony.gocmen@gmail.com
+                    </p>
+                  </div>
+                </div>
+              </motion.a>
+            </div>
+        
+            {/* Réseaux sociaux, centrés */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
               viewport={{ once: true }}
+              className="mt-10"
             >
-              <h3 className="text-3xl font-bold mb-3 text-white">Knowledge Hub</h3>
-              <p className="text-white/80 mb-8">
-                Our latest videos on algorithmic trading, Python, and deep learning.
-              </p>
-            
-              {/* Astuce: pour une chaîne dont l'ID commence par "UC...", 
-                 l'ID de la playlist "Uploads" est le même en remplaçant UC → UU.
-                 Ex: UCabcdef → UUabcdef */}
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Chaîne 1 */}
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-white font-semibold">Channel #1</h4>
-                    <a
-                      href="https://www.youtube.com/@yourChannelHandle1"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-emerald-400 hover:underline"
-                    >
-                      Visit channel →
-                    </a>
-                  </div>
-                  <div className="aspect-video rounded-lg overflow-hidden">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed?listType=playlist&list=UUxxxxxxxxxxxxxxxx&modestbranding=1&rel=0"
-                      title="YouTube playlist"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                </div>
-            
-                {/* Chaîne 2 */}
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-white font-semibold">Channel #2</h4>
-                    <a
-                      href="https://www.youtube.com/@yourChannelHandle2"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-emerald-400 hover:underline"
-                    >
-                      Visit channel →
-                    </a>
-                  </div>
-                  <div className="aspect-video rounded-lg overflow-hidden">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed?listType=playlist&list=UUyyyyyyyyyyyyyyyy&modestbranding=1&rel=0"
-                      title="YouTube playlist"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                </div>
+              <h4 className="text-lg font-semibold mb-4 text-white text-center">Follow us</h4>
+              <div className="flex items-center justify-center space-x-5">
+                {[
+                  { icon: <Github className="w-5 h-5" />, url: 'https://github.com/ag-algolab' },
+                  { icon: <Linkedin className="w-5 h-5" />, url: 'https://www.linkedin.com/in/anthony-gocmen' },
+                  { icon: <Twitter className="w-5 h-5" />, url: 'https://twitter.com' },
+                ].map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition"
+                  >
+                    {social.icon}
+                  </a>
+                ))}
               </div>
-            </motion.div>
-
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold mb-8 text-white">Send us a message</h3>
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-white/80 mb-2">Name</label>
-                    <input type="text" className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-emerald-600" placeholder="Your name" />
-                  </div>
-                  <div>
-                    <label className="block text-white/80 mb-2">Email</label>
-                    <input type="email" className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-emerald-600" placeholder="you@example.com" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-white/80 mb-2">Subject</label>
-                  <input type="text" className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-emerald-600" placeholder="Subject of your message" />
-                </div>
-                <div>
-                  <label className="block text-white/80 mb-2">Message</label>
-                  <textarea rows="5" className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-emerald-600" placeholder="Describe your project or your needs..."></textarea>
-                </div>
-                <Button
-                  onClick={handleContactClick}
-                  className="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  Send the message
-                </Button>
-              </form>
             </motion.div>
           </div>
         </section>
+
 
         {/* Footer */}
         <footer className="py-12 border-t border-white/10">
@@ -496,7 +472,7 @@ function App() {
                 </span>
               </div>
               <p className="text-white/60 text-center md:text-right">
-                © {new Date().getFullYear()} AG Algo Lab. All rights reserved. | Predict the Unpredictable
+                © {new Date().getFullYear()} AG Algo Lab. All rights reserved. | R&D in Algo Trading
               </p>
             </div>
           </div>
