@@ -314,7 +314,7 @@ function App() {
               {
                 title: 'Optimization',
                 description: 'Hyperparameter optimization - Result visualization and scenario simulations',
-                tech: ['Python', 'PyTorch', 'FastAPI', 'Redis'],
+                tech: ['Matplotlib', 'Joblib'],
                 image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
               },
               {
@@ -326,7 +326,7 @@ function App() {
               {
                 title: 'Information Transmission',
                 description: 'Real-time signal broadcasting',
-                tech: ['Requests', 'Telegram'],
+                tech: ['Requests', 'Python-Telegram-Bot'],
                 image: 'https://images.unsplash.com/photo-1526378722445-81bbe18b5cf0',
               },
             ].map((project, index) => (
