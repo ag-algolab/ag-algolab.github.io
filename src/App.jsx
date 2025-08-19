@@ -224,8 +224,9 @@ function App() {
           </div>
         </section>
 
-        {/* Team Section */}
+        {/* Founder Section */}
         <section id="founder" className="py-20 bg-black/20">
+          {/* Titre */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -237,54 +238,86 @@ function App() {
               Founder
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Passionate experts in artificial intelligence and quantitative finance
+              Artificial Intelligence & Quantitative Finance
             </p>
           </motion.div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Anthony Gocmen',
-                role: 'Founder',
-                expertise: 'Deep Learning & Quantitative Finance',
-                image: '/founder.png',
-              },
-              {
-                name: 'Sarah Chen',
-                role: 'Lead Data Scientist',
-                expertise: 'Machine Learning & Predictive Analysis',
-                image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d',
-              },
-              {
-                name: 'Marc Dubois',
-                role: 'Algorithm Engineer',
-                expertise: 'Optimization & High-Frequency Trading',
-                image: 'https://images.unsplash.com/photo-1644424235476-295f24d5030d',
-              },
-            ].map((member, index) => (
-              <motion.div
-                key={index}
-                className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10 hover:border-white/20"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-full h-48 rounded-2xl overflow-hidden mb-4">
-                  <img src={member.image} alt={`Portrait of ${member.name}`} className="w-full h-full object-cover bg-gray-300" />
+        
+          {/* Grid : 1/3 (gauche) + 2/3 (droite) */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
+        
+            {/* Colonne Gauche — Card portrait + “data” */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-white/20"
+            >
+              {/* Photo */}
+              <div className="w-40 h-40 mx-auto rounded-xl overflow-hidden mb-4 border border-white/20 shadow-lg">
+                <img
+                  src="/founder.png"
+                  alt="Portrait of Anthony Gocmen"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+        
+              {/* Nom / Rôle */}
+              <div className="text-center mb-4">
+                <h3 className="text-2xl font-bold text-white">Anthony Gocmen</h3>
+                <p className="text-emerald-400 font-semibold">Founder</p>
+              </div>
+        
+              {/* “Data tags” futuristes */}
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <span className="text-white/60">Location</span>
+                  <span className="text-white/90">Paris, France</span>
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-emerald-400 transition-colors">
-                  {member.name}
-                </h3>
-                <p className="text-emerald-400 font-semibold mb-3">
-                  {member.role}
+                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <span className="text-white/60">Focus</span>
+                  <span className="text-white/90">Deep Learning · Quant Finance</span>
+                </div>
+                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <span className="text-white/60">Email</span>
+                  <span className="text-white/90">contact@agalgolab.com</span>
+                </div>
+              </div>
+        
+              {/* Mini “console” décorative */}
+              <div className="mt-6 rounded-lg bg-gradient-to-b from-[#111827]/70 to-transparent p-3 border border-white/10 font-mono text-[12px] leading-5 text-white/70">
+                <div className="opacity-70">[LOG] Model: CNN+LSTM — status: <span className="text-emerald-400">OK</span></div>
+                <div className="opacity-70">[DATA] Signals: EURUSD · US500 · USTEC</div>
+                <div className="opacity-70">[LAT] 52ms · drift: 0.002</div>
+              </div>
+            </motion.div>
+        
+            {/* Colonne Droite — Bloc x2 avec la phrase */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="md:col-span-2 relative"
+            >
+              <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#8B5CF6]/20 via-transparent to-[#3B82F6]/20 blur-3xl rounded-3xl" />
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 md:p-10 border border-white/10 hover:border-white/20 shadow-xl">
+                <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                  <span className="block">
+                    AG AlgoLab is currently led by its founder, Anthony Gocmen, who drives all research and development activities.
+                    He is pursuing a Master’s degree in Finance at Université Paris Dauphine (PSL), with a strong academic foundation
+                    in quantitative finance and artificial intelligence. In 2025, he won the Space Hackathon organized by Arizona State
+                    University, showcasing his ability to combine innovation, data, and advanced modeling in real-world challenges.
+                  </span>
                 </p>
-                <p className="text-white/70 text-sm">
-                  {member.expertise}
-                </p>
-              </motion.div>
-            ))}
+        
+                {/* Soulignement gradient animé (subtil) */}
+                <div className="mt-6 h-1 w-24 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] rounded-full animate-pulse" />
+              </div>
+            </motion.div>
           </div>
         </section>
+
 
         {/* Projects Section */}
         <section id="Main Project" className="py-20 bg-black/20">
