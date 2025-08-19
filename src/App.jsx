@@ -275,12 +275,25 @@ function App() {
                 </div>
               </div>
         
-              {/* Mini “console” décorative */}
-              <div className="mt-6 rounded-lg bg-gradient-to-b from-[#111827]/70 to-transparent p-3 border border-white/10 font-mono text-[12px] leading-5 text-white/70">
-                <div className="opacity-70">[LOG] Status: <span className="text-emerald-400">OK</span></div>
-                <div className="opacity-70">[DATA] Signals: EURUSD · US500 · USTEC</div>
-                <div className="opacity-70">[LAT] 52ms · drift: 0.002</div>
+              {/* Bloc compétences stylisé */}
+              <div className="mt-6 rounded-lg bg-gradient-to-b from-[#111827]/70 to-transparent p-3 border border-white/10 font-mono text-[12px] leading-5 text-white/80">
+                
+                {/* Titre type console */}
+                <div className="opacity-80 mb-2">
+                  [SKILLS] <span className="text-emerald-400">Maîtrises principales</span>
+                </div>
+              
+                {/* Logos */}
+                <div className="flex flex-wrap gap-3 mt-2">
+                  <img src="/logos/python.png" alt="Python" className="h-8 w-8 object-contain" />
+                  <img src="/logos/tensorflow.png" alt="TensorFlow" className="h-8 w-8 object-contain" />
+                  <img src="/logos/pandas.png" alt="Pandas" className="h-8 w-8 object-contain" />
+                  <img src="/logos/numpy.png" alt="Numpy" className="h-8 w-8 object-contain" />
+                  <img src="/logos/mt5.png" alt="MetaTrader 5" className="h-8 w-8 object-contain" />
+                  <img src="/logos/pypi.png" alt="PyPi" className="h-8 w-8 object-contain" />
+                </div>
               </div>
+
             </motion.div>
         
             {/* Colonne Droite — Bloc x2 avec la phrase */}
