@@ -2,11 +2,12 @@ import { motion } from "framer-motion";
 
 export default function TechOrbit() {
   const items = [
-    { name: "Python",       src: "/logos/python.svg" },
-    { name: "TensorFlow",   src: "/logos/tensorflow.svg" },
-    { name: "Pandas",       src: "/logos/pandas.svg" },
-    { name: "MetaTrader 5", src: "/logos/metatrader5.svg" },
-    { name: "Scikit-learn", src: "/logos/scikit-learn.svg" },
+    { name: "Python",       src: "/logos/python.png" },
+    { name: "TensorFlow",   src: "/logos/tensorflow.png" },
+    { name: "Pandas",       src: "/logos/pandas.png" },
+    { name: "MetaTrader 5", src: "/logos/mt5.png" },
+    { name: "PyPi", src: "/logos/pypi.png" },
+    { name: "Numpy", src: "/logos/numpy.png" },
   ];
 
   const radius = 120; // distance logos-photo
@@ -20,7 +21,7 @@ export default function TechOrbit() {
       {/* Photo centrale */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-xl overflow-hidden border border-white/20 shadow-xl">
         <img
-          src="/founder.png"
+          src="/founder.jpg"
           alt="Anthony Gocmen"
           className="w-full h-full object-cover"
         />
