@@ -47,7 +47,7 @@ function App() {
                 <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
 
                 <span className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
-                  AG Algo Lab
+                  Algo Lab
                 </span>
               </motion.div>
 
@@ -465,7 +465,7 @@ function App() {
                 <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded-lg" />
 
                 <span className="text-lg font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
-                  AG Algo Lab
+                  Algo Lab
                 </span>
               </div>
               <p className="text-white/60 text-center md:text-right">
