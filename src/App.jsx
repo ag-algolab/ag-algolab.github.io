@@ -234,7 +234,7 @@ function App() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
-              Our Team
+              Founder
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               Passionate experts in artificial intelligence and quantitative finance
@@ -301,6 +301,8 @@ function App() {
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential. 
               For the moment, it remains confidential and not available for sale
+              < br/>
+              The project builds on a four-step cycle, structured as follows:
             </p>
           </motion.div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8">
@@ -377,48 +379,73 @@ function App() {
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               Get in touch with us for collaborations or inquiries
             </p>
-          </motion.div>
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold mb-8 text-white">Contact Information</h3>
-              <div className="space-y-6">
-                {[
-                  { icon: <Mail className="w-6 h-6" />, label: 'Email', value: 'anthony.gocmen@gmail.com' },
-                  { icon: <Phone className="w-6 h-6" />, label: 'Phone', value: '+33 6 51 87 13 74' },
-                  { icon: <MapPin className="w-6 h-6" />, label: 'Address', value: '123 Avenue de l’Innovation, Paris' },
-                ].map((contact, index) => (
-                  <motion.div key={index} whileHover={{ x: 10 }} className="flex items-center space-x-4 p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition">
-                    <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                      {contact.icon}
-                    </div>
-                    <div>
-                      <p className="text-white/60 text-sm">{contact.label}</p>
-                      <p className="text-white font-semibold">{contact.value}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-              <div className="mt-8">
-                <h4 className="text-lg font-semibold mb-4 text-white">Follow us</h4>
-                <div className="flex space-x-5">
-                  {[
-                    { icon: <Github className="w-5 h-5" />, url: 'https://github.com/ag-algolab' },
-                    { icon: <Linkedin className="w-5 h-5" />, url: 'https://www.linkedin.com/in/anthony-gocmen' },
-                    { icon: <Twitter className="w-5 h-5" />, url: 'https://twitter.com' },
-                  ].map((social, index) => (
-                    <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition">
-                      {social.icon}
+              <h3 className="text-3xl font-bold mb-3 text-white">Knowledge Hub</h3>
+              <p className="text-white/80 mb-8">
+                Our latest videos on algorithmic trading, Python, and deep learning.
+              </p>
+            
+              {/* Astuce: pour une chaîne dont l'ID commence par "UC...", 
+                 l'ID de la playlist "Uploads" est le même en remplaçant UC → UU.
+                 Ex: UCabcdef → UUabcdef */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Chaîne 1 */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-white font-semibold">Channel #1</h4>
+                    <a
+                      href="https://www.youtube.com/@yourChannelHandle1"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-emerald-400 hover:underline"
+                    >
+                      Visit channel →
                     </a>
-                  ))}
+                  </div>
+                  <div className="aspect-video rounded-lg overflow-hidden">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed?listType=playlist&list=UUxxxxxxxxxxxxxxxx&modestbranding=1&rel=0"
+                      title="YouTube playlist"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+            
+                {/* Chaîne 2 */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-white font-semibold">Channel #2</h4>
+                    <a
+                      href="https://www.youtube.com/@yourChannelHandle2"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-emerald-400 hover:underline"
+                    >
+                      Visit channel →
+                    </a>
+                  </div>
+                  <div className="aspect-video rounded-lg overflow-hidden">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed?listType=playlist&list=UUyyyyyyyyyyyyyyyy&modestbranding=1&rel=0"
+                      title="YouTube playlist"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
               </div>
             </motion.div>
+
 
             <motion.div
               initial={{ opacity: 0, x: 50 }}
@@ -469,7 +496,7 @@ function App() {
                 </span>
               </div>
               <p className="text-white/60 text-center md:text-right">
-                © {new Date().getFullYear()} AG Algo Lab. All rights reserved. | R&D in Algo Trading
+                © {new Date().getFullYear()} AG Algo Lab. All rights reserved. | Predict the Unpredictable
               </p>
             </div>
           </div>
