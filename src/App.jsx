@@ -276,32 +276,6 @@ function App() {
                 <p className="text-emerald-400 font-semibold">Founder</p>
               </div>
         
-              {/* 3) Tags (domaines / compétences réelles) */}
-              <div className="mt-6 flex flex-wrap gap-3 justify-center">
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-white/80 text-sm">
-                  Quantitative Finance
-                </span>
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-white/80 text-sm">
-                  Algorithmic Trading
-                </span>
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-white/80 text-sm">
-                  Deep Learning
-                </span>
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-white/80 text-sm">
-                  Predictive Modeling
-                </span>
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-white/80 text-sm">
-                  MetaTrader 5
-                </span>
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-white/80 text-sm">
-                  Python · TensorFlow · Pandas · scikit-learn
-                </span>
-              </div>
-        
-              {/* 4) Motto (facultatif) */}
-              <p className="mt-6 text-center italic text-white/70">
-                Predict the Unpredictable
-              </p>
             </motion.div>
         
             {/* Colonne Droite — Bloc x2 avec la phrase */}
