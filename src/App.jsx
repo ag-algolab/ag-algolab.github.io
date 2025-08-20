@@ -96,27 +96,35 @@ function App() {
               ))}
             
               {/* Logos qui bugent */}
-              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png", "mt5.png", "plot.png"].map((logo, i) => (
-                <motion.img
-                  key={i}
-                  src={`/logos/${logo}`}
-                  initial={{
-                    left: Math.random() * 100 + '%',
-                    top: Math.random() * 100 + '%',
-                  }}
-                  animate={{
-                    x: [0, (Math.random() - 0.5) * 1000],
-                    y: [0, (Math.random() - 0.5) * 800],
-                    rotate: [0, Math.random() * 360],
-                  }}
-                  transition={{
-                    duration: Math.random() * 6 + 4,
-                    repeat: Infinity,
-                    repeatType: "mirror",
-                    ease: "easeInOut",
-                  }}
-                />
-              ))}
+              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png", "mt5.png", "plot.png"].map((logo, i) => {
+                const randomPath = () => Math.random() * 800 - 400; // mouvement aléatoire positif/négatif
+                return (
+                  <motion.img
+                    key={`logo-${i}`}
+                    src={`/logos/${logo}`}
+                    alt={logo}
+                    className="absolute w-16 h-16 opacity-40"
+                    initial={{
+                      left: Math.random() * 100 + '%',
+                      top: Math.random() * 100 + '%',
+                    }}
+                    animate={{
+                      x: [0, randomPath(), randomPath(), 0],
+                      y: [0, randomPath(), randomPath(), 0],
+                      rotate: [0, 180 * (Math.random() > 0.5 ? 1 : -1), 0],
+                      opacity: [0, 0.8, 0],
+                    }}
+                    transition={{
+                      duration: Math.random() * 8 + 4,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      ease: "easeInOut",
+                      delay: Math.random() * 2,
+                    }}
+                  />
+                );
+              })}
+
             </div>
 
 
