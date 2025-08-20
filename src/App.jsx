@@ -292,13 +292,13 @@ function App() {
                 <pre className="text-sm">
                   <code>
                     <span className="text-purple-400">from</span>{" "}
-                    <span className="text-blue-400">Anthony</span>{" "}
+                    <span className="text-white">Anthony</span>{" "}
                     <span className="text-purple-400">import</span>
                     <span className="text-pink-400">*</span>
                     {"\n"}
-                    <span className="text-purple-400">while</span>{" "}
-                    <span className="text-green-400">not</span>{" "}
-                    <span className="text-yellow-300">success</span>
+                    <span className="text-red-400">while</span>{" "}
+                    <span className="text-red-400">not</span>{" "}
+                    <span className="text-white">success</span>
                     <span className="text-white">:</span>
                     {"\n    "}
                     <span className="text-cyan-400">keep_learning</span>
