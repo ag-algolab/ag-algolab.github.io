@@ -97,7 +97,9 @@ function App() {
             
               {/* Logos qui bugent */}
               {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png", "mt5.png", "plot.png"].map((logo, i) => {
-                const randomPath = () => Math.random() * 800 - 400; // mouvement aléatoire positif/négatif
+                // fonction pour générer une direction aléatoire (positive ou négative)
+                const randomPath = (amp) => (Math.random() - 0.5) * 2 * amp;
+              
                 return (
                   <motion.img
                     key={`logo-${i}`}
@@ -109,21 +111,21 @@ function App() {
                       top: Math.random() * 100 + '%',
                     }}
                     animate={{
-                      x: [0, randomPath(), randomPath(), 0],
-                      y: [0, randomPath(), randomPath(), 0],
-                      rotate: [0, 180 * (Math.random() > 0.5 ? 1 : -1), 0],
-                      opacity: [0, 0.8, 0],
+                      x: [0, randomPath(400), randomPath(400), 0],
+                      y: [0, randomPath(300), randomPath(300), 0],
+                      rotate: [0, 15 * (Math.random() > 0.5 ? 1 : -1), -15, 0],
+                      opacity: [0, 0.7, 0],
                     }}
                     transition={{
-                      duration: Math.random() * 8 + 4,
+                      duration: Math.random() * 10 + 5,  // même vitesse que ton code
                       repeat: Infinity,
                       repeatType: "reverse",
-                      ease: "easeInOut",
-                      delay: Math.random() * 2,
+                      delay: Math.random() * 3,
                     }}
                   />
                 );
               })}
+
 
             </div>
 
