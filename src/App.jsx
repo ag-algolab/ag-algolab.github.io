@@ -607,9 +607,10 @@ function App() {
                   Algo Lab
                 </span>
               </div>
-              <p className="text-white/60 text-center md:text-right">
-                © {new Date().getFullYear()} AG Algo Lab. All rights reserved. | Predict the Unpredictable
-              </p>
+              <div className="text-white/60 text-center md:text-right text-sm leading-relaxed">
+                <p>© {new Date().getFullYear()} AG Algo Lab. All rights reserved.</p>
+                <p>Registered in France – Company Registration No. 935 081 703</p>
+              </div>
             </div>
           </div>
         </footer>
