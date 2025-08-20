@@ -96,37 +96,29 @@ function App() {
               ))}
             
               {/* Logos qui bugent */}
-              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png", "mt5.png", "plot.png"].map((logo, i) => {
-                // fonction pour générer une direction aléatoire (positive ou négative)
-                const randomPath = (amp) => (Math.random() - 0.5) * 2 * amp;
-              
-                return (
-                  <motion.img
-                    key={`logo-${i}`}
-                    src={`/logos/${logo}`}
-                    alt={logo}
-                    className="absolute w-16 h-16 opacity-40"
-                    initial={{
-                      left: Math.random() * 100 + '%',
-                      top: Math.random() * 100 + '%',
-                    }}
-                    animate={{
-                      x: [0, randomPath(400), randomPath(400), 0],
-                      y: [0, randomPath(300), randomPath(300), 0],
-                      rotate: [0, 15 * (Math.random() > 0.5 ? 1 : -1), -15, 0],
-                      opacity: [0, 0.7, 0],
-                    }}
-                    transition={{
-                      duration: Math.random() * 10 + 5,  // même vitesse que ton code
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      delay: Math.random() * 3,
-                    }}
-                  />
-                );
-              })}
-
-
+              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png", "mt5.png", "plot.png"].map((logo, i) => (
+                <motion.img
+                  key={`logo-${i}`}
+                  src={`/logos/${logo}`}
+                  alt={logo}
+                  className="absolute w-16 h-16 opacity-40"
+                  animate={{
+                    x: [0, Math.random() * 800],
+                    y: [0, Math.random() * 600],
+                    rotate: [0, 15, -15, 0],
+                    opacity: [0, 0.7, 0],
+                  }}
+                  transition={{
+                    duration: Math.random() * 10 + 5,
+                    repeat: Infinity,
+                    delay: Math.random() * 3,
+                  }}
+                  style={{
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                  }}
+                />
+              ))}
             </div>
 
 
