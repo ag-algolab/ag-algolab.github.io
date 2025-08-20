@@ -96,7 +96,7 @@ function App() {
               ))}
             
               {/* Logos qui bugent */}
-              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png", "mt5.png"].map((logo, i) => (
+              {["python.png", "tensorflow.png", "pandas.png", "numpy.png", "pypi.png", "mt5.png", "plot.png"].map((logo, i) => (
                 <motion.img
                   key={`logo-${i}`}
                   src={`/logos/${logo}`}
