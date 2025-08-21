@@ -62,15 +62,15 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #000000, #10b981);
+  background: linear-gradient(to bottom, #0A192F, #38BDF8);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #000000, #059669);
+  background: linear-gradient(to bottom, #000000, #1E3A8A);
 }
 
 /* Glassmorphism effect */
