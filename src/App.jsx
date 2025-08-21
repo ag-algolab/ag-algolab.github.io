@@ -133,13 +133,13 @@ function App() {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <h1 
-                  className="text-5xl md:text-7xl gradient-title bg-gradient-to-r from-[#BAE6FD] to-[#E9D5FF]">
+                  className="text-5xl md:text-7xl gradient-title bg-gradient-to-r from-[#60A5FA] to-[#C084FC] mb 4">
                 AG Algo Lab
               </h1>
               <h2 className="text-3xl md:text-5xl font-semibold italic mb-6 text-white/90">
                 Predict the Unpredictable
               </h2>
-              <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto">
+              <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto mb 8">
                 Specializing in advanced predictions and the execution of high-performance Python pipelines
               </p>
 
