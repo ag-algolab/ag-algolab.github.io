@@ -133,13 +133,13 @@ function App() {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <h1 
-                  className="text-5xl md:text-7xl gradient-title bg-gradient-to-r from-[#60A5FA] to-[#C084FC] mb 6">
+                  className="text-5xl md:text-7xl gradient-title bg-gradient-to-r from-[#60A5FA] to-[#C084FC] mb-6">
                 AG Algo Lab
               </h1>
               <h2 className="text-3xl md:text-5xl font-semibold italic mb-6 text-white/90">
                 Predict the Unpredictable
               </h2>
-              <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto mb 4">
+              <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
                 Specializing in advanced predictions and the execution of high-performance Python pipelines
               </p>
 
@@ -184,9 +184,9 @@ function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8"
           >
-            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
+            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] mb-6">
               Our Services
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -350,7 +350,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-8"
           >
-            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
+            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] mb-6">
               Main Project
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -428,7 +428,7 @@ function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8"
           >
             <h2 className="text-4xl md:text-5xl gradient-title mb-2 
                bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
