@@ -422,18 +422,7 @@ function App() {
 
 
         {/* Knowledge Hub */}
-        <section id="knowledge hub" className="py-20 bg-black/20 relative overflow-hidden">
-          <motion.img
-            src="/logos/youtube.png"          // mets le fichier dans public/logos/youtube.png
-            alt="YouTube"
-            className="absolute w-12 h-12 opacity-80 pointer-events-none select-none"
-            style={{ right: '1.5rem', top: '1.5rem' }}   // position (à ajuster si tu veux)
-            initial={{ opacity: 0, y: 6, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: [0, -6, 0], scale: [0.95, 1, 0.95] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-            viewport={{ amount: 0.25, once: false }}     // n’anime que quand la section est visible
-          />
-
+        <section id="knowledge hub" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
