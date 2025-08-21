@@ -133,10 +133,7 @@ function App() {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <h1 
-                  className="text-5xl md:text-7xl font-bold mb-6
-             bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600
-             bg-clip-text text-transparent
-             leading-[1.15] md:leading-[1.1] pb-2 inline-block">
+                  className="text-5xl md:text-7xl gradient-title bg-gradient-to-r from-[#BAE6FD] to-[#E9D5FF]">
                 AG Algo Lab
               </h1>
               <h2 className="text-3xl md:text-5xl font-semibold italic mb-6 text-white/90">
@@ -189,7 +186,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Our Services
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -269,7 +266,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Founder
             </h2>
           </motion.div>
@@ -353,7 +350,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Main Project
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
@@ -433,7 +430,8 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl gradient-title mb-2 
+               bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Knowledge Hub
             </h2>
             <p className="italic text-white/80 mb-6">
@@ -525,7 +523,7 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Contact
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
