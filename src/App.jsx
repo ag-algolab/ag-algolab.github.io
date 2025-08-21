@@ -417,23 +417,27 @@ function App() {
 
 
         {/* Knowledge Hub */}
-        <section id="knowledge hub" className="py-20 bg-black/20">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
-              Knowledge Hub
-            </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Learn faster, build smarter: I share the same videos in French 🇫🇷 and English 🇬🇧  
-              across 3 playlists — Python for Finance, Algorithmic Trading, and Deep Learning in Finance.  
-              My goal: make finance tech accessible and give you the tools to create your own projects.
-            </p>
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+            Knowledge Hub
+          </h2>
+          <p className="italic text-white/70 mb-6">
+            Make finance tech accessible to everyone
+          </p>
+          <p className="text-xl text-white/80 max-w-3xl mx-auto">
+            To contribute to this goal in my own way, I decided to publish all my videos on YouTube 
+            in both French and English.  <br /><br />
+            Each channel has the same content and is structured into 3 dedicated playlists: Python for Finance Basics, 
+            Algorithmic Trading, and Deep Learning applied to Finance.
+          </p>
+        </motion.div>
+
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
             {/* Chaîne 1 */}
@@ -445,7 +449,7 @@ function App() {
               className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white text-lg font-semibold">English Channel <span>🇬🇧</span> </h3>
+                <h3 className="text-white text-lg font-semibold">English Channel </h3>
                 <a
                   href="https://www.youtube.com/@ag_algolab"
                   target="_blank"
@@ -477,7 +481,7 @@ function App() {
               className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white text-lg font-semibold">French Channel  <span>🇫🇷</span> </h3>
+                <h3 className="text-white text-lg font-semibold">French Channel </h3>
                 <a
                   href="https://www.youtube.com/@ag_algolab_fr"
                   target="_blank"
