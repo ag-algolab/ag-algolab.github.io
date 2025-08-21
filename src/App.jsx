@@ -32,7 +32,7 @@ function App() {
         <meta property="og:title" content="AG Algo Lab - Predict the Unpredictable" />
         <meta property="og:description" content="Expertise in research and development for algorithmic trading with artificial intelligence and deep learning." />
 
-        <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+        <link rel="icon" type="image/png" href="/logo.png" />
 
       </Helmet>
 
@@ -523,10 +523,10 @@ function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
+            <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] mb-4">
               Contact
             </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+            <p className="text-xl text-white/80 max-w-3xl mx-auto mb-6">
               Get in touch with us for collaborations or inquiries
             </p>
           </motion.div>
