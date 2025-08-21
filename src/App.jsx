@@ -417,26 +417,27 @@ function App() {
 
 
         {/* Knowledge Hub */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
-            Knowledge Hub
-          </h2>
-          <p className="italic text-white/70 mb-6">
-            Make finance tech accessible to everyone
-          </p>
-          <p className="text-xl text-white/80 max-w-3xl mx-auto">
-            To contribute to this goal in my own way, I decided to publish all my videos on YouTube 
-            in both French and English.  <br /><br />
-            Each channel has the same content and is structured into 3 dedicated playlists: Python for Finance Basics, 
-            Algorithmic Trading, and Deep Learning applied to Finance.
-          </p>
-        </motion.div>
+        <section id="knowledge hub" className="py-20 bg-black/20">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+              Knowledge Hub
+            </h2>
+            <p className="italic text-white/70 mb-6">
+              Make finance tech accessible to everyone
+            </p>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              To contribute to this goal in my own way, I decided to publish all my videos on YouTube 
+              in both French and English.  <br /><br />
+              Each channel has the same content and is structured into 3 dedicated playlists: Python for Finance Basics, 
+              Algorithmic Trading, and Deep Learning applied to Finance.
+            </p>
+          </motion.div>
 
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
