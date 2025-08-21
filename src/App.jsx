@@ -429,7 +429,9 @@ function App() {
               Knowledge Hub
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Latest videos on Algorithmic Trading, Python, and Deep Learning.
+              Learn faster, build smarter: I share the same videos in French 🇫🇷 and English 🇬🇧  
+              across 3 playlists — Python for Finance, Algorithmic Trading, and Deep Learning in Finance.  
+              My goal: make finance tech accessible and give you the tools to create your own projects.
             </p>
           </motion.div>
 
@@ -443,7 +445,7 @@ function App() {
               className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white text-lg font-semibold">English Channel</h3>
+                <h3 className="text-white text-lg font-semibold">English Channel <span>🇬🇧</span> </h3>
                 <a
                   href="https://www.youtube.com/@ag_algolab"
                   target="_blank"
@@ -475,7 +477,7 @@ function App() {
               className="p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-white/20 transition"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white text-lg font-semibold">French Channel</h3>
+                <h3 className="text-white text-lg font-semibold">French Channel  <span>🇫🇷</span> </h3>
                 <a
                   href="https://www.youtube.com/@ag_algolab_fr"
                   target="_blank"
