@@ -68,7 +68,9 @@ function App() {
         </motion.nav>
 
         {/* Hero Section */}
-        <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+      
+        <section className="min-h-screen flex items-start justify-center pt-40 relative overflow-hidden">
+
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-black/20"></div>
 
             {/* Animated Background Elements */}
@@ -135,7 +137,7 @@ function App() {
              leading-[1.15] md:leading-[1.1] pb-2 inline-block">
                 AG Algo Lab
               </h1>
-              <h2 className="text-3xl md:text-5xl font-semibold mb-6 text-white/90">
+              <h2 className="text-3xl md:text-5xl font-semibold italic mb-6 text-white/90">
                 Predict the Unpredictable
               </h2>
               <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto">
@@ -432,7 +434,7 @@ function App() {
             <h2 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
               Knowledge Hub
             </h2>
-            <p className="italic text-white/70 mb-6">
+            <p className="italic text-white/80 mb-6">
               Make finance tech accessible to everyone
             </p>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
