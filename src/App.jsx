@@ -32,7 +32,7 @@ function App() {
         <meta property="og:title" content="AG Algo Lab - Predict the Unpredictable" />
         <meta property="og:description" content="Expertise in research and development for algorithmic trading with artificial intelligence and deep learning." />
 
-        <link rel="icon" type="image/png" href="/logo.png" />
+        <link rel="icon" type="image/jpg" href="/logo.jpg" />
 
       </Helmet>
 
@@ -133,13 +133,13 @@ function App() {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <h1 
-                  className="text-5xl md:text-7xl gradient-title bg-gradient-to-r from-[#60A5FA] to-[#C084FC] mb 4">
+                  className="text-5xl md:text-7xl gradient-title bg-gradient-to-r from-[#60A5FA] to-[#C084FC] mb 6">
                 AG Algo Lab
               </h1>
               <h2 className="text-3xl md:text-5xl font-semibold italic mb-6 text-white/90">
                 Predict the Unpredictable
               </h2>
-              <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto mb 8">
+              <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto mb 4">
                 Specializing in advanced predictions and the execution of high-performance Python pipelines
               </p>
 
@@ -264,7 +264,7 @@ function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8"
           >
             <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Founder
@@ -348,7 +348,7 @@ function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8"
           >
             <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Main Project
@@ -521,12 +521,12 @@ function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8"
           >
             <h2 className="text-4xl md:text-5xl gradient-title bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] mb-4">
               Contact
             </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto mb-6">
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
               Get in touch with us for collaborations or inquiries
             </p>
           </motion.div>
