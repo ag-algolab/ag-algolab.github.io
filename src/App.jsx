@@ -31,6 +31,9 @@ function App() {
         />
         <meta property="og:title" content="AG Algo Lab - Predict the Unpredictable" />
         <meta property="og:description" content="Expertise in research and development for algorithmic trading with artificial intelligence and deep learning." />
+
+        <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-[#3C0D66] via-[#6E2FCF] to-[#0D47A1] text-white overflow-x-hidden">
@@ -68,8 +71,7 @@ function App() {
         </motion.nav>
 
         {/* Hero Section */}
-      
-        <section className="min-h-screen flex items-start justify-center pt-40 relative overflow-hidden">
+        <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
 
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-black/20"></div>
 
@@ -124,7 +126,7 @@ function App() {
             </div>
 
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 mt-20">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
