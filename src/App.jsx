@@ -448,7 +448,7 @@ function App() {
                   href="https://www.youtube.com/@ag_algolab"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[#6E2FCF] hover:text-[#9D7AF5] hover:underline"
+                  className="text-[#BAE6FD] hover:text-[#E9D5FF] hover:underline"
                 >
                   Visit channel →
                 </a>
@@ -480,7 +480,7 @@ function App() {
                   href="https://www.youtube.com/@ag_algolab_fr"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[#6E2FCF] hover:text-[#9D7AF5] hover:underline"
+                  className="text-[#BBF7D0] hover:text-[#F3E8FF] hover:underline"
                 >
                   Visit channel →
                 </a>
