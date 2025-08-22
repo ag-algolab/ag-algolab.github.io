@@ -1,5 +1,5 @@
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import Details from '@/pages/Details';
+import Details from './pages/Details.jsx';
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
