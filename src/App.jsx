@@ -462,11 +462,14 @@ function Home() {
               Make finance tech accessible to everyone
             </p>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              To contribute to this vision, I share weekly videos on YouTube in both French and English. <br /><br />
-              Each channel features the same content, organized into 3 dedicated playlists: 
-              <span className="font-semibold"> Python for Finance Basics</span>, 
-              <span className="font-semibold"> Algorithmic Trading</span>, 
-              and <span className="font-semibold"> Deep Learning applied to Finance</span>.
+              To contribute to this vision, I share weekly videos on YouTube in both French and English.
+            </p>
+            <p
+              className="text-xl text-white/80 max-w-3xl mx-auto mt-2">
+              Each channel features the same content, organized into 3 dedicated playlists: <br />
+              <span className="font-semibold">- Python for Finance Basics</span> <br />
+              <span className="font-semibold">- Algorithmic Trading</span> <br />
+              <span className="font-semibold">- Deep Learning applied to Finance</span> 
             </p>
           </motion.div>
 
