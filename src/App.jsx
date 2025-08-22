@@ -461,11 +461,11 @@ function Home() {
             <p className="italic font-serif text-2xl md:text-3xl text-white/90 mb-4">
               Make finance tech accessible to everyone
             </p>
-            <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto">
               To contribute to this vision, I share weekly videos on YouTube in both French and English.
             </p>
             <p
-              className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto mt-2">
+              className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mt-2">
               Each channel features the same content, organized into 3 dedicated playlists: <br />
               <span className="font-semibold">- Python for Finance Basics</span> <br />
               <span className="font-semibold">- Algorithmic Trading</span> <br />
