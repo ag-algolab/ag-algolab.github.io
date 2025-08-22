@@ -527,7 +527,7 @@ function App() {
               Contact
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Get in touch with us for collaborations or inquiries
+              Get in touch for collaborations or inquiries
             </p>
           </motion.div>
 
