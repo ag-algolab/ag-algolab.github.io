@@ -30,7 +30,7 @@ function Home() {
     { label: 'Founder', type: 'section', to: 'founder' },
     { label: 'Main Project', type: 'section', to: 'main-project' },
     { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
-    { label: 'Details', type: 'route', to: '/details' },
+    // { label: 'Details', type: 'route', to: '/details' },
     { label: 'Contact', type: 'section', to: 'contact' },
   ];
 
