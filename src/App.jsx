@@ -585,9 +585,9 @@ function App() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
               viewport={{ once: true }}
-              className="mt-10"
+              className="mt-5"
             >
-              <h4 className="text-lg font-semibold mb-4 text-white text-center">Follow us</h4>
+              <h4 className="text-lg font-semibold mb-4 text-white text-center">Follow & Connect</h4>
               <div className="flex items-center justify-center space-x-5">
                 {[
                   { icon: <Github className="w-5 h-5" />, url: 'https://github.com/ag-algolab' },
@@ -616,7 +616,7 @@ function App() {
               <div className="flex items-center space-x-3 mb-4 md:mb-0">
                 <img src="/logo.jpg" alt="Logo" className="w-8 h-8 object-contain rounded-lg" />
 
-                <span className="text-lg font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+                <span className="text-lg font-bold bg-gradient-to-r from-[#60A5FA] to-[#C084FC] bg-clip-text text-transparent">
                   Algo Lab
                 </span>
               </div>
