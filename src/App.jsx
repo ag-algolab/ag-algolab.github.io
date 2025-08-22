@@ -454,18 +454,18 @@ function Home() {
             viewport={{ once: true }}
             className="text-center mb-8"
           >
-            <h2 className="text-4xl md:text-5xl gradient-title mb-6 
+            <h2 className="text-4xl md:text-5xl gradient-title mb-4 
                bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Knowledge Hub
             </h2>
-            <p className="italic font-serif text-2xl md:text-3xl text-white/90 mb-6">
+            <p className="italic font-serif text-2xl md:text-3xl text-white/90 mb-4">
               Make finance tech accessible to everyone
             </p>
-            <p className="text-base text-white/80 max-w-3xl mx-auto">
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
               To contribute to this vision, I share weekly videos on YouTube in both French and English.
             </p>
             <p
-              className="text-base text-white/80 max-w-3xl mx-auto mt-2">
+              className="text-xl text-white/80 max-w-3xl mx-auto mt-2">
               Each channel features the same content, organized into 3 dedicated playlists: <br />
               <span className="font-semibold">- Python for Finance Basics</span> <br />
               <span className="font-semibold">- Algorithmic Trading</span> <br />
