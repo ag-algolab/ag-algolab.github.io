@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
 
-function App() {
+function Home() {
   const handleContactClick = () => {
     toast({
       title: "We're building something here...",
@@ -23,6 +23,16 @@ function App() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const navItems = [
+    { label: 'Home', type: 'route', to: '/' },
+    { label: 'Services', type: 'section', to: 'services' },
+    { label: 'Founder', type: 'section', to: 'founder' },
+    { label: 'Main Project', type: 'section', to: 'main-project' },
+    { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
+    { label: 'Details', type: 'route', to: '/details' },
+    { label: 'Contact', type: 'route', to: 'contact' },
+  ];
 
   return (
     <>
@@ -58,16 +68,27 @@ function App() {
               </motion.div>
 
               <div className="hidden md:flex space-x-8">
-                {['Home', 'Services', 'Founder', 'Main Project', 'Knowledge Hub', 'Contact'].map((item) => (
-                  <motion.button
-                    key={item}
-                    whileHover={{ scale: 1.1, color: '#10b981' }}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium"
-                  >
-                    {item}
-                  </motion.button>
-                ))}
+                {navItems.map((item) =>
+                  item.type === 'section' ? (
+                    <motion.button
+                      key={item.label}
+                      whileHover={{ scale: 1.1, color: '#10b981' }}
+                      onClick={() => scrollToSection(item.to)}
+                      className="text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium"
+                    >
+                      {item.label}
+                    </motion.button>
+                  ) : (
+                    <Link
+                      key={item.label}
+                      to={item.to}
+                      className="text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium"
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                )}
+
               </div>
             </div>
           </div>
@@ -345,7 +366,7 @@ function App() {
 
 
         {/* Projects Section */}
-        <section id="main project" className="py-20 bg-black/20">
+        <section id="main-project" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -425,7 +446,7 @@ function App() {
 
 
         {/* Knowledge Hub */}
-        <section id="knowledge hub" className="py-20 bg-black/20">
+        <section id="knowledge-hub" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -637,4 +658,13 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/details" element={<Details />} />
+      <Route path="*" element={<Home />} />
+    </Routes>
+  );
+}
+
