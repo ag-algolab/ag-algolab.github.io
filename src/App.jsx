@@ -192,7 +192,7 @@ function Home() {
               className="mt-16"
             >
               <button
-                onClick={() => scrollToSection('services')}
+                onClick={() => scrollToSection('founder')}
                 className="w-8 h-8 text-white/60 hover:text-emerald-400 transition-colors"
               >
                 <ChevronDown className="w-8 h-8" />
