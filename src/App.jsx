@@ -25,13 +25,13 @@ function Home() {
   };
 
   const navItems = [
-    { label: 'Home', type: 'route', to: '/' },
+    { label: 'Home', type: 'section', to: 'home' },
     { label: 'Services', type: 'section', to: 'services' },
     { label: 'Founder', type: 'section', to: 'founder' },
     { label: 'Main Project', type: 'section', to: 'main-project' },
     { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
     { label: 'Details', type: 'route', to: '/details' },
-    { label: 'Contact', type: 'route', to: 'contact' },
+    { label: 'Contact', type: 'section', to: 'contact' },
   ];
 
   return (
@@ -95,7 +95,7 @@ function Home() {
         </motion.nav>
 
         {/* Hero Section */}
-        <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <section id='home' className="min-h-screen flex items-center justify-center relative overflow-hidden">
 
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-black/20"></div>
 
