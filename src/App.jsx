@@ -26,7 +26,7 @@ function Home() {
 
   const navItems = [
     { label: 'Home', type: 'section', to: 'home' },
-    { label: 'Services', type: 'section', to: 'services' },
+    // { label: 'Services', type: 'section', to: 'services' },
     { label: 'Founder', type: 'section', to: 'founder' },
     { label: 'Main Project', type: 'section', to: 'main-project' },
     { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
@@ -202,7 +202,7 @@ function Home() {
         </section>
 
         {/* Services Section */}
-        <section id="services" className="py-20 bg-black/20">
+        {/*<section id="services" className="py-20 bg-black/20">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -278,7 +278,7 @@ function Home() {
               </motion.div>
             ))}
           </div>
-        </section>
+        </section>*/}
 
         {/* Founder Section */}
         <section id="founder" className="py-20 bg-black/20">
