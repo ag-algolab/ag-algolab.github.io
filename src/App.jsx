@@ -458,14 +458,15 @@ function Home() {
                bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6]">
               Knowledge Hub
             </h2>
-            <p className="italic text-white/80 mb-6">
+            <p className="italic font-serif text-2xl md:text-3xl text-white/90 mb-6">
               Make finance tech accessible to everyone
             </p>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              To contribute to this goal in my own way, I decided to publish all my videos on YouTube 
-              in both French and English.  <br /><br />
-              Each channel has the same content and is structured into 3 dedicated playlists: Python for Finance Basics, 
-              Algorithmic Trading, and Deep Learning applied to Finance.
+              To contribute to this vision, I share weekly videos on YouTube in both French and English. <br /><br />
+              Each channel features the same content, organized into 3 dedicated playlists: 
+              <span className="font-semibold"> Python for Finance Basics</span>, 
+              <span className="font-semibold"> Algorithmic Trading</span>, 
+              and <span className="font-semibold"> Deep Learning applied to Finance</span>.
             </p>
           </motion.div>
 
