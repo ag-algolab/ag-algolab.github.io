@@ -163,11 +163,6 @@ export default function ShahMat() {
                   <p className="card-text">
                     Analyze <strong>Bullet</strong>, <strong>Blitz</strong>, <strong>Rapid</strong> or <strong>All</strong> from the interactive menu.
                   </p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Bullet</span>
-                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Blitz</span>
-                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Rapid</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -228,11 +223,6 @@ export default function ShahMat() {
                   <p className="card-text">
                     Score vs Elo gap with separate <strong>White</strong>/<strong>Black</strong> curves and volume bars.
                   </p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">White curve</span>
-                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Black curve</span>
-                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Volume</span>
-                  </div>
                 </div>
               </div>
             </div>
