@@ -8,12 +8,11 @@ const PIECES = [
   "knightb2.png","queenb2.png","rookb2.png","bishopb2.png","pawnb2.png","kingb2.png"
 ];
 
-// util: generate smooth random keyframes
-function randomKeyframes(rangeX = 800, rangeY = 600) {
-  const steps = 4 + Math.floor(Math.random() * 3); // 4..6
-  const xs = Array.from({ length: steps }, () => Math.random() * rangeX);
-  const ys = Array.from({ length: steps }, () => Math.random() * rangeY);
-  return { x: xs, y: ys };
+// gentle drift (slow, subtle) with ±15° rotation
+function gentleKeyframes() {
+  const dx = (40 + Math.random() * 80) * (Math.random() < 0.5 ? -1 : 1); // ~40..120px
+  const dy = (30 + Math.random() * 70) * (Math.random() < 0.5 ? -1 : 1); // ~30..100px
+  return { x: [0, dx], y: [0, dy], rotate: [0, 15, -15, 0] };
 }
 
 export default function ShahMat() {
@@ -24,9 +23,9 @@ export default function ShahMat() {
     return Array.from({ length: 6 }, (_, i) => PIECES[(start + i) % PIECES.length]);
   }, [batchIdx]);
 
-  // switch batch every 8s
+  // switch batch slowly (16s)
   useEffect(() => {
-    const id = setInterval(() => setBatchIdx((i) => i + 1), 8000);
+    const id = setInterval(() => setBatchIdx((i) => i + 1), 16000);
     return () => clearInterval(id);
   }, []);
 
@@ -35,10 +34,9 @@ export default function ShahMat() {
       batch.map((name) => {
         const left = Math.random() * 100;
         const top = Math.random() * 100;
-        const kf = randomKeyframes(800, 600);
-        const dur = 6 + Math.random() * 6; // 6..12s
-        const rot = [0, 10, -8, 0];
-        return { name, left, top, kf, dur, rot };
+        const kf = gentleKeyframes();
+        const dur = 20 + Math.random() * 8; // 20..28s
+        return { name, left, top, kf, dur };
       }),
     [batch]
   );
@@ -73,24 +71,29 @@ export default function ShahMat() {
         </div>
       </nav>
 
-      {/* BACKGROUND: animated PNG pieces */}
+      {/* BACKGROUND: animated PNG chess pieces (slow & subtle, 6 at a time) */}
       <div className="absolute inset-0 -z-10 pointer-events-none select-none">
-        {sprites.map(({ name, left, top, kf, dur, rot }, i) => (
+        {sprites.map(({ name, left, top, kf, dur }, i) => (
           <motion.img
             key={`${name}-${i}`}
             src={`/logos/${name}`}
             alt=""
-            className="absolute opacity-40 md:opacity-30 lg:opacity-25"
+            className="absolute opacity-30 md:opacity-20 lg:opacity-10"
             style={{ width: "64px", height: "64px", left: `${left}%`, top: `${top}%` }}
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{
-              opacity: [0, 0.6, 0.3, 0.6],
-              scale: [0.9, 1, 0.98, 1],
-              rotate: rot,
+              opacity: [0, 0.35, 0.28, 0.35],
+              scale: [0.98, 1, 0.995, 1],
               x: kf.x,
               y: kf.y,
+              rotate: kf.rotate,
             }}
-            transition={{ duration: dur, repeat: Infinity, ease: "easeInOut" }}
+            transition={{
+              duration: dur,
+              repeat: Infinity,
+              repeatType: "mirror",
+              ease: "easeInOut",
+            }}
           />
         ))}
       </div>
@@ -99,14 +102,14 @@ export default function ShahMat() {
       <section className="px-6 md:px-10 lg:px-16 pt-28 pb-16">
         <header className="max-w-5xl mx-auto mb-10">
           <span className="inline-block text-sm font-medium bg-[var(--accent)] text-[var(--ink-strong)] px-3 py-1 rounded-full">
-            Free & Open-Source
+            Free Python package
           </span>
           <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight">
             ShahMat · Chess.com Analytics Package
           </h1>
           <p className="mt-4 text-[var(--paper-soft)] max-w-3xl">
-            Fetch, analyze and visualize your Chess.com games: score rate by hour, Elo difference,
-            White/Black breakdown, and clean visualizations — all in one call.
+            Fetch, analyze and visualize your Chess.com games: hourly performance, Elo-gap impact,
+            result-type breakdowns, and more — all from one function.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -118,14 +121,6 @@ export default function ShahMat() {
             >
               PyPI · Install
             </a>
-            <a
-              href="https://github.com/ag-algolab/ShahMat"
-              className="btn-ghost"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
             <button
               className="btn-ghost"
               onClick={() => navigator.clipboard?.writeText("pip install shahmat")}
@@ -135,33 +130,28 @@ export default function ShahMat() {
           </div>
         </header>
 
-        {/* Quick Start (left) + Feature cards (right) */}
+        {/* Split: LEFT (QuickStart + params) | RIGHT (feature charts) */}
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
-          {/* LEFT: Quick start */}
-          <div className="card">
-            <h2 className="card-title">Quick start</h2>
-            <pre className="codeblock" aria-label="Install & import">{`pip install shahmat
-        
-        from shahmat import chesscom
-        df = chesscom(username="your_name", start_year=2023)
-        df.head()`}</pre>
-            <ul className="mt-4 list-disc pl-5 text-sm text-[var(--paper-soft)] space-y-1">
-              <li>Fetch & normalize monthly games with a single function</li>
-              <li>Clean DataFrame with key fields ready for plotting</li>
-              <li>Matplotlib visuals included out of the box</li>
-            </ul>
-        
-            <div className="mt-5 flex flex-wrap gap-2">
-              <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Python</span>
-              <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Chess.com API</span>
-              <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Matplotlib</span>
-              <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">TQDM</span>
-            </div>
-          </div>
-        
-          {/* RIGHT: one small card per feature */}
+          {/* LEFT COLUMN */}
           <div className="grid gap-6">
-            {/* Feature 1 */}
+            {/* Quick start (no 3-bullet list; keep badges) */}
+            <div className="card">
+              <h2 className="card-title">Quick start</h2>
+              <pre className="codeblock" aria-label="Install & import">{`pip install shahmat
+
+from shahmat import chesscom
+df = chesscom(username="your_name", start_year=2023)
+df.head()`}</pre>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Python</span>
+                <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Chess.com API</span>
+                <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Matplotlib</span>
+                <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">TQDM</span>
+              </div>
+            </div>
+
+            {/* Time control filter (param card) */}
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
@@ -170,7 +160,7 @@ export default function ShahMat() {
                 <div className="flex-1">
                   <h3 className="card-subtitle">Time control filter</h3>
                   <p className="card-text">
-                    Analyze <strong>Bullet</strong>, <strong>Blitz</strong>, <strong>Rapid</strong> or <strong>All</strong> with a simple menu switch.
+                    Analyze <strong>Bullet</strong>, <strong>Blitz</strong>, <strong>Rapid</strong> or <strong>All</strong> from the interactive menu.
                   </p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Bullet</span>
@@ -180,8 +170,25 @@ export default function ShahMat() {
                 </div>
               </div>
             </div>
-        
-            {/* Feature 2 */}
+
+            {/* CSV download (param card) */}
+            <div className="card">
+              <div className="flex items-start gap-3">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                  <span className="text-sm font-bold">CSV</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="card-subtitle">CSV download</h3>
+                  <p className="card-text">
+                    Export the <strong>currently filtered</strong> dataset to CSV for deeper analysis.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN (hard features = charts) */}
+          <div className="grid gap-6">
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
@@ -195,8 +202,7 @@ export default function ShahMat() {
                 </div>
               </div>
             </div>
-        
-            {/* Feature 3 */}
+
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
@@ -205,13 +211,12 @@ export default function ShahMat() {
                 <div className="flex-1">
                   <h3 className="card-subtitle">Games per day (3h→3h UTC)</h3>
                   <p className="card-text">
-                    Relationship between daily game count and score rate, with a normalized “day” window.
+                    Relationship between daily game count and score rate, using a normalized day window.
                   </p>
                 </div>
               </div>
             </div>
-        
-            {/* Feature 4 */}
+
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
@@ -230,8 +235,7 @@ export default function ShahMat() {
                 </div>
               </div>
             </div>
-        
-            {/* Feature 5 */}
+
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
@@ -245,40 +249,24 @@ export default function ShahMat() {
                 </div>
               </div>
             </div>
-        
-            {/* Feature 6 */}
-            <div className="card">
-              <div className="flex items-start gap-3">
-                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-                  <span className="text-sm font-bold">CSV</span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="card-subtitle">Download</h3>
-                  <p className="card-text">
-                    Export the <strong>currently filtered</strong> dataset to CSV for deeper analysis.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-
 
         {/* CTA bottom */}
         <div className="max-w-5xl mx-auto mt-12 p-5 rounded-2xl bg-[var(--bg-soft)] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-4">
           <div className="flex-1">
             <h3 className="font-semibold text-lg">Want to contribute?</h3>
             <p className="text-sm text-[var(--paper-soft)]">
-              Light roadmap, issues welcome. Add a plot, a stat, or a UI idea.
+              When the source is public with a proper license, issues & PRs will be welcome.
             </p>
           </div>
           <a
-            href="https://github.com/ag-algolab/ShahMat/issues"
+            href="https://pypi.org/project/shahmat/"
             className="btn-accent"
             target="_blank"
             rel="noreferrer"
           >
-            Open an issue
+            PyPI page
           </a>
         </div>
       </section>
