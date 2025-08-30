@@ -15,21 +15,19 @@ function homeLikeTarget() {
   return { x, y };
 }
 
-const sprites = useMemo(() => {
-  return PIECES.map((name, i) => {
-    // random starting anchor (% of viewport)
-    const left = Math.random() * 100;
-    const top = Math.random() * 100;
+export default function ShahMat() {
 
-    // target + slow cycle
-    const target = homeLikeTarget();
-    const duration = 20 + Math.random() * 10; // 20..30s
-    const phase = Math.random() * 6 + i * 0.8; // staggered start
-
-    return { name, left, top, target, duration, phase };
-  });
-}, []);
-
+  const sprites = useMemo(() => {
+    return PIECES.map((name, i) => {
+      const left = Math.random() * 100;
+      const top = Math.random() * 100;
+      const x = (Math.random() * 800) * (Math.random() < 0.5 ? 1 : -1);
+      const y = (Math.random() * 600) * (Math.random() < 0.5 ? 1 : -1);
+      const duration = 20 + Math.random() * 10; // 20..30s
+      const phase = Math.random() * 6 + i * 0.8;
+      return { name, left, top, target: { x, y }, duration, phase };
+    });
+  }, []);
 
   return (
     <main className="theme-shahmat min-h-screen text-[var(--paper)] relative overflow-hidden">
@@ -71,19 +69,20 @@ const sprites = useMemo(() => {
             className="absolute opacity-30 md:opacity-20 lg:opacity-10 will-change-transform"
             style={{ width: "64px", height: "64px", left: `${left}%`, top: `${top}%` }}
             animate={{
-              x: [0, target.x],
-              y: [0, target.y],
-              rotate: [0, 15, -15, 0], // smooth ±15°
-              opacity: [0, 0.6, 0],    // true fade in/out
+              x: [0, target.x, 0],
+              y: [0, target.y, 0],
+              rotate: [0, 15, 0],      // 3 keyframes pour matcher `times`
+              opacity: [0, 0.6, 0],
             }}
             transition={{
-              delay: phase,            // desynchronised phases
-              duration,                // slow cycle
+              delay: phase,
+              duration,
               ease: "easeInOut",
               repeat: Infinity,
-              repeatType: "mirror",    // no snap on loop
-              times: [0, 0.5, 1],      // smooth opacity curve
+              repeatType: "mirror",
+              times: [0, 0.5, 1],
             }}
+
           />
         ))}
       </div>
