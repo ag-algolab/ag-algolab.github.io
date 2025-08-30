@@ -139,9 +139,8 @@ export default function ShahMat() {
               <h2 className="card-title">Quick start</h2>
               <pre className="codeblock" aria-label="Install & import">{`pip install shahmat
 
-from shahmat import chesscom
-df = chesscom(username="your_name", start_year=2023)
-df.head()`}</pre>
+from ShahMat import chesscom
+chesscom(username="your_name", start_year=20XX)`}</pre>
 
               <div className="mt-5 flex flex-wrap gap-2">
                 <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Python</span>
