@@ -1,5 +1,5 @@
 // src/pages/ShahMat.jsx
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -8,38 +8,28 @@ const PIECES = [
   "knightb2.png","queenb2.png","rookb2.png","bishopb2.png","pawnb2.png","kingb2.png"
 ];
 
-// gentle drift (slow, subtle) with ±15° rotation
-function gentleKeyframes() {
-  const dx = (40 + Math.random() * 80) * (Math.random() < 0.5 ? -1 : 1); // ~40..120px
-  const dy = (30 + Math.random() * 70) * (Math.random() < 0.5 ? -1 : 1); // ~30..100px
-  return { x: [0, dx], y: [0, dy], rotate: [0, 15, -15, 0] };
+// smooth home-like target per sprite (no unmount, no pop)
+function homeLikeTarget() {
+  const x = (Math.random() * 800) * (Math.random() < 0.5 ? 1 : -1);
+  const y = (Math.random() * 600) * (Math.random() < 0.5 ? 1 : -1);
+  return { x, y };
 }
 
-export default function ShahMat() {
-  // rotate pieces in batches of 6
-  const [batchIdx, setBatchIdx] = useState(0);
-  const batch = useMemo(() => {
-    const start = (batchIdx * 6) % PIECES.length;
-    return Array.from({ length: 6 }, (_, i) => PIECES[(start + i) % PIECES.length]);
-  }, [batchIdx]);
+const sprites = useMemo(() => {
+  return PIECES.map((name, i) => {
+    // random starting anchor (% of viewport)
+    const left = Math.random() * 100;
+    const top = Math.random() * 100;
 
-  // switch batch slowly (16s)
-  useEffect(() => {
-    const id = setInterval(() => setBatchIdx((i) => i + 1), 16000);
-    return () => clearInterval(id);
-  }, []);
+    // target + slow cycle
+    const target = homeLikeTarget();
+    const duration = 20 + Math.random() * 10; // 20..30s
+    const phase = Math.random() * 6 + i * 0.8; // staggered start
 
-  const sprites = useMemo(
-    () =>
-      batch.map((name) => {
-        const left = Math.random() * 100;
-        const top = Math.random() * 100;
-        const kf = gentleKeyframes();
-        const dur = 20 + Math.random() * 8; // 20..28s
-        return { name, left, top, kf, dur };
-      }),
-    [batch]
-  );
+    return { name, left, top, target, duration, phase };
+  });
+}, []);
+
 
   return (
     <main className="theme-shahmat min-h-screen text-[var(--paper)] relative overflow-hidden">
@@ -71,44 +61,31 @@ export default function ShahMat() {
         </div>
       </nav>
 
-      {/* BACKGROUND: animated PNG chess pieces (home-like movement) */}
+      {/* BACKGROUND: smooth, continuous, no unmount */}
       <div className="absolute inset-0 -z-10 pointer-events-none select-none">
-        {sprites.map(({ name }, i) => {
-          // position de départ aléatoire (en % de la viewport)
-          const left = Math.random() * 100;
-          const top = Math.random() * 100;
-      
-          // cible aléatoire (px) comme sur ton home
-          const xTarget = (Math.random() * 800) * (Math.random() < 0.5 ? 1 : -1);
-          const yTarget = (Math.random() * 600) * (Math.random() < 0.5 ? 1 : -1);
-      
-          // timing “sobre” mais façon home: durées & délais random
-          const duration = 12 + Math.random() * 10; // 12..22s
-          const delay = Math.random() * 5;
-      
-          return (
-            <motion.img
-              key={`${name}-${i}-${batchIdx}`} // varie avec le batch de 6
-              src={`/logos/${name}`}
-              alt=""
-              className="absolute opacity-30 md:opacity-20 lg:opacity-15"
-              style={{ width: "64px", height: "64px", left: `${left}%`, top: `${top}%` }}
-              animate={{
-                x: [0, xTarget],
-                y: [0, yTarget],
-                rotate: [0, 15, -15, 0],     // oscillation ±15°
-                opacity: [0, 0.7, 0],        // fade in/out comme l’extrait
-              }}
-              transition={{
-                duration,
-                delay,
-                repeat: Infinity,
-                repeatType: "mirror",        // va-retour fluide
-                ease: "easeInOut",
-              }}
-            />
-          );
-        })}
+        {sprites.map(({ name, left, top, target, duration, phase }, i) => (
+          <motion.img
+            key={`${name}-${i}`}
+            src={`/logos/${name}`}
+            alt=""
+            className="absolute opacity-30 md:opacity-20 lg:opacity-10 will-change-transform"
+            style={{ width: "64px", height: "64px", left: `${left}%`, top: `${top}%` }}
+            animate={{
+              x: [0, target.x],
+              y: [0, target.y],
+              rotate: [0, 15, -15, 0], // smooth ±15°
+              opacity: [0, 0.6, 0],    // true fade in/out
+            }}
+            transition={{
+              delay: phase,            // desynchronised phases
+              duration,                // slow cycle
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatType: "mirror",    // no snap on loop
+              times: [0, 0.5, 1],      // smooth opacity curve
+            }}
+          />
+        ))}
       </div>
 
       {/* CONTENT */}
