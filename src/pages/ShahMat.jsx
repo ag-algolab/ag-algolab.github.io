@@ -102,7 +102,7 @@ export default function ShahMat() {
       <section className="px-6 md:px-10 lg:px-16 pt-28 pb-16">
         <header className="max-w-5xl mx-auto mb-10">
           <span className="inline-block text-sm font-medium bg-[var(--accent)] text-[var(--ink-strong)] px-3 py-1 rounded-full">
-            Free Python package
+            Free & Open-Source
           </span>
           <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight">
             ShahMat · Chess.com Analytics Package
@@ -120,6 +120,13 @@ export default function ShahMat() {
               rel="noreferrer"
             >
               PyPI · Install
+            </a>
+            <a 
+              href="https://github.com/ag-algolab/ShahMat" 
+              className="btn-ghost" 
+              target="_blank" 
+              rel="noreferrer" >
+              GitHub
             </a>
             <button
               className="btn-ghost"
