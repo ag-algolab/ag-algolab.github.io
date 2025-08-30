@@ -71,31 +71,44 @@ export default function ShahMat() {
         </div>
       </nav>
 
-      {/* BACKGROUND: animated PNG chess pieces (slow & subtle, 6 at a time) */}
+      {/* BACKGROUND: animated PNG chess pieces (home-like movement) */}
       <div className="absolute inset-0 -z-10 pointer-events-none select-none">
-        {sprites.map(({ name, left, top, kf, dur }, i) => (
-          <motion.img
-            key={`${name}-${i}`}
-            src={`/logos/${name}`}
-            alt=""
-            className="absolute opacity-30 md:opacity-20 lg:opacity-10"
-            style={{ width: "64px", height: "64px", left: `${left}%`, top: `${top}%` }}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{
-              opacity: [0, 0.35, 0.28, 0.35],
-              scale: [0.98, 1, 0.995, 1],
-              x: kf.x,
-              y: kf.y,
-              rotate: kf.rotate,
-            }}
-            transition={{
-              duration: dur,
-              repeat: Infinity,
-              repeatType: "mirror",
-              ease: "easeInOut",
-            }}
-          />
-        ))}
+        {sprites.map(({ name }, i) => {
+          // position de départ aléatoire (en % de la viewport)
+          const left = Math.random() * 100;
+          const top = Math.random() * 100;
+      
+          // cible aléatoire (px) comme sur ton home
+          const xTarget = (Math.random() * 800) * (Math.random() < 0.5 ? 1 : -1);
+          const yTarget = (Math.random() * 600) * (Math.random() < 0.5 ? 1 : -1);
+      
+          // timing “sobre” mais façon home: durées & délais random
+          const duration = 12 + Math.random() * 10; // 12..22s
+          const delay = Math.random() * 5;
+      
+          return (
+            <motion.img
+              key={`${name}-${i}-${batchIdx}`} // varie avec le batch de 6
+              src={`/logos/${name}`}
+              alt=""
+              className="absolute opacity-30 md:opacity-20 lg:opacity-15"
+              style={{ width: "64px", height: "64px", left: `${left}%`, top: `${top}%` }}
+              animate={{
+                x: [0, xTarget],
+                y: [0, yTarget],
+                rotate: [0, 15, -15, 0],     // oscillation ±15°
+                opacity: [0, 0.7, 0],        // fade in/out comme l’extrait
+              }}
+              transition={{
+                duration,
+                delay,
+                repeat: Infinity,
+                repeatType: "mirror",        // va-retour fluide
+                ease: "easeInOut",
+              }}
+            />
+          );
+        })}
       </div>
 
       {/* CONTENT */}
