@@ -135,38 +135,134 @@ export default function ShahMat() {
           </div>
         </header>
 
-        {/* Quick Start + Features */}
+        {/* Quick Start (left) + Feature cards (right) */}
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+          {/* LEFT: Quick start */}
           <div className="card">
             <h2 className="card-title">Quick start</h2>
             <pre className="codeblock" aria-label="Install & import">{`pip install shahmat
-
-from shahmat import chesscom
-df = chesscom(username="your_name", start_year=2023)
-df.head()`}</pre>
+        
+        from shahmat import chesscom
+        df = chesscom(username="your_name", start_year=2023)
+        df.head()`}</pre>
             <ul className="mt-4 list-disc pl-5 text-sm text-[var(--paper-soft)] space-y-1">
-              <li>Score rate by hour of play</li>
-              <li>Impact of Elo difference</li>
-              <li>White vs Black stats</li>
-              <li>Clean and quick visualizations</li>
+              <li>Fetch & normalize monthly games with a single function</li>
+              <li>Clean DataFrame with key fields ready for plotting</li>
+              <li>Matplotlib visuals included out of the box</li>
             </ul>
+        
+            <div className="mt-5 flex flex-wrap gap-2">
+              <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Python</span>
+              <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Chess.com API</span>
+              <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Matplotlib</span>
+              <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">TQDM</span>
+            </div>
           </div>
-
+        
+          {/* RIGHT: one small card per feature */}
           <div className="grid gap-6">
+            {/* Feature 1 */}
             <div className="card">
-              <h3 className="card-subtitle">Performance by hour</h3>
-              <p className="card-text">See when you perform best (or worst) and adjust your routine.</p>
+              <div className="flex items-start gap-3">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                  <span className="text-sm font-bold">TC</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="card-subtitle">Time control filter</h3>
+                  <p className="card-text">
+                    Analyze <strong>Bullet</strong>, <strong>Blitz</strong>, <strong>Rapid</strong> or <strong>All</strong> with a simple menu switch.
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Bullet</span>
+                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Blitz</span>
+                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Rapid</span>
+                  </div>
+                </div>
+              </div>
             </div>
+        
+            {/* Feature 2 */}
             <div className="card">
-              <h3 className="card-subtitle">Elo difference</h3>
-              <p className="card-text">Understand how rating gaps affect your score rate.</p>
+              <div className="flex items-start gap-3">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                  <span className="text-sm font-bold">H</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="card-subtitle">Hours of play</h3>
+                  <p className="card-text">
+                    Score rate &amp; game volume by hour (UTC). Quickly spot your best time windows.
+                  </p>
+                </div>
+              </div>
             </div>
+        
+            {/* Feature 3 */}
             <div className="card">
-              <h3 className="card-subtitle">White vs Black</h3>
-              <p className="card-text">Quickly compare results by color played.</p>
+              <div className="flex items-start gap-3">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                  <span className="text-sm font-bold">D</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="card-subtitle">Games per day (3h→3h UTC)</h3>
+                  <p className="card-text">
+                    Relationship between daily game count and score rate, with a normalized “day” window.
+                  </p>
+                </div>
+              </div>
+            </div>
+        
+            {/* Feature 4 */}
+            <div className="card">
+              <div className="flex items-start gap-3">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                  <span className="text-sm font-bold">ΔE</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="card-subtitle">Elo difference</h3>
+                  <p className="card-text">
+                    Score vs Elo gap with separate <strong>White</strong>/<strong>Black</strong> curves and volume bars.
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">White curve</span>
+                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Black curve</span>
+                    <span className="px-2 py-1 rounded-full text-xs bg-white/10 border border-white/15">Volume</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+            {/* Feature 5 */}
+            <div className="card">
+              <div className="flex items-start gap-3">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                  <span className="text-sm font-bold">RT</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="card-subtitle">Result types</h3>
+                  <p className="card-text">
+                    Wins vs losses breakdown: checkmate, resign, timeout, stalemate, agreed draw, etc.
+                  </p>
+                </div>
+              </div>
+            </div>
+        
+            {/* Feature 6 */}
+            <div className="card">
+              <div className="flex items-start gap-3">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                  <span className="text-sm font-bold">CSV</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="card-subtitle">Download</h3>
+                  <p className="card-text">
+                    Export the <strong>currently filtered</strong> dataset to CSV for deeper analysis.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
 
         {/* CTA bottom */}
         <div className="max-w-5xl mx-auto mt-12 p-5 rounded-2xl bg-[var(--bg-soft)] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-4">
