@@ -1,5 +1,5 @@
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import Details from './pages/Details.jsx';
+import ShahMat from "./pages/ShahMat"; 
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -30,7 +30,7 @@ function Home() {
     { label: 'Founder', type: 'section', to: 'founder' },
     { label: 'Main Project', type: 'section', to: 'main-project' },
     { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
-    // { label: 'Details', type: 'route', to: '/details' },
+    { label: 'ShahMat', type: 'route', to: '/shahmat' },
     { label: 'Contact', type: 'section', to: 'contact' },
   ];
 
@@ -666,7 +666,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/details" element={<Details />} />
+      <Route path="/shahmat" element={<ShahMat />} />
       <Route path="*" element={<Home />} />
     </Routes>
   );
