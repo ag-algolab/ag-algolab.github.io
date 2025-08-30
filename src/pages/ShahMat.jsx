@@ -155,7 +155,7 @@ export default function ShahMat() {
             {/* Time control filter (param card) */}
             <div className="card">
               <div className="flex items-start gap-3">
-                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/30 border border-white/15 flex items-center justify-center">
                   <span className="text-sm font-bold">⏱️</span>
                 </div>
                 <div className="flex-1">
@@ -170,7 +170,7 @@ export default function ShahMat() {
             {/* CSV download (param card) */}
             <div className="card">
               <div className="flex items-start gap-3">
-                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-black/30 border border-white/15 flex items-center justify-center">
                   <span className="text-sm font-bold">💾</span>
                 </div>
                 <div className="flex-1">
@@ -187,7 +187,7 @@ export default function ShahMat() {
           <div className="grid gap-6">
             <div className="card">
               <div className="flex items-start gap-3">
-                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/50 border border-white/15 flex items-center justify-center">
                   <span className="text-sm font-bold">🕐</span>
                 </div>
                 <div className="flex-1">
@@ -201,7 +201,7 @@ export default function ShahMat() {
 
             <div className="card">
               <div className="flex items-start gap-3">
-                <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                <div className="shrink-0 w-9 h-9 rounded-lg bg-black/50 border border-white/15 flex items-center justify-center">
                   <span className="text-sm font-bold">📆</span>
                 </div>
                 <div className="flex-1">
