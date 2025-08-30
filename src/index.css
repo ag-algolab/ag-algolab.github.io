@@ -216,3 +216,106 @@ textarea:focus {
 .animate-text-reveal {
   animation: text-reveal 0.8s ease-out forwards;
 }
+
+
+
+/* === Thème ShahMat (couleurs via CSS vars) === */
+.theme-shahmat {
+  --bg: #0F3D2E;        /* vert foncé */
+  --bg-soft: #1F6F51;   /* vert moyen pour cartes */
+  --accent: #7BD389;    /* vert clair pour CTA */
+  --paper: #F5F3E7;     /* ivoire (texte/fond contrasté) */
+  --paper-soft: rgba(245,243,231,0.8);
+  --ink-soft: #DDE7DE;
+  --ink-strong: #0B2A20;
+}
+
+/* === Motif “chessboard + petits points” (subtil) === */
+.shahmat-pattern {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(45deg, rgba(0, 0, 0, 0.06) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.06) 75%),
+    linear-gradient(45deg, rgba(0, 0, 0, 0.06) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.06) 75%);
+  background-size: 6px 6px, 28px 28px, 28px 28px;
+  background-position: 0 0, 0 0, 14px 14px;
+}
+
+/* === Cartes / boutons réutilisables === */
+.card {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+
+.card-title {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 700;
+  margin-bottom: .75rem;
+}
+
+.card-subtitle {
+  font-weight: 600;
+  margin-bottom: .25rem;
+}
+
+.card-text {
+  color: var(--paper-soft);
+  font-size: .95rem;
+}
+
+/* Boutons */
+.btn-accent {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: .5rem; padding: .625rem 1rem;
+  background: var(--accent);
+  color: var(--ink-strong);
+  border-radius: .75rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  font-weight: 700;
+}
+.btn-accent:hover { filter: brightness(0.95); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: .5rem; padding: .6rem 1rem;
+  background: transparent; color: var(--paper);
+  border-radius: .75rem; border: 1px solid rgba(255,255,255,0.16);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.06); }
+
+/* Codeblock simple */
+.codeblock {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 14px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.92rem;
+}
+
+/* === Scrollbar custom (scopée à la page ShahMat) === */
+.theme-shahmat ::-webkit-scrollbar { width: 10px; height: 10px; }
+.theme-shahmat ::-webkit-scrollbar-track { background: var(--bg); }
+.theme-shahmat ::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 8px; border: 2px solid var(--bg);
+}
+.theme-shahmat { scrollbar-color: var(--accent) var(--bg); scrollbar-width: thin; }
+
+/* === PNG des pièces en filigrane (positions fluides) === */
+.piece-bg {
+  position: absolute; z-index: -1; opacity: 0.07; filter: saturate(0.8);
+  width: clamp(120px, 18vw, 240px); pointer-events: none; user-select: none;
+}
+.piece-1 { top: 6%;  left: 4%;  transform: rotate(-8deg); }
+.piece-2 { top: 18%; right: 8%; transform: rotate(7deg);  }
+.piece-3 { bottom: 12%; left: 6%; transform: rotate(3deg); }
+.piece-4 { bottom: 8%; right: 10%; transform: rotate(-6deg); }
+
+/* Optionnel : flouter très légèrement si tes PNG sont trop “nets” */
+.piece-bg { filter: saturate(0.8) blur(0.2px); }
