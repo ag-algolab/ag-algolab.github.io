@@ -8,38 +8,37 @@ const PIECES = [
   "knightb2.png","queenb2.png","rookb2.png","bishopb2.png","pawnb2.png","kingb2.png"
 ];
 
-// Generate gentle keyframes (small drift, slow)
-function gentleKeyframes() {
-  // small drift amplitudes in viewport units
-  const dx = (4 + Math.random() * 6) * (Math.random() < 0.5 ? -1 : 1); // ~4..10vw
-  const dy = (3 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1); // ~3..8vh
-  return { x: [0, dx], y: [0, dy], rotate: [0, 15, -15, 0] };
+// util: generate smooth random keyframes
+function randomKeyframes(rangeX = 800, rangeY = 600) {
+  const steps = 4 + Math.floor(Math.random() * 3); // 4..6
+  const xs = Array.from({ length: steps }, () => Math.random() * rangeX);
+  const ys = Array.from({ length: steps }, () => Math.random() * rangeY);
+  return { x: xs, y: ys };
 }
 
 export default function ShahMat() {
-  // Rotate pieces in batches of 6
+  // rotate pieces in batches of 6
   const [batchIdx, setBatchIdx] = useState(0);
   const batch = useMemo(() => {
     const start = (batchIdx * 6) % PIECES.length;
     return Array.from({ length: 6 }, (_, i) => PIECES[(start + i) % PIECES.length]);
   }, [batchIdx]);
 
-  // Switch batch every 14s (slow, discreet)
+  // switch batch every 8s
   useEffect(() => {
-    const id = setInterval(() => setBatchIdx((i) => i + 1), 14000);
+    const id = setInterval(() => setBatchIdx((i) => i + 1), 8000);
     return () => clearInterval(id);
   }, []);
 
   const sprites = useMemo(
     () =>
       batch.map((name) => {
-        // random starting anchor (percentage of viewport)
         const left = Math.random() * 100;
         const top = Math.random() * 100;
-        const kf = gentleKeyframes();
-        // slow animations for sobriety
-        const dur = 18 + Math.random() * 8; // 18..26s
-        return { name, left, top, kf, dur };
+        const kf = randomKeyframes(800, 600);
+        const dur = 6 + Math.random() * 6; // 6..12s
+        const rot = [0, 10, -8, 0];
+        return { name, left, top, kf, dur, rot };
       }),
     [batch]
   );
@@ -50,7 +49,7 @@ export default function ShahMat() {
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#0F3D2E] via-[#155E49] to-[#1F6F51]" />
       <div className="absolute inset-0 -z-10 bg-black/10" />
 
-      {/* NAVBAR (logo + gradient green brand + Home) */}
+      {/* NAVBAR */}
       <nav className="fixed top-0 w-full z-50 bg-black/30 backdrop-blur-lg border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-3">
@@ -74,34 +73,24 @@ export default function ShahMat() {
         </div>
       </nav>
 
-      {/* BACKGROUND: animated PNG chess pieces (6 at a time, slow & subtle) */}
+      {/* BACKGROUND: animated PNG pieces */}
       <div className="absolute inset-0 -z-10 pointer-events-none select-none">
-        {sprites.map(({ name, left, top, kf, dur }, i) => (
+        {sprites.map(({ name, left, top, kf, dur, rot }, i) => (
           <motion.img
             key={`${name}-${i}`}
             src={`/logos/${name}`}
             alt=""
-            className="absolute opacity-25 md:opacity-20 lg:opacity-15"
-            style={{
-              width: "64px",
-              height: "64px",
-              left: `${left}%`,
-              top: `${top}%`,
-            }}
-            initial={{ opacity: 0, scale: 0.96 }}
+            className="absolute opacity-40 md:opacity-30 lg:opacity-25"
+            style={{ width: "64px", height: "64px", left: `${left}%`, top: `${top}%` }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{
-              opacity: [0, 0.4, 0.3, 0.4],
-              scale: [0.96, 1, 0.99, 1],
+              opacity: [0, 0.6, 0.3, 0.6],
+              scale: [0.9, 1, 0.98, 1],
+              rotate: rot,
               x: kf.x,
               y: kf.y,
-              rotate: kf.rotate,
             }}
-            transition={{
-              duration: dur,
-              repeat: Infinity,
-              repeatType: "mirror",
-              ease: "easeInOut",
-            }}
+            transition={{ duration: dur, repeat: Infinity, ease: "easeInOut" }}
           />
         ))}
       </div>
@@ -113,11 +102,11 @@ export default function ShahMat() {
             Free & Open-Source
           </span>
           <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight">
-            ShahMat · Chess.com Analytics
+            ShahMat · Chess.com Analytics Package
           </h1>
           <p className="mt-4 text-[var(--paper-soft)] max-w-3xl">
-            Fetch, analyze, and visualize your Chess.com games with one function call — simple
-            install, clear visuals, and practical insights.
+            Fetch, analyze and visualize your Chess.com games: score rate by hour, Elo difference,
+            White/Black breakdown, and clean visualizations — all in one call.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -129,7 +118,14 @@ export default function ShahMat() {
             >
               PyPI · Install
             </a>
-            {/* Show GitHub link later when the code is public + licensed */}
+            <a
+              href="https://github.com/ag-algolab/ShahMat"
+              className="btn-ghost"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub
+            </a>
             <button
               className="btn-ghost"
               onClick={() => navigator.clipboard?.writeText("pip install shahmat")}
@@ -139,7 +135,7 @@ export default function ShahMat() {
           </div>
         </header>
 
-        {/* Quick Start */}
+        {/* Quick Start + Features */}
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
           <div className="card">
             <h2 className="card-title">Quick start</h2>
@@ -149,53 +145,44 @@ from shahmat import chesscom
 df = chesscom(username="your_name", start_year=2023)
 df.head()`}</pre>
             <ul className="mt-4 list-disc pl-5 text-sm text-[var(--paper-soft)] space-y-1">
-              <li>One function to fetch & normalize monthly games</li>
-              <li>Clean DataFrame with key fields ready for plotting</li>
-              <li>Matplotlib visuals included out of the box</li>
+              <li>Score rate by hour of play</li>
+              <li>Impact of Elo difference</li>
+              <li>White vs Black stats</li>
+              <li>Clean and quick visualizations</li>
             </ul>
           </div>
 
-          {/* Features */}
-          <div className="card">
-            <h3 className="card-subtitle">Key features</h3>
-            <ul className="list-disc pl-5 text-sm text-[var(--paper-soft)] space-y-2">
-              <li>
-                <strong>Time control filter</strong>: Bullet / Blitz / Rapid / All
-              </li>
-              <li>
-                <strong>Hours of play</strong>: score rate &amp; volume by hour (UTC)
-              </li>
-              <li>
-                <strong>Games per day</strong>: score vs number of games (day = 3h→3h UTC)
-              </li>
-              <li>
-                <strong>Elo difference</strong>: score vs Elo gap (White/Black curves) + volume
-              </li>
-              <li>
-                <strong>Result types</strong>: wins vs losses (checkmate, resign, timeout, …)
-              </li>
-              <li>
-                <strong>Download</strong>: export the filtered dataset to CSV
-              </li>
-            </ul>
+          <div className="grid gap-6">
+            <div className="card">
+              <h3 className="card-subtitle">Performance by hour</h3>
+              <p className="card-text">See when you perform best (or worst) and adjust your routine.</p>
+            </div>
+            <div className="card">
+              <h3 className="card-subtitle">Elo difference</h3>
+              <p className="card-text">Understand how rating gaps affect your score rate.</p>
+            </div>
+            <div className="card">
+              <h3 className="card-subtitle">White vs Black</h3>
+              <p className="card-text">Quickly compare results by color played.</p>
+            </div>
           </div>
         </div>
 
         {/* CTA bottom */}
         <div className="max-w-5xl mx-auto mt-12 p-5 rounded-2xl bg-[var(--bg-soft)] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-4">
           <div className="flex-1">
-            <h3 className="font-semibold text-lg">Want to contribute later?</h3>
+            <h3 className="font-semibold text-lg">Want to contribute?</h3>
             <p className="text-sm text-[var(--paper-soft)]">
-              When the source is public with a proper license, issues & PRs will be welcome.
+              Light roadmap, issues welcome. Add a plot, a stat, or a UI idea.
             </p>
           </div>
           <a
-            href="https://pypi.org/project/shahmat/"
+            href="https://github.com/ag-algolab/ShahMat/issues"
             className="btn-accent"
             target="_blank"
             rel="noreferrer"
           >
-            PyPI page
+            Open an issue
           </a>
         </div>
       </section>
