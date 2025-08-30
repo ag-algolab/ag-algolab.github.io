@@ -94,7 +94,7 @@ export default function ShahMat() {
             Free & Open-Source
           </span>
           <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight">
-            ShahMat · Chess.com Analytics Package ♟️
+            ShahMat · Chess.com Analytics Package
           </h1>
           <p className="mt-4 text-[var(--paper-soft)] max-w-3xl">
             Fetch, analyze and visualize your Chess.com games: hourly performance, Elo-gap impact,
@@ -132,7 +132,7 @@ export default function ShahMat() {
           <div className="grid gap-6">
             {/* Quick start (no 3-bullet list; keep badges) */}
             <div className="card">
-              <h2 className="card-title">Quick start 🚀</h2>
+              <h2 className="card-title">Quick start </h2>
               <pre className="codeblock text-sm leading-relaxed font-mono" aria-label="Install & import">
                 <code>
                   <span className="text-yellow-400">pip</span> install shahmat
@@ -156,10 +156,10 @@ export default function ShahMat() {
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-                  <span className="text-sm font-bold">TC</span>
+                  <span className="text-sm font-bold">⏱️</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="card-subtitle">Time control filter ⏱️</h3>
+                  <h3 className="card-subtitle">Time control filter</h3>
                   <p className="card-text">
                     Analyze <strong>Bullet</strong>, <strong>Blitz</strong>, <strong>Rapid</strong> or <strong>All</strong> from the interactive menu.
                   </p>
@@ -171,10 +171,10 @@ export default function ShahMat() {
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-                  <span className="text-sm font-bold">CSV</span>
+                  <span className="text-sm font-bold">💾</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="card-subtitle">CSV download 💾</h3>
+                  <h3 className="card-subtitle">CSV download</h3>
                   <p className="card-text">
                     Export the <strong>currently filtered</strong> dataset to CSV for deeper analysis.
                   </p>
@@ -188,10 +188,10 @@ export default function ShahMat() {
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-                  <span className="text-sm font-bold">H</span>
+                  <span className="text-sm font-bold">🕐</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="card-subtitle">Hours of play 🕐</h3>
+                  <h3 className="card-subtitle">Hours of play</h3>
                   <p className="card-text">
                     Score rate &amp; game volume by hour (UTC). Quickly spot your best time windows.
                   </p>
@@ -202,10 +202,10 @@ export default function ShahMat() {
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-                  <span className="text-sm font-bold">D</span>
+                  <span className="text-sm font-bold">📆</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="card-subtitle">Games per day (3h→3h UTC) 📆</h3>
+                  <h3 className="card-subtitle">Games per day (3h→3h UTC)</h3>
                   <p className="card-text">
                     Relationship between daily game count and score rate, using a normalized day window.
                   </p>
@@ -216,10 +216,10 @@ export default function ShahMat() {
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-                  <span className="text-sm font-bold">ΔE</span>
+                  <span className="text-sm font-bold">⚖️</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="card-subtitle">Elo difference ⚖️</h3>
+                  <h3 className="card-subtitle">Elo difference</h3>
                   <p className="card-text">
                     Score vs Elo gap with separate <strong>White</strong>/<strong>Black</strong> curves and volume bars.
                   </p>
@@ -230,10 +230,10 @@ export default function ShahMat() {
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-                  <span className="text-sm font-bold">RT</span>
+                  <span className="text-sm font-bold">🏆</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="card-subtitle">Result types 🏆</h3>
+                  <h3 className="card-subtitle">Result types</h3>
                   <p className="card-text">
                     Wins vs losses breakdown: checkmate, resign, timeout, stalemate, agreed draw, etc.
                   </p>
