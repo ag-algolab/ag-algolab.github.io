@@ -137,7 +137,7 @@ export default function ShahMat() {
             {/* Quick start (no 3-bullet list; keep badges) */}
             <div className="card">
               <h2 className="card-title">Quick start</h2>
-              <pre className="codeblock" aria-label="Install & import">{`pip install shahmat
+              <pre className="codeblock" aria-label="Install & import">{`pip install ShahMat
 
 from ShahMat import chesscom
 chesscom(username="your_name", start_year=20XX)`}</pre>
