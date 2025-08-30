@@ -71,7 +71,7 @@ export default function ShahMat() {
             animate={{
               x: [0, target.x, 0],
               y: [0, target.y, 0],
-              rotate: [0, 15, 0],      // 3 keyframes pour matcher `times`
+              rotate: [0, 15, 0],      
               opacity: [0, 0.6, 0],
             }}
             transition={{
@@ -246,18 +246,18 @@ export default function ShahMat() {
         {/* CTA bottom */}
         <div className="max-w-5xl mx-auto mt-12 p-5 rounded-2xl bg-[var(--bg-soft)] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-4">
           <div className="flex-1">
-            <h3 className="font-semibold text-lg">Want to contribute?</h3>
+            <h3 className="font-semibold text-lg">Join the journey 🤝</h3>
             <p className="text-sm text-[var(--paper-soft)]">
-              When the source is public with a proper license, issues & PRs will be welcome.
+              Built for players, shaped by ideas. Let’s connect & turn yours into the next update.
             </p>
           </div>
           <a
-            href="https://pypi.org/project/shahmat/"
+            href="https://www.linkedin.com/in/anthony-gocmen/"
             className="btn-accent"
             target="_blank"
             rel="noreferrer"
           >
-            PyPI page
+            LinkedIn
           </a>
         </div>
       </section>
