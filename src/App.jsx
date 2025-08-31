@@ -17,6 +17,27 @@ function Home() {
     });
   };
 
+function Home() {
+  const navigate = useNavigate();
+
+  const handleNav = ({ type, to }) => {
+    if (type === 'section') {
+      const el = document.getElementById(to);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        // Cas où tu appelles une section depuis une autre route
+        navigate('/');
+        setTimeout(() => {
+          const el2 = document.getElementById(to);
+          if (el2) el2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 0);
+      }
+    } else if (type === 'route') {
+      navigate(to);
+    }
+  };
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
