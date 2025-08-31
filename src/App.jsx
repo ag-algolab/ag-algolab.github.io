@@ -169,20 +169,22 @@ function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
-                  onClick={handleContactClick}
+                  onClick={() => handleNav({ type: "route", to: "/shahmat" })}
                   className="border-2 border-white/30 text-white hover:bg-white/10 hover:text-[#9D7AF5] px-8 py-3 text-lg font-semibold rounded-full"
                 >
-                  Discover our services
+                  ShahMat (Chess)
                 </Button>
+              
                 <Button
                   variant="outline"
-                  onClick={handleContactClick}
+                  onClick={() => handleNav({ type: "section", to: "knowledge-hub" })}
                   className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-3 text-lg font-semibold rounded-full"
                 >
                   <Play className="w-5 h-5 mr-2" />
-                  See our projects
+                  Knowledge Hub
                 </Button>
               </div>
+
             </motion.div>
 
             <motion.div
