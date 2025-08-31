@@ -193,7 +193,7 @@ function Home() {
                   onClick={() => handleNav({ type: "route", to: "/shahmat" })}
                   className="border-2 border-white/30 text-white hover:bg-white/10 hover:text-[#9D7AF5] px-8 py-3 text-lg font-semibold rounded-full"
                 >
-                  ShahMat (Chess)
+                  ShahMat - Chess
                 </Button>
               
                 <Button
