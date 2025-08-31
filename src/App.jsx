@@ -10,6 +10,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
 
 function Home() {
+  const navigate = useNavigate();
+
   const handleContactClick = () => {
     toast({
       title: "We're building something here...",
@@ -17,16 +19,12 @@ function Home() {
     });
   };
 
-function Home() {
-  const navigate = useNavigate();
-
   const handleNav = ({ type, to }) => {
     if (type === 'section') {
       const el = document.getElementById(to);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
-        // Cas où tu appelles une section depuis une autre route
         navigate('/');
         setTimeout(() => {
           const el2 = document.getElementById(to);
@@ -40,20 +38,17 @@ function Home() {
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
   const navItems = [
     { label: 'Home', type: 'section', to: 'home' },
-    // { label: 'Services', type: 'section', to: 'services' },
     { label: 'Founder', type: 'section', to: 'founder' },
     { label: 'Main Project', type: 'section', to: 'main-project' },
     { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
     { label: 'ShahMat', type: 'route', to: '/shahmat' },
-    { label: 'Contact', type: 'section', to: 'contact' },
-  ];
+    { label: 'Contact
+
 
   return (
     <>
@@ -403,8 +398,8 @@ function Home() {
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
               The main project is the development of a predictive AI model for financial markets. Although still in progress, it already delivers results that confirm its potential.
               For the moment, it remains confidential and not available for sale
-              < br/>
-              < br/>
+              <br />
+              <br />
               The project builds on a four-step cycle, structured as follows:
             </p>
           </motion.div>
