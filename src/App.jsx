@@ -47,7 +47,8 @@ function Home() {
     { label: 'Main Project', type: 'section', to: 'main-project' },
     { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
     { label: 'ShahMat', type: 'route', to: '/shahmat' },
-    { label: 'Contact
+    { label: 'Contact', type: 'section', to: 'contact' },
+  ];
 
 
   return (
