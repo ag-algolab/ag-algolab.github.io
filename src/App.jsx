@@ -481,7 +481,7 @@ function Home() {
               Make finance tech accessible to everyone
             </p>
             <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto">
-              To contribute to this vision, I share weekly videos on YouTube in both French and English.
+              To contribute to this vision, I share videos on YouTube in both French and English.
             </p>
             <p
               className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mt-2">
