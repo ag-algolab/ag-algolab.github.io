@@ -137,7 +137,7 @@ export default function ShahMat() {
                 <code>
                   <span className="text-yellow-400">pip</span> install shahmat
                   {"\n\n"}
-                  <span className="text-blue-400">from</span> shahmat <span className="text-blue-400">import</span> chesscom
+                  <span className="text-blue-400">from</span> ShahMat <span className="text-blue-400">import</span> chesscom
                   {"\n"}
                   <span className="text-purple-300">chesscom</span>(<span className="text-grey-300">username=</span>"your_name", <span className="text-grey-300">start_year=</span>2023)
                 </code>
