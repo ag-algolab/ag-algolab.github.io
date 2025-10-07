@@ -516,9 +516,9 @@ function Home() {
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-white/60 text-sm">Phone</p>
+                    <p className="text-white/60 text-sm">Phone (WhatsApp)</p>
                     <p className="text-white font-semibold group-hover:text-emerald-400 transition">
-                      +33 6 51 87 13 74
+                      +216 55 906 954
                     </p>
                   </div>
                 </div>
