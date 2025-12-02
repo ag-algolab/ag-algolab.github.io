@@ -156,12 +156,12 @@ export default function ShahMat() {
             <div className="card">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-black/50 border border-white/15 flex items-center justify-center">
-                  <span className="text-sm font-bold">⏱️</span>
+                  <span className="text-sm font-bold">♟️</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="card-subtitle">Time control filter</h3>
+                  <h3 className="card-subtitle">Opening Move</h3>
                   <p className="card-text">
-                    Analyze <strong>Bullet</strong>, <strong>Blitz</strong>, <strong>Rapid</strong> or <strong>All</strong> from the interactive menu.
+                    Score rate by first move played (White & Black), with sample size indicated.
                   </p>
                 </div>
               </div>
