@@ -193,7 +193,7 @@ export default function ShahMat() {
                 <div className="flex-1">
                   <h3 className="card-subtitle">Hours of play</h3>
                   <p className="card-text">
-                    Score rate &amp; game volume by hour (UTC). Quickly spot your best time windows.
+                    Score rate &amp; <strong>game volume by hour</strong> (UTC). Quickly spot your best time windows.
                   </p>
                 </div>
               </div>
@@ -207,7 +207,7 @@ export default function ShahMat() {
                 <div className="flex-1">
                   <h3 className="card-subtitle">Games per day (3h→3h UTC)</h3>
                   <p className="card-text">
-                    Relationship between daily game count and score rate, using a normalized day window.
+                    Relationship between <strong>daily game count</strong> and score rate, using a normalized day window.
                   </p>
                 </div>
               </div>
@@ -248,7 +248,7 @@ export default function ShahMat() {
           <div className="flex-1">
             <h3 className="font-semibold text-lg">Join the journey 🤝</h3>
             <p className="text-sm text-[var(--paper-soft)]">
-              No matter your Elo, your ideas matter. If you’ve got some, let’s connect — I’m always open for a good discussion.
+              No matter your Elo, your ideas matter. If you’ve got some, <strong>let’s connect</strong> — I’m always open for a good discussion.
             </p>
           </div>
           <a
