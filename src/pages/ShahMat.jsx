@@ -161,7 +161,7 @@ export default function ShahMat() {
                 <div className="flex-1">
                   <h3 className="card-subtitle">Opening Move</h3>
                   <p className="card-text">
-                    Score rate by first move played (White & Black), with sample size indicated.
+                    Score rate by <strong>first move played</strong> (White & Black), with sample size indicated.
                   </p>
                 </div>
               </div>
