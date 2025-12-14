@@ -16,7 +16,7 @@ export default function FraudRiskScoring() {
           {/* Left: AG Algo Lab */}
           <div className="flex items-center gap-3">
             <img
-              src="/ag.png"
+              src="/logo.jpg"
               alt="AG Algo Lab"
               className="h-9 w-9 object-contain"
             />
@@ -28,14 +28,14 @@ export default function FraudRiskScoring() {
           {/* Right: Dauphine + EY */}
           <div className="flex items-center gap-4">
             <img
-              src="/dauphine.png"
+              src="/dauphine.jpg"
               alt="Dauphine PSL"
               className="h-8 object-contain"
             />
             <img
-              src="/ey.png"
+              src="/ey.jpg"
               alt="EY"
-              className="h-7 object-contain"
+              className="h-8 object-contain"
             />
           </div>
         </div>
