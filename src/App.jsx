@@ -1,5 +1,6 @@
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import ShahMat from "./pages/ShahMat"; 
+import FraudRiskScoring from "./pages/FraudRiskScoring";
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -46,6 +47,7 @@ function Home() {
     { label: 'Founder', type: 'section', to: 'founder' },
     { label: 'Main Project', type: 'section', to: 'main-project' },
     { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
+    { label: 'Fraud Risk Scoring', type: 'route', to: '/fraud-risk-scoring' },
     { label: 'ShahMat', type: 'route', to: '/shahmat' },
     { label: 'Contact', type: 'section', to: 'contact' },
   ];
@@ -607,6 +609,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/shahmat" element={<ShahMat />} />
+      <Route path="/fraud-risk-scoring" element={<FraudRiskScoring />} />
       <Route path="*" element={<Home />} />
     </Routes>
   );
