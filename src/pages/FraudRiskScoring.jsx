@@ -28,12 +28,12 @@ export default function FraudRiskScoring() {
           {/* Right: Dauphine + EY */}
           <div className="flex items-center gap-4">
             <img
-              src="/dauphine.jpg"
+              src="/dauphine.png"
               alt="Dauphine PSL"
               className="h-8 object-contain"
             />
             <img
-              src="/ey.jpg"
+              src="/ey.png"
               alt="EY"
               className="h-8 object-contain"
             />
