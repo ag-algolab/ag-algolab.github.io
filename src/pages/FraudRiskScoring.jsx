@@ -95,15 +95,15 @@ export default function FraudRiskScoring() {
                 <div className="absolute inset-0">
                   {/* MIXED order (no color blocks) */}
                   <div className="orbit-tag tag-green"  style={{ "--phase": "-0s"   }}>Age of Policy Holder</div>
-                  <div className="orbit-tag tag-green"  style={{ "--phase": "-0.9s" }}>Past Number of Claims</div>
-                  <div className="orbit-tag tag-violet" style={{ "--phase": "-1.8s" }}>Vehicle Price</div>
-                  <div className="orbit-tag tag-green"  style={{ "--phase": "-2.7s" }}>Marital Status</div>
-                  <div className="orbit-tag tag-red"    style={{ "--phase": "-3.6s" }}>Accident Area</div>
-                  <div className="orbit-tag tag-violet" style={{ "--phase": "-4.5s" }}>Vehicle Category</div>
-                  <div className="orbit-tag tag-red"    style={{ "--phase": "-5.4s" }}>Witness Present</div>
-                  <div className="orbit-tag tag-violet" style={{ "--phase": "-6.3s" }}>Age of Vehicle</div>
-                  <div className="orbit-tag tag-red"    style={{ "--phase": "-7.2s" }}>Police Report Filed</div>
-                  <div className="orbit-tag tag-violet" style={{ "--phase": "-8.1s" }}>Number of Cars</div>    
+                  <div className="orbit-tag tag-green"  style={{ "--phase": "-1.2s" }}>Past Number of Claims</div>
+                  <div className="orbit-tag tag-violet" style={{ "--phase": "-2.4s" }}>Vehicle Price</div>
+                  <div className="orbit-tag tag-green"  style={{ "--phase": "-3.6s" }}>Marital Status</div>
+                  <div className="orbit-tag tag-red"    style={{ "--phase": "-4.8s" }}>Accident Area</div>
+                  <div className="orbit-tag tag-violet" style={{ "--phase": "-6.0s" }}>Vehicle Category</div>
+                  <div className="orbit-tag tag-red"    style={{ "--phase": "-7.2s" }}>Witness Present</div>
+                  <div className="orbit-tag tag-violet" style={{ "--phase": "-8.4s" }}>Age of Vehicle</div>
+                  <div className="orbit-tag tag-red"    style={{ "--phase": "-9.6s" }}>Police Report Filed</div>
+                  <div className="orbit-tag tag-violet" style={{ "--phase": "-10.8s" }}>Number of Cars</div>    
                 </div>
               </div>
             </div>
