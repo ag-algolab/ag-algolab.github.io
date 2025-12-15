@@ -82,13 +82,14 @@ export default function FraudRiskScoring() {
       
                 {/* Center: Data (fixed) */}
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="w-32 h-32 rounded-full border border-white/20 bg-white/5 backdrop-blur flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.06)]">
+                  <div className="input-orb w-32 h-32 rounded-full bg-white/5 backdrop-blur flex items-center justify-center">
                     <div className="text-center">
                       <div className="text-white/90 font-semibold">Inputs</div>
                       <div className="text-[11px] text-white/50 mt-1">Some of the Data Provided</div>
                     </div>
                   </div>
                 </div>
+
       
                 {/* Orbiting tags (each tag animates independently) */}
                 <div className="absolute inset-0">
