@@ -21,7 +21,7 @@ export default function FraudRiskScoring() {
               className="h-9 w-9 object-contain"
             />
             <span className="font-bold text-lg">
-              AG Algo Lab
+              Hackathon 2025
             </span>
           </div>
 
@@ -151,13 +151,8 @@ export default function FraudRiskScoring() {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 border-t border-white/10 pt-6">
       
           <div className="flex items-center gap-3">
-            <img
-              src="/ag.png"
-              alt="AG Algo Lab"
-              className="h-8 object-contain"
-            />
             <span className="text-sm text-[#b7c3e6]">
-              AG Algo Lab — Fraud Risk Scoring
+              By AG Algo Lab — Hack for Smart Insurance with AI
             </span>
           </div>
       
