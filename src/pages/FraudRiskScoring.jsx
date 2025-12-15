@@ -47,9 +47,8 @@ export default function FraudRiskScoring() {
           </h1>
 
           <p className="mt-6 max-w-3xl text-[#b7c3e6] text-lg">
-            An AI-based insurance fraud detection system combining machine-learning
-            classification and probabilistic calibration to deliver reliable,
-            business-ready fraud risk scores.
+            An AI-driven insurance fraud risk scoring system combining machine-learning models with probabilistic calibration to produce reliable, 
+            ranked fraud risk scores for operational prioritization.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -59,14 +58,16 @@ export default function FraudRiskScoring() {
               rel="noreferrer"
               className="px-6 py-3 rounded-xl bg-[#2f4486] hover:bg-[#3b5bb8] transition font-semibold"
             >
-              GitHub Repository
+              Kaggle Notebook
             </a>
 
             <a
-              href="#methodology"
+              href="https://github.com/ag-algolab"
+              target="_blank"
+              rel="noreferrer"
               className="px-6 py-3 rounded-xl border border-white/20 hover:bg-white/5 transition"
             >
-              Methodology
+              GitHub Repository
             </a>
           </div>
         </div>
