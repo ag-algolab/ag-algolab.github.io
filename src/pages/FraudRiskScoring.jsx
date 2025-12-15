@@ -144,73 +144,7 @@ export default function FraudRiskScoring() {
             </div>
       
           </div>
-      
-          {/* Local CSS: key part */}
-          <style jsx>{`
-            /* ====== TUNING ======
-               - speed: 14s (plus grand = plus premium)
-               - radius: 170px (plus petit = tags plus proches du centre)
-            */
-            .orbit-tag {
-              --speed: 14s;
-              --radius: 170px;
-      
-              position: absolute;
-              left: 50%;
-              top: 50%;
-      
-              width: 180px;
-              padding: 10px 12px;
-              border-radius: 14px;
-      
-              background: rgba(255, 255, 255, 0.07);   /* gris moyen opaque */
-              border: 1px solid rgba(255, 255, 255, 0.12);
-              backdrop-filter: blur(8px);
-      
-              color: rgba(255, 255, 255, 0.9);
-              font-size: 12px;
-              line-height: 1;
-              text-align: center;
-      
-              /* IMPORTANT:
-                 - each tag animates its own orbit
-                 - counter-rotate keeps it always horizontal
-              */
-              transform: translate(-50%, -50%);
-              animation: orbit var(--speed) linear infinite;
-              animation-delay: var(--phase);
-              will-change: transform;
-            }
-      
-            @keyframes orbit {
-              from {
-                transform: translate(-50%, -50%)
-                  rotate(0deg)
-                  translateX(var(--radius))
-                  rotate(0deg);
-              }
-              to {
-                transform: translate(-50%, -50%)
-                  rotate(360deg)
-                  translateX(var(--radius))
-                  rotate(-360deg);
-              }
-            }
-      
-            /* Color families (border + text) */
-            .tag-blue {
-              border-color: rgba(59, 130, 246, 0.65);
-              color: rgba(191, 219, 254, 0.95);
-            }
-            .tag-green {
-              border-color: rgba(34, 197, 94, 0.65);
-              color: rgba(187, 247, 208, 0.95);
-            }
-            .tag-red {
-              border-color: rgba(239, 68, 68, 0.65);
-              color: rgba(254, 202, 202, 0.95);
-            }
-          `}</style>
+  
         </div>
       </section>
 
