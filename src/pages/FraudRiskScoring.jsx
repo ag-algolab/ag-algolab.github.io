@@ -102,9 +102,7 @@ export default function FraudRiskScoring() {
                   <div className="orbit-tag tag-red"    style={{ "--phase": "-5.4s" }}>Witness Present</div>
                   <div className="orbit-tag tag-violet" style={{ "--phase": "-6.3s" }}>Age of Vehicle</div>
                   <div className="orbit-tag tag-red"    style={{ "--phase": "-7.2s" }}>Police Report Filed</div>
-                  <div className="orbit-tag tag-violet" style={{ "--phase": "-8.1s" }}>Number of Cars</div>
-                  <div className="orbit-tag tag-green"  style={{ "--phase": "-9.0s" }}>Base Policy</div>
-    
+                  <div className="orbit-tag tag-violet" style={{ "--phase": "-8.1s" }}>Number of Cars</div>    
                 </div>
               </div>
             </div>
