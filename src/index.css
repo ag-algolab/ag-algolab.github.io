@@ -366,7 +366,7 @@ textarea:focus {
 
 
 .orbit-tag {
-  --speed: 8.1s;
+  --speed: 11s;
   --radius: 170px;
 
   position: absolute;
