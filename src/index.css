@@ -390,3 +390,60 @@ textarea:focus {
   animation-delay: var(--phase);
 }
 
+.input-orb{
+  position: relative;
+  box-shadow: 0 0 30px rgba(255,255,255,0.06);
+}
+
+/* Bordure néon animée (vague) */
+.input-orb::before{
+  content:"";
+  position:absolute;
+  inset:-2px;                 /* épaisseur visuelle du ring */
+  border-radius:9999px;
+
+  background: conic-gradient(
+    from 0deg,
+    rgba(34,197,94,1),        /* green */
+    rgba(239,68,68,1),        /* red */
+    rgba(167,139,250,1),      /* violet */
+    rgba(34,197,94,1)         /* loop */
+  );
+
+  filter: blur(0.2px);
+  animation: ringSpin 2.8s linear infinite;
+  opacity: 0.95;
+  z-index: -1;
+
+  /* masque: on ne garde que la bordure */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  padding: 2px;               /* épaisseur réelle de la bordure */
+}
+
+/* Glow subtil (optionnel mais stylé) */
+.input-orb::after{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:9999px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(34,197,94,0.35),
+    rgba(239,68,68,0.35),
+    rgba(167,139,250,0.4),
+    rgba(34,197,94,0.35)
+  );
+  filter: blur(10px);
+  opacity: 0.6;
+  z-index: -2;
+  animation: ringSpin 2.8s linear infinite;
+}
+
+@keyframes ringSpin{
+  to { transform: rotate(360deg); }
+}
