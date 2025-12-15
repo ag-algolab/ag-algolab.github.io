@@ -182,10 +182,7 @@ function Home() {
               <h2 className="text-3xl md:text-5xl font-semibold italic mb-6 text-white/90">
                 Predict the Unpredictable
               </h2>
-              <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
-                Specializing in advanced predictions and the execution of high-performance Python pipelines
-              </p>
-
+              
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
                   variant="outline"
