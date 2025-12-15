@@ -72,38 +72,29 @@ export default function FraudRiskScoring() {
       {/* ================= FEATURES ================= */}
       <section className="px-6 pb-24">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
-            <div className="card">
-              <h2 className="card-title">Quick start </h2>
-              <pre className="codeblock text-sm leading-relaxed font-mono" aria-label="Install & import">
-                <code>
-                  <span className="text-yellow-400">pip</span> install shahmat
-                  {"\n\n"}
-                  <span className="text-blue-400">from</span> ShahMat <span className="text-blue-400">import</span> chesscom
-                  {"\n"}
-                  <span className="text-purple-300">chesscom</span>(<span className="text-grey-300">username=</span>"your_name", <span className="text-grey-300">start_year=</span>2023)
-                </code>
-              </pre>
-
-          {/* LEFT COLUMN */}
-          <div className="space-y-6">
-            <Card
-              title="Calibrated Fraud Probability"
-              text="Each claim is assigned a fraud probability calibrated using isotonic regression, ensuring that risk scores reflect real-world frequencies."
-              icon="📊"
-            />
-
-            <Card
-              title="Business-Oriented Thresholds"
-              text="Risk thresholds are designed for operational decision-making: automatic approval, human review, or high-risk flagging."
-              icon="⚖️"
-            />
-
-            <Card
-              title="Explainable Risk Scores"
-              text="The scoring system is built to remain interpretable, allowing insurers to understand and justify each decision."
-              icon="🔍"
-            />
+          <div className="card">
+            <h2 className="card-title">Quick start</h2>
+      
+            <pre
+              className="codeblock text-sm leading-relaxed font-mono"
+              aria-label="Install & import"
+            >
+              <code>
+                <span className="text-yellow-400">pip</span> install POF
+                {"\n\n"}
+                <span className="text-blue-400">from</span> POF{" "}
+                <span className="text-blue-400">import</span>{" "}
+                launch_fraud_scoring
+                {"\n"}
+                <span className="text-purple-300">
+                  launch_fraud_scoring()
+                </span>
+              </code>
+            </pre>
           </div>
+                
+
+
 
           {/* RIGHT COLUMN */}
           <div className="space-y-6">
