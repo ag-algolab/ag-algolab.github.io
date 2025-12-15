@@ -324,31 +324,6 @@ textarea:focus {
 
 /* ================= Orbit (Data features) ================= */
 
-.orbit-tag {
-  --speed: 10.8s;   /* 12 tags * 0.9s = cercle plein */
-  --radius: 190px;  /* + grand = moins de chevauchement */
-
-  position: absolute;
-  left: 50%;
-  top: 50%;
-
-  width: 165px;
-  padding: 9px 10px;
-  border-radius: 9999px;
-
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
-
-  font-size: 11px;
-  line-height: 1;
-  text-align: center;
-
-  transform: translate(-50%, -50%);
-  animation: orbit var(--speed) linear infinite;
-  animation-delay: var(--phase);
-  will-change: transform;
-}
 
 @keyframes orbit {
   from {
@@ -379,5 +354,30 @@ textarea:focus {
 .tag-violet {
   border-color: rgba(167, 139, 250, 0.65);
   color: rgba(233, 213, 255, 0.95);
+}
+
+.orbit-tag {
+  --speed: 9.9s;
+  --radius: 190px;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 165px;
+  padding: 9px 10px;
+  border-radius: 9999px;
+
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+
+  font-size: 11px;
+  line-height: 1;
+  text-align: center;
+
+  transform: translate(-50%, -50%);
+  animation: orbit var(--speed) linear infinite;
+  animation-delay: var(--phase);
 }
 
