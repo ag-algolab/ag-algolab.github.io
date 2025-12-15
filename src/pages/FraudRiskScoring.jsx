@@ -15,11 +15,7 @@ export default function FraudRiskScoring() {
 
           {/* Left: AG Algo Lab */}
           <div className="flex items-center gap-3">
-            <img
-              src="/logo.jpg"
-              alt="AG Algo Lab"
-              className="h-9 w-9 object-contain"
-            />
+            <img src="/logo.jpg" alt="Logo" className="w-9 h-9 object-contain rounded-lg" />
             <span className="font-bold text-lg">
               Hackathon 2025
             </span>
