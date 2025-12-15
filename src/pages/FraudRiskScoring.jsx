@@ -93,7 +93,7 @@ export default function FraudRiskScoring() {
                 {/* Orbiting tags (each tag animates independently) */}
                 <div className="absolute inset-0">
                   {/* MIXED order (no color blocks) */}
-                  <div className="orbit-tag tag-green"  style={{ "--phase": "-0s"   }}>Age</div>
+                  <div className="orbit-tag tag-green"  style={{ "--phase": "-0s"   }}>Age of Policy Holder</div>
                   <div className="orbit-tag tag-red"    style={{ "--phase": "-0.9s" }}>Past # Claims</div>
                   <div className="orbit-tag tag-violet" style={{ "--phase": "-1.8s" }}>Vehicle Price</div>
                   <div className="orbit-tag tag-green"  style={{ "--phase": "-2.7s" }}>Marital Status</div>
