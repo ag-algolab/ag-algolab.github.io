@@ -1,9 +1,6 @@
 import React from "react";
 
-/*
-  Fraud Risk Scoring
-  AG Algo Lab × Dauphine PSL × EY
-*/
+
 
 export default function FraudRiskScoring() {
   return (
@@ -74,6 +71,9 @@ export default function FraudRiskScoring() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
           <div className="card">
             <h2 className="card-title">Quick start</h2>
+            <p className="text-sm text-white/60 mt-1">
+              Designed for immediate use — no configuration, no friction.
+            </p>
       
             <pre
               className="codeblock text-sm leading-relaxed font-mono"
