@@ -21,7 +21,7 @@ export default function FraudRiskScoring() {
               className="h-9 w-9 object-contain"
             />
             <span className="font-bold text-lg">
-              Fraud Risk Scoring
+              AG Algo Lab
             </span>
           </div>
 
@@ -146,13 +146,13 @@ export default function FraudRiskScoring() {
         </div>
       </section>
 
-      {/* ================= FOOTER ================= */}
+      {/* ================= FOOTER ================= */}          
       <footer className="px-6 pb-10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 border-t border-white/10 pt-6">
-
+      
           <div className="flex items-center gap-3">
             <img
-              src="/logos/ag.png"
+              src="/ag.png"
               alt="AG Algo Lab"
               className="h-8 object-contain"
             />
@@ -160,11 +160,18 @@ export default function FraudRiskScoring() {
               AG Algo Lab — Fraud Risk Scoring
             </span>
           </div>
-
+      
+          <a
+            href="/"
+            className="text-sm px-4 py-2 rounded-lg border border-white/15 text-[#b7c3e6] hover:bg-white/5 hover:text-white transition"
+          >
+            ← Back home
+          </a>
+          
           <div className="text-sm text-[#b7c3e6]">
-            Dauphine PSL × EY · Academic & Industry Project
-          </div>
-
+            Dauphine PSL × EY · Hackathon 2025
+          </div
+      
         </div>
       </footer>
 
