@@ -188,6 +188,7 @@ function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
+                  variant="outline"
                   onClick={() => handleNav({ type: "route", to: "/shahmat" })}
                   className="border-2 border-[#22c55e]/60 text-[#22c55e] 
                   hover:bg-[#22c55e]/10 hover:border-[#22c55e] 
