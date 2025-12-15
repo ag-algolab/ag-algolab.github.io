@@ -202,9 +202,9 @@ function Home() {
                 <Button
                   variant="outline"
                   onClick={() => handleNav({ type: "route", to: "/fraud-risk-scoring" })}
-                  className="border-2 border-[#1E4ED8]/60 text-[#1E4ED8]
-                  hover:bg-[#1E4ED8]/10 hover:border-[#1E4ED8]
-                  hover:text-[#1E4ED8]
+                  className="border-2 border-[#3B82F6]/60 text-[#3B82F6]
+                  hover:bg-[#3B82F6]/10 hover:border-[#3B82F6]
+                  hover:text-[#3B82F6]
                   px-8 py-3 text-lg font-semibold rounded-full
                   transition-colors duration-200"
                 >
