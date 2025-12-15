@@ -76,6 +76,17 @@ export default function FraudRiskScoring() {
       {/* ================= FEATURES ================= */}
       <section className="px-6 pb-24">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+            <div className="card">
+              <h2 className="card-title">Quick start </h2>
+              <pre className="codeblock text-sm leading-relaxed font-mono" aria-label="Install & import">
+                <code>
+                  <span className="text-yellow-400">pip</span> install shahmat
+                  {"\n\n"}
+                  <span className="text-blue-400">from</span> ShahMat <span className="text-blue-400">import</span> chesscom
+                  {"\n"}
+                  <span className="text-purple-300">chesscom</span>(<span className="text-grey-300">username=</span>"your_name", <span className="text-grey-300">start_year=</span>2023)
+                </code>
+              </pre>
 
           {/* LEFT COLUMN */}
           <div className="space-y-6">
