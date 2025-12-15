@@ -166,12 +166,7 @@ export default function FraudRiskScoring() {
             className="text-sm px-4 py-2 rounded-lg border border-white/15 text-[#b7c3e6] hover:bg-white/5 hover:text-white transition"
           >
             ← Back home
-          </a>
-          
-          <div className="text-sm text-[#b7c3e6]">
-            Dauphine PSL × EY · Hackathon 2025
-          </div
-      
+          </a>     
         </div>
       </footer>
 
