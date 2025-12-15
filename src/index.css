@@ -319,3 +319,65 @@ textarea:focus {
 
 /* Optionnel : flouter très légèrement si tes PNG sont trop “nets” */
 .piece-bg { filter: saturate(0.8) blur(0.2px); }
+
+
+
+/* ================= Orbit (Data features) ================= */
+
+.orbit-tag {
+  --speed: 10.8s;   /* 12 tags * 0.9s = cercle plein */
+  --radius: 190px;  /* + grand = moins de chevauchement */
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 165px;
+  padding: 9px 10px;
+  border-radius: 9999px;
+
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+
+  font-size: 11px;
+  line-height: 1;
+  text-align: center;
+
+  transform: translate(-50%, -50%);
+  animation: orbit var(--speed) linear infinite;
+  animation-delay: var(--phase);
+  will-change: transform;
+}
+
+@keyframes orbit {
+  from {
+    transform: translate(-50%, -50%)
+      rotate(0deg)
+      translateX(var(--radius))
+      rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%)
+      rotate(360deg)
+      translateX(var(--radius))
+      rotate(-360deg);
+  }
+}
+
+.tag-green {
+  border-color: rgba(34, 197, 94, 0.65);
+  color: rgba(187, 247, 208, 0.95);
+}
+
+.tag-red {
+  border-color: rgba(239, 68, 68, 0.65);
+  color: rgba(254, 202, 202, 0.95);
+}
+
+/* Remplace le bleu par violet (meilleur sur ton thème bleu) */
+.tag-violet {
+  border-color: rgba(167, 139, 250, 0.65);
+  color: rgba(233, 213, 255, 0.95);
+}
+
