@@ -66,6 +66,280 @@ export default function FraudRiskScoring() {
         </div>
       </section>
 
+
+
+
+
+
+      {/* ================= HOW IT WORKS (Serpentine) ================= */}
+      <section className="px-6 pb-20">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-6">
+            <p className="text-xs uppercase tracking-wider text-white/50">How it works</p>
+            <h2 className="text-2xl md:text-3xl font-semibold text-white/90">
+              From claim data to a calibrated fraud risk score
+            </h2>
+            <p className="mt-2 text-sm text-white/60 max-w-3xl">
+              A user-friendly pipeline: data signals → CatBoost risk model → isotonic calibration → business-ready probability score.
+            </p>
+          </div>
+      
+          <div className="relative">
+            <div className="grid lg:grid-cols-[520px_1fr] gap-10 items-start">
+              {/* LEFT: Data orbit */}
+              <div className="relative">
+                <div className="card relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-40 pointer-events-none" />
+      
+                  <div className="relative h-[420px] sm:h-[460px]">
+                    {/* Center: Data */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                      <div className="w-32 h-32 rounded-full border border-white/20 bg-white/5 backdrop-blur flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.06)]">
+                        <div className="text-center">
+                          <div className="text-white/90 font-semibold">Data</div>
+                          <div className="text-[11px] text-white/50 mt-1">Claim signals</div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    {/* Orbit ring (rotates). Items counter-rotate to stay horizontal */}
+                    <div className="orbit absolute left-1/2 top-1/2">
+                      {/* VEHICLE group (blue) */}
+                      <div className="tag tag-blue" style={{ "--a": "0deg" }}>
+                        Vehicle Price
+                      </div>
+                      <div className="tag tag-blue" style={{ "--a": "45deg" }}>
+                        Vehicle Category
+                      </div>
+                      <div className="tag tag-blue" style={{ "--a": "90deg" }}>
+                        Age of Vehicle
+                      </div>
+      
+                      {/* DRIVER group (green) */}
+                      <div className="tag tag-green" style={{ "--a": "135deg" }}>
+                        Age
+                      </div>
+                      <div className="tag tag-green" style={{ "--a": "180deg" }}>
+                        Marital Status
+                      </div>
+      
+                      {/* HISTORY group (red) */}
+                      <div className="tag tag-red" style={{ "--a": "225deg" }}>
+                        Past # Claims
+                      </div>
+                      <div className="tag tag-red" style={{ "--a": "270deg" }}>
+                        Number of Cars
+                      </div>
+                      <div className="tag tag-red" style={{ "--a": "315deg" }}>
+                        Base Policy
+                      </div>
+                    </div>
+      
+                    {/* Small legend */}
+                    <div className="absolute left-5 bottom-5 flex flex-wrap gap-2">
+                      <span className="px-2 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-white/60">
+                        Blue = Vehicle
+                      </span>
+                      <span className="px-2 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-white/60">
+                        Green = Person
+                      </span>
+                      <span className="px-2 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-white/60">
+                        Red = History
+                      </span>
+                    </div>
+                  </div>
+                </div>
+      
+                {/* Arrow → to CatBoost */}
+                <svg
+                  className="hidden lg:block absolute -right-10 top-1/2 -translate-y-1/2"
+                  width="90"
+                  height="40"
+                  viewBox="0 0 90 40"
+                  fill="none"
+                >
+                  <path d="M5 20H78" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                  <path d="M78 20L66 12" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                  <path d="M78 20L66 28" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                </svg>
+              </div>
+      
+              {/* RIGHT: Serpentine nodes */}
+              <div className="relative">
+                <div className="grid gap-6">
+                  {/* CatBoost node */}
+                  <div className="card relative">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">
+                        🤖
+                      </div>
+                      <div>
+                        <div className="text-white/90 font-semibold text-lg">CatBoost</div>
+                        <div className="text-sm text-white/60 mt-1">
+                          Learns fraud risk patterns from heterogeneous insurance data (categorical + numeric).
+                        </div>
+                        <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/60">
+                          <span className="opacity-80">Model output:</span>
+                          <span className="text-white/80">raw probability</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+                  {/* Arrow ↓ */}
+                  <div className="hidden lg:flex justify-start pl-6">
+                    <svg width="40" height="70" viewBox="0 0 40 70" fill="none">
+                      <path d="M20 5V55" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                      <path d="M20 55L12 43" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                      <path d="M20 55L28 43" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                    </svg>
+                  </div>
+      
+                  {/* Isotonic Calibration node */}
+                  <div className="card relative">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">
+                        🧠
+                      </div>
+                      <div>
+                        <div className="text-white/90 font-semibold text-lg">Isotonic Calibration</div>
+                        <div className="text-sm text-white/60 mt-1">
+                          Adjusts raw scores so probabilities better reflect real-world frequencies (less over/under-confidence).
+                        </div>
+                        <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/60">
+                          <span className="opacity-80">Output:</span>
+                          <span className="text-white/80">calibrated risk score</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+                  {/* Arrow ← to Output (serpentine back to left) */}
+                  <div className="relative h-[90px] hidden lg:block">
+                    <svg className="absolute left-0 top-0" width="100%" height="90" viewBox="0 0 900 90" fill="none">
+                      {/* Right-to-left arrow */}
+                      <path d="M860 45H120" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                      <path d="M120 45L132 37" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                      <path d="M120 45L132 53" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                    </svg>
+      
+                    {/* Output node placed visually on the left */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[320px]">
+                      <div className="card">
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">
+                            ✅
+                          </div>
+                          <div>
+                            <div className="text-white/90 font-semibold text-lg">Output</div>
+                            <div className="text-sm text-white/60 mt-1">
+                              A calibrated fraud probability you can use to prioritize claim reviews (not a hard yes/no).
+                            </div>
+                            <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/60">
+                              <span className="opacity-80">Example:</span>
+                              <span className="text-white/80">Fraud risk = 72%</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+                  {/* Mobile fallback: show Output as normal card */}
+                  <div className="lg:hidden card">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">
+                        ✅
+                      </div>
+                      <div>
+                        <div className="text-white/90 font-semibold text-lg">Output</div>
+                        <div className="text-sm text-white/60 mt-1">
+                          A calibrated fraud probability used to prioritize investigations — not a binary decision.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+                </div>
+              </div>
+            </div>
+      
+            {/* Local CSS for orbit */}
+            <style jsx>{`
+              .orbit {
+                width: 360px;
+                height: 360px;
+                transform: translate(-50%, -50%);
+                animation: spin 16s linear infinite;
+              }
+      
+              .tag {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 170px;
+                padding: 10px 12px;
+                border-radius: 14px;
+                background: rgba(255, 255, 255, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                color: rgba(255, 255, 255, 0.85);
+                font-size: 12px;
+                line-height: 1;
+                text-align: center;
+      
+                /* Put each tag on the ring and keep it horizontal */
+                transform:
+                  rotate(var(--a))
+                  translateX(170px)
+                  rotate(calc(-1 * var(--a)));
+                backdrop-filter: blur(8px);
+              }
+      
+              .tag-blue {
+                border-color: rgba(59, 130, 246, 0.55);
+                color: rgba(147, 197, 253, 0.95);
+              }
+              .tag-green {
+                border-color: rgba(34, 197, 94, 0.55);
+                color: rgba(134, 239, 172, 0.95);
+              }
+              .tag-red {
+                border-color: rgba(239, 68, 68, 0.55);
+                color: rgba(252, 165, 165, 0.95);
+              }
+      
+              @keyframes spin {
+                from { transform: translate(-50%, -50%) rotate(0deg); }
+                to   { transform: translate(-50%, -50%) rotate(360deg); }
+              }
+            `}</style>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
       {/* ================= FEATURES ================= */}
       <section className="px-6 pb-24">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
