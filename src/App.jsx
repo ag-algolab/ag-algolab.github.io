@@ -189,18 +189,25 @@ function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
                   onClick={() => handleNav({ type: "route", to: "/shahmat" })}
-                  className="border-2 border-white/30 text-white hover:bg-white/10 hover:text-[#9D7AF5] px-8 py-3 text-lg font-semibold rounded-full"
+                  className="border-2 border-[#22c55e]/60 text-[#22c55e] 
+                  hover:bg-[#22c55e]/10 hover:border-[#22c55e] 
+                  hover:text-[#22c55e] 
+                  px-8 py-3 text-lg font-semibold rounded-full 
+                  transition-colors duration-200"
                 >
                   ShahMat - Chess
                 </Button>
               
                 <Button
                   variant="outline"
-                  onClick={() => handleNav({ type: "section", to: "knowledge-hub" })}
-                  className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-3 text-lg font-semibold rounded-full"
+                  onClick={() => handleNav({ type: "route", to: "/fraud-risk-scoring" })}
+                  className="border-2 border-[#1E4ED8]/60 text-[#1E4ED8]
+                  hover:bg-[#1E4ED8]/10 hover:border-[#1E4ED8]
+                  hover:text-[#1E4ED8]
+                  px-8 py-3 text-lg font-semibold rounded-full
+                  transition-colors duration-200"
                 >
-                  <Play className="w-5 h-5 mr-2" />
-                  Knowledge Hub
+                  Fraud Risk Scoring
                 </Button>
               </div>
 
