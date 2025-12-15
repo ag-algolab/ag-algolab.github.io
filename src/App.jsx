@@ -179,7 +179,7 @@ function Home() {
                   className="text-5xl md:text-7xl gradient-title bg-gradient-to-r from-[#60A5FA] to-[#C084FC] mb-6">
                 AG Algo Lab
               </h1>
-              <h2 className="text-3xl md:text-5xl font-semibold italic mb-6 text-white/90">
+              <h2 className="text-3xl md:text-5xl font-semibold italic mb-10 text-white/90">
                 Predict the Unpredictable
               </h2>
               
