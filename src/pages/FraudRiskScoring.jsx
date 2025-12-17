@@ -1,5 +1,5 @@
 import React from "react";
-import DecisionField from "./DecisionField";
+import CatBoostCategoryEngine from "./CatBoostCategoryEngine";
 
 
 
@@ -135,9 +135,8 @@ export default function FraudRiskScoring() {
                       The model learns patterns from structured claim signals to estimate fraud risk.
                     </div>
 
-                    <div className="mt-5">
-                      <DecisionField />
-                    </div>
+                    <CatBoostCategoryEngine />
+
 
 
                     <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/60">
