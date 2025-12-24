@@ -4,36 +4,64 @@ import React, { useState, useEffect, useRef } from "react";
 function AnimatedPipeline() {
   const [rawProba, setRawProba] = useState(0.73);
   const [calibratedProba, setCalibratedProba] = useState(0.68);
-  const [isProcessing, setIsProcessing] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [isTransferring, setIsTransferring] = useState(0); // 0=none, 1=to catboost, 2=to iso, 3=to output
 
-  // Simulate processing every 2 seconds
+  // Pipeline timing: 
+  // 0-0.5s: transfer to catboost (arrow 1 active)
+  // 0.5-2.5s: catboost processing
+  // 2.5-3s: transfer to isotonic (arrow 2 active)
+  // 3-5s: isotonic processing
+  // 5-5.5s: transfer to output (arrow 3 active)
+  // 5.5-6.5s: output adjustment
+  // Total cycle: ~7s
+  
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsProcessing(true);
-      setActiveStep(1);
+    const runCycle = () => {
+      // Generate new probabilities for this cycle
+      const newRaw = (Math.random() * 0.5 + 0.35);
+      const newCalibrated = Math.min(0.95, Math.max(0.08, newRaw * (0.85 + Math.random() * 0.25)));
       
-      // Generate new raw probability
-      const newRaw = (Math.random() * 0.5 + 0.35).toFixed(2);
+      // Step 1: Transfer to CatBoost (0-500ms)
+      setIsTransferring(1);
+      setActiveStep(0);
       
       setTimeout(() => {
-        setRawProba(parseFloat(newRaw));
+        // Step 2: CatBoost processing (500ms-2500ms)
+        setIsTransferring(0);
+        setActiveStep(1);
+        setRawProba(newRaw);
+      }, 500);
+      
+      setTimeout(() => {
+        // Step 3: Transfer to Isotonic (2500ms-3000ms)
+        setIsTransferring(2);
+      }, 2500);
+      
+      setTimeout(() => {
+        // Step 4: Isotonic processing (3000ms-5000ms)
+        setIsTransferring(0);
         setActiveStep(2);
-      }, 600);
+      }, 3000);
       
       setTimeout(() => {
-        // Calibration slightly adjusts the probability
-        const calibrated = (parseFloat(newRaw) * (0.85 + Math.random() * 0.2)).toFixed(2);
-        setCalibratedProba(Math.min(0.99, Math.max(0.05, parseFloat(calibrated))));
+        // Step 5: Transfer to Output (5000ms-5500ms)
+        setIsTransferring(3);
+      }, 5000);
+      
+      setTimeout(() => {
+        // Step 6: Output adjustment (5500ms-6500ms)
+        setIsTransferring(0);
         setActiveStep(3);
-      }, 1200);
-      
-      setTimeout(() => {
-        setIsProcessing(false);
-        setActiveStep(0);
-      }, 1800);
-      
-    }, 2000);
+        setCalibratedProba(newCalibrated);
+      }, 5500);
+    };
+
+    // Initial run
+    runCycle();
+    
+    // Repeat every 7 seconds
+    const interval = setInterval(runCycle, 7000);
     
     return () => clearInterval(interval);
   }, []);
@@ -41,7 +69,7 @@ function AnimatedPipeline() {
   return (
     <div className="w-full">
       {/* Main Pipeline Container */}
-      <div className="relative flex flex-col items-center gap-8">
+      <div className="relative flex flex-col items-center gap-6">
         
         {/* Row 1: Input Orb */}
         <div className="relative w-[300px] h-[300px] sm:w-[360px] sm:h-[360px]">
@@ -71,26 +99,27 @@ function AnimatedPipeline() {
         </div>
 
         {/* Arrow 1: Input → CatBoost */}
-        <AnimatedArrow active={activeStep >= 1} direction="down" />
+        <AnimatedArrow active={isTransferring === 1} />
 
         {/* Row 2: CatBoost Model */}
-        <CatBoostVisualizer active={activeStep >= 1} rawProba={rawProba} />
+        <CatBoostVisualizer active={activeStep >= 1} processing={activeStep === 1 && isTransferring === 0} rawProba={rawProba} />
 
         {/* Arrow 2: CatBoost → Calibration */}
-        <AnimatedArrow active={activeStep >= 2} direction="down" />
+        <AnimatedArrow active={isTransferring === 2} />
 
         {/* Row 3: Isotonic Calibration */}
         <IsotonicCalibrationVisualizer 
           active={activeStep >= 2} 
+          processing={activeStep === 2 && isTransferring === 0}
           inputProba={rawProba} 
           outputProba={calibratedProba} 
         />
 
         {/* Arrow 3: Calibration → Output */}
-        <AnimatedArrow active={activeStep >= 3} direction="down" />
+        <AnimatedArrow active={isTransferring === 3} />
 
         {/* Row 4: Final Output */}
-        <OutputDisplay probability={calibratedProba} active={activeStep >= 3} />
+        <OutputDisplay probability={calibratedProba} active={activeStep >= 3} adjusting={activeStep === 3 && isTransferring === 0} />
       </div>
 
       {/* Pipeline Labels */}
@@ -113,87 +142,110 @@ function AnimatedPipeline() {
 }
 
 /* ================= ANIMATED ARROW ================= */
-function AnimatedArrow({ active, direction = "down" }) {
-  const isVertical = direction === "down" || direction === "up";
-  
-  if (isVertical) {
-    return (
-      <div className={`relative transition-all duration-500 ${active ? 'opacity-100' : 'opacity-30'}`}>
-        <svg width="60" height="80" viewBox="0 0 60 80" fill="none" className="overflow-visible">
-          <defs>
-            <linearGradient id={`arrowGradV-${active}`} x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor={active ? "#3b82f6" : "#ffffff"} stopOpacity={active ? "0.9" : "0.2"} />
-              <stop offset="100%" stopColor={active ? "#8b5cf6" : "#ffffff"} stopOpacity={active ? "0.9" : "0.2"} />
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          
-          {/* Main line */}
-          <path 
-            d="M30 5V65" 
-            stroke={`url(#arrowGradV-${active})`} 
-            strokeWidth="3" 
-            strokeLinecap="round"
-            filter={active ? "url(#glow)" : ""}
-          />
-          
-          {/* Arrow head */}
-          <path 
-            d="M30 65L20 52M30 65L40 52" 
-            stroke={`url(#arrowGradV-${active})`} 
-            strokeWidth="3" 
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            filter={active ? "url(#glow)" : ""}
-          />
-          
-          {/* Animated particles */}
-          {active && (
-            <>
-              <circle r="4" fill="#8b5cf6" filter="url(#glow)">
-                <animateMotion dur="0.8s" repeatCount="indefinite" path="M30 5 L30 65" />
-              </circle>
-              <circle r="3" fill="#3b82f6" filter="url(#glow)">
-                <animateMotion dur="0.8s" repeatCount="indefinite" path="M30 5 L30 65" begin="0.3s" />
-              </circle>
-            </>
-          )}
-        </svg>
-      </div>
-    );
-  }
-  
-  return null;
+function AnimatedArrow({ active }) {
+  return (
+    <div className={`relative transition-all duration-300 ${active ? 'opacity-100 scale-105' : 'opacity-30 scale-100'}`}>
+      <svg width="60" height="70" viewBox="0 0 60 70" fill="none" className="overflow-visible">
+        <defs>
+          <linearGradient id={`arrowGrad-${active}`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor={active ? "#3b82f6" : "#ffffff"} stopOpacity={active ? "1" : "0.2"} />
+            <stop offset="100%" stopColor={active ? "#8b5cf6" : "#ffffff"} stopOpacity={active ? "1" : "0.2"} />
+          </linearGradient>
+          <filter id="glowArrow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        
+        {/* Main line */}
+        <path 
+          d="M30 5V55" 
+          stroke={active ? "url(#arrowGrad-true)" : "rgba(255,255,255,0.2)"}
+          strokeWidth={active ? "4" : "2"}
+          strokeLinecap="round"
+          filter={active ? "url(#glowArrow)" : ""}
+          className="transition-all duration-300"
+        />
+        
+        {/* Arrow head */}
+        <path 
+          d="M30 55L18 42M30 55L42 42" 
+          stroke={active ? "url(#arrowGrad-true)" : "rgba(255,255,255,0.2)"}
+          strokeWidth={active ? "4" : "2"}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          filter={active ? "url(#glowArrow)" : ""}
+          className="transition-all duration-300"
+        />
+        
+        {/* Animated particles when active */}
+        {active && (
+          <>
+            <circle r="5" fill="#8b5cf6" filter="url(#glowArrow)">
+              <animateMotion dur="0.4s" repeatCount="indefinite" path="M30 5 L30 55" />
+            </circle>
+            <circle r="4" fill="#3b82f6" filter="url(#glowArrow)">
+              <animateMotion dur="0.4s" repeatCount="indefinite" path="M30 5 L30 55" begin="0.15s" />
+            </circle>
+            <circle r="3" fill="#a855f7" filter="url(#glowArrow)">
+              <animateMotion dur="0.4s" repeatCount="indefinite" path="M30 5 L30 55" begin="0.3s" />
+            </circle>
+          </>
+        )}
+      </svg>
+    </div>
+  );
 }
 
 /* ================= CATBOOST VISUALIZER ================= */
-function CatBoostVisualizer({ active, rawProba }) {
+function CatBoostVisualizer({ active, processing, rawProba }) {
   const [trees, setTrees] = useState([0.3, 0.5, 0.7, 0.4, 0.6, 0.45, 0.55]);
+  const [displayProba, setDisplayProba] = useState(rawProba);
+  
+  // Smooth probability transition
+  useEffect(() => {
+    if (!active) return;
+    
+    const start = displayProba;
+    const end = rawProba;
+    const duration = 800;
+    const startTime = Date.now();
+    
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayProba(start + (end - start) * eased);
+      
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    
+    requestAnimationFrame(animate);
+  }, [rawProba, active]);
   
   useEffect(() => {
-    if (active) {
-      const newTrees = trees.map(() => Math.random() * 0.5 + 0.3);
-      setTrees(newTrees);
+    if (processing) {
+      const interval = setInterval(() => {
+        setTrees(trees.map(() => Math.random() * 0.5 + 0.3));
+      }, 400);
+      return () => clearInterval(interval);
     }
-  }, [active, rawProba]);
+  }, [processing]);
 
   return (
     <div className={`relative w-full max-w-lg p-6 rounded-2xl border transition-all duration-500 ${
       active 
-        ? 'bg-gradient-to-br from-[#1a2744] to-[#0e1424] border-blue-500/50 shadow-[0_0_40px_rgba(59,130,246,0.3)]' 
+        ? 'bg-gradient-to-br from-[#1a2744] to-[#0e1424] border-blue-500/50 shadow-[0_0_50px_rgba(59,130,246,0.35)]' 
         : 'bg-[#141f38] border-white/10'
     }`}>
-      {/* Animated background glow */}
-      {active && (
+      {/* Animated background glow when processing */}
+      {processing && (
         <div className="absolute inset-0 rounded-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 animate-pulse" />
-          <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-transparent to-purple-500/20 blur-xl animate-spin-slow opacity-50" style={{ animationDuration: '8s' }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-green-500/5" />
+          <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/30 via-transparent to-green-500/30 blur-xl animate-pulse" />
         </div>
       )}
       
@@ -201,18 +253,26 @@ function CatBoostVisualizer({ active, rawProba }) {
         {/* Header */}
         <div className="flex items-center gap-4 mb-5">
           <div className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-500 ${
+            processing ? 'bg-gradient-to-br from-blue-500/40 to-green-500/30 shadow-lg shadow-blue-500/40 scale-110' : 
             active ? 'bg-gradient-to-br from-blue-500/30 to-green-500/20 shadow-lg shadow-blue-500/30' : 'bg-white/5'
           }`}>
-            <span className="text-3xl">🌲</span>
+            <span className={`text-3xl transition-transform duration-300 ${processing ? 'animate-bounce' : ''}`}>🌲</span>
           </div>
           <div>
             <h3 className="font-bold text-xl text-white/90">CatBoost</h3>
             <p className="text-sm text-white/50">Gradient Boosted Decision Trees</p>
           </div>
+          {/* Processing indicator */}
+          <div className={`ml-auto px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+            processing ? 'bg-blue-500/30 text-blue-300 animate-pulse' : 
+            active ? 'bg-green-500/20 text-green-300' : 'bg-white/5 text-white/30'
+          }`}>
+            {processing ? '⚡ Processing...' : active ? '✓ Ready' : 'Idle'}
+          </div>
         </div>
 
         {/* Forest visualization */}
-        <div className="relative h-40 mb-5 rounded-xl bg-[#0e1424]/80 border border-white/5 overflow-hidden">
+        <div className="relative h-44 mb-5 rounded-xl bg-[#0e1424]/80 border border-white/5 overflow-hidden">
           {/* Grid background */}
           <div className="absolute inset-0 opacity-30" style={{
             backgroundImage: 'linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px)',
@@ -220,48 +280,48 @@ function CatBoostVisualizer({ active, rawProba }) {
           }} />
           
           {/* Trees row */}
-          <div className="absolute inset-0 flex items-end justify-around px-3 pb-4">
+          <div className="absolute inset-0 flex items-end justify-around px-4 pb-4">
             {trees.map((height, i) => (
               <div 
                 key={i} 
-                className="flex flex-col items-center transition-all duration-700 ease-out"
+                className="flex flex-col items-center"
                 style={{ 
                   transform: active ? 'translateY(0)' : 'translateY(20px)',
-                  opacity: active ? 1 : 0.5,
-                  transitionDelay: `${i * 80}ms`
+                  opacity: active ? 1 : 0.4,
+                  transition: `all 0.5s ease ${i * 60}ms`
                 }}
               >
                 {/* Tree SVG */}
                 <svg 
-                  width="36" 
-                  height="50" 
-                  viewBox="0 0 36 50" 
-                  className={`transition-all duration-500 drop-shadow-lg`}
-                  style={{ transitionDelay: `${i * 80}ms` }}
+                  width="40" 
+                  height="55" 
+                  viewBox="0 0 40 55" 
+                  className="drop-shadow-lg"
+                  style={{ 
+                    filter: processing ? `drop-shadow(0 0 8px rgba(34, 197, 94, ${height}))` : 'none',
+                    transition: 'filter 0.3s ease'
+                  }}
                 >
-                  {/* Tree layers */}
                   <polygon 
-                    points="18,0 36,18 28,18 36,30 0,30 8,18 0,18" 
-                    fill={active ? `rgba(34, 197, 94, ${0.6 + height * 0.4})` : 'rgba(255,255,255,0.1)'}
-                    className="transition-all duration-500"
+                    points="20,0 40,20 31,20 40,34 0,34 9,20 0,20" 
+                    fill={active ? `rgba(34, 197, 94, ${0.5 + height * 0.5})` : 'rgba(255,255,255,0.1)'}
+                    className="transition-all duration-300"
                   />
-                  {/* Trunk */}
-                  <rect x="14" y="30" width="8" height="12" fill={active ? '#8B5513' : 'rgba(255,255,255,0.1)'} rx="1" />
-                  {/* Glow when active */}
-                  {active && (
-                    <circle cx="18" cy="18" r="12" fill={`rgba(34, 197, 94, ${height * 0.3})`} className="animate-pulse" />
+                  <rect x="15" y="34" width="10" height="14" fill={active ? '#8B5513' : 'rgba(255,255,255,0.1)'} rx="1" />
+                  {processing && (
+                    <circle cx="20" cy="20" r="14" fill={`rgba(34, 197, 94, ${height * 0.4})`} className="animate-ping" style={{ animationDuration: '1s' }} />
                   )}
                 </svg>
                 
                 {/* Weight indicator */}
                 <div 
-                  className={`mt-2 w-8 rounded-full transition-all duration-700 ${
+                  className={`mt-2 w-8 rounded-full transition-all duration-500 ${
+                    processing ? 'bg-gradient-to-t from-blue-600 via-blue-500 to-green-400' : 
                     active ? 'bg-gradient-to-t from-blue-600 to-blue-400' : 'bg-white/10'
                   }`}
                   style={{ 
-                    height: `${height * 30 + 8}px`,
-                    transitionDelay: `${i * 100}ms`,
-                    boxShadow: active ? '0 0 10px rgba(59,130,246,0.5)' : 'none'
+                    height: `${height * 35 + 10}px`,
+                    boxShadow: processing ? '0 0 15px rgba(59,130,246,0.6)' : active ? '0 0 10px rgba(59,130,246,0.4)' : 'none'
                   }}
                 />
               </div>
@@ -269,59 +329,47 @@ function CatBoostVisualizer({ active, rawProba }) {
           </div>
 
           {/* Data flow particles */}
-          {active && (
+          {processing && (
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              {[...Array(12)].map((_, i) => (
+              {[...Array(15)].map((_, i) => (
                 <div
                   key={i}
-                  className="absolute w-1.5 h-1.5 bg-blue-400 rounded-full"
+                  className="absolute w-2 h-2 bg-blue-400 rounded-full"
                   style={{
-                    left: `${5 + i * 8}%`,
-                    animation: `floatUp 1.8s ease-out infinite`,
-                    animationDelay: `${i * 0.12}s`,
+                    left: `${3 + i * 6.5}%`,
+                    animation: `floatUp 1.2s ease-out infinite`,
+                    animationDelay: `${i * 0.08}s`,
                   }}
                 />
               ))}
             </div>
           )}
-
-          {/* Processing label */}
-          <div className={`absolute top-2 right-2 px-2 py-1 rounded-md text-[10px] font-medium transition-all duration-300 ${
-            active ? 'bg-blue-500/20 text-blue-300' : 'bg-white/5 text-white/30'
-          }`}>
-            {active ? '⚡ Processing' : 'Idle'}
-          </div>
         </div>
 
         {/* Output */}
-        <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+        <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
           <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${active ? 'bg-blue-400 animate-pulse' : 'bg-white/30'}`} />
+            <div className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+              processing ? 'bg-blue-400 animate-ping' : active ? 'bg-green-400' : 'bg-white/30'
+            }`} />
             <span className="text-sm text-white/60">Raw Probability Output</span>
           </div>
-          <div className={`px-4 py-2 rounded-lg font-mono text-lg font-bold transition-all duration-500 ${
+          <div className={`px-5 py-2.5 rounded-xl font-mono text-xl font-bold transition-all duration-500 ${
             active 
-              ? 'bg-gradient-to-r from-blue-500/20 to-blue-600/20 border border-blue-500/40 text-blue-300 shadow-lg shadow-blue-500/20' 
+              ? 'bg-gradient-to-r from-blue-500/25 to-blue-600/25 border border-blue-500/50 text-blue-300 shadow-lg shadow-blue-500/25' 
               : 'bg-white/5 border border-white/10 text-white/40'
           }`}>
-            {rawProba.toFixed(2)}
+            {displayProba.toFixed(2)}
           </div>
         </div>
       </div>
 
       <style>{`
         @keyframes floatUp {
-          0% { transform: translateY(160px); opacity: 0; }
-          15% { opacity: 0.8; }
-          85% { opacity: 0.8; }
+          0% { transform: translateY(180px); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
           100% { transform: translateY(-20px); opacity: 0; }
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spin-slow 8s linear infinite;
         }
       `}</style>
     </div>
@@ -329,8 +377,30 @@ function CatBoostVisualizer({ active, rawProba }) {
 }
 
 /* ================= ISOTONIC CALIBRATION VISUALIZER ================= */
-function IsotonicCalibrationVisualizer({ active, inputProba, outputProba }) {
+function IsotonicCalibrationVisualizer({ active, processing, inputProba, outputProba }) {
   const canvasRef = useRef(null);
+  const [animatedPoint, setAnimatedPoint] = useState(0);
+  
+  // Animate the point along the curve when processing
+  useEffect(() => {
+    if (processing) {
+      const duration = 1500;
+      const startTime = Date.now();
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = progress < 0.5 
+          ? 4 * progress * progress * progress 
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        setAnimatedPoint(eased);
+        
+        if (progress < 1) requestAnimationFrame(animate);
+      };
+      
+      requestAnimationFrame(animate);
+    }
+  }, [processing, inputProba]);
   
   // Draw the isotonic calibration curve
   useEffect(() => {
@@ -366,82 +436,83 @@ function IsotonicCalibrationVisualizer({ active, inputProba, outputProba }) {
     ctx.stroke();
     ctx.setLineDash([]);
     
-    // Draw isotonic calibration curve (step function approximation)
+    // Isotonic calibration function
+    const calibrate = (x) => Math.pow(x, 0.85) * (1 - 0.1 * Math.sin(x * Math.PI));
+    
+    // Draw isotonic calibration curve
     const gradient = ctx.createLinearGradient(0, 0, width, 0);
     gradient.addColorStop(0, active ? '#8b5cf6' : 'rgba(255,255,255,0.2)');
     gradient.addColorStop(0.5, active ? '#a855f7' : 'rgba(255,255,255,0.2)');
     gradient.addColorStop(1, active ? '#ec4899' : 'rgba(255,255,255,0.2)');
     
     ctx.strokeStyle = gradient;
-    ctx.lineWidth = 3;
+    ctx.lineWidth = active ? 3 : 2;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     
     ctx.beginPath();
-    const points = [];
     for (let i = 0; i <= 100; i++) {
       const x = i / 100;
-      // Isotonic-like calibration curve
-      const y = Math.pow(x, 0.85) * (1 - 0.1 * Math.sin(x * Math.PI));
-      points.push({ x: x * width, y: height - y * height });
-    }
-    
-    ctx.moveTo(points[0].x, points[0].y);
-    for (let i = 1; i < points.length; i++) {
-      ctx.lineTo(points[i].x, points[i].y);
+      const y = calibrate(x);
+      const px = x * width;
+      const py = height - y * height;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
     }
     ctx.stroke();
     
-    // Draw current point if active
+    // Draw animated point when processing or active
     if (active) {
-      const px = inputProba * width;
-      const calibY = Math.pow(inputProba, 0.85) * (1 - 0.1 * Math.sin(inputProba * Math.PI));
+      const currentX = processing ? inputProba * animatedPoint : inputProba;
+      const px = currentX * width;
+      const calibY = calibrate(currentX);
       const py = height - calibY * height;
       
-      // Vertical line
-      ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([3, 3]);
+      // Vertical line from bottom
+      ctx.strokeStyle = 'rgba(139, 92, 246, 0.5)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
       ctx.beginPath();
       ctx.moveTo(px, height);
       ctx.lineTo(px, py);
       ctx.stroke();
       
-      // Horizontal line
+      // Horizontal line to left
       ctx.beginPath();
       ctx.moveTo(px, py);
       ctx.lineTo(0, py);
       ctx.stroke();
       ctx.setLineDash([]);
       
-      // Point with glow
+      // Glowing point
       ctx.shadowColor = '#8b5cf6';
-      ctx.shadowBlur = 15;
+      ctx.shadowBlur = processing ? 25 : 15;
       ctx.fillStyle = '#8b5cf6';
       ctx.beginPath();
-      ctx.arc(px, py, 6, 0, Math.PI * 2);
+      ctx.arc(px, py, processing ? 8 : 6, 0, Math.PI * 2);
       ctx.fill();
       ctx.shadowBlur = 0;
       
       // Inner white dot
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
-      ctx.arc(px, py, 2, 0, Math.PI * 2);
+      ctx.arc(px, py, 3, 0, Math.PI * 2);
       ctx.fill();
     }
     
-  }, [active, inputProba, outputProba]);
+  }, [active, processing, inputProba, outputProba, animatedPoint]);
 
   return (
     <div className={`relative w-full max-w-lg p-6 rounded-2xl border transition-all duration-500 ${
       active 
-        ? 'bg-gradient-to-br from-[#1f1744] to-[#141424] border-purple-500/50 shadow-[0_0_40px_rgba(139,92,246,0.3)]' 
+        ? 'bg-gradient-to-br from-[#1f1744] to-[#141424] border-purple-500/50 shadow-[0_0_50px_rgba(139,92,246,0.35)]' 
         : 'bg-[#141f38] border-white/10'
     }`}>
-      {/* Background effect */}
-      {active && (
+      {/* Background effect when processing */}
+      {processing && (
         <div className="absolute inset-0 rounded-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/5" />
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/30 via-transparent to-pink-500/30 blur-xl animate-pulse" />
         </div>
       )}
       
@@ -449,13 +520,21 @@ function IsotonicCalibrationVisualizer({ active, inputProba, outputProba }) {
         {/* Header */}
         <div className="flex items-center gap-4 mb-5">
           <div className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-500 ${
+            processing ? 'bg-gradient-to-br from-purple-500/40 to-pink-500/30 shadow-lg shadow-purple-500/40 scale-110' :
             active ? 'bg-gradient-to-br from-purple-500/30 to-pink-500/20 shadow-lg shadow-purple-500/30' : 'bg-white/5'
           }`}>
-            <span className="text-3xl">📐</span>
+            <span className={`text-3xl transition-transform duration-300 ${processing ? 'animate-pulse' : ''}`}>📐</span>
           </div>
           <div>
             <h3 className="font-bold text-xl text-white/90">Isotonic Calibration</h3>
             <p className="text-sm text-white/50">Probability Correction Layer</p>
+          </div>
+          {/* Processing indicator */}
+          <div className={`ml-auto px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+            processing ? 'bg-purple-500/30 text-purple-300 animate-pulse' : 
+            active ? 'bg-green-500/20 text-green-300' : 'bg-white/5 text-white/30'
+          }`}>
+            {processing ? '⚡ Calibrating...' : active ? '✓ Ready' : 'Idle'}
           </div>
         </div>
 
@@ -465,52 +544,54 @@ function IsotonicCalibrationVisualizer({ active, inputProba, outputProba }) {
             ref={canvasRef} 
             width={400} 
             height={200} 
-            className="w-full h-40"
+            className="w-full h-44"
           />
           
           {/* Axis labels */}
-          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 text-[10px] text-white/40 bg-[#0e1424]/80 px-2 rounded">
+          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 text-[10px] text-white/40 bg-[#0e1424]/90 px-2 py-0.5 rounded">
             Raw Model Output
           </div>
-          <div className="absolute left-1 top-1/2 -translate-y-1/2 -rotate-90 text-[10px] text-white/40 bg-[#0e1424]/80 px-2 rounded">
+          <div className="absolute left-1 top-1/2 -translate-y-1/2 -rotate-90 text-[10px] text-white/40 bg-[#0e1424]/90 px-2 py-0.5 rounded">
             Calibrated
           </div>
           
           {/* Legend */}
-          <div className="absolute top-2 right-2 flex flex-col gap-1">
-            <div className="flex items-center gap-1.5 text-[9px] text-white/40">
-              <div className="w-3 h-0.5 bg-white/20" style={{ borderBottom: '1px dashed rgba(255,255,255,0.3)' }} />
+          <div className="absolute top-2 right-2 flex flex-col gap-1.5 bg-[#0e1424]/80 p-2 rounded-lg">
+            <div className="flex items-center gap-2 text-[10px] text-white/50">
+              <div className="w-4 h-0.5 border-b border-dashed border-white/30" />
               <span>Perfect calibration</span>
             </div>
-            <div className="flex items-center gap-1.5 text-[9px] text-white/40">
-              <div className="w-3 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded" />
+            <div className="flex items-center gap-2 text-[10px] text-white/50">
+              <div className="w-4 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded" />
               <span>Isotonic curve</span>
             </div>
           </div>
         </div>
 
         {/* Transformation display */}
-        <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+        <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
           <div className="text-center">
-            <div className="text-[10px] text-white/40 mb-1">Raw Input</div>
-            <div className={`px-3 py-1.5 rounded-lg font-mono text-sm transition-all duration-300 ${
-              active ? 'bg-white/10 text-white/80' : 'bg-white/5 text-white/40'
+            <div className="text-[10px] text-white/40 mb-1.5">Raw Input</div>
+            <div className={`px-4 py-2 rounded-lg font-mono text-base transition-all duration-300 ${
+              active ? 'bg-white/10 text-white/80 border border-white/20' : 'bg-white/5 text-white/40'
             }`}>
               {inputProba.toFixed(2)}
             </div>
           </div>
           
-          <div className={`flex items-center gap-2 transition-all duration-300 ${active ? 'text-purple-400' : 'text-white/20'}`}>
-            <span className="text-lg">→</span>
-            <span className="text-xs">f(x)</span>
-            <span className="text-lg">→</span>
+          <div className={`flex items-center gap-2 transition-all duration-500 ${
+            processing ? 'text-purple-400 scale-110' : active ? 'text-purple-400/60' : 'text-white/20'
+          }`}>
+            <span className="text-xl">→</span>
+            <span className={`text-sm font-mono px-2 py-1 rounded ${processing ? 'bg-purple-500/20 animate-pulse' : ''}`}>f(x)</span>
+            <span className="text-xl">→</span>
           </div>
           
           <div className="text-center">
-            <div className="text-[10px] text-white/40 mb-1">Calibrated</div>
-            <div className={`px-3 py-1.5 rounded-lg font-mono text-sm font-bold transition-all duration-500 ${
+            <div className="text-[10px] text-white/40 mb-1.5">Calibrated</div>
+            <div className={`px-4 py-2 rounded-lg font-mono text-base font-bold transition-all duration-500 ${
               active 
-                ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-300 shadow-lg shadow-purple-500/20' 
+                ? 'bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-300 shadow-lg shadow-purple-500/20' 
                 : 'bg-white/5 border border-white/10 text-white/40'
             }`}>
               {outputProba.toFixed(2)}
@@ -523,29 +604,32 @@ function IsotonicCalibrationVisualizer({ active, inputProba, outputProba }) {
 }
 
 /* ================= OUTPUT DISPLAY ================= */
-function OutputDisplay({ probability, active }) {
+function OutputDisplay({ probability, active, adjusting }) {
   const [displayProba, setDisplayProba] = useState(probability);
   
-  // Smooth transition for probability
+  // Smooth probability transition over 1 second
   useEffect(() => {
+    if (!active) return;
+    
     const start = displayProba;
     const end = probability;
-    const duration = 600;
+    const duration = 1000;
     const startTime = Date.now();
     
     const animate = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      // Smooth easing
+      const eased = progress < 0.5 
+        ? 4 * progress * progress * progress 
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
       setDisplayProba(start + (end - start) * eased);
       
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
+      if (progress < 1) requestAnimationFrame(animate);
     };
     
     requestAnimationFrame(animate);
-  }, [probability]);
+  }, [probability, active]);
 
   const riskLevel = displayProba > 0.7 ? 'HIGH' : displayProba > 0.4 ? 'MEDIUM' : 'LOW';
   const riskColor = displayProba > 0.7 ? 'red' : displayProba > 0.4 ? 'yellow' : 'green';
@@ -555,7 +639,7 @@ function OutputDisplay({ probability, active }) {
       gradient: 'from-red-500/30 to-orange-500/10',
       border: 'border-red-500/60',
       text: 'text-red-400',
-      glow: 'shadow-[0_0_60px_rgba(239,68,68,0.4)]',
+      glow: 'shadow-[0_0_60px_rgba(239,68,68,0.5)]',
       dot: 'bg-red-500',
       stroke: '#ef4444'
     },
@@ -563,7 +647,7 @@ function OutputDisplay({ probability, active }) {
       gradient: 'from-yellow-500/30 to-amber-500/10',
       border: 'border-yellow-500/60',
       text: 'text-yellow-400',
-      glow: 'shadow-[0_0_60px_rgba(234,179,8,0.4)]',
+      glow: 'shadow-[0_0_60px_rgba(234,179,8,0.5)]',
       dot: 'bg-yellow-500',
       stroke: '#eab308'
     },
@@ -571,7 +655,7 @@ function OutputDisplay({ probability, active }) {
       gradient: 'from-green-500/30 to-emerald-500/10',
       border: 'border-green-500/60',
       text: 'text-green-400',
-      glow: 'shadow-[0_0_60px_rgba(34,197,94,0.4)]',
+      glow: 'shadow-[0_0_60px_rgba(34,197,94,0.5)]',
       dot: 'bg-green-500',
       stroke: '#22c55e'
     }
@@ -587,10 +671,10 @@ function OutputDisplay({ probability, active }) {
         ? `bg-gradient-to-br ${colors.gradient} ${colors.border} ${colors.glow}` 
         : 'bg-[#141f38] border-white/10'
     }`}>
-      {/* Pulsing ring effect */}
-      {active && (
+      {/* Pulsing ring effect when adjusting */}
+      {adjusting && (
         <div className="absolute inset-0 rounded-2xl overflow-hidden">
-          <div className={`absolute inset-0 rounded-2xl border-2 ${colors.border} animate-ping opacity-20`} />
+          <div className={`absolute inset-0 rounded-2xl border-2 ${colors.border}`} style={{ animation: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
         </div>
       )}
       
@@ -601,7 +685,7 @@ function OutputDisplay({ probability, active }) {
         </div>
 
         {/* Circular progress */}
-        <div className="relative w-36 h-36 mb-6">
+        <div className="relative w-40 h-40 mb-6">
           <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
             {/* Background circle */}
             <circle
@@ -623,33 +707,33 @@ function OutputDisplay({ probability, active }) {
               strokeLinecap="round"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
-              className="transition-all duration-700 ease-out"
+              className="transition-all duration-300 ease-out"
               style={{
-                filter: active ? `drop-shadow(0 0 8px ${colors.stroke})` : 'none'
+                filter: active ? `drop-shadow(0 0 12px ${colors.stroke})` : 'none'
               }}
             />
           </svg>
           
           {/* Center content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className={`text-4xl font-bold transition-all duration-300 ${
+            <span className={`text-5xl font-bold transition-all duration-300 ${
               active ? colors.text : 'text-white/30'
-            }`}>
+            }`} style={{ fontVariantNumeric: 'tabular-nums' }}>
               {Math.round(displayProba * 100)}%
             </span>
           </div>
         </div>
 
         {/* Risk level badge */}
-        <div className={`flex items-center gap-3 px-5 py-2.5 rounded-full transition-all duration-500 ${
+        <div className={`flex items-center gap-3 px-6 py-3 rounded-full transition-all duration-500 ${
           active 
             ? `bg-gradient-to-r ${colors.gradient} border ${colors.border}` 
             : 'bg-white/5 border border-white/10'
         }`}>
-          <div className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-            active ? `${colors.dot} animate-pulse` : 'bg-white/30'
-          }`} />
-          <span className={`font-bold text-sm tracking-wide transition-all duration-300 ${
+          <div className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            active ? `${colors.dot}` : 'bg-white/30'
+          } ${adjusting ? 'animate-ping' : active ? 'animate-pulse' : ''}`} />
+          <span className={`font-bold text-sm tracking-wider transition-all duration-300 ${
             active ? colors.text : 'text-white/40'
           }`}>
             {riskLevel} RISK
@@ -657,11 +741,11 @@ function OutputDisplay({ probability, active }) {
         </div>
 
         {/* Live indicator */}
-        <div className={`mt-4 flex items-center gap-2 text-xs transition-all duration-300 ${
-          active ? 'text-white/50' : 'text-white/20'
+        <div className={`mt-5 flex items-center gap-2 text-xs transition-all duration-300 ${
+          active ? 'text-white/60' : 'text-white/20'
         }`}>
-          <div className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-green-400 animate-pulse' : 'bg-white/20'}`} />
-          <span>{active ? 'Live prediction' : 'Awaiting data...'}</span>
+          <div className={`w-2 h-2 rounded-full ${adjusting ? 'bg-yellow-400 animate-pulse' : active ? 'bg-green-400' : 'bg-white/20'}`} />
+          <span>{adjusting ? 'Adjusting score...' : active ? 'Live prediction' : 'Awaiting data...'}</span>
         </div>
       </div>
     </div>
@@ -676,48 +760,53 @@ export default function FraudRiskScoring() {
       {/* ================= NAVBAR ================= */}
       <nav className="fixed top-0 w-full z-50 bg-[#0e1424]/80 backdrop-blur border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <a href="/" className="flex items-center gap-3 hover:opacity-80 transition">
             <img src="/logo.jpg" alt="Logo" className="w-9 h-9 object-contain rounded-lg" />
-            <span className="font-bold text-lg">Hackathon 2025</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <img src="/ey.png" alt="EY" className="h-10 object-contain" />
-            <span className="text-white/60 font-semibold">×</span>
-            <img src="/dauphine.png" alt="Dauphine PSL" className="h-8 object-contain" />
-          </div>
+            <span className="font-bold text-lg">AG Algo Lab</span>
+          </a>
+          <a
+            href="/"
+            className="text-sm px-4 py-2 rounded-lg border border-white/15 text-[#b7c3e6] hover:bg-white/5 hover:text-white transition"
+          >
+            ← Back home
+          </a>
         </div>
       </nav>
 
       {/* ================= HERO ================= */}
-      <section className="pt-32 pb-16 px-6">
-        <div className="max-w-5xl mx-auto">
-          <span className="inline-block text-sm font-medium bg-[#2f4486] text-white px-3 py-1 rounded-full">
+      <section className="pt-32 pb-12 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <span className="inline-block text-sm font-medium bg-gradient-to-r from-[#2f4486] to-[#4f46e5] text-white px-4 py-1.5 rounded-full">
             AI · Insurance · Risk Management
           </span>
 
-          <h1 className="mt-6 text-4xl md:text-5xl font-extrabold tracking-tight">
+          <h1 className="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
             Fraud Risk Scoring
           </h1>
 
-          <p className="mt-6 max-w-3xl text-[#b7c3e6] text-lg">
-            An AI-driven insurance fraud risk scoring system combining machine-learning models with probabilistic calibration to produce reliable, 
-            ranked fraud risk scores for operational prioritization.
+          <p className="mt-6 max-w-3xl mx-auto text-[#b7c3e6] text-lg md:text-xl leading-relaxed">
+            An AI-driven insurance fraud detection system combining <span className="text-white font-semibold">CatBoost</span> with <span className="text-white font-semibold">isotonic calibration</span> to produce reliable, production-ready fraud risk scores.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
-              href="https://github.com/ag-algolab"
+              href="https://www.kaggle.com"
               target="_blank"
               rel="noreferrer"
-              className="px-6 py-3 rounded-xl bg-[#2f4486] hover:bg-[#3b5bb8] transition font-semibold"
+              className="group px-8 py-4 rounded-xl bg-gradient-to-r from-[#2f4486] to-[#4f46e5] hover:from-[#3b5bb8] hover:to-[#5b5bd6] transition-all duration-300 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
             >
-              Kaggle Notebook
+              <span className="flex items-center gap-2">
+                📊 View Kaggle Notebook
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
             </a>
             <a
               href="https://github.com/ag-algolab"
               target="_blank"
               rel="noreferrer"
-              className="px-6 py-3 rounded-xl border border-white/20 hover:bg-white/5 transition"
+              className="px-8 py-4 rounded-xl border border-white/20 hover:bg-white/5 hover:border-white/40 transition-all duration-300 font-semibold"
             >
               GitHub Repository
             </a>
@@ -726,12 +815,12 @@ export default function FraudRiskScoring() {
       </section>
 
       {/* ================= PIPELINE VISUALIZATION ================= */}
-      <section className="px-6 pb-20">
+      <section className="px-6 pb-16">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">How It Works</h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
-              Watch the complete fraud detection pipeline in action — from raw claim features to calibrated risk scores.
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Live Pipeline Demo</h2>
+            <p className="text-white/50 max-w-2xl mx-auto">
+              Watch the complete fraud detection pipeline process claims in real-time
             </p>
           </div>
           
@@ -739,63 +828,82 @@ export default function FraudRiskScoring() {
         </div>
       </section>
 
-      {/* ================= FEATURES ================= */}
-      <section className="px-6 pb-24">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
-          <div className="card">
-            <h2 className="card-title">Quick start</h2>
-            <p className="text-sm text-white/60 mt-1">
-              Designed for immediate use — no configuration, no friction.
-            </p>
-      
-            <pre className="codeblock text-sm leading-relaxed font-mono" aria-label="Install & import">
-              <code>
-                <span className="text-yellow-400">pip</span> install POF
-                {"\n\n"}
-                <span className="text-blue-400">from</span> POF{" "}
-                <span className="text-blue-400">import</span>{" "}
-                launch_fraud_scoring
-                {"\n"}
-                <span className="text-purple-300">launch_fraud_scoring()</span>
-              </code>
-            </pre>
-          </div>
-
-          <div className="space-y-6">
+      {/* ================= FEATURES - Centered ================= */}
+      <section className="px-6 pb-20">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6">
             <Card
               title="Machine Learning Core"
-              text="The engine relies on CatBoost, a powerful gradient boosting algorithm well-suited for heterogeneous insurance data."
+              text="CatBoost gradient boosting handles mixed categorical and numerical features with state-of-the-art accuracy."
               icon="🌲"
             />
             <Card
               title="Probability Calibration"
-              text="Raw model outputs are corrected via isotonic calibration to avoid overconfidence and misinterpretation."
+              text="Isotonic regression ensures predicted probabilities reflect true fraud likelihood — no overconfidence."
               icon="📐"
             />
             <Card
-              title="Production-Ready Outputs"
-              text="Results are delivered as clean percentages, directly usable in dashboards, APIs, or underwriting workflows."
+              title="Production-Ready"
+              text="Clean percentage outputs ready for dashboards, APIs, and real-time underwriting decisions."
               icon="🚀"
             />
           </div>
         </div>
       </section>
 
-      {/* ================= METHODOLOGY ================= */}
-      <section id="methodology" className="px-6 pb-24">
-        <div className="max-w-5xl mx-auto bg-[#141f38] border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-bold mb-4">Methodology</h2>
-          <p className="text-[#b7c3e6] leading-relaxed">
-            The Fraud Risk Scoring system is built on a supervised learning approach.
-            A CatBoost classifier is trained on historical insurance claim data to
-            detect fraud-related patterns. To ensure trustworthy probabilities,
-            the raw outputs are calibrated using isotonic regression on validation
-            and test datasets.
-            <br /><br />
-            This dual-step process allows the model to retain strong ranking power
-            while delivering probabilities that can be safely interpreted and used
-            in real business contexts.
-          </p>
+      {/* ================= RESULTS TEASER ================= */}
+      <section className="px-6 pb-24">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#141f38] via-[#1a2744] to-[#141f38] border border-white/10 rounded-3xl p-10 text-center">
+            {/* Background decoration */}
+            <div className="absolute inset-0 opacity-30">
+              <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-semibold mb-6">
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                Outstanding Results
+              </div>
+              
+              <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                See the Full Analysis
+              </h3>
+              
+              <p className="text-[#b7c3e6] text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+                Our model achieves <span className="text-white font-semibold">exceptional discrimination</span> between fraudulent and legitimate claims. 
+                The calibrated probabilities enable <span className="text-white font-semibold">precise risk-based prioritization</span> that transforms fraud detection operations.
+              </p>
+              
+              <div className="flex flex-wrap justify-center gap-8 mb-10">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-blue-400">High</div>
+                  <div className="text-sm text-white/50 mt-1">AUC-ROC Score</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-purple-400">Calibrated</div>
+                  <div className="text-sm text-white/50 mt-1">Probabilities</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-green-400">Ready</div>
+                  <div className="text-sm text-white/50 mt-1">For Production</div>
+                </div>
+              </div>
+              
+              <a
+                href="https://www.kaggle.com"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all duration-300 font-bold text-lg shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
+              >
+                📊 Explore the Notebook
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -803,8 +911,9 @@ export default function FraudRiskScoring() {
       <footer className="px-6 pb-10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 border-t border-white/10 pt-6">
           <div className="flex items-center gap-3">
+            <img src="/logo.jpg" alt="Logo" className="w-6 h-6 object-contain rounded" />
             <span className="text-sm text-[#b7c3e6]">
-              By AG Algo Lab — Hack for Smart Insurance with AI
+              AG Algo Lab — Building intelligent systems
             </span>
           </div>
           <a
@@ -822,13 +931,11 @@ export default function FraudRiskScoring() {
 /* ================= CARD COMPONENT ================= */
 function Card({ title, text, icon }) {
   return (
-    <div className="bg-[#141f38] border border-white/10 rounded-2xl p-6">
-      <div className="flex items-start gap-4">
-        <div className="text-2xl">{icon}</div>
-        <div>
-          <h3 className="font-semibold text-lg mb-1">{title}</h3>
-          <p className="text-[#b7c3e6] text-sm leading-relaxed">{text}</p>
-        </div>
+    <div className="bg-[#141f38] border border-white/10 rounded-2xl p-6 hover:border-white/20 hover:bg-[#1a2744] transition-all duration-300 group">
+      <div className="flex flex-col items-center text-center">
+        <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{icon}</div>
+        <h3 className="font-semibold text-lg mb-2">{title}</h3>
+        <p className="text-[#b7c3e6] text-sm leading-relaxed">{text}</p>
       </div>
     </div>
   );
