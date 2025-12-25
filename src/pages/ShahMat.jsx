@@ -6,47 +6,19 @@ import { motion } from "framer-motion";
 /* ================= ANIMATED MINI CHESSBOARD ================= */
 function MiniChessboard() {
   const [pieces, setPieces] = useState([
-    { id: 1, color: "white", row: 3, col: 1 }, // Cases foncées (1+3=4, pair = foncé? non, impair)
-    { id: 2, color: "black", row: 0, col: 0 }, // Cases claires (0+0=0, pair = clair)
+    { id: 1, color: "white", row: 3, col: 0 }, // Cases foncées (3+0=3 impair)
+    { id: 2, color: "black", row: 0, col: 0 }, // Cases claires (0+0=0 pair)
   ]);
 
   const [movingPiece, setMovingPiece] = useState(null);
 
-  // Cases claires: (row+col) % 2 === 0 → (0,0), (0,2), (1,1), (1,3), (2,0), (2,2), (3,1), (3,3)
-  // Cases foncées: (row+col) % 2 === 1 → (0,1), (0,3), (1,0), (1,2), (2,1), (2,3), (3,0), (3,2)
-  
-  const gameSequence = [
-    // Fou blanc sur cases foncées
-    { pieceId: 1, toRow: 1, toCol: 3 },
-    // Fou noir sur cases claires
-    { pieceId: 2, toRow: 2, toCol: 2 },
-    // Blanc
-    { pieceId: 1, toRow: 3, toCol: 1 },
-    // Noir
-    { pieceId: 2, toRow: 0, toCol: 0 },
-    // Blanc
-    { pieceId: 1, toRow: 0, toCol: 4 }, // oops hors board, fix:
-  ];
-
-  // Recalcul propre des trajectoires diagonales
-  const whiteMoves = [
-    // Fou blanc: cases foncées uniquement
-    { row: 3, col: 1 }, // départ
-    { row: 1, col: 3 }, // diag +2, +2? non c'est (3,1)->(1,3) = -2,+2 ✓
-    { row: 0, col: 2 }, // -1, -1 ✓ mais (0,2) est clair! 0+2=2 pair = clair ✗
-  ];
-  
-  // OK je refais proprement:
-  // Cases foncées (somme impaire): (0,1), (0,3), (1,0), (1,2), (2,1), (2,3), (3,0), (3,2)
   // Cases claires (somme paire): (0,0), (0,2), (1,1), (1,3), (2,0), (2,2), (3,1), (3,3)
+  // Cases foncées (somme impaire): (0,1), (0,3), (1,0), (1,2), (2,1), (2,3), (3,0), (3,2)
 
-  const darkSquares = [[0,1], [0,3], [1,0], [1,2], [2,1], [2,3], [3,0], [3,2]];
-  const lightSquares = [[0,0], [0,2], [1,1], [1,3], [2,0], [2,2], [3,1], [3,3]];
-
-  const gameSequenceFinal = [
-    // Blanc sur DARK squares: (3,0) -> (2,1) -> (0,3) -> (1,2) -> (3,0)
+  const gameSequence = [
+    // Blanc sur cases foncées
     { pieceId: 1, toRow: 2, toCol: 1 },
-    // Noir sur LIGHT squares: (0,0) -> (1,1) -> (3,3) -> (2,2) -> (0,0)
+    // Noir sur cases claires  
     { pieceId: 2, toRow: 1, toCol: 1 },
     // Blanc
     { pieceId: 1, toRow: 0, toCol: 3 },
@@ -66,7 +38,7 @@ function MiniChessboard() {
     let moveIndex = 0;
 
     const interval = setInterval(() => {
-      const move = gameSequenceFinal[moveIndex % gameSequenceFinal.length];
+      const move = gameSequence[moveIndex % gameSequence.length];
       setMovingPiece(move.pieceId);
 
       setTimeout(() => {
@@ -86,111 +58,6 @@ function MiniChessboard() {
 
   const cellSize = 64;
 
-  // SVG Bishop style Chess.com Neo
-  const BishopSVG = ({ color, isMoving }) => {
-    const isWhite = color === 'white';
-    
-    return (
-      <svg
-        viewBox="0 0 45 45"
-        className={`w-12 h-12 transition-all duration-200 ${isMoving ? 'scale-115' : 'scale-100'}`}
-        style={{
-          filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
-        }}
-      >
-        <defs>
-          {/* Gradient pour le corps */}
-          <linearGradient id={`bishop-gradient-${color}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={isWhite ? '#ffffff' : '#3d3d3d'} />
-            <stop offset="100%" stopColor={isWhite ? '#e8e8e8' : '#1a1a1a'} />
-          </linearGradient>
-          {/* Gradient pour l'effet 3D */}
-          <linearGradient id={`bishop-shine-${color}`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor={isWhite ? '#ffffff' : '#5a5a5a'} stopOpacity="0.8" />
-            <stop offset="50%" stopColor={isWhite ? '#f0f0f0' : '#2d2d2d'} stopOpacity="0.4" />
-            <stop offset="100%" stopColor={isWhite ? '#d0d0d0' : '#1a1a1a'} stopOpacity="0.2" />
-          </linearGradient>
-        </defs>
-        
-        <g>
-          {/* Base ellipse */}
-          <ellipse 
-            cx="22.5" 
-            cy="40" 
-            rx="11" 
-            ry="3.5"
-            fill={`url(#bishop-gradient-${color})`}
-            stroke={isWhite ? '#333' : '#000'}
-            strokeWidth="1.2"
-          />
-          
-          {/* Socle bas */}
-          <path
-            d="M11.5 37 C11.5 37, 11 40, 22.5 40 C34 40, 33.5 37, 33.5 37 L33 34 C33 34, 28 36, 22.5 36 C17 36, 12 34, 12 34 Z"
-            fill={`url(#bishop-gradient-${color})`}
-            stroke={isWhite ? '#333' : '#000'}
-            strokeWidth="1.2"
-          />
-          
-          {/* Corps principal */}
-          <path
-            d="M12.5 34 C12.5 34, 14 25, 15.5 20 C17 15, 18 12, 22.5 10 C27 12, 28 15, 29.5 20 C31 25, 32.5 34, 32.5 34 C32.5 34, 28 35, 22.5 35 C17 35, 12.5 34, 12.5 34 Z"
-            fill={`url(#bishop-gradient-${color})`}
-            stroke={isWhite ? '#333' : '#000'}
-            strokeWidth="1.2"
-          />
-          
-          {/* Shine effect */}
-          <path
-            d="M15 33 C15 33, 16 24, 17.5 19 C19 14, 20 12, 22.5 11 C22.5 11, 20 13, 18.5 18 C17 23, 15.5 32, 15.5 32 Z"
-            fill={`url(#bishop-shine-${color})`}
-            opacity="0.6"
-          />
-          
-          {/* Tête (mitre) */}
-          <ellipse 
-            cx="22.5" 
-            cy="9" 
-            rx="5" 
-            ry="5"
-            fill={`url(#bishop-gradient-${color})`}
-            stroke={isWhite ? '#333' : '#000'}
-            strokeWidth="1.2"
-          />
-          
-          {/* Pointe de la mitre */}
-          <circle 
-            cx="22.5" 
-            cy="4.5" 
-            r="2"
-            fill={`url(#bishop-gradient-${color})`}
-            stroke={isWhite ? '#333' : '#000'}
-            strokeWidth="1"
-          />
-          
-          {/* Fente de la mitre */}
-          <path
-            d="M22.5 6 L22.5 12"
-            stroke={isWhite ? '#333' : '#666'}
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-          
-          {/* Collerette décorative */}
-          <ellipse 
-            cx="22.5" 
-            cy="14" 
-            rx="4" 
-            ry="1.5"
-            fill={`url(#bishop-gradient-${color})`}
-            stroke={isWhite ? '#333' : '#000'}
-            strokeWidth="0.8"
-          />
-        </g>
-      </svg>
-    );
-  };
-
   return (
     <div className="relative">
       {/* Glow effect */}
@@ -209,7 +76,7 @@ function MiniChessboard() {
           return (
             <div
               key={i}
-              className={`absolute transition-colors ${isLight ? "bg-[#eeeed2]" : "bg-[#769656]"}`}
+              className={`absolute ${isLight ? "bg-[#eeeed2]" : "bg-[#769656]"}`}
               style={{
                 width: cellSize,
                 height: cellSize,
@@ -221,28 +88,59 @@ function MiniChessboard() {
         })}
 
         {/* Pièces */}
-        {pieces.map((piece) => (
-          <motion.div
-            key={piece.id}
-            className="absolute flex items-center justify-center"
-            style={{
-              width: cellSize,
-              height: cellSize,
-              zIndex: movingPiece === piece.id ? 20 : 10,
-            }}
-            animate={{
-              left: piece.col * cellSize,
-              top: piece.row * cellSize,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 120,
-              damping: 18,
-            }}
-          >
-            <BishopSVG color={piece.color} isMoving={movingPiece === piece.id} />
-          </motion.div>
-        ))}
+        {pieces.map((piece) => {
+          const isWhite = piece.color === 'white';
+          
+          return (
+            <motion.div
+              key={piece.id}
+              className="absolute flex items-center justify-center"
+              style={{
+                width: cellSize,
+                height: cellSize,
+                zIndex: movingPiece === piece.id ? 20 : 10,
+              }}
+              animate={{
+                left: piece.col * cellSize,
+                top: piece.row * cellSize,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 120,
+                damping: 18,
+              }}
+            >
+              <span
+                className={`text-5xl select-none transition-transform duration-200 ${
+                  movingPiece === piece.id ? 'scale-110' : 'scale-100'
+                }`}
+                style={{
+                  color: isWhite ? '#fff' : '#000',
+                  textShadow: isWhite
+                    ? `
+                      -1px -1px 0 #000,
+                      1px -1px 0 #000,
+                      -1px 1px 0 #000,
+                      1px 1px 0 #000,
+                      0 3px 6px rgba(0,0,0,0.4)
+                    `
+                    : `
+                      -1px -1px 0 rgba(255,255,255,0.3),
+                      1px -1px 0 rgba(255,255,255,0.3),
+                      -1px 1px 0 rgba(255,255,255,0.1),
+                      1px 1px 0 rgba(255,255,255,0.1),
+                      0 3px 6px rgba(0,0,0,0.5)
+                    `,
+                  filter: movingPiece === piece.id 
+                    ? 'drop-shadow(0 8px 12px rgba(0,0,0,0.4))' 
+                    : 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))',
+                }}
+              >
+                ♝
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Coins décoratifs */}
@@ -253,6 +151,8 @@ function MiniChessboard() {
     </div>
   );
 }
+
+
 
 
 /* ================= MAIN PAGE ================= */
