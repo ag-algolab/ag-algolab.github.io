@@ -5,132 +5,81 @@ import { motion } from "framer-motion";
 
 /* ================= ANIMATED MINI CHESSBOARD ================= */
 function MiniChessboard() {
-  const initialPieces = [
+  const [pieces, setPieces] = useState([
     { id: 1, type: "♔", row: 3, col: 0 },  // Roi blanc
-    { id: 2, type: "♕", row: 3, col: 3 },  // Dame blanche
-    { id: 3, type: "♘", row: 3, col: 2 },  // Cavalier blanc
-    { id: 4, type: "♚", row: 0, col: 3 },  // Roi noir
-    { id: 5, type: "♞", row: 0, col: 2 },  // Cavalier noir
-    { id: 6, type: "♟", row: 1, col: 1 },  // Pion noir
-  ];
+    { id: 2, type: "♗", row: 3, col: 2 },  // Fou blanc
+    { id: 3, type: "♚", row: 0, col: 3 },  // Roi noir
+    { id: 4, type: "♝", row: 0, col: 1 },  // Fou noir
+  ]);
 
-  const [pieces, setPieces] = useState(initialPieces);
   const [movingPiece, setMovingPiece] = useState(null);
-  const [highlightedSquare, setHighlightedSquare] = useState(null); // Case menacée
+  const [threatenedPiece, setThreatenedPiece] = useState(null);
 
-  /*
-    Scénario de la mini-partie :
-    
-    1. ♘ Cavalier blanc (3,2) -> (1,3) : attaque le roi noir, menace
-    2. ♚ Roi noir (0,3) -> (0,2) : fuit l'échec (le cavalier noir était là, on le décale au setup)
-       -> En fait, redesign: cavalier noir en (0,1) au départ
-    
-    Nouveau setup plus clean :
-  */
-
-  // Séquence narrative :
-  // 1. Blanc joue : Cavalier menace la dame noire (si on avait une dame noire) 
-  //    -> Simplifions : Cavalier blanc attaque une case clé
-  // 2. Noir répond...
-  
-  // NOUVELLE APPROCHE : Une vraie micro-partie
-  
-  const moveSequence = [
-    // Tour 1 - Blanc : Cavalier avance, menace le pion
-    { 
-      pieceId: 3, 
-      toRow: 1, 
-      toCol: 3,
-      threat: { row: 1, col: 1 }, // Menace le pion en (1,1)
-      narrative: "Cavalier blanc menace le pion"
-    },
-    
-    // Tour 1 - Noir : Pion avance pour fuir
-    { 
-      pieceId: 6, 
-      toRow: 2, 
-      toCol: 1,
-      threat: null,
-      narrative: "Pion fuit"
-    },
-    
-    // Tour 2 - Blanc : Dame attaque
-    { 
-      pieceId: 2, 
-      toRow: 1, 
-      toCol: 3,  // Oops cavalier là -> Dame va ailleurs
-      narrative: "Dame avance"
-    },
-    // ... on va simplifier
-  ];
-
-  // VRAIE VERSION CLEAN :
-  
+  // Mini-partie : blanc/noir alternés, mouvements diagonaux uniquement pour les fous
   const gameSequence = [
     // === État initial ===
-    // Row 0: [_, ♞, _, ♚]
-    // Row 1: [_, ♟, _, _]
+    // Row 0: [_, ♝, _, ♚]
+    // Row 1: [_, _, _, _]
     // Row 2: [_, _, _, _]
-    // Row 3: [♔, _, ♘, ♕]
-    
-    // Tour 1 - BLANC : Cavalier (3,2) -> (2,0) en L
-    // Menace rien directement, développement
-    { pieceId: 3, toRow: 2, toCol: 0, threat: null },
-    
-    // Tour 1 - NOIR : Pion (1,1) -> (2,1) avance
-    { pieceId: 6, toRow: 2, toCol: 1, threat: null },
-    
-    // Tour 2 - BLANC : Cavalier (2,0) -> (0,1) mange le cavalier noir? 
-    // Non, cavalier noir en (0,1). Cavalier (2,0) -> (1,2) menace case (0,0) et (3,3)
-    { pieceId: 3, toRow: 1, toCol: 2, threat: null },
-    
-    // Tour 2 - NOIR : Cavalier noir (0,1) -> (2,2) en L, MENACE LA DAME en (3,3)!
-    { pieceId: 5, toRow: 2, toCol: 2, threat: { row: 3, col: 3 } },
-    
-    // Tour 3 - BLANC : Dame FUIT (3,3) -> (3,1) 
-    { pieceId: 2, toRow: 3, toCol: 1, threat: null },
-    
-    // Tour 3 - NOIR : Cavalier continue (2,2) -> (0,3)? Non roi là. -> (1,0)
-    { pieceId: 5, toRow: 1, toCol: 0, threat: null },
-    
-    // Tour 4 - BLANC : Cavalier (1,2) -> (0,0) 
-    { pieceId: 3, toRow: 0, toCol: 0, threat: null },
-    
-    // Tour 4 - NOIR : Roi (0,3) -> (1,3) descend
-    { pieceId: 4, toRow: 1, toCol: 3, threat: null },
-    
-    // === RESET pour boucle : tout le monde revient ===
-    // On fait revenir les pièces une par une
-    { pieceId: 4, toRow: 0, toCol: 3, threat: null }, // Roi noir revient
-    { pieceId: 3, toRow: 3, toCol: 2, threat: null }, // Cavalier blanc revient
-    { pieceId: 5, toRow: 0, toCol: 1, threat: null }, // Cavalier noir revient
-    { pieceId: 2, toRow: 3, toCol: 3, threat: null }, // Dame revient
-    { pieceId: 6, toRow: 1, toCol: 1, threat: null }, // Pion revient
+    // Row 3: [♔, _, ♗, _]
+
+    // Tour 1 - BLANC : Fou (3,2) -> (1,0) diagonale
+    { pieceId: 2, toRow: 1, toCol: 0, threat: null },
+
+    // Tour 1 - NOIR : Fou (0,1) -> (2,3) diagonale
+    { pieceId: 4, toRow: 2, toCol: 3, threat: null },
+
+    // Tour 2 - BLANC : Roi (3,0) -> (2,0) avance
+    { pieceId: 1, toRow: 2, toCol: 0, threat: null },
+
+    // Tour 2 - NOIR : Fou (2,3) -> (3,2) diagonale, menace le roi blanc!
+    { pieceId: 4, toRow: 3, toCol: 2, threat: 1 },
+
+    // Tour 3 - BLANC : Roi FUIT (2,0) -> (1,1) diagonale
+    { pieceId: 1, toRow: 1, toCol: 1, threat: null },
+
+    // Tour 3 - NOIR : Roi (0,3) -> (0,2) se déplace
+    { pieceId: 3, toRow: 0, toCol: 2, threat: null },
+
+    // Tour 4 - BLANC : Fou (1,0) -> (3,2)? Non fou noir là. -> (0,1) diagonale
+    { pieceId: 2, toRow: 0, toCol: 1, threat: null },
+
+    // Tour 4 - NOIR : Fou (3,2) -> (1,0) diagonale
+    { pieceId: 4, toRow: 1, toCol: 0, threat: null },
+
+    // Tour 5 - BLANC : Fou (0,1) -> (2,3) diagonale, menace roi noir!
+    { pieceId: 2, toRow: 2, toCol: 3, threat: 3 },
+
+    // Tour 5 - NOIR : Roi FUIT (0,2) -> (0,3)
+    { pieceId: 3, toRow: 0, toCol: 3, threat: null },
+
+    // === RESET progressif ===
+    { pieceId: 2, toRow: 3, toCol: 2, threat: null },  // Fou blanc revient
+    { pieceId: 4, toRow: 0, toCol: 1, threat: null },  // Fou noir revient
+    { pieceId: 1, toRow: 3, toCol: 0, threat: null },  // Roi blanc revient
   ];
 
   useEffect(() => {
     let moveIndex = 0;
-    
+
     const interval = setInterval(() => {
       const move = gameSequence[moveIndex % gameSequence.length];
-      
+
       setMovingPiece(move.pieceId);
-      setHighlightedSquare(move.threat);
-      
+      setThreatenedPiece(move.threat);
+
       setTimeout(() => {
-        setPieces(prev => prev.map(p => 
-          p.id === move.pieceId 
-            ? { ...p, row: move.toRow, col: move.toCol }
-            : p
-        ));
+        setPieces(prev =>
+          prev.map(p =>
+            p.id === move.pieceId ? { ...p, row: move.toRow, col: move.toCol } : p
+          )
+        );
         setMovingPiece(null);
-        
-        // Garder le highlight de menace un peu plus longtemps
-        setTimeout(() => setHighlightedSquare(null), 800);
+        setTimeout(() => setThreatenedPiece(null), 600);
       }, 500);
-      
+
       moveIndex++;
-    }, 2000);
+    }, 1800);
 
     return () => clearInterval(interval);
   }, []);
@@ -141,28 +90,21 @@ function MiniChessboard() {
   return (
     <div className="relative">
       <div className="absolute -inset-6 bg-gradient-to-br from-emerald-500/20 to-green-500/10 rounded-3xl blur-2xl" />
-      
-      <div 
+
+      <div
         className="relative rounded-xl overflow-hidden border-2 border-emerald-700/50 shadow-2xl shadow-emerald-900/50"
         style={{ width: cellSize * 4, height: cellSize * 4 }}
       >
-        {/* Cases du plateau */}
+        {/* Cases */}
         {[...Array(16)].map((_, i) => {
           const row = Math.floor(i / 4);
           const col = i % 4;
           const isLight = (row + col) % 2 === 0;
-          const isThreatened = highlightedSquare?.row === row && highlightedSquare?.col === col;
-          
+
           return (
             <div
               key={i}
-              className={`absolute transition-colors duration-300 ${
-                isThreatened 
-                  ? 'bg-red-500/70' 
-                  : isLight 
-                    ? 'bg-[#eeeed2]' 
-                    : 'bg-[#769656]'
-              }`}
+              className={`absolute ${isLight ? "bg-[#eeeed2]" : "bg-[#769656]"}`}
               style={{
                 width: cellSize,
                 height: cellSize,
@@ -174,39 +116,54 @@ function MiniChessboard() {
         })}
 
         {/* Pièces */}
-        {pieces.map((piece) => (
-          <motion.div
-            key={piece.id}
-            className="absolute flex items-center justify-center select-none"
-            style={{
-              width: cellSize,
-              height: cellSize,
-              zIndex: movingPiece === piece.id ? 20 : 10,
-            }}
-            animate={{
-              left: piece.col * cellSize,
-              top: piece.row * cellSize,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 150,
-              damping: 20,
-            }}
-          >
-            <span 
-              className={`text-5xl ${movingPiece === piece.id ? 'scale-110' : 'scale-100'} transition-transform duration-200`}
+        {pieces.map((piece) => {
+          const isThreatened = threatenedPiece === piece.id;
+
+          return (
+            <motion.div
+              key={piece.id}
+              className="absolute flex items-center justify-center select-none"
               style={{
-                color: isWhitePiece(piece.type) ? '#ffffff' : '#1a1a1a',
-                textShadow: isWhitePiece(piece.type)
-                  ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.3)'
-                  : '0 2px 4px rgba(0,0,0,0.3)',
-                WebkitTextStroke: isWhitePiece(piece.type) ? '1px #333' : 'none',
+                width: cellSize,
+                height: cellSize,
+                zIndex: movingPiece === piece.id ? 20 : 10,
+              }}
+              animate={{
+                left: piece.col * cellSize,
+                top: piece.row * cellSize,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 150,
+                damping: 20,
               }}
             >
-              {piece.type}
-            </span>
-          </motion.div>
-        ))}
+              {/* Cercle rouge si menacé */}
+              {isThreatened && (
+                <motion.div
+                  className="absolute inset-1 rounded-full border-4 border-red-500 bg-red-500/20"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+              )}
+              <span
+                className={`text-5xl ${
+                  movingPiece === piece.id ? "scale-110" : "scale-100"
+                } transition-transform duration-200`}
+                style={{
+                  color: isWhitePiece(piece.type) ? "#ffffff" : "#1a1a1a",
+                  textShadow: isWhitePiece(piece.type)
+                    ? "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.3)"
+                    : "0 2px 4px rgba(0,0,0,0.3)",
+                  WebkitTextStroke: isWhitePiece(piece.type) ? "1px #333" : "none",
+                }}
+              >
+                {piece.type}
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Coins décoratifs */}
@@ -217,7 +174,6 @@ function MiniChessboard() {
     </div>
   );
 }
-
 /* ================= MAIN PAGE ================= */
 export default function ShahMat() {
   return (
