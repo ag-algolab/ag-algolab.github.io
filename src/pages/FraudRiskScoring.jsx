@@ -7,9 +7,19 @@ function AnimatedPipeline() {
   const [activeStep, setActiveStep] = useState(0);
   const [isTransferring, setIsTransferring] = useState(0);
   const [treeValues, setTreeValues] = useState({
-    thresholds: [0.5, 0.3, 0.3, 0.7, 0.7],
-    leaves: [0.12, 0.34, 0.28, 0.45, 0.52, 0.67, 0.71, 0.89]
+    feature1: "claim_amount",
+    threshold1: "5000",
+    feature2: "policy_age",
+    threshold2: "2",
+    leaves: ["0.15", "0.42", "0.58", "0.87"]
   });
+
+  const features = [
+    { name: "claim_amount", thresholds: ["3000", "5000", "7500", "10000"] },
+    { name: "policy_age", thresholds: ["1", "2", "3", "5"] },
+    { name: "vehicle_age", thresholds: ["3", "5", "7", "10"] },
+    { name: "num_claims", thresholds: ["0", "1", "2", "3"] },
+  ];
 
   useEffect(() => {
     const runCycle = () => {
@@ -17,14 +27,21 @@ function AnimatedPipeline() {
       const newCalibrated = Math.min(0.95, Math.max(0.08, newRaw * (0.85 + Math.random() * 0.25)));
       
       // Generate new tree values
-      const newThresholds = [
-        (Math.random() * 0.4 + 0.3).toFixed(1),
-        (Math.random() * 0.3 + 0.2).toFixed(1),
-        (Math.random() * 0.3 + 0.2).toFixed(1),
-        (Math.random() * 0.3 + 0.5).toFixed(1),
-        (Math.random() * 0.3 + 0.5).toFixed(1),
-      ];
-      const newLeaves = Array(8).fill(0).map(() => (Math.random() * 0.85 + 0.05).toFixed(2));
+      const f1 = features[Math.floor(Math.random() * features.length)];
+      const f2 = features[Math.floor(Math.random() * features.length)];
+      
+      const newTreeValues = {
+        feature1: f1.name,
+        threshold1: f1.thresholds[Math.floor(Math.random() * f1.thresholds.length)],
+        feature2: f2.name,
+        threshold2: f2.thresholds[Math.floor(Math.random() * f2.thresholds.length)],
+        leaves: [
+          (Math.random() * 0.3 + 0.05).toFixed(2),
+          (Math.random() * 0.3 + 0.25).toFixed(2),
+          (Math.random() * 0.3 + 0.45).toFixed(2),
+          (Math.random() * 0.25 + 0.70).toFixed(2),
+        ]
+      };
 
       setActiveStep(0);
       setIsTransferring(0);
@@ -35,10 +52,7 @@ function AnimatedPipeline() {
         setIsTransferring(0);
         setActiveStep(1);
         setRawProba(newRaw);
-        setTreeValues({
-          thresholds: newThresholds,
-          leaves: newLeaves
-        });
+        setTreeValues(newTreeValues);
       }, 800);
 
       setTimeout(() => setIsTransferring(2), 3800);
@@ -153,97 +167,57 @@ function AnimatedArrow({ active }) {
   );
 }
 
-/* ================= SYMMETRIC DECISION TREE (CATBOOST OBLIVIOUS TREE) ================= */
-function SymmetricTreeViz({ active, processing, treeValues }) {
+/* ================= OBLIVIOUS TREE (2 levels, strictly symmetric) ================= */
+function ObliviousTreeViz({ active, processing, treeValues }) {
   const [activeLevel, setActiveLevel] = useState(-1);
 
   useEffect(() => {
     if (!processing) {
-      if (active) setActiveLevel(3);
+      if (active) setActiveLevel(2);
       return;
     }
 
     setActiveLevel(0);
     const timers = [
-      setTimeout(() => setActiveLevel(1), 600),
-      setTimeout(() => setActiveLevel(2), 1200),
-      setTimeout(() => setActiveLevel(3), 1800),
+      setTimeout(() => setActiveLevel(1), 1000),
+      setTimeout(() => setActiveLevel(2), 2000),
     ];
 
     return () => timers.forEach(clearTimeout);
   }, [processing, active]);
 
-  // Symmetric/Oblivious tree structure for CatBoost
-  // All nodes at same depth use the SAME split condition
+  const { feature1, threshold1, feature2, threshold2, leaves } = treeValues;
+
+  // Oblivious Tree Structure (depth = 2):
   //
-  //                    [x₁ > t₁]                     Level 0 (depth 0)
-  //                   /         \
-  //           [x₂ > t₂]         [x₂ > t₂]            Level 1 (depth 1) - SAME condition
-  //           /      \          /      \
-  //      [x₃>t₃]  [x₃>t₃]  [x₃>t₃]  [x₃>t₃]          Level 2 (depth 2) - SAME condition
-  //      / \      / \      / \      / \
-  //     L0 L1    L2 L3    L4 L5    L6 L7              Level 3 (leaves)
+  //                 [feature_1 <= threshold_1]           ← Level 0 (root)
+  //                /                          \
+  //    [feature_2 <= threshold_2]    [feature_2 <= threshold_2]   ← Level 1 (SAME condition both sides)
+  //           /    \                      /    \
+  //         L0      L1                  L2      L3                ← Level 2 (leaves)
+  //
+  // This is the key property of oblivious trees: same split at each level
 
-  const { thresholds, leaves } = treeValues;
-
-  // Node positions for symmetric tree
-  const levelY = [25, 70, 115, 160];
-  const nodeRadius = 18;
-
-  // Calculate x positions for each level (perfectly symmetric)
-  const getNodesAtLevel = (level) => {
-    const count = Math.pow(2, level);
-    const totalWidth = 380;
-    const startX = 10;
-    const spacing = totalWidth / count;
-    return Array(count).fill(0).map((_, i) => startX + spacing * (i + 0.5));
-  };
-
-  const level0X = getNodesAtLevel(0);
-  const level1X = getNodesAtLevel(1);
-  const level2X = getNodesAtLevel(2);
-  const level3X = getNodesAtLevel(3);
-
-  const decisionNodes = [
-    // Level 0
-    { id: 0, x: level0X[0], y: levelY[0], level: 0, label: `x₁>${thresholds[0]}` },
-    // Level 1 (same condition)
-    { id: 1, x: level1X[0], y: levelY[1], level: 1, label: `x₂>${thresholds[1]}` },
-    { id: 2, x: level1X[1], y: levelY[1], level: 1, label: `x₂>${thresholds[2]}` },
-    // Level 2 (same condition)
-    { id: 3, x: level2X[0], y: levelY[2], level: 2, label: `x₃>${thresholds[3]}` },
-    { id: 4, x: level2X[1], y: levelY[2], level: 2, label: `x₃>${thresholds[4]}` },
-    { id: 5, x: level2X[2], y: levelY[2], level: 2, label: `x₃>${thresholds[3]}` },
-    { id: 6, x: level2X[3], y: levelY[2], level: 2, label: `x₃>${thresholds[4]}` },
+  const centerX = 200;
+  const levelY = [30, 85, 145];
+  
+  // Node positions
+  const rootX = centerX;
+  const level1LeftX = centerX - 90;
+  const level1RightX = centerX + 90;
+  const leafSpacing = 50;
+  const leafPositions = [
+    centerX - 135,  // L0
+    centerX - 45,   // L1
+    centerX + 45,   // L2
+    centerX + 135,  // L3
   ];
 
-  const leafNodes = level3X.map((x, i) => ({
-    id: 7 + i,
-    x,
-    y: levelY[3],
-    level: 3,
-    label: leaves[i],
-    isLeaf: true
-  }));
-
-  const allNodes = [...decisionNodes, ...leafNodes];
-
-  // Edges connecting nodes
-  const edges = [
-    // From root
-    { from: 0, to: 1 }, { from: 0, to: 2 },
-    // From level 1
-    { from: 1, to: 3 }, { from: 1, to: 4 },
-    { from: 2, to: 5 }, { from: 2, to: 6 },
-    // From level 2 to leaves
-    { from: 3, to: 7 }, { from: 3, to: 8 },
-    { from: 4, to: 9 }, { from: 4, to: 10 },
-    { from: 5, to: 11 }, { from: 5, to: 12 },
-    { from: 6, to: 13 }, { from: 6, to: 14 },
-  ];
+  const condition1 = `${feature1} ≤ ${threshold1}`;
+  const condition2 = `${feature2} ≤ ${threshold2}`;
 
   return (
-    <svg viewBox="0 0 400 185" className="w-full h-full">
+    <svg viewBox="0 0 400 170" className="w-full h-full">
       <defs>
         <filter id="nodeGlow">
           <feGaussianBlur stdDeviation="4" result="coloredBlur" />
@@ -252,114 +226,200 @@ function SymmetricTreeViz({ active, processing, treeValues }) {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <linearGradient id="edgeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="#3b82f6" />
           <stop offset="100%" stopColor="#8b5cf6" />
         </linearGradient>
       </defs>
 
-      {/* Edges */}
-      {edges.map((edge, idx) => {
-        const fromNode = allNodes[edge.from];
-        const toNode = allNodes[edge.to];
-        const isActive = activeLevel >= toNode.level;
+      {/* === EDGES === */}
+      
+      {/* Root to Level 1 */}
+      <line
+        x1={rootX} y1={levelY[0] + 14}
+        x2={level1LeftX} y2={levelY[1] - 14}
+        stroke={activeLevel >= 1 ? "url(#edgeGrad)" : "rgba(255,255,255,0.15)"}
+        strokeWidth={activeLevel >= 1 ? 2.5 : 1.5}
+        className="transition-all duration-700"
+      />
+      <line
+        x1={rootX} y1={levelY[0] + 14}
+        x2={level1RightX} y2={levelY[1] - 14}
+        stroke={activeLevel >= 1 ? "url(#edgeGrad)" : "rgba(255,255,255,0.15)"}
+        strokeWidth={activeLevel >= 1 ? 2.5 : 1.5}
+        className="transition-all duration-700"
+      />
 
-        return (
-          <line
-            key={idx}
-            x1={fromNode.x}
-            y1={fromNode.y + 12}
-            x2={toNode.x}
-            y2={toNode.y - 12}
-            stroke={isActive ? "url(#edgeGradient)" : "rgba(255,255,255,0.12)"}
-            strokeWidth={isActive ? 2 : 1}
-            className="transition-all duration-500"
-            filter={isActive && processing ? "url(#nodeGlow)" : ""}
-          />
-        );
-      })}
+      {/* Level 1 to Leaves */}
+      <line
+        x1={level1LeftX} y1={levelY[1] + 14}
+        x2={leafPositions[0]} y2={levelY[2] - 12}
+        stroke={activeLevel >= 2 ? "url(#edgeGrad)" : "rgba(255,255,255,0.15)"}
+        strokeWidth={activeLevel >= 2 ? 2.5 : 1.5}
+        className="transition-all duration-700"
+      />
+      <line
+        x1={level1LeftX} y1={levelY[1] + 14}
+        x2={leafPositions[1]} y2={levelY[2] - 12}
+        stroke={activeLevel >= 2 ? "url(#edgeGrad)" : "rgba(255,255,255,0.15)"}
+        strokeWidth={activeLevel >= 2 ? 2.5 : 1.5}
+        className="transition-all duration-700"
+      />
+      <line
+        x1={level1RightX} y1={levelY[1] + 14}
+        x2={leafPositions[2]} y2={levelY[2] - 12}
+        stroke={activeLevel >= 2 ? "url(#edgeGrad)" : "rgba(255,255,255,0.15)"}
+        strokeWidth={activeLevel >= 2 ? 2.5 : 1.5}
+        className="transition-all duration-700"
+      />
+      <line
+        x1={level1RightX} y1={levelY[1] + 14}
+        x2={leafPositions[3]} y2={levelY[2] - 12}
+        stroke={activeLevel >= 2 ? "url(#edgeGrad)" : "rgba(255,255,255,0.15)"}
+        strokeWidth={activeLevel >= 2 ? 2.5 : 1.5}
+        className="transition-all duration-700"
+      />
 
-      {/* Decision Nodes */}
-      {decisionNodes.map((node) => {
-        const isActive = activeLevel >= node.level;
-        const isCurrentLevel = processing && activeLevel === node.level;
+      {/* Edge labels (Yes/No) */}
+      <text x={rootX - 55} y={levelY[0] + 35} fill={activeLevel >= 1 ? "rgba(34,197,94,0.8)" : "rgba(255,255,255,0.3)"} fontSize="9" fontWeight="600" className="transition-all duration-500">Yes</text>
+      <text x={rootX + 40} y={levelY[0] + 35} fill={activeLevel >= 1 ? "rgba(239,68,68,0.8)" : "rgba(255,255,255,0.3)"} fontSize="9" fontWeight="600" className="transition-all duration-500">No</text>
+      
+      <text x={level1LeftX - 38} y={levelY[1] + 32} fill={activeLevel >= 2 ? "rgba(34,197,94,0.7)" : "rgba(255,255,255,0.25)"} fontSize="8" className="transition-all duration-500">Y</text>
+      <text x={level1LeftX + 25} y={levelY[1] + 32} fill={activeLevel >= 2 ? "rgba(239,68,68,0.7)" : "rgba(255,255,255,0.25)"} fontSize="8" className="transition-all duration-500">N</text>
+      <text x={level1RightX - 32} y={levelY[1] + 32} fill={activeLevel >= 2 ? "rgba(34,197,94,0.7)" : "rgba(255,255,255,0.25)"} fontSize="8" className="transition-all duration-500">Y</text>
+      <text x={level1RightX + 20} y={levelY[1] + 32} fill={activeLevel >= 2 ? "rgba(239,68,68,0.7)" : "rgba(255,255,255,0.25)"} fontSize="8" className="transition-all duration-500">N</text>
 
-        return (
-          <g key={node.id}>
-            <rect
-              x={node.x - 28}
-              y={node.y - 11}
-              width={56}
-              height={22}
-              rx={4}
-              fill={isActive ? "rgba(59,130,246,0.25)" : "rgba(255,255,255,0.05)"}
-              stroke={isActive ? "#3b82f6" : "rgba(255,255,255,0.15)"}
-              strokeWidth={isActive ? 1.5 : 1}
-              filter={isCurrentLevel ? "url(#nodeGlow)" : ""}
-              className="transition-all duration-500"
-            />
-            <text
-              x={node.x}
-              y={node.y + 4}
-              textAnchor="middle"
-              fill={isActive ? "#60a5fa" : "rgba(255,255,255,0.4)"}
-              fontSize="9"
-              fontFamily="monospace"
-              fontWeight={isActive ? "600" : "400"}
-              className="transition-all duration-500"
-            >
-              {node.label}
-            </text>
-            {isCurrentLevel && (
-              <circle cx={node.x} cy={node.y} r="18" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.4">
-                <animate attributeName="r" from="14" to="28" dur="0.8s" repeatCount="indefinite" />
-                <animate attributeName="opacity" from="0.5" to="0" dur="0.8s" repeatCount="indefinite" />
-              </circle>
-            )}
-          </g>
-        );
-      })}
+      {/* === NODES === */}
+
+      {/* Root Node (Level 0) */}
+      <g>
+        <rect
+          x={rootX - 70} y={levelY[0] - 14}
+          width={140} height={28}
+          rx={6}
+          fill={activeLevel >= 0 ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.05)"}
+          stroke={activeLevel >= 0 ? "#3b82f6" : "rgba(255,255,255,0.2)"}
+          strokeWidth={activeLevel >= 0 ? 2 : 1}
+          filter={processing && activeLevel === 0 ? "url(#nodeGlow)" : ""}
+          className="transition-all duration-500"
+        />
+        <text
+          x={rootX} y={levelY[0] + 4}
+          textAnchor="middle"
+          fill={activeLevel >= 0 ? "#60a5fa" : "rgba(255,255,255,0.4)"}
+          fontSize="11"
+          fontFamily="monospace"
+          fontWeight="600"
+          className="transition-all duration-500"
+        >
+          {condition1}
+        </text>
+        {processing && activeLevel === 0 && (
+          <circle cx={rootX} cy={levelY[0]} r="20" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.5">
+            <animate attributeName="r" from="18" to="35" dur="0.8s" repeatCount="indefinite" />
+            <animate attributeName="opacity" from="0.6" to="0" dur="0.8s" repeatCount="indefinite" />
+          </circle>
+        )}
+      </g>
+
+      {/* Level 1 Left Node */}
+      <g>
+        <rect
+          x={level1LeftX - 60} y={levelY[1] - 14}
+          width={120} height={28}
+          rx={6}
+          fill={activeLevel >= 1 ? "rgba(59,130,246,0.25)" : "rgba(255,255,255,0.05)"}
+          stroke={activeLevel >= 1 ? "#3b82f6" : "rgba(255,255,255,0.2)"}
+          strokeWidth={activeLevel >= 1 ? 2 : 1}
+          filter={processing && activeLevel === 1 ? "url(#nodeGlow)" : ""}
+          className="transition-all duration-500"
+        />
+        <text
+          x={level1LeftX} y={levelY[1] + 4}
+          textAnchor="middle"
+          fill={activeLevel >= 1 ? "#60a5fa" : "rgba(255,255,255,0.4)"}
+          fontSize="10"
+          fontFamily="monospace"
+          fontWeight="500"
+          className="transition-all duration-500"
+        >
+          {condition2}
+        </text>
+      </g>
+
+      {/* Level 1 Right Node (SAME condition - mirror) */}
+      <g>
+        <rect
+          x={level1RightX - 60} y={levelY[1] - 14}
+          width={120} height={28}
+          rx={6}
+          fill={activeLevel >= 1 ? "rgba(59,130,246,0.25)" : "rgba(255,255,255,0.05)"}
+          stroke={activeLevel >= 1 ? "#3b82f6" : "rgba(255,255,255,0.2)"}
+          strokeWidth={activeLevel >= 1 ? 2 : 1}
+          filter={processing && activeLevel === 1 ? "url(#nodeGlow)" : ""}
+          className="transition-all duration-500"
+        />
+        <text
+          x={level1RightX} y={levelY[1] + 4}
+          textAnchor="middle"
+          fill={activeLevel >= 1 ? "#60a5fa" : "rgba(255,255,255,0.4)"}
+          fontSize="10"
+          fontFamily="monospace"
+          fontWeight="500"
+          className="transition-all duration-500"
+        >
+          {condition2}
+        </text>
+      </g>
 
       {/* Leaf Nodes */}
-      {leafNodes.map((node) => {
-        const isActive = activeLevel >= 3;
-        const isCurrentLevel = processing && activeLevel === 3;
+      {leaves.map((value, i) => (
+        <g key={i}>
+          <rect
+            x={leafPositions[i] - 24} y={levelY[2] - 12}
+            width={48} height={24}
+            rx={12}
+            fill={activeLevel >= 2 ? "rgba(34,197,94,0.3)" : "rgba(255,255,255,0.05)"}
+            stroke={activeLevel >= 2 ? "#22c55e" : "rgba(255,255,255,0.2)"}
+            strokeWidth={activeLevel >= 2 ? 2 : 1}
+            filter={processing && activeLevel === 2 ? "url(#nodeGlow)" : ""}
+            className="transition-all duration-500"
+          />
+          <text
+            x={leafPositions[i]} y={levelY[2] + 4}
+            textAnchor="middle"
+            fill={activeLevel >= 2 ? "#4ade80" : "rgba(255,255,255,0.4)"}
+            fontSize="12"
+            fontFamily="monospace"
+            fontWeight="600"
+            className="transition-all duration-500"
+          >
+            {value}
+          </text>
+        </g>
+      ))}
 
-        return (
-          <g key={node.id}>
-            <rect
-              x={node.x - 18}
-              y={node.y - 10}
-              width={36}
-              height={20}
-              rx={10}
-              fill={isActive ? "rgba(34,197,94,0.25)" : "rgba(255,255,255,0.05)"}
-              stroke={isActive ? "#22c55e" : "rgba(255,255,255,0.15)"}
-              strokeWidth={isActive ? 1.5 : 1}
-              filter={isCurrentLevel ? "url(#nodeGlow)" : ""}
-              className="transition-all duration-500"
-            />
-            <text
-              x={node.x}
-              y={node.y + 3}
-              textAnchor="middle"
-              fill={isActive ? "#4ade80" : "rgba(255,255,255,0.4)"}
-              fontSize="9"
-              fontFamily="monospace"
-              fontWeight={isActive ? "600" : "400"}
-              className="transition-all duration-500"
-            >
-              {node.label}
-            </text>
-          </g>
-        );
-      })}
+      {/* Pulse on leaves when processing */}
+      {processing && activeLevel === 2 && leaves.map((_, i) => (
+        <circle key={`pulse-${i}`} cx={leafPositions[i]} cy={levelY[2]} r="18" fill="none" stroke="#22c55e" strokeWidth="2" opacity="0.4">
+          <animate attributeName="r" from="14" to="28" dur="0.8s" repeatCount="indefinite" begin={`${i * 0.15}s`} />
+          <animate attributeName="opacity" from="0.5" to="0" dur="0.8s" repeatCount="indefinite" begin={`${i * 0.15}s`} />
+        </circle>
+      ))}
 
-      {/* Level labels */}
-      <text x="3" y={levelY[0] + 4} fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace">d=0</text>
-      <text x="3" y={levelY[1] + 4} fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace">d=1</text>
-      <text x="3" y={levelY[2] + 4} fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace">d=2</text>
-      <text x="3" y={levelY[3] + 4} fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace">leaf</text>
+      {/* "Same split" indicator */}
+      <g opacity={activeLevel >= 1 ? 0.6 : 0.2} className="transition-all duration-500">
+        <path
+          d={`M ${level1LeftX + 62} ${levelY[1]} Q ${centerX} ${levelY[1] - 20} ${level1RightX - 62} ${levelY[1]}`}
+          fill="none"
+          stroke="#8b5cf6"
+          strokeWidth="1"
+          strokeDasharray="4 3"
+        />
+        <text x={centerX} y={levelY[1] - 22} textAnchor="middle" fill="#a78bfa" fontSize="8" fontStyle="italic">
+          same split
+        </text>
+      </g>
     </svg>
   );
 }
@@ -415,23 +475,23 @@ function CatBoostVisualizer({ active, processing, rawProba, treeValues }) {
           >
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke={active ? "#60a5fa" : "#ffffff40"} strokeWidth="2">
               <circle cx="12" cy="4" r="2" />
-              <circle cx="6" cy="10" r="2" />
-              <circle cx="18" cy="10" r="2" />
-              <circle cx="3" cy="16" r="2" />
-              <circle cx="9" cy="16" r="2" />
-              <circle cx="15" cy="16" r="2" />
-              <circle cx="21" cy="16" r="2" />
-              <line x1="12" y1="6" x2="6" y2="8" />
-              <line x1="12" y1="6" x2="18" y2="8" />
-              <line x1="6" y1="12" x2="3" y2="14" />
-              <line x1="6" y1="12" x2="9" y2="14" />
-              <line x1="18" y1="12" x2="15" y2="14" />
-              <line x1="18" y1="12" x2="21" y2="14" />
+              <circle cx="6" cy="11" r="2" />
+              <circle cx="18" cy="11" r="2" />
+              <circle cx="3" cy="18" r="2" />
+              <circle cx="9" cy="18" r="2" />
+              <circle cx="15" cy="18" r="2" />
+              <circle cx="21" cy="18" r="2" />
+              <line x1="12" y1="6" x2="6" y2="9" />
+              <line x1="12" y1="6" x2="18" y2="9" />
+              <line x1="6" y1="13" x2="3" y2="16" />
+              <line x1="6" y1="13" x2="9" y2="16" />
+              <line x1="18" y1="13" x2="15" y2="16" />
+              <line x1="18" y1="13" x2="21" y2="16" />
             </svg>
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-lg text-white/90">CatBoost</h3>
-            <p className="text-sm text-white/50">Symmetric (Oblivious) Decision Trees</p>
+            <p className="text-sm text-white/50">Oblivious Decision Tree</p>
           </div>
           <div
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-500 ${
@@ -446,7 +506,7 @@ function CatBoostVisualizer({ active, processing, rawProba, treeValues }) {
           </div>
         </div>
 
-        <div className="relative h-52 mb-4 rounded-xl bg-[#0e1424]/80 border border-white/5 overflow-hidden">
+        <div className="relative h-48 mb-4 rounded-xl bg-[#0e1424]/80 border border-white/5 overflow-hidden">
           <div
             className="absolute inset-0 opacity-20"
             style={{
@@ -454,7 +514,7 @@ function CatBoostVisualizer({ active, processing, rawProba, treeValues }) {
               backgroundSize: "16px 16px",
             }}
           />
-          <SymmetricTreeViz active={active} processing={processing} treeValues={treeValues} />
+          <ObliviousTreeViz active={active} processing={processing} treeValues={treeValues} />
         </div>
 
         <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
