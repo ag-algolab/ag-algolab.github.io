@@ -922,18 +922,23 @@ export default function FraudRiskScoring() {
         </div>
       </section>
 
-      <div className="flex items-center justify-center gap-4 my-16 text-white/40">
-        <div className="h-px w-24 bg-white/20" />
-        <span className="text-xs tracking-widest uppercase">Pipeline</span>
-        <div className="h-px w-24 bg-white/20" />
+      <div className="flex flex-col items-center my-6 text-white/60">
+        <div className="flex items-center gap-6">
+          <div className="h-px w-24 bg-white/20" />
+          <span className="text-lg md:text-xl font-semibold tracking-widest uppercase">
+            Live Pipeline
+          </span>
+          <div className="h-px w-24 bg-white/20" />
+        </div>
       </div>
+      sName="h-px w-24 bg-white/20" />
+
 
 
       {/* Pipeline */}
       <section className="px-6 pb-16">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">Live Pipeline Demo</h2>
+          <div className="text-center mb-6">
             <p className="text-white/50 max-w-2xl mx-auto">Watch the complete fraud detection pipeline process claims in real-time</p>
           </div>
           <AnimatedPipeline />
