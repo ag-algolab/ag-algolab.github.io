@@ -266,7 +266,7 @@ export default function ShahMat() {
                   <span className="text-white/60">=</span>
                   <span className="text-cyan-300">2023</span>
                   <span className="text-white/60">)</span>
-`}
+
                 </code>
               </pre>
             </div>
