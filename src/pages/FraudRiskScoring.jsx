@@ -997,7 +997,7 @@ export default function FraudRiskScoring() {
                 </div>
               </div>
               <a
-                href="https://www.kaggle.com/code/anthonygocmen/car-insurance-fraud-detection-with-catboost"
+                href="https://www.kaggle.com/writeups/anthonygocmen/insurance-fraud-detection-with-calibrated-gradient"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all duration-300 font-bold text-lg shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
