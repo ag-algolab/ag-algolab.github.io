@@ -522,7 +522,7 @@ function Home() {
                 <div className="aspect-video rounded-xl overflow-hidden border border-white/5">
                   <iframe
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/jufYe2b1fUI&list=PLpcu21l3JC8Y1inomOJhjYw1l_AWs_F7_&index=1"
+                    src="https://www.youtube.com/embed/jufYe2b1fUI"
                     title="YouTube Uploads – French"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
