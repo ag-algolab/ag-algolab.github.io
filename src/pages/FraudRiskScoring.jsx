@@ -922,6 +922,13 @@ export default function FraudRiskScoring() {
         </div>
       </section>
 
+      <div className="flex items-center justify-center gap-4 my-16 text-white/40">
+        <div className="h-px w-24 bg-white/20" />
+        <span className="text-xs tracking-widest uppercase">Pipeline</span>
+        <div className="h-px w-24 bg-white/20" />
+      </div>
+
+
       {/* Pipeline */}
       <section className="px-6 pb-16">
         <div className="max-w-4xl mx-auto">
