@@ -371,13 +371,10 @@ function Home() {
                   <h3 className="text-2xl font-bold text-white mb-6">Anthony Gocmen</h3>
                   <div className="space-y-4 text-[#b7c3e6] leading-relaxed">
                     <p>
-                      AG AlgoLab is currently led by its founder, Anthony Gocmen, who drives all research and development activities.
+                      AG AlgoLab is led by Anthony Gocmen, Master in Finance student at <span className="text-white font-medium">Université Paris Dauphine (PSL)</span>, specializing in Python-based ML, deep learning, and quantitative modeling.
                     </p>
                     <p>
-                      He is currently pursuing a Master's degree in Finance at <span className="text-white font-medium">Université Paris Dauphine (PSL)</span>.
-                    </p>
-                    <p>
-                      In 2025, he won the <span className="text-white font-medium">Space Hackathon</span> organized by Arizona State University, showcasing his ability to combine innovation, data, and advanced modeling in real-world challenges.
+                      Work focuses on risk and financial applications, including insurance fraud detection, and has been recognized in competitions such as the <span className="text-white font-medium">'2025 Space Hackathon 4 Sustainability'</span>.
                     </p>
                   </div>
                 </div>
