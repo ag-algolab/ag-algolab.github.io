@@ -2,7 +2,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import ShahMat from "./pages/ShahMat"; 
 import FraudRiskScoring from "./pages/FraudRiskScoring";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play } from 'lucide-react';
@@ -21,14 +21,12 @@ function TechOrbit() {
 
   return (
     <div className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px]">
-      {/* Central orb */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
         <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur border border-white/10 flex items-center justify-center shadow-[0_0_60px_rgba(59,130,246,0.3)]">
           <img src="/logo.jpg" alt="AG Algo Lab" className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-contain" />
         </div>
       </div>
       
-      {/* Orbiting techs */}
       <div className="absolute inset-0 animate-spin" style={{ animationDuration: '30s' }}>
         {techs.map((tech, i) => {
           const angle = (i / techs.length) * 360;
@@ -53,7 +51,6 @@ function TechOrbit() {
         })}
       </div>
       
-      {/* Orbit ring */}
       <div className="absolute inset-[30px] rounded-full border border-white/5" />
       <div className="absolute inset-[60px] rounded-full border border-dashed border-white/5" />
       
@@ -63,94 +60,6 @@ function TechOrbit() {
           to { transform: rotate(-360deg); }
         }
       `}</style>
-    </div>
-  );
-}
-
-/* ================= FLOATING DOTS ANIMATION ================= */
-function FloatingDots() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full bg-blue-400/30"
-          initial={{ 
-            x: Math.random() * 100 + "%", 
-            y: Math.random() * 100 + "%",
-            opacity: 0 
-          }}
-          animate={{ 
-            y: [null, "-20%", "120%"],
-            opacity: [0, 0.6, 0],
-          }}
-          transition={{
-            duration: Math.random() * 8 + 6,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-            ease: "linear"
-          }}
-        />
-      ))}
-      {[...Array(8)].map((_, i) => (
-        <motion.div
-          key={`purple-${i}`}
-          className="absolute w-1.5 h-1.5 rounded-full bg-purple-400/20"
-          initial={{ 
-            x: Math.random() * 100 + "%", 
-            y: Math.random() * 100 + "%",
-            opacity: 0 
-          }}
-          animate={{ 
-            y: [null, "-30%", "110%"],
-            opacity: [0, 0.4, 0],
-          }}
-          transition={{
-            duration: Math.random() * 10 + 8,
-            repeat: Infinity,
-            delay: Math.random() * 3,
-            ease: "linear"
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-/* ================= SKILL BARS ANIMATION ================= */
-function SkillBars() {
-  const skills = [
-    { name: "Python", level: 95, color: "from-blue-500 to-cyan-400" },
-    { name: "Machine Learning", level: 88, color: "from-purple-500 to-pink-400" },
-    { name: "Deep Learning", level: 82, color: "from-indigo-500 to-blue-400" },
-    { name: "Quantitative Finance", level: 78, color: "from-green-500 to-emerald-400" },
-  ];
-
-  return (
-    <div className="space-y-4 mt-8">
-      {skills.map((skill, i) => (
-        <motion.div
-          key={skill.name}
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: i * 0.1 }}
-          viewport={{ once: true }}
-        >
-          <div className="flex justify-between items-center mb-1.5">
-            <span className="text-white/70 text-sm font-medium">{skill.name}</span>
-            <span className="text-white/40 text-xs">{skill.level}%</span>
-          </div>
-          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-            <motion.div
-              className={`h-full bg-gradient-to-r ${skill.color} rounded-full`}
-              initial={{ width: 0 }}
-              whileInView={{ width: `${skill.level}%` }}
-              transition={{ duration: 1.2, delay: i * 0.15, ease: "easeOut" }}
-              viewport={{ once: true }}
-            />
-          </div>
-        </motion.div>
-      ))}
     </div>
   );
 }
@@ -195,7 +104,7 @@ function ProjectCard({ title, description, tech, image, index }) {
   );
 }
 
-/* ================= FEATURE CARD (for projects page links) ================= */
+/* ================= FEATURE CARD ================= */
 function FeatureCard({ title, description, href, icon, color }) {
   const colorClasses = {
     green: {
@@ -210,12 +119,6 @@ function FeatureCard({ title, description, href, icon, color }) {
       icon: "bg-blue-500/20 text-blue-400 group-hover:bg-blue-500/30",
       text: "group-hover:text-blue-400"
     },
-    purple: {
-      border: "hover:border-purple-500/50",
-      glow: "group-hover:shadow-[0_0_40px_rgba(139,92,246,0.2)]",
-      icon: "bg-purple-500/20 text-purple-400 group-hover:bg-purple-500/30",
-      text: "group-hover:text-purple-400"
-    }
   };
   
   const c = colorClasses[color] || colorClasses.blue;
@@ -258,19 +161,17 @@ function KaggleIcon({ className }) {
 
 /* ================= HOME PAGE ================= */
 function Home() {
-  const navigate = useNavigate();
-
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
   const navItems = [
-    { label: 'Home', type: 'section', to: 'home' },
-    { label: 'Founder', type: 'section', to: 'founder' },
-    { label: 'Projects', type: 'section', to: 'projects' },
-    { label: 'Knowledge Hub', type: 'section', to: 'knowledge-hub' },
-    { label: 'Contact', type: 'section', to: 'contact' },
+    { label: 'Home', to: 'home' },
+    { label: 'Founder', to: 'founder' },
+    { label: 'Projects', to: 'projects' },
+    { label: 'Knowledge Hub', to: 'knowledge-hub' },
+    { label: 'Contact', to: 'contact' },
   ];
 
   return (
@@ -310,7 +211,6 @@ function Home() {
 
         {/* Hero Section */}
         <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-          {/* Background effects */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
@@ -319,7 +219,6 @@ function Home() {
 
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left content */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -369,7 +268,6 @@ function Home() {
                 </div>
               </motion.div>
 
-              {/* Right content - Tech Orbit */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -380,7 +278,6 @@ function Home() {
               </motion.div>
             </div>
 
-            {/* Scroll indicator */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -401,7 +298,7 @@ function Home() {
         <section id="founder" className="py-24 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent" />
           
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="max-w-5xl mx-auto px-6 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -414,64 +311,32 @@ function Home() {
               </h2>
             </motion.div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Left - Photo & Code */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="bg-[#141f38] rounded-2xl p-6 border border-white/10"
-              >
-                <div className="w-40 h-40 mx-auto rounded-2xl overflow-hidden mb-6 border border-white/10 shadow-xl">
-                  <img 
-                    src="/founder.png" 
-                    alt="Anthony Gocmen" 
-                    className="w-full h-full object-cover"
-                  />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="bg-[#141f38] rounded-2xl p-8 md:p-10 border border-white/10 relative overflow-hidden"
+            >
+              {/* Background gradient */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+              
+              <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                {/* Photo */}
+                <div className="flex-shrink-0">
+                  <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border border-white/10 shadow-xl">
+                    <img 
+                      src="/founder.png" 
+                      alt="Anthony Gocmen" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
 
-                <div className="bg-[#0e1424] rounded-xl p-4 border border-white/5 font-mono text-sm">
-                  <pre className="text-xs sm:text-sm">
-                    <code>
-                      <span className="text-purple-400">from</span>{" "}
-                      <span className="text-white">Anthony</span>{" "}
-                      <span className="text-purple-400">import</span>
-                      <span className="text-pink-400"> *</span>
-                      {"\n\n"}
-                      <span className="text-orange-400">while</span>{" "}
-                      <span className="text-orange-400">not</span>{" "}
-                      <span className="text-white">success</span>
-                      <span className="text-white">:</span>
-                      {"\n  "}
-                      <span className="text-cyan-400">keep_learning</span>
-                      <span className="text-white">()</span>
-                      {"\n  "}
-                      <span className="text-cyan-400">keep_building</span>
-                      <span className="text-white">()</span>
-                    </code>
-                  </pre>
-                </div>
-              </motion.div>
-
-              {/* Right - Bio with animation */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
-                className="lg:col-span-2 bg-[#141f38] rounded-2xl p-8 border border-white/10 relative overflow-hidden"
-              >
-                {/* Floating dots background */}
-                <FloatingDots />
-                
-                {/* Gradient orbs */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-500/10 to-pink-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-                
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-bold text-white mb-6">Anthony Gocmen</h3>
-                  <div className="space-y-4 text-[#b7c3e6] leading-relaxed">
+                {/* Description */}
+                <div className="flex-1 text-center md:text-left">
+                  <h3 className="text-2xl font-bold text-white mb-4">Anthony Gocmen</h3>
+                  <div className="space-y-3 text-[#b7c3e6] leading-relaxed">
                     <p>
                       AG AlgoLab is led by Anthony Gocmen, Master in Finance student at <span className="text-white font-medium">Université Paris Dauphine (PSL)</span>, specializing in Python-based ML, deep learning, and quantitative modeling.
                     </p>
@@ -479,12 +344,9 @@ function Home() {
                       Work focuses on risk and financial applications, including insurance fraud detection, and has been recognized in competitions such as the <span className="text-white font-medium">'2025 Space Hackathon 4 Sustainability'</span> (1st Place).
                     </p>
                   </div>
-                  
-                  {/* Animated skill bars */}
-                  <SkillBars />
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
@@ -510,7 +372,6 @@ function Home() {
               </p>
             </motion.div>
 
-            {/* 4-step cycle */}
             <div className="grid md:grid-cols-2 gap-6 mb-20">
               {[
                 {
@@ -542,7 +403,6 @@ function Home() {
               ))}
             </div>
 
-            {/* Other Projects */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -601,7 +461,6 @@ function Home() {
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-8">
-              {/* English Channel */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -637,7 +496,6 @@ function Home() {
                 </div>
               </motion.div>
 
-              {/* French Channel */}
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -695,7 +553,6 @@ function Home() {
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-6 mb-10">
-              {/* Phone */}
               <motion.a
                 href="tel:+21655906954"
                 initial={{ opacity: 0, y: 20 }}
@@ -717,7 +574,6 @@ function Home() {
                 </div>
               </motion.a>
 
-              {/* Email */}
               <motion.a
                 href="mailto:anthony.gocmen@gmail.com"
                 initial={{ opacity: 0, y: 20 }}
@@ -740,7 +596,6 @@ function Home() {
               </motion.a>
             </div>
 
-            {/* Social Links */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
