@@ -919,7 +919,6 @@ export default function FraudRiskScoring() {
             An AI-driven insurance fraud detection system combining <span className="text-white font-semibold">CatBoost</span> with{" "}
             <span className="text-white font-semibold">isotonic calibration</span> to produce reliable, production-ready fraud risk scores.
           </p>
-          </div>
         </div>
       </section>
 
