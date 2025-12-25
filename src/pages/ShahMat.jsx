@@ -5,57 +5,117 @@ import { motion } from "framer-motion";
 
 /* ================= ANIMATED MINI CHESSBOARD ================= */
 function MiniChessboard() {
-  const [pieces, setPieces] = useState([
+  const initialPieces = [
     { id: 1, type: "♔", row: 3, col: 0 },  // Roi blanc
     { id: 2, type: "♕", row: 3, col: 3 },  // Dame blanche
-    { id: 3, type: "♘", row: 3, col: 1 },  // Cavalier blanc
+    { id: 3, type: "♘", row: 3, col: 2 },  // Cavalier blanc
     { id: 4, type: "♚", row: 0, col: 3 },  // Roi noir
     { id: 5, type: "♞", row: 0, col: 2 },  // Cavalier noir
-    { id: 6, type: "♟", row: 1, col: 0 },  // Pion noir
-  ]);
+    { id: 6, type: "♟", row: 1, col: 1 },  // Pion noir
+  ];
 
+  const [pieces, setPieces] = useState(initialPieces);
   const [movingPiece, setMovingPiece] = useState(null);
+  const [highlightedSquare, setHighlightedSquare] = useState(null); // Case menacée
 
-  // Séquence validée - aucune collision
-  // État initial:
-  // Row 0: [_, _, ♞, ♚]
-  // Row 1: [♟, _, _, _]
-  // Row 2: [_, _, _, _]
-  // Row 3: [♔, ♘, _, ♕]
+  /*
+    Scénario de la mini-partie :
+    
+    1. ♘ Cavalier blanc (3,2) -> (1,3) : attaque le roi noir, menace
+    2. ♚ Roi noir (0,3) -> (0,2) : fuit l'échec (le cavalier noir était là, on le décale au setup)
+       -> En fait, redesign: cavalier noir en (0,1) au départ
+    
+    Nouveau setup plus clean :
+  */
+
+  // Séquence narrative :
+  // 1. Blanc joue : Cavalier menace la dame noire (si on avait une dame noire) 
+  //    -> Simplifions : Cavalier blanc attaque une case clé
+  // 2. Noir répond...
+  
+  // NOUVELLE APPROCHE : Une vraie micro-partie
   
   const moveSequence = [
-    // Move 1: Cavalier blanc (3,1) -> (1,2) en L ✓
-    { pieceId: 3, toRow: 1, toCol: 2 },
+    // Tour 1 - Blanc : Cavalier avance, menace le pion
+    { 
+      pieceId: 3, 
+      toRow: 1, 
+      toCol: 3,
+      threat: { row: 1, col: 1 }, // Menace le pion en (1,1)
+      narrative: "Cavalier blanc menace le pion"
+    },
     
-    // Move 2: Cavalier noir (0,2) -> (2,1) en L ✓
-    { pieceId: 5, toRow: 2, toCol: 1 },
+    // Tour 1 - Noir : Pion avance pour fuir
+    { 
+      pieceId: 6, 
+      toRow: 2, 
+      toCol: 1,
+      threat: null,
+      narrative: "Pion fuit"
+    },
     
-    // Move 3: Pion noir (1,0) -> (2,0) avance ✓
-    { pieceId: 6, toRow: 2, toCol: 0 },
+    // Tour 2 - Blanc : Dame attaque
+    { 
+      pieceId: 2, 
+      toRow: 1, 
+      toCol: 3,  // Oops cavalier là -> Dame va ailleurs
+      narrative: "Dame avance"
+    },
+    // ... on va simplifier
+  ];
+
+  // VRAIE VERSION CLEAN :
+  
+  const gameSequence = [
+    // === État initial ===
+    // Row 0: [_, ♞, _, ♚]
+    // Row 1: [_, ♟, _, _]
+    // Row 2: [_, _, _, _]
+    // Row 3: [♔, _, ♘, ♕]
     
-    // Move 4: Dame blanche (3,3) -> (2,3) avance ✓
-    { pieceId: 2, toRow: 2, toCol: 3 },
+    // Tour 1 - BLANC : Cavalier (3,2) -> (2,0) en L
+    // Menace rien directement, développement
+    { pieceId: 3, toRow: 2, toCol: 0, threat: null },
     
-    // Move 5: Cavalier noir (2,1) -> (0,2) retour en L ✓
-    { pieceId: 5, toRow: 0, toCol: 2 },
+    // Tour 1 - NOIR : Pion (1,1) -> (2,1) avance
+    { pieceId: 6, toRow: 2, toCol: 1, threat: null },
     
-    // Move 6: Cavalier blanc (1,2) -> (3,1) retour en L ✓
-    { pieceId: 3, toRow: 3, toCol: 1 },
+    // Tour 2 - BLANC : Cavalier (2,0) -> (0,1) mange le cavalier noir? 
+    // Non, cavalier noir en (0,1). Cavalier (2,0) -> (1,2) menace case (0,0) et (3,3)
+    { pieceId: 3, toRow: 1, toCol: 2, threat: null },
     
-    // Move 7: Dame blanche (2,3) -> (3,3) retour ✓
-    { pieceId: 2, toRow: 3, toCol: 3 },
+    // Tour 2 - NOIR : Cavalier noir (0,1) -> (2,2) en L, MENACE LA DAME en (3,3)!
+    { pieceId: 5, toRow: 2, toCol: 2, threat: { row: 3, col: 3 } },
     
-    // Move 8: Pion noir (2,0) -> (3,0)? Non, roi là. -> (1,0) retour (on triche)
-    { pieceId: 6, toRow: 1, toCol: 0 },
+    // Tour 3 - BLANC : Dame FUIT (3,3) -> (3,1) 
+    { pieceId: 2, toRow: 3, toCol: 1, threat: null },
+    
+    // Tour 3 - NOIR : Cavalier continue (2,2) -> (0,3)? Non roi là. -> (1,0)
+    { pieceId: 5, toRow: 1, toCol: 0, threat: null },
+    
+    // Tour 4 - BLANC : Cavalier (1,2) -> (0,0) 
+    { pieceId: 3, toRow: 0, toCol: 0, threat: null },
+    
+    // Tour 4 - NOIR : Roi (0,3) -> (1,3) descend
+    { pieceId: 4, toRow: 1, toCol: 3, threat: null },
+    
+    // === RESET pour boucle : tout le monde revient ===
+    // On fait revenir les pièces une par une
+    { pieceId: 4, toRow: 0, toCol: 3, threat: null }, // Roi noir revient
+    { pieceId: 3, toRow: 3, toCol: 2, threat: null }, // Cavalier blanc revient
+    { pieceId: 5, toRow: 0, toCol: 1, threat: null }, // Cavalier noir revient
+    { pieceId: 2, toRow: 3, toCol: 3, threat: null }, // Dame revient
+    { pieceId: 6, toRow: 1, toCol: 1, threat: null }, // Pion revient
   ];
 
   useEffect(() => {
     let moveIndex = 0;
     
     const interval = setInterval(() => {
-      const move = moveSequence[moveIndex % moveSequence.length];
+      const move = gameSequence[moveIndex % gameSequence.length];
       
       setMovingPiece(move.pieceId);
+      setHighlightedSquare(move.threat);
       
       setTimeout(() => {
         setPieces(prev => prev.map(p => 
@@ -64,6 +124,9 @@ function MiniChessboard() {
             : p
         ));
         setMovingPiece(null);
+        
+        // Garder le highlight de menace un peu plus longtemps
+        setTimeout(() => setHighlightedSquare(null), 800);
       }, 500);
       
       moveIndex++;
@@ -83,15 +146,23 @@ function MiniChessboard() {
         className="relative rounded-xl overflow-hidden border-2 border-emerald-700/50 shadow-2xl shadow-emerald-900/50"
         style={{ width: cellSize * 4, height: cellSize * 4 }}
       >
+        {/* Cases du plateau */}
         {[...Array(16)].map((_, i) => {
           const row = Math.floor(i / 4);
           const col = i % 4;
           const isLight = (row + col) % 2 === 0;
+          const isThreatened = highlightedSquare?.row === row && highlightedSquare?.col === col;
           
           return (
             <div
               key={i}
-              className={`absolute ${isLight ? 'bg-[#eeeed2]' : 'bg-[#769656]'}`}
+              className={`absolute transition-colors duration-300 ${
+                isThreatened 
+                  ? 'bg-red-500/70' 
+                  : isLight 
+                    ? 'bg-[#eeeed2]' 
+                    : 'bg-[#769656]'
+              }`}
               style={{
                 width: cellSize,
                 height: cellSize,
@@ -102,6 +173,7 @@ function MiniChessboard() {
           );
         })}
 
+        {/* Pièces */}
         {pieces.map((piece) => (
           <motion.div
             key={piece.id}
@@ -137,6 +209,7 @@ function MiniChessboard() {
         ))}
       </div>
 
+      {/* Coins décoratifs */}
       <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-emerald-400/60 rounded-tl-lg" />
       <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-emerald-400/60 rounded-tr-lg" />
       <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-emerald-400/60 rounded-bl-lg" />
@@ -144,6 +217,7 @@ function MiniChessboard() {
     </div>
   );
 }
+
 /* ================= MAIN PAGE ================= */
 export default function ShahMat() {
   return (
