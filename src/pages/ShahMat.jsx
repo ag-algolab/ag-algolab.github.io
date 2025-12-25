@@ -5,7 +5,19 @@ import { motion } from "framer-motion";
 
 /* ================= ANIMATED MINI CHESSBOARD ================= */
 function MiniChessboard() {
-  // 4x4 board with some pieces
+  // 4x4 board - each cell can only have ONE piece
+  // We track the board state to prevent overlaps
+  const [board, setBoard] = useState(() => {
+    // Initial board state: board[row][col] = piece or null
+    const initial = [
+      [{ id: 1, type: "♔", color: "white" }, null, null, { id: 2, type: "♕", color: "white" }],
+      [null, null, { id: 5, type: "♞", color: "black" }, null],
+      [{ id: 6, type: "♟", color: "black" }, null, null, null],
+      [null, { id: 3, type: "♘", color: "white" }, null, { id: 4, type: "♚", color: "black" }],
+    ];
+    return initial;
+  });
+
   const [pieces, setPieces] = useState([
     { id: 1, type: "♔", color: "white", row: 0, col: 0 },
     { id: 2, type: "♕", color: "white", row: 0, col: 3 },
@@ -15,27 +27,30 @@ function MiniChessboard() {
     { id: 6, type: "♟", color: "black", row: 2, col: 0 },
   ]);
 
-  const [activeMove, setActiveMove] = useState(null);
+  const [movingPiece, setMovingPiece] = useState(null);
 
-  // Predefined smooth moves sequence
-  const moves = [
-    { pieceId: 3, toRow: 1, toCol: 0 }, // Knight moves
-    { pieceId: 5, toRow: 3, toCol: 1 }, // Black knight
-    { pieceId: 3, toRow: 2, toCol: 2 }, // Knight again
-    { pieceId: 4, toRow: 2, toCol: 3 }, // King moves
-    { pieceId: 2, toRow: 1, toCol: 3 }, // Queen moves
-    { pieceId: 5, toRow: 2, toCol: 3 }, // Black knight
-    { pieceId: 3, toRow: 3, toCol: 1 }, // Reset knight
-    { pieceId: 4, toRow: 3, toCol: 3 }, // Reset king
+  // Valid moves sequence - each move is guaranteed to go to an EMPTY cell
+  // and we cycle through a choreographed sequence
+  const moveSequence = [
+    { pieceId: 3, toRow: 2, toCol: 2 }, // White knight to empty
+    { pieceId: 5, toRow: 0, toCol: 1 }, // Black knight to empty
+    { pieceId: 6, toRow: 3, toCol: 0 }, // Pawn advances
+    { pieceId: 3, toRow: 1, toCol: 0 }, // White knight moves
+    { pieceId: 5, toRow: 2, toCol: 2 }, // Black knight to center
+    { pieceId: 4, toRow: 2, toCol: 3 }, // Black king moves
+    { pieceId: 3, toRow: 3, toCol: 1 }, // White knight back
+    { pieceId: 5, toRow: 1, toCol: 2 }, // Black knight back
+    { pieceId: 6, toRow: 2, toCol: 0 }, // Pawn back
+    { pieceId: 4, toRow: 3, toCol: 3 }, // Black king back
   ];
 
   useEffect(() => {
     let moveIndex = 0;
     
     const interval = setInterval(() => {
-      const move = moves[moveIndex % moves.length];
+      const move = moveSequence[moveIndex % moveSequence.length];
       
-      setActiveMove(move.pieceId);
+      setMovingPiece(move.pieceId);
       
       setTimeout(() => {
         setPieces(prev => prev.map(p => 
@@ -43,24 +58,24 @@ function MiniChessboard() {
             ? { ...p, row: move.toRow, col: move.toCol }
             : p
         ));
-        setActiveMove(null);
-      }, 400);
+        setMovingPiece(null);
+      }, 500);
       
       moveIndex++;
-    }, 2500);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const cellSize = 56;
+  const cellSize = 60;
 
   return (
     <div className="relative">
       {/* Glow effect */}
-      <div className="absolute -inset-4 bg-gradient-to-br from-emerald-500/20 to-green-500/10 rounded-3xl blur-2xl" />
+      <div className="absolute -inset-6 bg-gradient-to-br from-emerald-500/20 to-green-500/10 rounded-3xl blur-2xl" />
       
       <div 
-        className="relative rounded-xl overflow-hidden border border-white/20 shadow-2xl"
+        className="relative rounded-xl overflow-hidden border-2 border-emerald-700/50 shadow-2xl shadow-emerald-900/50"
         style={{ width: cellSize * 4, height: cellSize * 4 }}
       >
         {/* Board squares */}
@@ -72,10 +87,10 @@ function MiniChessboard() {
           return (
             <div
               key={i}
-              className={`absolute transition-colors duration-300 ${
+              className={`absolute ${
                 isLight 
-                  ? 'bg-[#a8d5a2]' 
-                  : 'bg-[#5d8a54]'
+                  ? 'bg-[#eeeed2]' 
+                  : 'bg-[#769656]'
               }`}
               style={{
                 width: cellSize,
@@ -91,12 +106,11 @@ function MiniChessboard() {
         {pieces.map((piece) => (
           <motion.div
             key={piece.id}
-            className={`absolute flex items-center justify-center text-3xl select-none ${
-              activeMove === piece.id ? 'z-20' : 'z-10'
-            }`}
+            className="absolute flex items-center justify-center select-none"
             style={{
               width: cellSize,
               height: cellSize,
+              zIndex: movingPiece === piece.id ? 20 : 10,
             }}
             animate={{
               left: piece.col * cellSize,
@@ -104,47 +118,28 @@ function MiniChessboard() {
             }}
             transition={{
               type: "spring",
-              stiffness: 200,
+              stiffness: 150,
               damping: 20,
-              duration: 0.4
             }}
           >
             <span 
-              className={`drop-shadow-lg ${
+              className={`text-4xl ${
                 piece.color === 'white' 
-                  ? 'text-white [text-shadow:_1px_1px_2px_rgb(0_0_0_/_60%)]' 
-                  : 'text-gray-900 [text-shadow:_1px_1px_2px_rgb(255_255_255_/_30%)]'
-              } ${activeMove === piece.id ? 'scale-110' : ''} transition-transform duration-200`}
+                  ? 'text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)]' 
+                  : 'text-gray-900 drop-shadow-[0_1px_2px_rgba(255,255,255,0.3)]'
+              } ${movingPiece === piece.id ? 'scale-110' : 'scale-100'} transition-transform duration-200`}
             >
               {piece.type}
             </span>
           </motion.div>
         ))}
-
-        {/* Subtle grid overlay */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[1, 2, 3].map(i => (
-            <div 
-              key={`v-${i}`}
-              className="absolute top-0 bottom-0 w-px bg-black/10"
-              style={{ left: i * cellSize }}
-            />
-          ))}
-          {[1, 2, 3].map(i => (
-            <div 
-              key={`h-${i}`}
-              className="absolute left-0 right-0 h-px bg-black/10"
-              style={{ top: i * cellSize }}
-            />
-          ))}
-        </div>
       </div>
 
-      {/* Corner accents */}
-      <div className="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-emerald-400/50 rounded-tl-lg" />
-      <div className="absolute -top-2 -right-2 w-4 h-4 border-t-2 border-r-2 border-emerald-400/50 rounded-tr-lg" />
-      <div className="absolute -bottom-2 -left-2 w-4 h-4 border-b-2 border-l-2 border-emerald-400/50 rounded-bl-lg" />
-      <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 border-emerald-400/50 rounded-br-lg" />
+      {/* Corner decorations */}
+      <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-emerald-400/60 rounded-tl-lg" />
+      <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-emerald-400/60 rounded-tr-lg" />
+      <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-emerald-400/60 rounded-bl-lg" />
+      <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-emerald-400/60 rounded-br-lg" />
     </div>
   );
 }
@@ -171,11 +166,9 @@ export default function ShahMat() {
               </span>
             </Link>
 
-            <div className="flex items-center gap-6">
-              <Link to="/" className="text-white/60 hover:text-white transition-colors text-sm font-medium">
-                ← Back home
-              </Link>
-            </div>
+            <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/70 hover:bg-white/5 hover:text-white transition">
+              ← Back home
+            </Link>
           </div>
         </div>
       </nav>
@@ -183,7 +176,7 @@ export default function ShahMat() {
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left - Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -255,27 +248,36 @@ export default function ShahMat() {
               <span className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-sm">⚡</span>
               Quick Start
             </h2>
-            <div className="bg-black/40 rounded-xl p-5 font-mono text-sm border border-white/5">
-              <code>
-                <span className="text-emerald-400">pip</span>
-                <span className="text-white/80"> install shahmat</span>
-                {"\n\n"}
-                <span className="text-blue-400">from</span>
-                <span className="text-white/80"> ShahMat </span>
-                <span className="text-blue-400">import</span>
-                <span className="text-white/80"> chesscom</span>
-                {"\n"}
-                <span className="text-purple-400">chesscom</span>
-                <span className="text-white/60">(</span>
-                <span className="text-orange-300">username</span>
-                <span className="text-white/60">=</span>
-                <span className="text-green-300">"your_name"</span>
-                <span className="text-white/60">, </span>
-                <span className="text-orange-300">start_year</span>
-                <span className="text-white/60">=</span>
-                <span className="text-cyan-300">2023</span>
-                <span className="text-white/60">)</span>
-              </code>
+            <div className="bg-black/40 rounded-xl p-5 font-mono text-sm border border-white/5 overflow-x-auto">
+              <pre className="text-sm leading-relaxed">
+                <code>
+                  <span className="text-emerald-400">pip</span>
+                  <span className="text-white/80"> install shahmat</span>
+{`
+
+`}
+                  <span className="text-blue-400">from</span>
+                  <span className="text-white/80"> ShahMat </span>
+                  <span className="text-blue-400">import</span>
+                  <span className="text-white/80"> chesscom</span>
+{`
+
+`}
+                  <span className="text-purple-400">chesscom</span>
+                  <span className="text-white/60">(</span>
+{`
+    `}<span className="text-orange-300">username</span>
+                  <span className="text-white/60">=</span>
+                  <span className="text-green-300">"your_name"</span>
+                  <span className="text-white/60">,</span>
+{`
+    `}<span className="text-orange-300">start_year</span>
+                  <span className="text-white/60">=</span>
+                  <span className="text-cyan-300">2023</span>
+{`
+`}<span className="text-white/60">)</span>
+                </code>
+              </pre>
             </div>
             <div className="mt-5 flex flex-wrap gap-2">
               {["Python", "Chess.com API", "Matplotlib", "TQDM"].map(tag => (
