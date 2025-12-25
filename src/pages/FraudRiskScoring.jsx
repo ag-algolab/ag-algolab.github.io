@@ -938,7 +938,7 @@ export default function FraudRiskScoring() {
           <div className="text-center mb-6">
             <p className="text-white/50 max-w-2xl mx-auto">Watch the complete fraud detection pipeline process claims in real-time</p>
           </div>
-          <AnimatedPipeline />
+          <AnimatedPipeline className="mt-12" />
         </div>
       </section>
 
