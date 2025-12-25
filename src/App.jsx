@@ -487,7 +487,7 @@ function Home() {
                 <div className="aspect-video rounded-xl overflow-hidden border border-white/5">
                   <iframe
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/videoseries?list=UUto-h4A_cbDnivcjJWDuFxg&modestbranding=1&rel=0"
+                    src="https://www.youtube.com/embed/CSs9krvlyj4"
                     title="YouTube Uploads – English"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -522,7 +522,7 @@ function Home() {
                 <div className="aspect-video rounded-xl overflow-hidden border border-white/5">
                   <iframe
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/videoseries?list=UUl8YYrmlWMsemuq4TvXnkZQ&modestbranding=1&rel=0"
+                    src="https://www.youtube.com/embed/jufYe2b1fUI&list=PLpcu21l3JC8Y1inomOJhjYw1l_AWs_F7_&index=1"
                     title="YouTube Uploads – French"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
