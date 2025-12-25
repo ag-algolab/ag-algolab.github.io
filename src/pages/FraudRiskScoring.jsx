@@ -931,9 +931,6 @@ export default function FraudRiskScoring() {
           <div className="h-px w-24 bg-white/20" />
         </div>
       </div>
-      sName="h-px w-24 bg-white/20" />
-
-
 
       {/* Pipeline */}
       <section className="px-6 pb-16">
