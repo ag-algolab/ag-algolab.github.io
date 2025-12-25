@@ -5,43 +5,27 @@ import { motion } from "framer-motion";
 
 /* ================= ANIMATED MINI CHESSBOARD ================= */
 function MiniChessboard() {
-  // 4x4 board - each cell can only have ONE piece
-  // We track the board state to prevent overlaps
-  const [board, setBoard] = useState(() => {
-    // Initial board state: board[row][col] = piece or null
-    const initial = [
-      [{ id: 1, type: "♔", color: "white" }, null, null, { id: 2, type: "♕", color: "white" }],
-      [null, null, { id: 5, type: "♞", color: "black" }, null],
-      [{ id: 6, type: "♟", color: "black" }, null, null, null],
-      [null, { id: 3, type: "♘", color: "white" }, null, { id: 4, type: "♚", color: "black" }],
-    ];
-    return initial;
-  });
-
   const [pieces, setPieces] = useState([
-    { id: 1, type: "♔", color: "white", row: 0, col: 0 },
-    { id: 2, type: "♕", color: "white", row: 0, col: 3 },
-    { id: 3, type: "♘", color: "white", row: 3, col: 1 },
-    { id: 4, type: "♚", color: "black", row: 3, col: 3 },
-    { id: 5, type: "♞", color: "black", row: 1, col: 2 },
-    { id: 6, type: "♟", color: "black", row: 2, col: 0 },
+    // Pièces blanches (remplies) en bas
+    { id: 1, type: "♔", row: 3, col: 0 },  // Roi blanc
+    { id: 2, type: "♕", row: 3, col: 3 },  // Dame blanche
+    { id: 3, type: "♘", row: 3, col: 1 },  // Cavalier blanc
+    // Pièces noires (remplies) en haut
+    { id: 4, type: "♚", row: 0, col: 3 },  // Roi noir
+    { id: 5, type: "♞", row: 0, col: 2 },  // Cavalier noir
+    { id: 6, type: "♟", row: 1, col: 0 },  // Pion noir
   ]);
 
   const [movingPiece, setMovingPiece] = useState(null);
 
-  // Valid moves sequence - each move is guaranteed to go to an EMPTY cell
-  // and we cycle through a choreographed sequence
+  // Mouvements réalistes en boucle
   const moveSequence = [
-    { pieceId: 3, toRow: 2, toCol: 2 }, // White knight to empty
-    { pieceId: 5, toRow: 0, toCol: 1 }, // Black knight to empty
-    { pieceId: 6, toRow: 3, toCol: 0 }, // Pawn advances
-    { pieceId: 3, toRow: 1, toCol: 0 }, // White knight moves
-    { pieceId: 5, toRow: 2, toCol: 2 }, // Black knight to center
-    { pieceId: 4, toRow: 2, toCol: 3 }, // Black king moves
-    { pieceId: 3, toRow: 3, toCol: 1 }, // White knight back
-    { pieceId: 5, toRow: 1, toCol: 2 }, // Black knight back
-    { pieceId: 6, toRow: 2, toCol: 0 }, // Pawn back
-    { pieceId: 4, toRow: 3, toCol: 3 }, // Black king back
+    { pieceId: 3, toRow: 1, toCol: 2 },  // Cavalier blanc: L classique
+    { pieceId: 5, toRow: 2, toCol: 0 },  // Cavalier noir: L classique
+    { pieceId: 6, toRow: 2, toCol: 0 },  // Pion noir avance (jamais recule)
+    { pieceId: 3, toRow: 3, toCol: 1 },  // Cavalier blanc revient
+    { pieceId: 5, toRow: 0, toCol: 2 },  // Cavalier noir revient
+    { pieceId: 6, toRow: 1, toCol: 0 },  // Pion noir... OK celui-là on triche pour boucler 😅
   ];
 
   useEffect(() => {
@@ -62,12 +46,15 @@ function MiniChessboard() {
       }, 500);
       
       moveIndex++;
-    }, 3000);
+    }, 2500);
 
     return () => clearInterval(interval);
   }, []);
 
   const cellSize = 60;
+
+  // Fonction pour déterminer si une pièce est blanche ou noire
+  const isWhitePiece = (type) => ["♔", "♕", "♖", "♗", "♘", "♙"].includes(type);
 
   return (
     <div className="relative">
@@ -102,7 +89,7 @@ function MiniChessboard() {
           );
         })}
 
-        {/* Pieces */}
+        {/* Pieces avec bon styling */}
         {pieces.map((piece) => (
           <motion.div
             key={piece.id}
@@ -123,11 +110,18 @@ function MiniChessboard() {
             }}
           >
             <span 
-              className={`text-4xl ${
-                piece.color === 'white' 
-                  ? 'text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)]' 
-                  : 'text-gray-900 drop-shadow-[0_1px_2px_rgba(255,255,255,0.3)]'
-              } ${movingPiece === piece.id ? 'scale-110' : 'scale-100'} transition-transform duration-200`}
+              className={`text-5xl ${
+                movingPiece === piece.id ? 'scale-110' : 'scale-100'
+              } transition-transform duration-200`}
+              style={{
+                // Pièces blanches: remplissage blanc + contour noir épais
+                // Pièces noires: remplissage noir + léger contour
+                color: isWhitePiece(piece.type) ? '#ffffff' : '#1a1a1a',
+                textShadow: isWhitePiece(piece.type)
+                  ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.3)'
+                  : '0 2px 4px rgba(0,0,0,0.3)',
+                WebkitTextStroke: isWhitePiece(piece.type) ? '1px #333' : 'none',
+              }}
             >
               {piece.type}
             </span>
@@ -271,8 +265,8 @@ export default function ShahMat() {
                   <span className="text-orange-300">start_year</span>
                   <span className="text-white/60">=</span>
                   <span className="text-cyan-300">2023</span>
-{`
-`}<span className="text-white/60">)</span>
+                  <span className="text-white/60">)</span>
+`}
                 </code>
               </pre>
             </div>
