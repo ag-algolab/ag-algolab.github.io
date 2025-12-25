@@ -261,17 +261,14 @@ export default function ShahMat() {
                   <span className="text-blue-400">import</span>
                   <span className="text-white/80"> chesscom</span>
 {`
-
 `}
                   <span className="text-purple-400">chesscom</span>
                   <span className="text-white/60">(</span>
-{`
-    `}<span className="text-orange-300">username</span>
+                  <span className="text-orange-300">username</span>
                   <span className="text-white/60">=</span>
                   <span className="text-green-300">"your_name"</span>
                   <span className="text-white/60">,</span>
-{`
-    `}<span className="text-orange-300">start_year</span>
+                  <span className="text-orange-300">start_year</span>
                   <span className="text-white/60">=</span>
                   <span className="text-cyan-300">2023</span>
 {`
