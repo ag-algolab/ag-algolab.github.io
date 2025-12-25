@@ -6,11 +6,25 @@ function AnimatedPipeline() {
   const [calibratedProba, setCalibratedProba] = useState(0.68);
   const [activeStep, setActiveStep] = useState(0);
   const [isTransferring, setIsTransferring] = useState(0);
+  const [treeValues, setTreeValues] = useState({
+    thresholds: [0.5, 0.3, 0.3, 0.7, 0.7],
+    leaves: [0.12, 0.34, 0.28, 0.45, 0.52, 0.67, 0.71, 0.89]
+  });
 
   useEffect(() => {
     const runCycle = () => {
       const newRaw = Math.random() * 0.5 + 0.35;
       const newCalibrated = Math.min(0.95, Math.max(0.08, newRaw * (0.85 + Math.random() * 0.25)));
+      
+      // Generate new tree values
+      const newThresholds = [
+        (Math.random() * 0.4 + 0.3).toFixed(1),
+        (Math.random() * 0.3 + 0.2).toFixed(1),
+        (Math.random() * 0.3 + 0.2).toFixed(1),
+        (Math.random() * 0.3 + 0.5).toFixed(1),
+        (Math.random() * 0.3 + 0.5).toFixed(1),
+      ];
+      const newLeaves = Array(8).fill(0).map(() => (Math.random() * 0.85 + 0.05).toFixed(2));
 
       setActiveStep(0);
       setIsTransferring(0);
@@ -21,6 +35,10 @@ function AnimatedPipeline() {
         setIsTransferring(0);
         setActiveStep(1);
         setRawProba(newRaw);
+        setTreeValues({
+          thresholds: newThresholds,
+          leaves: newLeaves
+        });
       }, 800);
 
       setTimeout(() => setIsTransferring(2), 3800);
@@ -72,7 +90,7 @@ function AnimatedPipeline() {
         </div>
 
         <AnimatedArrow active={isTransferring === 1} />
-        <CatBoostVisualizer active={activeStep >= 1} processing={activeStep === 1 && isTransferring === 0} rawProba={rawProba} />
+        <CatBoostVisualizer active={activeStep >= 1} processing={activeStep === 1 && isTransferring === 0} rawProba={rawProba} treeValues={treeValues} />
         <AnimatedArrow active={isTransferring === 2} />
         <IsotonicCalibrationVisualizer active={activeStep >= 2} processing={activeStep === 2 && isTransferring === 0} inputProba={rawProba} outputProba={calibratedProba} />
         <AnimatedArrow active={isTransferring === 3} />
@@ -135,61 +153,97 @@ function AnimatedArrow({ active }) {
   );
 }
 
-/* ================= DECISION TREE VISUALIZATION ================= */
-function DecisionTreeViz({ active, processing }) {
-  const [activeNodes, setActiveNodes] = useState([]);
-  const [activePath, setActivePath] = useState([]);
+/* ================= SYMMETRIC DECISION TREE (CATBOOST OBLIVIOUS TREE) ================= */
+function SymmetricTreeViz({ active, processing, treeValues }) {
+  const [activeLevel, setActiveLevel] = useState(-1);
 
   useEffect(() => {
     if (!processing) {
-      if (active) {
-        setActiveNodes([0, 1, 2, 3, 4, 5, 6]);
-        setActivePath([0, 1, 2, 3, 4, 5]);
-      }
+      if (active) setActiveLevel(3);
       return;
     }
 
-    const sequence = [
-      { nodes: [0], paths: [] },
-      { nodes: [0, 1, 2], paths: [0, 1] },
-      { nodes: [0, 1, 2, 3, 4], paths: [0, 1, 2, 3] },
-      { nodes: [0, 1, 2, 3, 4, 5, 6], paths: [0, 1, 2, 3, 4, 5] },
+    setActiveLevel(0);
+    const timers = [
+      setTimeout(() => setActiveLevel(1), 600),
+      setTimeout(() => setActiveLevel(2), 1200),
+      setTimeout(() => setActiveLevel(3), 1800),
     ];
 
-    let step = 0;
-    setActiveNodes(sequence[0].nodes);
-    setActivePath(sequence[0].paths);
-
-    const interval = setInterval(() => {
-      step = (step + 1) % sequence.length;
-      setActiveNodes(sequence[step].nodes);
-      setActivePath(sequence[step].paths);
-    }, 700);
-
-    return () => clearInterval(interval);
+    return () => timers.forEach(clearTimeout);
   }, [processing, active]);
 
-  const nodes = [
-    { id: 0, x: 200, y: 30, label: "x₁ > 0.5", isLeaf: false },
-    { id: 1, x: 100, y: 90, label: "x₂ > 0.3", isLeaf: false },
-    { id: 2, x: 300, y: 90, label: "x₃ > 0.7", isLeaf: false },
-    { id: 3, x: 50, y: 150, label: "0.2", isLeaf: true },
-    { id: 4, x: 150, y: 150, label: "0.6", isLeaf: true },
-    { id: 5, x: 250, y: 150, label: "0.4", isLeaf: true },
-    { id: 6, x: 350, y: 150, label: "0.9", isLeaf: true },
+  // Symmetric/Oblivious tree structure for CatBoost
+  // All nodes at same depth use the SAME split condition
+  //
+  //                    [x₁ > t₁]                     Level 0 (depth 0)
+  //                   /         \
+  //           [x₂ > t₂]         [x₂ > t₂]            Level 1 (depth 1) - SAME condition
+  //           /      \          /      \
+  //      [x₃>t₃]  [x₃>t₃]  [x₃>t₃]  [x₃>t₃]          Level 2 (depth 2) - SAME condition
+  //      / \      / \      / \      / \
+  //     L0 L1    L2 L3    L4 L5    L6 L7              Level 3 (leaves)
+
+  const { thresholds, leaves } = treeValues;
+
+  // Node positions for symmetric tree
+  const levelY = [25, 70, 115, 160];
+  const nodeRadius = 18;
+
+  // Calculate x positions for each level (perfectly symmetric)
+  const getNodesAtLevel = (level) => {
+    const count = Math.pow(2, level);
+    const totalWidth = 380;
+    const startX = 10;
+    const spacing = totalWidth / count;
+    return Array(count).fill(0).map((_, i) => startX + spacing * (i + 0.5));
+  };
+
+  const level0X = getNodesAtLevel(0);
+  const level1X = getNodesAtLevel(1);
+  const level2X = getNodesAtLevel(2);
+  const level3X = getNodesAtLevel(3);
+
+  const decisionNodes = [
+    // Level 0
+    { id: 0, x: level0X[0], y: levelY[0], level: 0, label: `x₁>${thresholds[0]}` },
+    // Level 1 (same condition)
+    { id: 1, x: level1X[0], y: levelY[1], level: 1, label: `x₂>${thresholds[1]}` },
+    { id: 2, x: level1X[1], y: levelY[1], level: 1, label: `x₂>${thresholds[2]}` },
+    // Level 2 (same condition)
+    { id: 3, x: level2X[0], y: levelY[2], level: 2, label: `x₃>${thresholds[3]}` },
+    { id: 4, x: level2X[1], y: levelY[2], level: 2, label: `x₃>${thresholds[4]}` },
+    { id: 5, x: level2X[2], y: levelY[2], level: 2, label: `x₃>${thresholds[3]}` },
+    { id: 6, x: level2X[3], y: levelY[2], level: 2, label: `x₃>${thresholds[4]}` },
   ];
 
+  const leafNodes = level3X.map((x, i) => ({
+    id: 7 + i,
+    x,
+    y: levelY[3],
+    level: 3,
+    label: leaves[i],
+    isLeaf: true
+  }));
+
+  const allNodes = [...decisionNodes, ...leafNodes];
+
+  // Edges connecting nodes
   const edges = [
-    { id: 0, from: 0, to: 1, label: "≤" },
-    { id: 1, from: 0, to: 2, label: ">" },
-    { id: 2, from: 1, to: 3, label: "≤" },
-    { id: 3, from: 1, to: 4, label: ">" },
-    { id: 4, from: 2, to: 5, label: "≤" },
-    { id: 5, from: 2, to: 6, label: ">" },
+    // From root
+    { from: 0, to: 1 }, { from: 0, to: 2 },
+    // From level 1
+    { from: 1, to: 3 }, { from: 1, to: 4 },
+    { from: 2, to: 5 }, { from: 2, to: 6 },
+    // From level 2 to leaves
+    { from: 3, to: 7 }, { from: 3, to: 8 },
+    { from: 4, to: 9 }, { from: 4, to: 10 },
+    { from: 5, to: 11 }, { from: 5, to: 12 },
+    { from: 6, to: 13 }, { from: 6, to: 14 },
   ];
 
   return (
-    <svg viewBox="0 0 400 180" className="w-full h-full">
+    <svg viewBox="0 0 400 185" className="w-full h-full">
       <defs>
         <filter id="nodeGlow">
           <feGaussianBlur stdDeviation="4" result="coloredBlur" />
@@ -204,98 +258,114 @@ function DecisionTreeViz({ active, processing }) {
         </linearGradient>
       </defs>
 
-      {edges.map((edge) => {
-        const from = nodes[edge.from];
-        const to = nodes[edge.to];
-        const isActive = activePath.includes(edge.id);
+      {/* Edges */}
+      {edges.map((edge, idx) => {
+        const fromNode = allNodes[edge.from];
+        const toNode = allNodes[edge.to];
+        const isActive = activeLevel >= toNode.level;
 
         return (
-          <g key={edge.id}>
-            <line
-              x1={from.x}
-              y1={from.y + 15}
-              x2={to.x}
-              y2={to.y - 15}
-              stroke={isActive ? "url(#edgeGradient)" : "rgba(255,255,255,0.15)"}
-              strokeWidth={isActive ? 3 : 1.5}
-              className="transition-all duration-500"
-              filter={isActive && processing ? "url(#nodeGlow)" : ""}
-            />
-            <text
-              x={(from.x + to.x) / 2 + (edge.label === ">" ? 8 : -8)}
-              y={(from.y + to.y) / 2 + 5}
-              fill={isActive ? "rgba(139,92,246,0.9)" : "rgba(255,255,255,0.3)"}
-              fontSize="10"
-              className="transition-all duration-500"
-            >
-              {edge.label}
-            </text>
-          </g>
+          <line
+            key={idx}
+            x1={fromNode.x}
+            y1={fromNode.y + 12}
+            x2={toNode.x}
+            y2={toNode.y - 12}
+            stroke={isActive ? "url(#edgeGradient)" : "rgba(255,255,255,0.12)"}
+            strokeWidth={isActive ? 2 : 1}
+            className="transition-all duration-500"
+            filter={isActive && processing ? "url(#nodeGlow)" : ""}
+          />
         );
       })}
 
-      {nodes.map((node) => {
-        const isActive = activeNodes.includes(node.id);
-        const isProcessing = processing && isActive;
+      {/* Decision Nodes */}
+      {decisionNodes.map((node) => {
+        const isActive = activeLevel >= node.level;
+        const isCurrentLevel = processing && activeLevel === node.level;
 
         return (
-          <g key={node.id} className="transition-all duration-500">
-            {node.isLeaf ? (
-              <rect
-                x={node.x - 22}
-                y={node.y - 12}
-                width={44}
-                height={24}
-                rx={6}
-                fill={isActive ? "rgba(34,197,94,0.3)" : "rgba(255,255,255,0.05)"}
-                stroke={isActive ? "#22c55e" : "rgba(255,255,255,0.2)"}
-                strokeWidth={isActive ? 2 : 1}
-                filter={isProcessing ? "url(#nodeGlow)" : ""}
-                className="transition-all duration-500"
-              />
-            ) : (
-              <rect
-                x={node.x - 30}
-                y={node.y - 12}
-                width={60}
-                height={24}
-                rx={4}
-                fill={isActive ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.05)"}
-                stroke={isActive ? "#3b82f6" : "rgba(255,255,255,0.2)"}
-                strokeWidth={isActive ? 2 : 1}
-                filter={isProcessing ? "url(#nodeGlow)" : ""}
-                className="transition-all duration-500"
-              />
-            )}
-
+          <g key={node.id}>
+            <rect
+              x={node.x - 28}
+              y={node.y - 11}
+              width={56}
+              height={22}
+              rx={4}
+              fill={isActive ? "rgba(59,130,246,0.25)" : "rgba(255,255,255,0.05)"}
+              stroke={isActive ? "#3b82f6" : "rgba(255,255,255,0.15)"}
+              strokeWidth={isActive ? 1.5 : 1}
+              filter={isCurrentLevel ? "url(#nodeGlow)" : ""}
+              className="transition-all duration-500"
+            />
             <text
               x={node.x}
               y={node.y + 4}
               textAnchor="middle"
-              fill={isActive ? (node.isLeaf ? "#4ade80" : "#60a5fa") : "rgba(255,255,255,0.4)"}
-              fontSize={node.isLeaf ? "12" : "10"}
+              fill={isActive ? "#60a5fa" : "rgba(255,255,255,0.4)"}
+              fontSize="9"
               fontFamily="monospace"
               fontWeight={isActive ? "600" : "400"}
               className="transition-all duration-500"
             >
               {node.label}
             </text>
-
-            {isProcessing && !node.isLeaf && (
-              <circle cx={node.x} cy={node.y} r="20" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.5">
-                <animate attributeName="r" from="15" to="30" dur="1s" repeatCount="indefinite" />
-                <animate attributeName="opacity" from="0.6" to="0" dur="1s" repeatCount="indefinite" />
+            {isCurrentLevel && (
+              <circle cx={node.x} cy={node.y} r="18" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.4">
+                <animate attributeName="r" from="14" to="28" dur="0.8s" repeatCount="indefinite" />
+                <animate attributeName="opacity" from="0.5" to="0" dur="0.8s" repeatCount="indefinite" />
               </circle>
             )}
           </g>
         );
       })}
+
+      {/* Leaf Nodes */}
+      {leafNodes.map((node) => {
+        const isActive = activeLevel >= 3;
+        const isCurrentLevel = processing && activeLevel === 3;
+
+        return (
+          <g key={node.id}>
+            <rect
+              x={node.x - 18}
+              y={node.y - 10}
+              width={36}
+              height={20}
+              rx={10}
+              fill={isActive ? "rgba(34,197,94,0.25)" : "rgba(255,255,255,0.05)"}
+              stroke={isActive ? "#22c55e" : "rgba(255,255,255,0.15)"}
+              strokeWidth={isActive ? 1.5 : 1}
+              filter={isCurrentLevel ? "url(#nodeGlow)" : ""}
+              className="transition-all duration-500"
+            />
+            <text
+              x={node.x}
+              y={node.y + 3}
+              textAnchor="middle"
+              fill={isActive ? "#4ade80" : "rgba(255,255,255,0.4)"}
+              fontSize="9"
+              fontFamily="monospace"
+              fontWeight={isActive ? "600" : "400"}
+              className="transition-all duration-500"
+            >
+              {node.label}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Level labels */}
+      <text x="3" y={levelY[0] + 4} fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace">d=0</text>
+      <text x="3" y={levelY[1] + 4} fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace">d=1</text>
+      <text x="3" y={levelY[2] + 4} fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace">d=2</text>
+      <text x="3" y={levelY[3] + 4} fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace">leaf</text>
     </svg>
   );
 }
 
 /* ================= CATBOOST VISUALIZER ================= */
-function CatBoostVisualizer({ active, processing, rawProba }) {
+function CatBoostVisualizer({ active, processing, rawProba, treeValues }) {
   const [displayProba, setDisplayProba] = useState(rawProba);
 
   useEffect(() => {
@@ -344,24 +414,24 @@ function CatBoostVisualizer({ active, processing, rawProba }) {
             }`}
           >
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke={active ? "#60a5fa" : "#ffffff40"} strokeWidth="2">
-              <circle cx="12" cy="5" r="2" />
-              <circle cx="6" cy="12" r="2" />
-              <circle cx="18" cy="12" r="2" />
-              <circle cx="4" cy="19" r="2" />
-              <circle cx="10" cy="19" r="2" />
-              <circle cx="14" cy="19" r="2" />
-              <circle cx="20" cy="19" r="2" />
-              <line x1="12" y1="7" x2="6" y2="10" />
-              <line x1="12" y1="7" x2="18" y2="10" />
-              <line x1="6" y1="14" x2="4" y2="17" />
-              <line x1="6" y1="14" x2="10" y2="17" />
-              <line x1="18" y1="14" x2="14" y2="17" />
-              <line x1="18" y1="14" x2="20" y2="17" />
+              <circle cx="12" cy="4" r="2" />
+              <circle cx="6" cy="10" r="2" />
+              <circle cx="18" cy="10" r="2" />
+              <circle cx="3" cy="16" r="2" />
+              <circle cx="9" cy="16" r="2" />
+              <circle cx="15" cy="16" r="2" />
+              <circle cx="21" cy="16" r="2" />
+              <line x1="12" y1="6" x2="6" y2="8" />
+              <line x1="12" y1="6" x2="18" y2="8" />
+              <line x1="6" y1="12" x2="3" y2="14" />
+              <line x1="6" y1="12" x2="9" y2="14" />
+              <line x1="18" y1="12" x2="15" y2="14" />
+              <line x1="18" y1="12" x2="21" y2="14" />
             </svg>
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-lg text-white/90">CatBoost</h3>
-            <p className="text-sm text-white/50">Gradient Boosted Decision Trees</p>
+            <p className="text-sm text-white/50">Symmetric (Oblivious) Decision Trees</p>
           </div>
           <div
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-500 ${
@@ -376,15 +446,15 @@ function CatBoostVisualizer({ active, processing, rawProba }) {
           </div>
         </div>
 
-        <div className="relative h-48 mb-4 rounded-xl bg-[#0e1424]/80 border border-white/5 overflow-hidden">
+        <div className="relative h-52 mb-4 rounded-xl bg-[#0e1424]/80 border border-white/5 overflow-hidden">
           <div
             className="absolute inset-0 opacity-20"
             style={{
-              backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)",
-              backgroundSize: "20px 20px",
+              backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0)",
+              backgroundSize: "16px 16px",
             }}
           />
-          <DecisionTreeViz active={active} processing={processing} />
+          <SymmetricTreeViz active={active} processing={processing} treeValues={treeValues} />
         </div>
 
         <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
