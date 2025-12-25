@@ -919,33 +919,6 @@ export default function FraudRiskScoring() {
             An AI-driven insurance fraud detection system combining <span className="text-white font-semibold">CatBoost</span> with{" "}
             <span className="text-white font-semibold">isotonic calibration</span> to produce reliable, production-ready fraud risk scores.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <a
-              href="https://www.kaggle.com"
-              target="_blank"
-              rel="noreferrer"
-              className="group px-8 py-4 rounded-xl bg-gradient-to-r from-[#2f4486] to-[#4f46e5] hover:from-[#3b5bb8] hover:to-[#5b5bd6] transition-all duration-300 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
-            >
-              <span className="flex items-center gap-2">
-                📊 View Kaggle Notebook
-                <svg
-                  className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </span>
-            </a>
-            <a
-              href="https://github.com/ag-algolab"
-              target="_blank"
-              rel="noreferrer"
-              className="px-8 py-4 rounded-xl border border-white/20 hover:bg-white/5 hover:border-white/40 transition-all duration-300 font-semibold"
-            >
-              GitHub Repository
-            </a>
           </div>
         </div>
       </section>
@@ -1019,12 +992,12 @@ export default function FraudRiskScoring() {
                 </div>
               </div>
               <a
-                href="https://www.kaggle.com"
+                href="https://www.kaggle.com/code/anthonygocmen/car-insurance-fraud-detection-with-catboost"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all duration-300 font-bold text-lg shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
               >
-                📊 Explore the Notebook
+                📊 Explore the Notebook (Kaggle)
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
