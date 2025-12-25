@@ -907,7 +907,7 @@ export default function FraudRiskScoring() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-12 px-6">
+      <section className="pt-32 pb-6 px-6">
         <div className="max-w-5xl mx-auto text-center">
           <span className="inline-block text-sm font-medium bg-gradient-to-r from-[#2f4486] to-[#4f46e5] text-white px-4 py-1.5 rounded-full">
             AI · Insurance · Risk Management
@@ -922,7 +922,7 @@ export default function FraudRiskScoring() {
         </div>
       </section>
 
-      <div className="flex flex-col items-center my-6 text-white/60">
+      <div className="flex flex-col items-center my-2 text-white/60">
         <div className="flex items-center gap-6">
           <div className="h-px w-24 bg-white/20" />
           <span className="text-lg md:text-xl font-semibold tracking-widest uppercase">
@@ -938,7 +938,7 @@ export default function FraudRiskScoring() {
           <div className="text-center mb-6">
             <p className="text-white/50 max-w-2xl mx-auto">Watch the complete fraud detection pipeline process claims in real-time</p>
           </div>
-          <AnimatedPipeline className="mt-12" />
+          <AnimatedPipeline/>
         </div>
       </section>
 
