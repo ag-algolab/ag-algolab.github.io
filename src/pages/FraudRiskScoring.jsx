@@ -933,7 +933,7 @@ export default function FraudRiskScoring() {
       </div>
 
       {/* Pipeline */}
-      <section className="px-6 pb-16 mt-6">
+      <section className="px-6 pb-16 mt-12">
         <div className="max-w-4xl mx-auto">
           <AnimatedPipeline/>
         </div>
