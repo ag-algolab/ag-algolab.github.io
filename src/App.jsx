@@ -67,6 +67,94 @@ function TechOrbit() {
   );
 }
 
+/* ================= FLOATING DOTS ANIMATION ================= */
+function FloatingDots() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 rounded-full bg-blue-400/30"
+          initial={{ 
+            x: Math.random() * 100 + "%", 
+            y: Math.random() * 100 + "%",
+            opacity: 0 
+          }}
+          animate={{ 
+            y: [null, "-20%", "120%"],
+            opacity: [0, 0.6, 0],
+          }}
+          transition={{
+            duration: Math.random() * 8 + 6,
+            repeat: Infinity,
+            delay: Math.random() * 5,
+            ease: "linear"
+          }}
+        />
+      ))}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={`purple-${i}`}
+          className="absolute w-1.5 h-1.5 rounded-full bg-purple-400/20"
+          initial={{ 
+            x: Math.random() * 100 + "%", 
+            y: Math.random() * 100 + "%",
+            opacity: 0 
+          }}
+          animate={{ 
+            y: [null, "-30%", "110%"],
+            opacity: [0, 0.4, 0],
+          }}
+          transition={{
+            duration: Math.random() * 10 + 8,
+            repeat: Infinity,
+            delay: Math.random() * 3,
+            ease: "linear"
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ================= SKILL BARS ANIMATION ================= */
+function SkillBars() {
+  const skills = [
+    { name: "Python", level: 95, color: "from-blue-500 to-cyan-400" },
+    { name: "Machine Learning", level: 88, color: "from-purple-500 to-pink-400" },
+    { name: "Deep Learning", level: 82, color: "from-indigo-500 to-blue-400" },
+    { name: "Quantitative Finance", level: 78, color: "from-green-500 to-emerald-400" },
+  ];
+
+  return (
+    <div className="space-y-4 mt-8">
+      {skills.map((skill, i) => (
+        <motion.div
+          key={skill.name}
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: i * 0.1 }}
+          viewport={{ once: true }}
+        >
+          <div className="flex justify-between items-center mb-1.5">
+            <span className="text-white/70 text-sm font-medium">{skill.name}</span>
+            <span className="text-white/40 text-xs">{skill.level}%</span>
+          </div>
+          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+            <motion.div
+              className={`h-full bg-gradient-to-r ${skill.color} rounded-full`}
+              initial={{ width: 0 }}
+              whileInView={{ width: `${skill.level}%` }}
+              transition={{ duration: 1.2, delay: i * 0.15, ease: "easeOut" }}
+              viewport={{ once: true }}
+            />
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
 /* ================= PROJECT CARD ================= */
 function ProjectCard({ title, description, tech, image, index }) {
   return (
@@ -156,6 +244,15 @@ function FeatureCard({ title, description, href, icon, color }) {
         </div>
       </motion.div>
     </Link>
+  );
+}
+
+/* ================= KAGGLE ICON ================= */
+function KaggleIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.281.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.075.339"/>
+    </svg>
   );
 }
 
@@ -357,7 +454,7 @@ function Home() {
                 </div>
               </motion.div>
 
-              {/* Right - Bio */}
+              {/* Right - Bio with animation */}
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -365,7 +462,12 @@ function Home() {
                 viewport={{ once: true }}
                 className="lg:col-span-2 bg-[#141f38] rounded-2xl p-8 border border-white/10 relative overflow-hidden"
               >
+                {/* Floating dots background */}
+                <FloatingDots />
+                
+                {/* Gradient orbs */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-500/10 to-pink-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
                 
                 <div className="relative z-10">
                   <h3 className="text-2xl font-bold text-white mb-6">Anthony Gocmen</h3>
@@ -374,9 +476,12 @@ function Home() {
                       AG AlgoLab is led by Anthony Gocmen, Master in Finance student at <span className="text-white font-medium">Université Paris Dauphine (PSL)</span>, specializing in Python-based ML, deep learning, and quantitative modeling.
                     </p>
                     <p>
-                      Work focuses on risk and financial applications, including insurance fraud detection, and has been recognized in competitions such as the <span className="text-white font-medium">'2025 Space Hackathon 4 Sustainability'</span>.
+                      Work focuses on risk and financial applications, including insurance fraud detection, and has been recognized in competitions such as the <span className="text-white font-medium">'2025 Space Hackathon 4 Sustainability'</span> (1st Place).
                     </p>
                   </div>
+                  
+                  {/* Animated skill bars */}
+                  <SkillBars />
                 </div>
               </motion.div>
             </div>
@@ -649,17 +754,25 @@ function Home() {
                   href="https://github.com/ag-algolab"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
                 >
-                  <Github className="w-5 h-5" />
+                  <Github className="w-5 h-5 group-hover:text-white transition-colors" />
                 </a>
                 <a
                   href="https://www.linkedin.com/in/anthony-gocmen"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
                 >
-                  <Linkedin className="w-5 h-5" />
+                  <Linkedin className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
+                </a>
+                <a
+                  href="https://www.kaggle.com/anthonygocmen"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
+                >
+                  <KaggleIcon className="w-5 h-5 group-hover:text-cyan-400 transition-colors" />
                 </a>
               </div>
             </motion.div>
