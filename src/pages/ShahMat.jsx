@@ -385,7 +385,7 @@ export default function ShahMat() {
                 rel="noreferrer"
                 className="px-6 py-3 rounded-xl border border-white/20 hover:bg-white/5 hover:border-white/40 transition-all duration-300 font-semibold"
               >
-                Star on GitHub
+                GitHub
               </a>
             </div>
           </motion.div>
