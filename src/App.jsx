@@ -487,7 +487,7 @@ function Home() {
                 <div className="aspect-video rounded-xl overflow-hidden border border-white/5">
                   <iframe
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/CSs9krvlyj4"
+                    src="https://www.youtube.com/embed/hCNfbnSQO38"
                     title="YouTube Uploads – English"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
