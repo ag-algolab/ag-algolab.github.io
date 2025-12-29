@@ -567,8 +567,7 @@ function Home() {
                         </h4>
                         <ul className="space-y-2.5 text-sm text-[#b7c3e6]">
                           <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">Intro</span>
-                            <span><span className="text-white font-medium">Présentation</span> — Cours & Dataset</span>
+                            <span><span className="text-white font-medium">Préambule</span> — Présentation Cours & Dataset</span>
                           </li>        
                           <li className="flex items-start gap-2">
                             <span className="text-purple-400 font-mono text-xs mt-0.5">01</span>
@@ -681,7 +680,7 @@ function Home() {
                       </h4>
                     </div>
                     <p className="text-white/50 text-sm">
-                      ML courses, algo trading & Python tutorials
+                      Algo trading & Python tutorials
                     </p>
                   </div>
                   <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
