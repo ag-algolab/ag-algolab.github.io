@@ -567,7 +567,7 @@ function Home() {
                         </h4>
                         <ul className="space-y-2.5 text-sm text-[#b7c3e6]">
                           <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">  </span>
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">00</span>
                             <span><span className="text-white font-medium">Préambule</span> — Présentation Cours & Dataset</span>
                           </li>        
                           <li className="flex items-start gap-2">
