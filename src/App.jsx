@@ -567,6 +567,10 @@ function Home() {
                         </h4>
                         <ul className="space-y-2.5 text-sm text-[#b7c3e6]">
                           <li className="flex items-start gap-2">
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">Intro</span>
+                            <span><span className="text-white font-medium">Présentation</span> — Cours & Dataset</span>
+                          </li>        
+                          <li className="flex items-start gap-2">
                             <span className="text-purple-400 font-mono text-xs mt-0.5">01</span>
                             <span><span className="text-white font-medium">Encodage catégoriel</span> — Fonctionnement interne de CatBoost</span>
                           </li>
@@ -580,7 +584,7 @@ function Home() {
                           </li>
                           <li className="flex items-start gap-2">
                             <span className="text-purple-400 font-mono text-xs mt-0.5">04</span>
-                            <span><span className="text-white font-medium">Pipeline fiable</span> — De la préparation à l'évaluation</span>
+                            <span><span className="text-white font-medium">Pipeline fiable</span> — De la préparation à la prédiction</span>
                           </li>
                           <li className="flex items-start gap-2">
                             <span className="text-purple-400 font-mono text-xs mt-0.5">05</span>
