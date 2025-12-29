@@ -438,6 +438,8 @@ function Home() {
         </section>
 
       
+        {/* ================= KNOWLEDGE HUB SECTION ================= */}
+        
         {/* Knowledge Hub Section */}
         <section id="knowledge-hub" className="py-24 relative overflow-hidden">
           {/* Background Effects */}
@@ -521,7 +523,7 @@ function Home() {
                           </span>
                         </div>
                         <h3 className="text-xl md:text-2xl font-bold text-white">
-                          CatBoost Expliqué
+                          Maîtriser CatBoost : l'élite du Machine Learning
                         </h3>
                       </div>
                     </div>
@@ -548,7 +550,7 @@ function Home() {
                         <iframe
                           className="w-full h-full"
                           src="https://www.youtube.com/embed/videoseries?list=PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1"
-                          title="CatBoost Expliqué - Cours Complet"
+                          title="Maîtriser CatBoost - Cours Complet"
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
@@ -561,28 +563,32 @@ function Home() {
                       <div>
                         <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                          What you'll learn
+                          Programme du cours
                         </h4>
                         <ul className="space-y-2.5 text-sm text-[#b7c3e6]">
                           <li className="flex items-start gap-2">
-                            <span className="text-green-400 mt-0.5">→</span>
-                            <span>Technical mastery of the <span className="text-white font-medium">CatBoost</span> algorithm</span>
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">01</span>
+                            <span><span className="text-white font-medium">Encodage catégoriel</span> — Fonctionnement interne de CatBoost</span>
                           </li>
                           <li className="flex items-start gap-2">
-                            <span className="text-green-400 mt-0.5">→</span>
-                            <span>Categorical encoding techniques & <span className="text-white font-medium">Ordered Target Encoding</span></span>
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">02</span>
+                            <span><span className="text-white font-medium">CatBoost vs XGBoost</span> — Comparatifs sur datasets réels</span>
                           </li>
                           <li className="flex items-start gap-2">
-                            <span className="text-green-400 mt-0.5">→</span>
-                            <span>Hands-on practice with <span className="text-white font-medium">real datasets</span></span>
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">03</span>
+                            <span><span className="text-white font-medium">Erreurs fatales</span> — Fuites de données & pièges à éviter</span>
                           </li>
                           <li className="flex items-start gap-2">
-                            <span className="text-green-400 mt-0.5">→</span>
-                            <span>Comparison with XGBoost & LightGBM</span>
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">04</span>
+                            <span><span className="text-white font-medium">Pipeline fiable</span> — De la préparation à l'évaluation</span>
                           </li>
                           <li className="flex items-start gap-2">
-                            <span className="text-green-400 mt-0.5">→</span>
-                            <span>Production-ready implementation patterns</span>
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">05</span>
+                            <span><span className="text-white font-medium">Évaluation</span> — Métriques adaptées au contexte</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">06</span>
+                            <span><span className="text-white font-medium">Calibration</span> — Probabilités interprétables</span>
                           </li>
                         </ul>
                       </div>
@@ -594,7 +600,7 @@ function Home() {
                         className="mt-6 group flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 transition-all duration-300 font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02]"
                       >
                         <Play className="w-5 h-5" />
-                        Start Learning
+                        Commencer le cours
                         <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </a>
                     </div>
@@ -685,28 +691,12 @@ function Home() {
                 </div>
               </a>
             </motion.div>
-        
-            {/* Playlists link */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="mt-8 text-center"
-            >
-              <a
-                href="https://www.youtube.com/@ag_algolab/playlists"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors text-sm font-mono"
-              >
-                <span className="text-green-400">$</span>
-                <span>Browse all playlists</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </motion.div>
           </div>
         </section>
+
+
+
+        
         {/* Contact Section */}
         <section id="contact" className="py-24">
           <div className="max-w-4xl mx-auto px-6">
