@@ -437,103 +437,276 @@ function Home() {
           </div>
         </section>
 
+      
         {/* Knowledge Hub Section */}
-        <section id="knowledge-hub" className="py-24 relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent" />
+        <section id="knowledge-hub" className="py-24 relative overflow-hidden">
+          {/* Background Effects */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+            {/* Grid pattern */}
+            <div 
+              className="absolute inset-0 opacity-[0.02]"
+              style={{
+                backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                backgroundSize: '50px 50px'
+              }}
+            />
+            {/* Gradient orbs */}
+            <div className="absolute top-1/4 -left-32 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
+          </div>
           
           <div className="max-w-7xl mx-auto px-6 relative z-10">
+            {/* Header with terminal style */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">
-                Knowledge Hub
-              </h2>
-              <p className="text-2xl italic text-white/80 mb-6">
-                "Make finance tech accessible to everyone"
-              </p>
-              <p className="text-lg text-[#b7c3e6] max-w-2xl mx-auto">
-                I share videos on YouTube in both French and English, covering Python for Finance, Algorithmic Trading, and Deep Learning applied to Finance.
-              </p>
+              {/* Terminal header */}
+              <div className="max-w-3xl mx-auto">
+                <div className="bg-[#0d1117] rounded-t-xl border border-white/10 border-b-0 px-4 py-3 flex items-center gap-3">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                  </div>
+                  <span className="text-white/40 text-sm font-mono">~/ag-algolab/knowledge-hub</span>
+                </div>
+                <div className="bg-[#0d1117]/80 rounded-b-xl border border-white/10 p-6 font-mono">
+                  <div className="flex items-start gap-2 text-sm mb-3">
+                    <span className="text-green-400">$</span>
+                    <span className="text-white/70">cat</span>
+                    <span className="text-blue-400">mission.txt</span>
+                  </div>
+                  <div className="pl-4 border-l-2 border-purple-500/50">
+                    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-3">
+                      Knowledge Hub
+                    </h2>
+                    <p className="text-[#b7c3e6] leading-relaxed">
+                      Free courses and tutorials on <span className="text-purple-400">Machine Learning</span>, <span className="text-blue-400">Python</span>, and <span className="text-green-400">Algorithmic Trading</span>. 
+                      Learn by doing with real datasets and practical implementations.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center">
-                      <Play className="w-5 h-5 text-red-400" />
+        
+            {/* Featured Course - CatBoost */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="mb-12"
+            >
+              <div className="bg-gradient-to-br from-[#141f38] to-[#0d1424] rounded-2xl border border-white/10 overflow-hidden">
+                {/* Course header */}
+                <div className="bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-green-500/10 border-b border-white/10 p-6">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center">
+                        <span className="text-2xl">🎓</span>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs font-semibold uppercase tracking-wider">
+                            Free Course
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider">
+                            🇫🇷 French
+                          </span>
+                        </div>
+                        <h3 className="text-xl md:text-2xl font-bold text-white">
+                          CatBoost Expliqué
+                        </h3>
+                      </div>
                     </div>
-                    <h3 className="text-white text-lg font-semibold">English Channel</h3>
-                  </div>
-                  <a
-                    href="https://www.youtube.com/@ag_algolab"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
-                  >
-                    Visit <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-                <div className="aspect-video rounded-xl overflow-hidden border border-white/5">
-                  <iframe
-                    className="w-full h-full"
-                    src="https://www.youtube.com/embed/hCNfbnSQO38"
-                    title="YouTube Uploads – English"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center">
-                      <Play className="w-5 h-5 text-red-400" />
+                    <div className="flex items-center gap-3 text-sm text-white/50">
+                      <div className="flex items-center gap-1.5">
+                        <Play className="w-4 h-4" />
+                        <span>6 episodes</span>
+                      </div>
+                      <div className="w-px h-4 bg-white/20" />
+                      <div className="flex items-center gap-1.5">
+                        <span>📊</span>
+                        <span>Real dataset</span>
+                      </div>
                     </div>
-                    <h3 className="text-white text-lg font-semibold">French Channel</h3>
                   </div>
-                  <a
-                    href="https://www.youtube.com/@ag_algolab_fr"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
-                  >
-                    Visit <ExternalLink className="w-3 h-3" />
-                  </a>
                 </div>
-                <div className="aspect-video rounded-xl overflow-hidden border border-white/5">
-                  <iframe
-                    className="w-full h-full"
-                    src="https://www.youtube.com/embed/1T5wj09N0nE"
-                    title="YouTube Uploads – French"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+        
+                {/* Course content */}
+                <div className="p-6 md:p-8">
+                  <div className="grid lg:grid-cols-5 gap-8">
+                    {/* Video embed - takes 3 columns */}
+                    <div className="lg:col-span-3">
+                      <div className="aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10">
+                        <iframe
+                          className="w-full h-full"
+                          src="https://www.youtube.com/embed/videoseries?list=PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1"
+                          title="CatBoost Expliqué - Cours Complet"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+        
+                    {/* Course description - takes 2 columns */}
+                    <div className="lg:col-span-2 flex flex-col justify-between">
+                      <div>
+                        <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                          What you'll learn
+                        </h4>
+                        <ul className="space-y-2.5 text-sm text-[#b7c3e6]">
+                          <li className="flex items-start gap-2">
+                            <span className="text-green-400 mt-0.5">→</span>
+                            <span>Technical mastery of the <span className="text-white font-medium">CatBoost</span> algorithm</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-green-400 mt-0.5">→</span>
+                            <span>Categorical encoding techniques & <span className="text-white font-medium">Ordered Target Encoding</span></span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-green-400 mt-0.5">→</span>
+                            <span>Hands-on practice with <span className="text-white font-medium">real datasets</span></span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-green-400 mt-0.5">→</span>
+                            <span>Comparison with XGBoost & LightGBM</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-green-400 mt-0.5">→</span>
+                            <span>Production-ready implementation patterns</span>
+                          </li>
+                        </ul>
+                      </div>
+        
+                      <a
+                        href="https://www.youtube.com/playlist?list=PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-6 group flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 transition-all duration-300 font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02]"
+                      >
+                        <Play className="w-5 h-5" />
+                        Start Learning
+                        <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
+        
+            {/* Channel Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-6"
+            >
+              {/* French Channel */}
+              <a
+                href="https://www.youtube.com/@ag_algolab_fr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative bg-[#141f38] rounded-xl p-6 border border-white/10 hover:border-blue-500/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] overflow-hidden"
+              >
+                {/* Decorative elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Play className="w-6 h-6 text-red-400" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-lg">🇫🇷</span>
+                      <h4 className="text-white font-semibold group-hover:text-blue-400 transition-colors">
+                        Chaîne Française
+                      </h4>
+                    </div>
+                    <p className="text-white/50 text-sm">
+                      Cours ML, trading algorithmique & tutoriels Python
+                    </p>
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
+                </div>
+                
+                {/* Code-style footer */}
+                <div className="mt-4 pt-4 border-t border-white/5 font-mono text-xs text-white/30">
+                  <span className="text-purple-400">@ag_algolab_fr</span>
+                  <span className="text-white/20 mx-2">•</span>
+                  <span>Primary channel</span>
+                </div>
+              </a>
+        
+              {/* English Channel */}
+              <a
+                href="https://www.youtube.com/@ag_algolab"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative bg-[#141f38] rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] overflow-hidden"
+              >
+                {/* Decorative elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Play className="w-6 h-6 text-red-400" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-lg">🇬🇧</span>
+                      <h4 className="text-white font-semibold group-hover:text-purple-400 transition-colors">
+                        English Channel
+                      </h4>
+                    </div>
+                    <p className="text-white/50 text-sm">
+                      ML courses, algo trading & Python tutorials
+                    </p>
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
+                </div>
+                
+                {/* Code-style footer */}
+                <div className="mt-4 pt-4 border-t border-white/5 font-mono text-xs text-white/30">
+                  <span className="text-purple-400">@ag_algolab</span>
+                  <span className="text-white/20 mx-2">•</span>
+                  <span>International content</span>
+                </div>
+              </a>
+            </motion.div>
+        
+            {/* Playlists link */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="mt-8 text-center"
+            >
+              <a
+                href="https://www.youtube.com/@ag_algolab/playlists"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors text-sm font-mono"
+              >
+                <span className="text-green-400">$</span>
+                <span>Browse all playlists</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </motion.div>
           </div>
         </section>
-
         {/* Contact Section */}
         <section id="contact" className="py-24">
           <div className="max-w-4xl mx-auto px-6">
