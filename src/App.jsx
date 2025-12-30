@@ -576,7 +576,7 @@ function Home() {
                           </li>
                           <li className="flex items-start gap-2">
                             <span className="text-purple-400 font-mono text-xs mt-0.5">02</span>
-                            <span><span className="text-white font-medium">CatBoost VS XGBoost / LGBM / RF</span> — Comparatifs sur datasets réels</span>
+                            <span><span className="text-white font-medium">CatBoost VS XGB / LGBM / RF</span> — Comparatifs sur datasets réels</span>
                           </li>
                           <li className="flex items-start gap-2">
                             <span className="text-purple-400 font-mono text-xs mt-0.5">03</span>
