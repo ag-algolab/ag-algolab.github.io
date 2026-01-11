@@ -380,12 +380,11 @@ function TelegramAlerts() {
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const allMessages = [
-    { id: 1, type: 'buy', price: '41,523', confidence: 94, time: '14:32' },
-    { id: 2, type: 'info', text: 'Reversal pattern confirmed on 4H', time: '14:33' },
-    { id: 3, type: 'sell', price: '46,189', confidence: 91, time: '18:47' },
-    { id: 4, type: 'info', text: 'Strong resistance zone reached', time: '18:48' },
-    { id: 5, type: 'buy', price: '42,847', confidence: 88, time: '09:15' },
-  ];
+  { id: 1, type: 'info', text: '🟢 Algorithm started — Scanning market...', time: '09:00' },
+  { id: 2, type: 'info', text: '⚡ High volatility detected — Be ready, opportunity might appear', time: '09:12' },
+  { id: 3, type: 'buy', price: '41,523', confidence: 94, time: '09:15' },
+  { id: 4, type: 'sell', price: '46,189', confidence: 91, time: '14:47' },
+];
 
   useEffect(() => {
     setMessages([{ ...allMessages[0], visible: true }]);
