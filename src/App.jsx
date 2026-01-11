@@ -5,7 +5,7 @@ import FraudRiskScoring from "./pages/FraudRiskScoring";
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play, Send } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play, Send, MoreVertical } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 
 /* ================= TECH ORBIT COMPONENT ================= */
@@ -66,82 +66,253 @@ function TechOrbit() {
 
 /* ================= BTC SCANNER CHART COMPONENT ================= */
 function BTCScannerChart() {
-  const [scanPosition, setScanPosition] = useState(0);
-  const [isFullyLit, setIsFullyLit] = useState(false);
-  const [markers, setMarkers] = useState([]);
+  const canvasRef = useRef(null);
   const animationRef = useRef(null);
+  const [phase, setPhase] = useState('scanning');
   
-  // Generate realistic-looking candlestick data
   const candles = [
-    { open: 42100, close: 42800, high: 43200, low: 41900 },
-    { open: 42800, close: 43500, high: 43800, low: 42600 },
-    { open: 43500, close: 42200, high: 43600, low: 42000 },
-    { open: 42200, close: 41500, high: 42400, low: 41200 }, // Local low
-    { open: 41500, close: 42800, high: 43000, low: 41400 },
-    { open: 42800, close: 44200, high: 44500, low: 42700 },
-    { open: 44200, close: 45100, high: 45800, low: 44000 },
-    { open: 45100, close: 46200, high: 46500, low: 44900 }, // Local high
-    { open: 46200, close: 45000, high: 46300, low: 44800 },
-    { open: 45000, close: 43800, high: 45200, low: 43500 },
-    { open: 43800, close: 42500, high: 44000, low: 42200 },
-    { open: 42500, close: 41800, high: 42700, low: 41500 }, // Local low
-    { open: 41800, close: 43200, high: 43500, low: 41700 },
-    { open: 43200, close: 44800, high: 45000, low: 43100 },
-    { open: 44800, close: 45500, high: 46000, low: 44600 },
-    { open: 45500, close: 44200, high: 45700, low: 44000 },
+    { o: 42100, c: 42650, h: 42900, l: 41950 },
+    { o: 42650, c: 43200, h: 43450, l: 42500 },
+    { o: 43200, c: 42400, h: 43300, l: 42200 },
+    { o: 42400, c: 41680, h: 42550, l: 41520 },
+    { o: 41680, c: 42300, h: 42500, l: 41600 },
+    { o: 42300, c: 43100, h: 43300, l: 42200 },
+    { o: 43100, c: 44200, h: 44500, l: 43000 },
+    { o: 44200, c: 45400, h: 45800, l: 44100 },
+    { o: 45400, c: 46100, h: 46400, l: 45200 },
+    { o: 46100, c: 45200, h: 46200, l: 45000 },
+    { o: 45200, c: 44100, h: 45400, l: 43900 },
+    { o: 44100, c: 43200, h: 44300, l: 43000 },
+    { o: 43200, c: 42100, h: 43400, l: 41900 },
+    { o: 42100, c: 43000, h: 43200, l: 42000 },
+    { o: 43000, c: 44100, h: 44400, l: 42900 },
+    { o: 44100, c: 44800, h: 45100, l: 43950 },
   ];
 
-  // Find local highs and lows
-  const localExtremes = [
+  const extremes = [
     { index: 3, type: 'low' },
-    { index: 7, type: 'high' },
-    { index: 11, type: 'low' },
+    { index: 8, type: 'high' },
+    { index: 12, type: 'low' },
   ];
-
-  const minPrice = Math.min(...candles.map(c => c.low)) - 500;
-  const maxPrice = Math.max(...candles.map(c => c.high)) + 500;
-  const priceRange = maxPrice - minPrice;
-
-  const chartWidth = 640;
-  const chartHeight = 320;
-  const candleWidth = 28;
-  const candleGap = 12;
-
-  const priceToY = (price) => {
-    return chartHeight - ((price - minPrice) / priceRange) * chartHeight;
-  };
 
   useEffect(() => {
-    let startTime = null;
-    const scanDuration = 8000; // 8 seconds to scan
-    const pauseDuration = 3000; // 3 seconds fully lit
-    const totalDuration = scanDuration + pauseDuration;
-
-    const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = (timestamp - startTime) % totalDuration;
-
-      if (elapsed < scanDuration) {
-        const progress = elapsed / scanDuration;
-        setScanPosition(progress);
-        setIsFullyLit(false);
-
-        // Add markers when scanner passes extremes
-        const currentCandleIndex = Math.floor(progress * candles.length);
-        const newMarkers = localExtremes
-          .filter(e => e.index <= currentCandleIndex)
-          .map(e => ({ ...e }));
-        setMarkers(newMarkers);
-      } else {
-        setScanPosition(1);
-        setIsFullyLit(true);
-        setMarkers(localExtremes);
-      }
-
-      animationRef.current = requestAnimationFrame(animate);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    
+    const width = rect.width;
+    const height = rect.height;
+    const padding = { top: 50, right: 70, bottom: 40, left: 20 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
+    
+    const minPrice = Math.min(...candles.map(c => c.l)) - 300;
+    const maxPrice = Math.max(...candles.map(c => c.h)) + 300;
+    const priceRange = maxPrice - minPrice;
+    
+    const candleWidth = chartWidth / candles.length * 0.55;
+    const candleGap = chartWidth / candles.length;
+    
+    const priceToY = (price) => {
+      return padding.top + chartHeight - ((price - minPrice) / priceRange) * chartHeight;
+    };
+    
+    const indexToX = (index) => {
+      return padding.left + index * candleGap + candleGap / 2;
     };
 
-    animationRef.current = requestAnimationFrame(animate);
+    let startTime = null;
+    const scanDuration = 5500;
+    const revealDuration = 3500;
+    const totalCycle = scanDuration + revealDuration;
+    
+    const drawFrame = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = (timestamp - startTime) % totalCycle;
+      const isScanning = elapsed < scanDuration;
+      const scanProgress = isScanning ? elapsed / scanDuration : 1;
+      const revealProgress = isScanning ? 0 : Math.min((elapsed - scanDuration) / 400, 1);
+      
+      setPhase(isScanning ? 'scanning' : 'revealed');
+      
+      ctx.fillStyle = '#060a10';
+      ctx.fillRect(0, 0, width, height);
+      
+      const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
+      bgGradient.addColorStop(0, 'rgba(10, 15, 25, 1)');
+      bgGradient.addColorStop(1, 'rgba(5, 8, 15, 1)');
+      ctx.fillStyle = bgGradient;
+      ctx.fillRect(0, 0, width, height);
+      
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.025)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 5; i++) {
+        const y = padding.top + (chartHeight / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, y);
+        ctx.lineTo(width - padding.right, y);
+        ctx.stroke();
+      }
+      
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+      ctx.font = '11px monospace';
+      ctx.textAlign = 'right';
+      for (let i = 0; i <= 4; i++) {
+        const price = minPrice + (priceRange / 4) * (4 - i);
+        const y = padding.top + (chartHeight / 4) * i;
+        ctx.fillText('$' + price.toLocaleString(), width - 8, y + 4);
+      }
+      
+      const scanX = padding.left + scanProgress * chartWidth;
+      
+      candles.forEach((candle, i) => {
+        const x = indexToX(i);
+        const candleRight = x + candleWidth / 2;
+        const isGreen = candle.c > candle.o;
+        
+        let alpha = 0.12;
+        let glowIntensity = 0;
+        
+        if (isScanning) {
+          if (candleRight < scanX) {
+            alpha = 0.85;
+            glowIntensity = 0.5;
+          } else if (x - candleWidth / 2 < scanX) {
+            const t = (scanX - (x - candleWidth / 2)) / candleWidth;
+            alpha = 0.12 + t * 0.73;
+            glowIntensity = t * 0.5;
+          }
+        } else {
+          alpha = 0.12 + revealProgress * 0.73;
+          glowIntensity = revealProgress * 0.4;
+        }
+        
+        const baseColor = isGreen ? [16, 185, 129] : [239, 68, 68];
+        const color = `rgba(${baseColor.join(',')}, ${alpha})`;
+        
+        if (glowIntensity > 0) {
+          ctx.shadowColor = `rgba(${baseColor.join(',')}, ${glowIntensity * 0.6})`;
+          ctx.shadowBlur = 12;
+        }
+        
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x, priceToY(candle.h));
+        ctx.lineTo(x, priceToY(candle.l));
+        ctx.stroke();
+        
+        const bodyTop = priceToY(Math.max(candle.o, candle.c));
+        const bodyBottom = priceToY(Math.min(candle.o, candle.c));
+        const bodyHeight = Math.max(bodyBottom - bodyTop, 2);
+        
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.roundRect(x - candleWidth / 2, bodyTop, candleWidth, bodyHeight, 2);
+        ctx.fill();
+        
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+      });
+      
+      if (isScanning) {
+        const gradient = ctx.createLinearGradient(scanX - 100, 0, scanX + 15, 0);
+        gradient.addColorStop(0, 'rgba(59, 130, 246, 0)');
+        gradient.addColorStop(0.6, 'rgba(59, 130, 246, 0.06)');
+        gradient.addColorStop(0.85, 'rgba(59, 130, 246, 0.2)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(scanX - 100, padding.top, 115, chartHeight);
+        
+        ctx.strokeStyle = 'rgba(59, 130, 246, 0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.shadowColor = 'rgba(59, 130, 246, 0.8)';
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.moveTo(scanX, padding.top);
+        ctx.lineTo(scanX, height - padding.bottom);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.9)';
+        ctx.beginPath();
+        ctx.arc(scanX, padding.top - 8, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      extremes.forEach((extreme) => {
+        const candle = candles[extreme.index];
+        const x = indexToX(extreme.index);
+        const candleRight = x + candleWidth / 2;
+        
+        const shouldShow = isScanning ? candleRight < scanX - 15 : revealProgress > 0.2;
+        if (!shouldShow) return;
+        
+        const markerAlpha = isScanning ? 1 : Math.min((revealProgress - 0.2) / 0.3, 1);
+        const y = extreme.type === 'low' 
+          ? priceToY(candle.l) + 28 
+          : priceToY(candle.h) - 28;
+        
+        const isLow = extreme.type === 'low';
+        const markerColor = isLow ? [16, 185, 129] : [239, 68, 68];
+        
+        ctx.strokeStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.25})`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(x, y, 18, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        ctx.fillStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.1})`;
+        ctx.beginPath();
+        ctx.arc(x, y, 13, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.strokeStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.7})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        ctx.strokeStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.95})`;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        if (isLow) {
+          ctx.beginPath();
+          ctx.moveTo(x - 4, y);
+          ctx.lineTo(x - 1, y + 4);
+          ctx.lineTo(x + 5, y - 3);
+          ctx.stroke();
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(x - 4, y - 4);
+          ctx.lineTo(x + 4, y + 4);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(x + 4, y - 4);
+          ctx.lineTo(x - 4, y + 4);
+          ctx.stroke();
+        }
+        
+        ctx.fillStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.85})`;
+        ctx.font = 'bold 9px monospace';
+        ctx.textAlign = 'center';
+        const priceLabel = (isLow ? candle.l : candle.h).toLocaleString();
+        ctx.fillText('$' + priceLabel, x, y + (isLow ? 35 : -32));
+      });
+      
+      animationRef.current = requestAnimationFrame(drawFrame);
+    };
+    
+    animationRef.current = requestAnimationFrame(drawFrame);
+    
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
@@ -149,193 +320,54 @@ function BTCScannerChart() {
     };
   }, []);
 
-  const scanX = scanPosition * chartWidth;
-
   return (
-    <div className="relative w-full max-w-2xl mx-auto">
-      {/* Chart container */}
-      <div className="relative bg-[#0a0f1a] rounded-2xl border border-white/10 p-6 overflow-hidden">
-        {/* BTC Label */}
-        <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center">
-            <span className="text-orange-400 font-bold text-sm">₿</span>
+    <div className="relative">
+      <div className="relative bg-gradient-to-b from-[#0a0f18] to-[#060a10] rounded-2xl border border-white/[0.06] overflow-hidden shadow-2xl shadow-black/50">
+        <div className="absolute top-0 left-0 right-0 h-14 bg-gradient-to-b from-white/[0.02] to-transparent border-b border-white/[0.04] flex items-center justify-between px-5 z-10">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/5 border border-orange-500/20 flex items-center justify-center">
+              <span className="text-orange-400 font-bold text-sm">₿</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white/80 font-semibold text-sm tracking-wide">BTC / USDT</span>
+              <span className="text-white/30 text-[10px] uppercase tracking-wider">Perpetual</span>
+            </div>
           </div>
-          <span className="text-white/70 font-mono text-sm">BTC/USDT</span>
+          
+          <div className="flex items-center gap-2">
+            <div className={`w-1.5 h-1.5 rounded-full ${phase === 'scanning' ? 'bg-blue-400 animate-pulse' : 'bg-emerald-400'}`} />
+            <span className="text-white/40 font-mono text-[10px] uppercase tracking-widest">
+              {phase === 'scanning' ? 'Analyzing' : 'Complete'}
+            </span>
+          </div>
         </div>
-
-        {/* SVG Chart */}
-        <svg 
-          viewBox={`0 0 ${chartWidth} ${chartHeight}`} 
-          className="w-full h-64 md:h-80"
-          style={{ filter: isFullyLit ? 'none' : 'brightness(0.3)' }}
-        >
-          {/* Gradient definitions */}
-          <defs>
-            <linearGradient id="scanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(59,130,246,0)" />
-              <stop offset="40%" stopColor="rgba(59,130,246,0.3)" />
-              <stop offset="50%" stopColor="rgba(59,130,246,0.8)" />
-              <stop offset="60%" stopColor="rgba(59,130,246,0.3)" />
-              <stop offset="100%" stopColor="rgba(59,130,246,0)" />
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-            <clipPath id="scanClip">
-              <rect x="0" y="0" width={scanX + 60} height={chartHeight} />
-            </clipPath>
-          </defs>
-
-          {/* Grid lines */}
-          {[...Array(5)].map((_, i) => (
-            <line
-              key={`h-${i}`}
-              x1="0"
-              y1={(i + 1) * (chartHeight / 6)}
-              x2={chartWidth}
-              y2={(i + 1) * (chartHeight / 6)}
-              stroke="rgba(255,255,255,0.05)"
-              strokeDasharray="4 4"
-            />
-          ))}
-
-          {/* Dark candles (background) */}
-          {candles.map((candle, i) => {
-            const x = i * (candleWidth + candleGap) + candleGap;
-            const isGreen = candle.close > candle.open;
-            const bodyTop = priceToY(Math.max(candle.open, candle.close));
-            const bodyBottom = priceToY(Math.min(candle.open, candle.close));
-            const bodyHeight = Math.max(bodyBottom - bodyTop, 2);
-
-            return (
-              <g key={`dark-${i}`} opacity="0.2">
-                {/* Wick */}
-                <line
-                  x1={x + candleWidth / 2}
-                  y1={priceToY(candle.high)}
-                  x2={x + candleWidth / 2}
-                  y2={priceToY(candle.low)}
-                  stroke={isGreen ? '#22c55e' : '#ef4444'}
-                  strokeWidth="1"
-                />
-                {/* Body */}
-                <rect
-                  x={x}
-                  y={bodyTop}
-                  width={candleWidth}
-                  height={bodyHeight}
-                  fill={isGreen ? '#22c55e' : '#ef4444'}
-                  rx="2"
-                />
-              </g>
-            );
-          })}
-
-          {/* Illuminated candles (clipped by scan position) */}
-          <g clipPath={!isFullyLit ? "url(#scanClip)" : undefined}>
-            {candles.map((candle, i) => {
-              const x = i * (candleWidth + candleGap) + candleGap;
-              const isGreen = candle.close > candle.open;
-              const bodyTop = priceToY(Math.max(candle.open, candle.close));
-              const bodyBottom = priceToY(Math.min(candle.open, candle.close));
-              const bodyHeight = Math.max(bodyBottom - bodyTop, 2);
-
-              return (
-                <g key={`lit-${i}`} filter="url(#glow)">
-                  {/* Wick */}
-                  <line
-                    x1={x + candleWidth / 2}
-                    y1={priceToY(candle.high)}
-                    x2={x + candleWidth / 2}
-                    y2={priceToY(candle.low)}
-                    stroke={isGreen ? '#22c55e' : '#ef4444'}
-                    strokeWidth="2"
-                  />
-                  {/* Body */}
-                  <rect
-                    x={x}
-                    y={bodyTop}
-                    width={candleWidth}
-                    height={bodyHeight}
-                    fill={isGreen ? '#22c55e' : '#ef4444'}
-                    rx="2"
-                  />
-                </g>
-              );
-            })}
-          </g>
-
-          {/* Markers for detected extremes */}
-          {markers.map((marker, idx) => {
-            const candle = candles[marker.index];
-            const x = marker.index * (candleWidth + candleGap) + candleGap + candleWidth / 2;
-            const y = marker.type === 'low' 
-              ? priceToY(candle.low) + 20 
-              : priceToY(candle.high) - 20;
-            const isLow = marker.type === 'low';
-
-            return (
-              <g key={`marker-${idx}`} filter="url(#glow)">
-                <circle
-                  cx={x}
-                  cy={y}
-                  r="12"
-                  fill={isLow ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)'}
-                  stroke={isLow ? '#22c55e' : '#ef4444'}
-                  strokeWidth="2"
-                />
-                {isLow ? (
-                  <path
-                    d={`M${x - 5} ${y} L${x - 1} ${y + 5} L${x + 6} ${y - 4}`}
-                    stroke="#22c55e"
-                    strokeWidth="2.5"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                ) : (
-                  <g>
-                    <line x1={x - 4} y1={y - 4} x2={x + 4} y2={y + 4} stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
-                    <line x1={x + 4} y1={y - 4} x2={x - 4} y2={y + 4} stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
-                  </g>
-                )}
-              </g>
-            );
-          })}
-
-          {/* Scanner line */}
-          {!isFullyLit && (
-            <g>
-              <rect
-                x={scanX - 40}
-                y="0"
-                width="80"
-                height={chartHeight}
-                fill="url(#scanGlow)"
-              />
-              <line
-                x1={scanX}
-                y1="0"
-                x2={scanX}
-                y2={chartHeight}
-                stroke="rgba(59,130,246,0.9)"
-                strokeWidth="2"
-                filter="url(#glow)"
-              />
-            </g>
-          )}
-        </svg>
-
-        {/* AI scanning indicator */}
-        <div className="absolute bottom-4 right-4 flex items-center gap-2">
-          <div className={`w-2 h-2 rounded-full ${isFullyLit ? 'bg-green-400' : 'bg-blue-400 animate-pulse'}`} />
-          <span className="text-white/50 font-mono text-xs">
-            {isFullyLit ? 'Analysis Complete' : 'AI Scanning...'}
-          </span>
+        
+        <canvas 
+          ref={canvasRef}
+          className="w-full h-[400px]"
+          style={{ display: 'block' }}
+        />
+        
+        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#060a10] to-transparent pointer-events-none" />
+      </div>
+      
+      <div className="flex justify-center gap-10 mt-6">
+        <div className="flex items-center gap-2.5">
+          <div className="w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
+            <svg className="w-2.5 h-2.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+          <span className="text-white/35 text-sm">Reversal Low</span>
+        </div>
+        <div className="flex items-center gap-2.5">
+          <div className="w-5 h-5 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
+            <svg className="w-2.5 h-2.5 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </div>
+          <span className="text-white/35 text-sm">Reversal High</span>
         </div>
       </div>
     </div>
@@ -344,115 +376,133 @@ function BTCScannerChart() {
 
 /* ================= TELEGRAM ALERTS COMPONENT ================= */
 function TelegramAlerts() {
-  const [visibleMessages, setVisibleMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const messages = [
-    { type: 'buy', price: '41,523', time: '14:32', confidence: '94%' },
-    { type: 'info', text: 'Reversal pattern detected on 4H timeframe', time: '14:33' },
-    { type: 'sell', price: '46,189', time: '18:47', confidence: '91%' },
-    { type: 'info', text: 'Strong resistance zone ahead', time: '18:48' },
-    { type: 'buy', price: '42,847', time: '09:15', confidence: '88%' },
+  
+  const allMessages = [
+    { id: 1, type: 'buy', price: '41,523', confidence: 94, time: '14:32' },
+    { id: 2, type: 'info', text: 'Reversal pattern confirmed on 4H', time: '14:33' },
+    { id: 3, type: 'sell', price: '46,189', confidence: 91, time: '18:47' },
+    { id: 4, type: 'info', text: 'Strong resistance zone reached', time: '18:48' },
+    { id: 5, type: 'buy', price: '42,847', confidence: 88, time: '09:15' },
   ];
 
   useEffect(() => {
+    setMessages([{ ...allMessages[0], visible: true }]);
+    
     const interval = setInterval(() => {
       setCurrentIndex(prev => {
-        const next = (prev + 1) % messages.length;
+        const next = (prev + 1) % allMessages.length;
+        
         if (next === 0) {
-          setVisibleMessages([]);
+          setMessages([{ ...allMessages[0], visible: true }]);
+        } else {
+          setMessages(current => {
+            const newMessages = [...current, { ...allMessages[next], visible: true }];
+            return newMessages.slice(-4);
+          });
         }
+        
         return next;
       });
-      
-      setVisibleMessages(prev => {
-        const newMessages = [...prev, messages[currentIndex]];
-        if (newMessages.length > 4) {
-          return newMessages.slice(-4);
-        }
-        return newMessages;
-      });
-    }, 2500);
-
-    // Show first message immediately
-    if (visibleMessages.length === 0) {
-      setVisibleMessages([messages[0]]);
-    }
+    }, 2800);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, []);
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="bg-[#0e1621] rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-        {/* Telegram header */}
-        <div className="bg-[#17212b] px-4 py-3 flex items-center gap-3 border-b border-white/5">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-            <span className="text-white font-bold text-sm">🤖</span>
+    <div className="w-full max-w-[340px] mx-auto">
+      <div className="relative">
+        <div className="bg-[#0e1621] rounded-[2.5rem] border border-white/[0.06] overflow-hidden shadow-2xl shadow-black/60">
+          <div className="h-7 bg-[#0e1621] relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-b-2xl" />
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <span className="text-white font-semibold text-sm">AG Algo Lab Signals</span>
-              <svg className="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-              </svg>
+          
+          <div className="bg-[#17212b] px-4 py-2.5 flex items-center gap-3 border-b border-white/[0.04]">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <span className="text-base">🤖</span>
             </div>
-            <span className="text-white/40 text-xs">bot • online</span>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="text-white font-semibold text-sm truncate">AG Algo Signals</span>
+                <svg className="w-3.5 h-3.5 text-blue-400 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
+              </div>
+              <span className="text-white/35 text-[11px]">bot</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-white/25">
+              <Phone className="w-4 h-4" />
+              <MoreVertical className="w-4 h-4" />
+            </div>
           </div>
-          <Send className="w-5 h-5 text-white/30" />
-        </div>
 
-        {/* Messages area */}
-        <div className="p-4 min-h-[280px] flex flex-col justify-end gap-3">
-          {visibleMessages.map((msg, idx) => (
-            <motion.div
-              key={`${msg.time}-${idx}`}
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className={`max-w-[85%] rounded-2xl rounded-bl-sm px-4 py-3 ${
-                msg.type === 'buy' 
-                  ? 'bg-gradient-to-r from-green-500/20 to-green-600/10 border border-green-500/30' 
-                  : msg.type === 'sell'
-                  ? 'bg-gradient-to-r from-red-500/20 to-red-600/10 border border-red-500/30'
-                  : 'bg-[#182533] border border-white/5'
-              }`}
-            >
-              {msg.type === 'buy' || msg.type === 'sell' ? (
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className={`text-xs font-bold uppercase tracking-wider ${
-                      msg.type === 'buy' ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {msg.type === 'buy' ? '🟢 BUY SIGNAL' : '🔴 SELL SIGNAL'}
-                    </span>
+          <div className="h-[300px] p-3 flex flex-col justify-end gap-2 bg-[#0e1621] overflow-hidden">
+            {messages.map((msg, idx) => (
+              <motion.div
+                key={`${msg.id}-${idx}`}
+                initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="max-w-[88%]"
+              >
+                {msg.type === 'buy' || msg.type === 'sell' ? (
+                  <div className={`rounded-2xl rounded-bl-sm px-3.5 py-2.5 ${
+                    msg.type === 'buy' 
+                      ? 'bg-gradient-to-br from-emerald-500/15 to-emerald-600/5 border border-emerald-500/20' 
+                      : 'bg-gradient-to-br from-red-500/15 to-red-600/5 border border-red-500/20'
+                  }`}>
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${msg.type === 'buy' ? 'bg-emerald-400' : 'bg-red-400'}`} />
+                      <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                        msg.type === 'buy' ? 'text-emerald-400' : 'text-red-400'
+                      }`}>
+                        {msg.type === 'buy' ? 'Buy Signal' : 'Sell Signal'}
+                      </span>
+                    </div>
+                    <div className="text-white font-mono text-lg font-bold">
+                      ${msg.price}
+                    </div>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-white/25 text-[10px]">{msg.time}</span>
+                      <div className="flex items-center gap-1.5">
+                        <div className={`h-1 w-10 rounded-full overflow-hidden ${
+                          msg.type === 'buy' ? 'bg-emerald-900/40' : 'bg-red-900/40'
+                        }`}>
+                          <div 
+                            className={`h-full rounded-full ${msg.type === 'buy' ? 'bg-emerald-400' : 'bg-red-400'}`}
+                            style={{ width: `${msg.confidence}%` }}
+                          />
+                        </div>
+                        <span className={`text-[10px] font-medium ${
+                          msg.type === 'buy' ? 'text-emerald-400/60' : 'text-red-400/60'
+                        }`}>
+                          {msg.confidence}%
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-white font-mono text-lg font-bold">
-                    ${msg.price}
+                ) : (
+                  <div className="bg-[#182533] rounded-2xl rounded-bl-sm px-3.5 py-2 border border-white/[0.03]">
+                    <p className="text-white/60 text-[13px]">{msg.text}</p>
+                    <span className="text-white/20 text-[10px]">{msg.time}</span>
                   </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-white/40">{msg.time}</span>
-                    <span className={`${
-                      msg.type === 'buy' ? 'text-green-400/70' : 'text-red-400/70'
-                    }`}>
-                      Confidence: {msg.confidence}
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <p className="text-white/80 text-sm">{msg.text}</p>
-                  <span className="text-white/30 text-xs">{msg.time}</span>
-                </div>
-              )}
-            </motion.div>
-          ))}
-        </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
 
-        {/* Input area (decorative) */}
-        <div className="bg-[#17212b] px-4 py-3 border-t border-white/5">
-          <div className="bg-[#242f3d] rounded-full px-4 py-2 flex items-center gap-2">
-            <span className="text-white/30 text-sm">Signals are automated...</span>
+          <div className="bg-[#17212b] px-3 py-2 border-t border-white/[0.04]">
+            <div className="bg-[#242f3d] rounded-full px-4 py-2 flex items-center gap-2">
+              <span className="text-white/20 text-sm flex-1">Message</span>
+              <div className="w-7 h-7 rounded-full bg-blue-500/15 flex items-center justify-center">
+                <Send className="w-3.5 h-3.5 text-blue-400/70" />
+              </div>
+            </div>
+          </div>
+          
+          <div className="h-5 flex items-center justify-center bg-[#0e1621]">
+            <div className="w-28 h-1 bg-white/15 rounded-full" />
           </div>
         </div>
       </div>
@@ -674,11 +724,9 @@ function Home() {
               viewport={{ once: true }}
               className="bg-[#141f38] rounded-2xl p-8 md:p-10 border border-white/10 relative overflow-hidden"
             >
-              {/* Background gradient */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
               
               <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
-                {/* Photo */}
                 <div className="flex-shrink-0">
                   <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border border-white/10 shadow-xl">
                     <img 
@@ -689,7 +737,6 @@ function Home() {
                   </div>
                 </div>
 
-                {/* Description */}
                 <div className="flex-1 text-center md:text-left">
                   <h3 className="text-2xl font-bold text-white mb-4">Anthony Gocmen</h3>
                   <div className="space-y-3 text-[#b7c3e6] leading-relaxed">
@@ -706,9 +753,14 @@ function Home() {
           </div>
         </section>
 
-        {/* Projects Section */}
-        <section id="projects" className="py-24 relative">
-          <div className="max-w-7xl mx-auto px-6">
+        {/* ================= BTC PREDICTION SECTION ================= */}
+        <section id="projects" className="py-24 relative overflow-hidden">
+          <div className="absolute inset-0">
+            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] rounded-full blur-3xl" />
+            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/[0.02] rounded-full blur-3xl" />
+          </div>
+          
+          <div className="max-w-6xl mx-auto px-6 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -716,67 +768,58 @@ function Home() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-6">
-                BTC Prediction Engine
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/15 mb-6">
+                <span className="text-orange-400 font-bold">₿</span>
+                <span className="text-orange-400/70 text-sm font-medium">Bitcoin Intelligence</span>
+              </div>
+              
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                <span className="bg-gradient-to-r from-white via-orange-100 to-orange-200 bg-clip-text text-transparent">
+                  Reversal Detection Engine
+                </span>
               </h2>
-              <p className="text-lg text-[#b7c3e6] max-w-3xl mx-auto leading-relaxed">
-                Our proprietary AI analyzes Bitcoin price action in real-time, identifying 
-                <span className="text-orange-400 font-medium"> high-probability reversal points</span> using 
-                advanced pattern recognition that goes beyond traditional indicators.
+              
+              <p className="text-lg text-[#8b9dc3] max-w-2xl mx-auto leading-relaxed">
+                Proprietary AI scans Bitcoin price action in real-time, identifying 
+                <span className="text-orange-400/80 font-medium"> high-probability turning points</span> before 
+                they happen. The model sees patterns invisible to traditional analysis.
               </p>
-              <p className="text-white/40 mt-4 text-sm italic">
-                The underlying model architecture remains confidential.
+              
+              <p className="text-white/25 mt-4 text-sm italic font-light">
+                Architecture details remain confidential
               </p>
             </motion.div>
 
-            {/* Scanner Chart */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
               viewport={{ once: true }}
-              className="mb-20"
+              className="mb-24"
             >
               <BTCScannerChart />
-              
-              {/* Legend */}
-              <div className="flex justify-center gap-8 mt-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-green-500/30 border border-green-500 flex items-center justify-center">
-                    <span className="text-green-400 text-xs">✓</span>
-                  </div>
-                  <span className="text-white/50 text-sm">Buy Zone Detected</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-red-500/30 border border-red-500 flex items-center justify-center">
-                    <span className="text-red-400 text-xs">✕</span>
-                  </div>
-                  <span className="text-white/50 text-sm">Sell Zone Detected</span>
-                </div>
-              </div>
             </motion.div>
 
-            {/* Telegram Alerts */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
               viewport={{ once: true }}
               className="mb-20"
             >
-              <div className="text-center mb-8">
+              <div className="text-center mb-10">
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                  Real-Time Telegram Alerts
+                  Instant Signal Delivery
                 </h3>
-                <p className="text-[#b7c3e6] max-w-xl mx-auto">
-                  Signals are broadcasted instantly to subscribers when the AI identifies 
-                  actionable opportunities.
+                <p className="text-[#8b9dc3] max-w-lg mx-auto">
+                  When the AI detects a reversal opportunity, subscribers receive 
+                  real-time alerts with entry levels and confidence scores.
                 </p>
               </div>
+              
               <TelegramAlerts />
             </motion.div>
 
-            {/* Other Projects */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -787,8 +830,8 @@ function Home() {
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                 Other Projects
               </h3>
-              <p className="text-[#b7c3e6]">
-                Explore our open-source projects and research
+              <p className="text-[#8b9dc3]">
+                Explore our open-source work
               </p>
             </motion.div>
 
@@ -811,30 +854,23 @@ function Home() {
           </div>
         </section>
 
-      
         {/* ================= KNOWLEDGE HUB SECTION ================= */}
-        
-        {/* Knowledge Hub Section */}
         <section id="knowledge-hub" className="py-24 relative overflow-hidden">
-          {/* Background Effects */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
             <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
-            {/* Grid pattern */}
             <div 
               className="absolute inset-0 opacity-[0.02]"
               style={{
-                backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
                 backgroundSize: '50px 50px'
               }}
             />
-            {/* Gradient orbs */}
             <div className="absolute top-1/4 -left-32 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl" />
             <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
           </div>
           
           <div className="max-w-7xl mx-auto px-6 relative z-10">
-            {/* Header with terminal style */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -842,7 +878,6 @@ function Home() {
               viewport={{ once: true }}
               className="mb-16"
             >
-              {/* Terminal header */}
               <div className="max-w-3xl mx-auto">
                 <div className="bg-[#0d1117] rounded-t-xl border border-white/10 border-b-0 px-4 py-3 flex items-center gap-3">
                   <div className="flex gap-2">
@@ -871,7 +906,6 @@ function Home() {
               </div>
             </motion.div>
         
-            {/* Featured Course - CatBoost */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -880,7 +914,6 @@ function Home() {
               className="mb-12"
             >
               <div className="bg-gradient-to-br from-[#141f38] to-[#0d1424] rounded-2xl border border-white/10 overflow-hidden">
-                {/* Course header */}
                 <div className="bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-green-500/10 border-b border-white/10 p-6">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
@@ -915,10 +948,8 @@ function Home() {
                   </div>
                 </div>
         
-                {/* Course content */}
                 <div className="p-6 md:p-8">
                   <div className="grid lg:grid-cols-5 gap-8">
-                    {/* Video embed - takes 3 columns */}
                     <div className="lg:col-span-3">
                       <div className="aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10">
                         <iframe
@@ -932,7 +963,6 @@ function Home() {
                       </div>
                     </div>
         
-                    {/* Course description - takes 2 columns */}
                     <div className="lg:col-span-2 flex flex-col justify-between">
                       <div>
                         <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
@@ -987,7 +1017,6 @@ function Home() {
               </div>
             </motion.div>
         
-            {/* Channel Links */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -995,14 +1024,12 @@ function Home() {
               viewport={{ once: true }}
               className="grid md:grid-cols-2 gap-6"
             >
-              {/* French Channel */}
               <a
                 href="https://www.youtube.com/@ag_algolab_fr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative bg-[#141f38] rounded-xl p-6 border border-white/10 hover:border-blue-500/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] overflow-hidden"
               >
-                {/* Decorative elements */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
@@ -1024,7 +1051,6 @@ function Home() {
                   <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
                 </div>
                 
-                {/* Code-style footer */}
                 <div className="mt-4 pt-4 border-t border-white/5 font-mono text-xs text-white/30">
                   <span className="text-purple-400">@ag_algolab_fr</span>
                   <span className="text-white/20 mx-2">•</span>
@@ -1032,14 +1058,12 @@ function Home() {
                 </div>
               </a>
         
-              {/* English Channel */}
               <a
                 href="https://www.youtube.com/@ag_algolab"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative bg-[#141f38] rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] overflow-hidden"
               >
-                {/* Decorative elements */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
@@ -1061,7 +1085,6 @@ function Home() {
                   <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
                 </div>
                 
-                {/* Code-style footer */}
                 <div className="mt-4 pt-4 border-t border-white/5 font-mono text-xs text-white/30">
                   <span className="text-purple-400">@ag_algolab</span>
                   <span className="text-white/20 mx-2">•</span>
@@ -1072,9 +1095,6 @@ function Home() {
           </div>
         </section>
 
-
-
-        
         {/* Contact Section */}
         <section id="contact" className="py-24">
           <div className="max-w-4xl mx-auto px-6">
