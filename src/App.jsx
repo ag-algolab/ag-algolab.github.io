@@ -2,10 +2,10 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import ShahMat from "./pages/ShahMat"; 
 import FraudRiskScoring from "./pages/FraudRiskScoring";
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play, Send } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 
 /* ================= TECH ORBIT COMPONENT ================= */
@@ -64,43 +64,399 @@ function TechOrbit() {
   );
 }
 
-/* ================= PROJECT CARD ================= */
-function ProjectCard({ title, description, tech, image, index }) {
+/* ================= BTC SCANNER CHART COMPONENT ================= */
+function BTCScannerChart() {
+  const [scanPosition, setScanPosition] = useState(0);
+  const [isFullyLit, setIsFullyLit] = useState(false);
+  const [markers, setMarkers] = useState([]);
+  const animationRef = useRef(null);
+  
+  // Generate realistic-looking candlestick data
+  const candles = [
+    { open: 42100, close: 42800, high: 43200, low: 41900 },
+    { open: 42800, close: 43500, high: 43800, low: 42600 },
+    { open: 43500, close: 42200, high: 43600, low: 42000 },
+    { open: 42200, close: 41500, high: 42400, low: 41200 }, // Local low
+    { open: 41500, close: 42800, high: 43000, low: 41400 },
+    { open: 42800, close: 44200, high: 44500, low: 42700 },
+    { open: 44200, close: 45100, high: 45800, low: 44000 },
+    { open: 45100, close: 46200, high: 46500, low: 44900 }, // Local high
+    { open: 46200, close: 45000, high: 46300, low: 44800 },
+    { open: 45000, close: 43800, high: 45200, low: 43500 },
+    { open: 43800, close: 42500, high: 44000, low: 42200 },
+    { open: 42500, close: 41800, high: 42700, low: 41500 }, // Local low
+    { open: 41800, close: 43200, high: 43500, low: 41700 },
+    { open: 43200, close: 44800, high: 45000, low: 43100 },
+    { open: 44800, close: 45500, high: 46000, low: 44600 },
+    { open: 45500, close: 44200, high: 45700, low: 44000 },
+  ];
+
+  // Find local highs and lows
+  const localExtremes = [
+    { index: 3, type: 'low' },
+    { index: 7, type: 'high' },
+    { index: 11, type: 'low' },
+  ];
+
+  const minPrice = Math.min(...candles.map(c => c.low)) - 500;
+  const maxPrice = Math.max(...candles.map(c => c.high)) + 500;
+  const priceRange = maxPrice - minPrice;
+
+  const chartWidth = 640;
+  const chartHeight = 320;
+  const candleWidth = 28;
+  const candleGap = 12;
+
+  const priceToY = (price) => {
+    return chartHeight - ((price - minPrice) / priceRange) * chartHeight;
+  };
+
+  useEffect(() => {
+    let startTime = null;
+    const scanDuration = 8000; // 8 seconds to scan
+    const pauseDuration = 3000; // 3 seconds fully lit
+    const totalDuration = scanDuration + pauseDuration;
+
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = (timestamp - startTime) % totalDuration;
+
+      if (elapsed < scanDuration) {
+        const progress = elapsed / scanDuration;
+        setScanPosition(progress);
+        setIsFullyLit(false);
+
+        // Add markers when scanner passes extremes
+        const currentCandleIndex = Math.floor(progress * candles.length);
+        const newMarkers = localExtremes
+          .filter(e => e.index <= currentCandleIndex)
+          .map(e => ({ ...e }));
+        setMarkers(newMarkers);
+      } else {
+        setScanPosition(1);
+        setIsFullyLit(true);
+        setMarkers(localExtremes);
+      }
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
+  const scanX = scanPosition * chartWidth;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className="group bg-[#141f38] rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-500 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)]"
-    >
-      <div className="relative h-48 overflow-hidden">
-        <img 
-          src={image} 
-          alt={title} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#141f38] via-transparent to-transparent" />
-      </div>
-      <div className="p-6">
-        <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors duration-300">
-          {title}
-        </h3>
-        <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">
-          {description}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {tech.map((t, i) => (
-            <span
-              key={i}
-              className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-white/70 text-xs font-medium"
-            >
-              {t}
-            </span>
+    <div className="relative w-full max-w-2xl mx-auto">
+      {/* Chart container */}
+      <div className="relative bg-[#0a0f1a] rounded-2xl border border-white/10 p-6 overflow-hidden">
+        {/* BTC Label */}
+        <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center">
+            <span className="text-orange-400 font-bold text-sm">₿</span>
+          </div>
+          <span className="text-white/70 font-mono text-sm">BTC/USDT</span>
+        </div>
+
+        {/* SVG Chart */}
+        <svg 
+          viewBox={`0 0 ${chartWidth} ${chartHeight}`} 
+          className="w-full h-64 md:h-80"
+          style={{ filter: isFullyLit ? 'none' : 'brightness(0.3)' }}
+        >
+          {/* Gradient definitions */}
+          <defs>
+            <linearGradient id="scanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(59,130,246,0)" />
+              <stop offset="40%" stopColor="rgba(59,130,246,0.3)" />
+              <stop offset="50%" stopColor="rgba(59,130,246,0.8)" />
+              <stop offset="60%" stopColor="rgba(59,130,246,0.3)" />
+              <stop offset="100%" stopColor="rgba(59,130,246,0)" />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+            <clipPath id="scanClip">
+              <rect x="0" y="0" width={scanX + 60} height={chartHeight} />
+            </clipPath>
+          </defs>
+
+          {/* Grid lines */}
+          {[...Array(5)].map((_, i) => (
+            <line
+              key={`h-${i}`}
+              x1="0"
+              y1={(i + 1) * (chartHeight / 6)}
+              x2={chartWidth}
+              y2={(i + 1) * (chartHeight / 6)}
+              stroke="rgba(255,255,255,0.05)"
+              strokeDasharray="4 4"
+            />
           ))}
+
+          {/* Dark candles (background) */}
+          {candles.map((candle, i) => {
+            const x = i * (candleWidth + candleGap) + candleGap;
+            const isGreen = candle.close > candle.open;
+            const bodyTop = priceToY(Math.max(candle.open, candle.close));
+            const bodyBottom = priceToY(Math.min(candle.open, candle.close));
+            const bodyHeight = Math.max(bodyBottom - bodyTop, 2);
+
+            return (
+              <g key={`dark-${i}`} opacity="0.2">
+                {/* Wick */}
+                <line
+                  x1={x + candleWidth / 2}
+                  y1={priceToY(candle.high)}
+                  x2={x + candleWidth / 2}
+                  y2={priceToY(candle.low)}
+                  stroke={isGreen ? '#22c55e' : '#ef4444'}
+                  strokeWidth="1"
+                />
+                {/* Body */}
+                <rect
+                  x={x}
+                  y={bodyTop}
+                  width={candleWidth}
+                  height={bodyHeight}
+                  fill={isGreen ? '#22c55e' : '#ef4444'}
+                  rx="2"
+                />
+              </g>
+            );
+          })}
+
+          {/* Illuminated candles (clipped by scan position) */}
+          <g clipPath={!isFullyLit ? "url(#scanClip)" : undefined}>
+            {candles.map((candle, i) => {
+              const x = i * (candleWidth + candleGap) + candleGap;
+              const isGreen = candle.close > candle.open;
+              const bodyTop = priceToY(Math.max(candle.open, candle.close));
+              const bodyBottom = priceToY(Math.min(candle.open, candle.close));
+              const bodyHeight = Math.max(bodyBottom - bodyTop, 2);
+
+              return (
+                <g key={`lit-${i}`} filter="url(#glow)">
+                  {/* Wick */}
+                  <line
+                    x1={x + candleWidth / 2}
+                    y1={priceToY(candle.high)}
+                    x2={x + candleWidth / 2}
+                    y2={priceToY(candle.low)}
+                    stroke={isGreen ? '#22c55e' : '#ef4444'}
+                    strokeWidth="2"
+                  />
+                  {/* Body */}
+                  <rect
+                    x={x}
+                    y={bodyTop}
+                    width={candleWidth}
+                    height={bodyHeight}
+                    fill={isGreen ? '#22c55e' : '#ef4444'}
+                    rx="2"
+                  />
+                </g>
+              );
+            })}
+          </g>
+
+          {/* Markers for detected extremes */}
+          {markers.map((marker, idx) => {
+            const candle = candles[marker.index];
+            const x = marker.index * (candleWidth + candleGap) + candleGap + candleWidth / 2;
+            const y = marker.type === 'low' 
+              ? priceToY(candle.low) + 20 
+              : priceToY(candle.high) - 20;
+            const isLow = marker.type === 'low';
+
+            return (
+              <g key={`marker-${idx}`} filter="url(#glow)">
+                <circle
+                  cx={x}
+                  cy={y}
+                  r="12"
+                  fill={isLow ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)'}
+                  stroke={isLow ? '#22c55e' : '#ef4444'}
+                  strokeWidth="2"
+                />
+                {isLow ? (
+                  <path
+                    d={`M${x - 5} ${y} L${x - 1} ${y + 5} L${x + 6} ${y - 4}`}
+                    stroke="#22c55e"
+                    strokeWidth="2.5"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                ) : (
+                  <g>
+                    <line x1={x - 4} y1={y - 4} x2={x + 4} y2={y + 4} stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+                    <line x1={x + 4} y1={y - 4} x2={x - 4} y2={y + 4} stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+                  </g>
+                )}
+              </g>
+            );
+          })}
+
+          {/* Scanner line */}
+          {!isFullyLit && (
+            <g>
+              <rect
+                x={scanX - 40}
+                y="0"
+                width="80"
+                height={chartHeight}
+                fill="url(#scanGlow)"
+              />
+              <line
+                x1={scanX}
+                y1="0"
+                x2={scanX}
+                y2={chartHeight}
+                stroke="rgba(59,130,246,0.9)"
+                strokeWidth="2"
+                filter="url(#glow)"
+              />
+            </g>
+          )}
+        </svg>
+
+        {/* AI scanning indicator */}
+        <div className="absolute bottom-4 right-4 flex items-center gap-2">
+          <div className={`w-2 h-2 rounded-full ${isFullyLit ? 'bg-green-400' : 'bg-blue-400 animate-pulse'}`} />
+          <span className="text-white/50 font-mono text-xs">
+            {isFullyLit ? 'Analysis Complete' : 'AI Scanning...'}
+          </span>
         </div>
       </div>
-    </motion.div>
+    </div>
+  );
+}
+
+/* ================= TELEGRAM ALERTS COMPONENT ================= */
+function TelegramAlerts() {
+  const [visibleMessages, setVisibleMessages] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const messages = [
+    { type: 'buy', price: '41,523', time: '14:32', confidence: '94%' },
+    { type: 'info', text: 'Reversal pattern detected on 4H timeframe', time: '14:33' },
+    { type: 'sell', price: '46,189', time: '18:47', confidence: '91%' },
+    { type: 'info', text: 'Strong resistance zone ahead', time: '18:48' },
+    { type: 'buy', price: '42,847', time: '09:15', confidence: '88%' },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => {
+        const next = (prev + 1) % messages.length;
+        if (next === 0) {
+          setVisibleMessages([]);
+        }
+        return next;
+      });
+      
+      setVisibleMessages(prev => {
+        const newMessages = [...prev, messages[currentIndex]];
+        if (newMessages.length > 4) {
+          return newMessages.slice(-4);
+        }
+        return newMessages;
+      });
+    }, 2500);
+
+    // Show first message immediately
+    if (visibleMessages.length === 0) {
+      setVisibleMessages([messages[0]]);
+    }
+
+    return () => clearInterval(interval);
+  }, [currentIndex]);
+
+  return (
+    <div className="w-full max-w-md mx-auto">
+      <div className="bg-[#0e1621] rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+        {/* Telegram header */}
+        <div className="bg-[#17212b] px-4 py-3 flex items-center gap-3 border-b border-white/5">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+            <span className="text-white font-bold text-sm">🤖</span>
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <span className="text-white font-semibold text-sm">AG Algo Lab Signals</span>
+              <svg className="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+              </svg>
+            </div>
+            <span className="text-white/40 text-xs">bot • online</span>
+          </div>
+          <Send className="w-5 h-5 text-white/30" />
+        </div>
+
+        {/* Messages area */}
+        <div className="p-4 min-h-[280px] flex flex-col justify-end gap-3">
+          {visibleMessages.map((msg, idx) => (
+            <motion.div
+              key={`${msg.time}-${idx}`}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className={`max-w-[85%] rounded-2xl rounded-bl-sm px-4 py-3 ${
+                msg.type === 'buy' 
+                  ? 'bg-gradient-to-r from-green-500/20 to-green-600/10 border border-green-500/30' 
+                  : msg.type === 'sell'
+                  ? 'bg-gradient-to-r from-red-500/20 to-red-600/10 border border-red-500/30'
+                  : 'bg-[#182533] border border-white/5'
+              }`}
+            >
+              {msg.type === 'buy' || msg.type === 'sell' ? (
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs font-bold uppercase tracking-wider ${
+                      msg.type === 'buy' ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {msg.type === 'buy' ? '🟢 BUY SIGNAL' : '🔴 SELL SIGNAL'}
+                    </span>
+                  </div>
+                  <div className="text-white font-mono text-lg font-bold">
+                    ${msg.price}
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-white/40">{msg.time}</span>
+                    <span className={`${
+                      msg.type === 'buy' ? 'text-green-400/70' : 'text-red-400/70'
+                    }`}>
+                      Confidence: {msg.confidence}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-white/80 text-sm">{msg.text}</p>
+                  <span className="text-white/30 text-xs">{msg.time}</span>
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Input area (decorative) */}
+        <div className="bg-[#17212b] px-4 py-3 border-t border-white/5">
+          <div className="bg-[#242f3d] rounded-full px-4 py-2 flex items-center gap-2">
+            <span className="text-white/30 text-sm">Signals are automated...</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -361,48 +717,66 @@ function Home() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-6">
-                Main Project
+                BTC Prediction Engine
               </h2>
               <p className="text-lg text-[#b7c3e6] max-w-3xl mx-auto leading-relaxed">
-                The main project is the development of a predictive AI model for financial markets. 
-                Although still in progress, it already delivers results that confirm its potential.
+                Our proprietary AI analyzes Bitcoin price action in real-time, identifying 
+                <span className="text-orange-400 font-medium"> high-probability reversal points</span> using 
+                advanced pattern recognition that goes beyond traditional indicators.
               </p>
-              <p className="text-white/50 mt-4 text-sm">
-                For the moment, it remains confidential and not available for sale.
+              <p className="text-white/40 mt-4 text-sm italic">
+                The underlying model architecture remains confidential.
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6 mb-20">
-              {[
-                {
-                  title: '1. Exploration & Training',
-                  description: 'Exploring promising ideas and preparing the foundations of the predictive model. Different approaches are tested, financial data is preprocessed, and initial versions of the AI are trained.',
-                  tech: ['Scikit-learn', 'TensorFlow', 'Pandas'],
-                  image: '/exploration.jpg',
-                },
-                {
-                  title: '2. Optimization & Validation',
-                  description: 'Once a candidate model shows potential, it is refined through hyperparameter optimization, robustness checks, and extensive backtests.',
-                  tech: ['Matplotlib', 'Scikit-learn', 'TensorFlow'],
-                  image: '/opti.jpg',
-                },
-                {
-                  title: '3. Live Market Deployment',
-                  description: 'The model is connected directly to live markets and tested under real conditions. The bot operates autonomously, executing trades.',
-                  tech: ['MetaTrader 5', 'TensorFlow', 'Joblib'],
-                  image: '/orderfilled.jpg',
-                },
-                {
-                  title: '4. Signal Transmission',
-                  description: 'The final step is the broadcasting of signals generated by the AI in real time through Telegram, APIs, or other platforms.',
-                  tech: ['Requests', 'Python-Telegram-Bot'],
-                  image: '/broadcasting.jpg',
-                },
-              ].map((project, index) => (
-                <ProjectCard key={index} {...project} index={index} />
-              ))}
-            </div>
+            {/* Scanner Chart */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="mb-20"
+            >
+              <BTCScannerChart />
+              
+              {/* Legend */}
+              <div className="flex justify-center gap-8 mt-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-green-500/30 border border-green-500 flex items-center justify-center">
+                    <span className="text-green-400 text-xs">✓</span>
+                  </div>
+                  <span className="text-white/50 text-sm">Buy Zone Detected</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-red-500/30 border border-red-500 flex items-center justify-center">
+                    <span className="text-red-400 text-xs">✕</span>
+                  </div>
+                  <span className="text-white/50 text-sm">Sell Zone Detected</span>
+                </div>
+              </div>
+            </motion.div>
 
+            {/* Telegram Alerts */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="mb-20"
+            >
+              <div className="text-center mb-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                  Real-Time Telegram Alerts
+                </h3>
+                <p className="text-[#b7c3e6] max-w-xl mx-auto">
+                  Signals are broadcasted instantly to subscribers when the AI identifies 
+                  actionable opportunities.
+                </p>
+              </div>
+              <TelegramAlerts />
+            </motion.div>
+
+            {/* Other Projects */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
