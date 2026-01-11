@@ -394,7 +394,11 @@ function TelegramAlerts() {
         const next = (prev + 1) % allMessages.length;
         
         if (next === 0) {
-          setMessages([{ ...allMessages[0], visible: true }]);
+          // Fade out all messages before restarting
+          setMessages(current => current.map(m => ({ ...m, fading: true })));
+          setTimeout(() => {
+            setMessages([{ ...allMessages[0], visible: true }]);
+          }, 400);
         } else {
           setMessages(current => {
             const newMessages = [...current, { ...allMessages[next], visible: true }];
@@ -405,7 +409,7 @@ function TelegramAlerts() {
         return next;
       });
     }, 2800);
-
+  
     return () => clearInterval(interval);
   }, []);
 
@@ -441,8 +445,12 @@ function TelegramAlerts() {
               <motion.div
                 key={`${msg.id}-${idx}`}
                 initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
+                animate={{ 
+                  opacity: msg.fading ? 0 : 1, 
+                  y: msg.fading ? -10 : 0, 
+                  scale: msg.fading ? 0.95 : 1 
+                }}
+                transition={{ duration: msg.fading ? 0.35 : 0.2, ease: 'easeOut' }}
                 className="max-w-[88%]"
               >
                 {msg.type === 'buy' || msg.type === 'sell' ? (
