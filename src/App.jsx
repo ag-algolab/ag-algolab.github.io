@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play, Send, MoreVertical } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 
-/* ================= TECH ORBIT COMPONENT ================= */
+/* ================= TECH ORBIT COMPONENT ================ */
 function TechOrbit() {
   const techs = [
     { name: "Python", logo: "/logos/python.png" },
