@@ -640,7 +640,7 @@ function Home() {
               >
                 <div className="inline-block mb-6">
                   <span className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-white/10 text-sm font-medium text-white/80">
-                    Machine Learning · Deep Learning · Python · Trading
+                    AI · Algorithmic Trading · ML Scoring
                   </span>
                 </div>
                 
