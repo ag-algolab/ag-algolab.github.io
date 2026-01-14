@@ -325,12 +325,12 @@ function BTCScannerChart() {
       <div className="relative bg-gradient-to-b from-[#0a0f18] to-[#060a10] rounded-2xl border border-white/[0.06] overflow-hidden shadow-2xl shadow-black/50">
         <div className="absolute top-0 left-0 right-0 h-14 bg-gradient-to-b from-white/[0.02] to-transparent border-b border-white/[0.04] flex items-center justify-between px-5 z-10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/5 border border-orange-500/20 flex items-center justify-center">
-              <span className="text-orange-400 font-bold text-sm">₿</span>
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400/20 via-purple-400/10 to-pink-400/5 border border-cyan-400/20 flex items-center justify-center">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 font-bold text-sm">◎</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-white/80 font-semibold text-sm tracking-wide">BTC / USDT</span>
-              <span className="text-white/30 text-[10px] uppercase tracking-wider">Perpetual</span>
+              <span className="text-white/80 font-semibold text-sm tracking-wide">SOL / USDC</span>
+              <span className="text-white/30 text-[10px] uppercase tracking-wider">Spot</span>
             </div>
           </div>
           
@@ -777,7 +777,7 @@ function Home() {
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/15 mb-6">
                 <span className="text-orange-400 font-bold">₿</span>
-                <span className="text-orange-400/70 text-sm font-medium">Bitcoin Intelligence</span>
+                <span className="text-orange-400/70 text-sm font-medium">Crypto Intelligence</span>
               </div>
               
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -788,8 +788,9 @@ function Home() {
               
               <p className="text-lg text-[#8b9dc3] max-w-2xl mx-auto leading-relaxed">
                 Proprietary AI scans Bitcoin price action in real-time, identifying 
-                <span className="text-orange-400/80 font-medium"> high-probability turning points</span> before 
-                they happen. The model sees patterns invisible to traditional analysis.
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 font-medium">
+                  high-probability turning points
+                </span> before they happen. The model sees patterns invisible to traditional analysis.
               </p>
               
               <p className="text-white/25 mt-4 text-sm italic font-light">
