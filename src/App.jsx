@@ -113,8 +113,8 @@ function BTCScannerChart() {
     const chartWidth = width - padding.left - padding.right;
     const chartHeight = height - padding.top - padding.bottom;
     
-    const minPrice = Math.min(...candles.map(c => c.l)) - 5;
-    const maxPrice = Math.max(...candles.map(c => c.h)) + 5;
+    const minPrice = Math.min(...candles.map(c => c.l)) - 3;
+    const maxPrice = Math.max(...candles.map(c => c.h)) + 3;
     const priceRange = maxPrice - minPrice;
     
     const candleWidth = chartWidth / candles.length * 0.55;
