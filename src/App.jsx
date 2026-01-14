@@ -113,8 +113,8 @@ function BTCScannerChart() {
     const chartWidth = width - padding.left - padding.right;
     const chartHeight = height - padding.top - padding.bottom;
     
-    const minPrice = Math.min(...candles.map(c => c.l)) - 300;
-    const maxPrice = Math.max(...candles.map(c => c.h)) + 300;
+    const minPrice = Math.min(...candles.map(c => c.l)) - 5;
+    const maxPrice = Math.max(...candles.map(c => c.h)) + 5;
     const priceRange = maxPrice - minPrice;
     
     const candleWidth = chartWidth / candles.length * 0.55;
@@ -788,7 +788,7 @@ function Home() {
               
               <p className="text-lg text-[#8b9dc3] max-w-2xl mx-auto leading-relaxed">
                 Proprietary AI scans Bitcoin price action in real-time, identifying 
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 font-medium">
+                <span> </span><span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 font-medium">
                    high-probability turning points
                 </span> before they happen. The model sees patterns invisible to traditional analysis.
               </p>
@@ -817,11 +817,11 @@ function Home() {
             >
               <div className="text-center mb-10">
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                  Instant Signal Delivery
+                  Instant Signal Delivery & Execution
                 </h3>
                 <p className="text-[#8b9dc3] max-w-lg mx-auto">
-                  When the AI detects a reversal opportunity, subscribers receive 
-                  real-time alerts with entry levels and confidence scores.
+                  When the AI detects a reversal opportunity, a real-time alert is sent with entry levels and 
+                  confidence scores, and an order is automatically sent to the broker.
                 </p>
               </div>
               
