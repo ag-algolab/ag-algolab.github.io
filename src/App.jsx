@@ -164,11 +164,17 @@ function BTCScannerChart() {
       ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
       ctx.font = '11px monospace';
       ctx.textAlign = 'right';
+      const niceRound = (num, step = 0.5) => {
+        return Math.round(num / step) * step;
+      };
+      
       for (let i = 0; i <= 4; i++) {
         const price = minPrice + (priceRange / 4) * (4 - i);
+        const roundedPrice = niceRound(price, 0.25); // arrondi au quart
         const y = padding.top + (chartHeight / 4) * i;
-        ctx.fillText('$' + price.toLocaleString(), width - 8, y + 4);
+        ctx.fillText('$' + roundedPrice.toFixed(2), width - 8, y + 4);
       }
+}
       
       const scanX = padding.left + scanProgress * chartWidth;
       
