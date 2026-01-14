@@ -258,8 +258,8 @@ function BTCScannerChart() {
         
         const markerAlpha = isScanning ? 1 : Math.min((revealProgress - 0.2) / 0.3, 1);
         const y = extreme.type === 'low' 
-          ? priceToY(candle.l) + 20 
-          : priceToY(candle.h) - 20;
+          ? priceToY(candle.l) + 28 
+          : priceToY(candle.h) - 28;
         
         const isLow = extreme.type === 'low';
         const markerColor = isLow ? [16, 185, 129] : [239, 68, 68];
