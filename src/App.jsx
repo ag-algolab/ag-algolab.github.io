@@ -71,22 +71,22 @@ function BTCScannerChart() {
   const [phase, setPhase] = useState('scanning');
   
   const candles = [
-    { o: 42100, c: 42650, h: 42900, l: 41950 },
-    { o: 42650, c: 43200, h: 43450, l: 42500 },
-    { o: 43200, c: 42400, h: 43300, l: 42200 },
-    { o: 42400, c: 41680, h: 42550, l: 41520 },
-    { o: 41680, c: 42300, h: 42500, l: 41600 },
-    { o: 42300, c: 43100, h: 43300, l: 42200 },
-    { o: 43100, c: 44200, h: 44500, l: 43000 },
-    { o: 44200, c: 45400, h: 45800, l: 44100 },
-    { o: 45400, c: 46100, h: 46400, l: 45200 },
-    { o: 46100, c: 45200, h: 46200, l: 45000 },
-    { o: 45200, c: 44100, h: 45400, l: 43900 },
-    { o: 44100, c: 43200, h: 44300, l: 43000 },
-    { o: 43200, c: 42100, h: 43400, l: 41900 },
-    { o: 42100, c: 43000, h: 43200, l: 42000 },
-    { o: 43000, c: 44100, h: 44400, l: 42900 },
-    { o: 44100, c: 44800, h: 45100, l: 43950 },
+    { o: 142.1, c: 142.6, h: 142.9, l: 141.9 },
+    { o: 142.6, c: 143.2, h: 143.4, l: 142.5 },
+    { o: 143.2, c: 142.4, h: 143.3, l: 142.2 },
+    { o: 142.4, c: 141.6, h: 142.5, l: 141.5 },
+    { o: 141.6, c: 142.3, h: 142.5, l: 141.6 },
+    { o: 142.3, c: 143.1, h: 143.3, l: 142.2 },
+    { o: 143.1, c: 144.2, h: 144.5, l: 143.0 },
+    { o: 144.2, c: 145.4, h: 145.8, l: 144.1 },
+    { o: 145.4, c: 146.1, h: 146.4, l: 145.2 },
+    { o: 146.1, c: 145.2, h: 146.2, l: 145.0 },
+    { o: 145.2, c: 144.1, h: 145.4, l: 143.9 },
+    { o: 144.1, c: 143.2, h: 144.3, l: 143.0 },
+    { o: 143.2, c: 142.1, h: 143.4, l: 141.9 },
+    { o: 142.1, c: 143.0, h: 143.2, l: 142.0 },
+    { o: 143.0, c: 144.1, h: 144.4, l: 142.9 },
+    { o: 144.1, c: 144.8, h: 145.1, l: 143.9 },
   ];
 
   const extremes = [
@@ -382,8 +382,8 @@ function TelegramAlerts() {
   const allMessages = [
   { id: 1, type: 'info', text: '🟢 Algorithm started — Scanning market...', time: '09:00' },
   { id: 2, type: 'info', text: '⚡ High volatility detected — Be ready, opportunity might appear', time: '09:12' },
-  { id: 3, type: 'buy', price: '41,523', confidence: 94, time: '09:15' },
-  { id: 4, type: 'sell', price: '46,189', confidence: 91, time: '14:47' },
+  { id: 3, type: 'buy', price: '143.5', confidence: 94, time: '09:15' },
+  { id: 4, type: 'sell', price: '150.1', confidence: 91, time: '14:45' },
 ];
 
   useEffect(() => {
@@ -789,7 +789,7 @@ function Home() {
               <p className="text-lg text-[#8b9dc3] max-w-2xl mx-auto leading-relaxed">
                 Proprietary AI scans Bitcoin price action in real-time, identifying 
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 font-medium">
-                  high-probability turning points
+                   high-probability turning points
                 </span> before they happen. The model sees patterns invisible to traditional analysis.
               </p>
               
