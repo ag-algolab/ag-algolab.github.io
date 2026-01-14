@@ -64,7 +64,7 @@ function TechOrbit() {
   );
 }
 
-/* ================= BTC SCANNER CHART COMPONENT ================= */
+/* ================ BTC SCANNER CHART COMPONENT ================= */
 function BTCScannerChart() {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
