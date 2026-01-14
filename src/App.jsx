@@ -300,12 +300,6 @@ function BTCScannerChart() {
           ctx.lineTo(x - 4, y + 4);
           ctx.stroke();
         }
-        
-        ctx.fillStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.85})`;
-        ctx.font = 'bold 9px monospace';
-        ctx.textAlign = 'center';
-        const priceLabel = (isLow ? candle.l : candle.h).toLocaleString();
-        ctx.fillText('$' + priceLabel, x, y + (isLow ? 35 : -32));
       });
       
       animationRef.current = requestAnimationFrame(drawFrame);
