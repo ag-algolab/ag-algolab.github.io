@@ -174,7 +174,7 @@ function BTCScannerChart() {
         const y = padding.top + (chartHeight / 4) * i;
         ctx.fillText('$' + roundedPrice.toFixed(2), width - 8, y + 4);
       }
-}
+
       
       const scanX = padding.left + scanProgress * chartWidth;
       
