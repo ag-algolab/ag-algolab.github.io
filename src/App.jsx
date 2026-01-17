@@ -659,6 +659,8 @@ function Home() {
                   Building advanced prediction models and high-performance execution pipelines.
                 </p>
 
+                {/*
+                
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
                     to="/shahmat"
@@ -679,6 +681,7 @@ function Home() {
                     </span>
                   </Link>
                 </div>
+                */}
               </motion.div>
 
               <motion.div
