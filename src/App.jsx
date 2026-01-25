@@ -948,7 +948,7 @@ function Home() {
                     <div className="flex items-center gap-3 text-sm text-white/50">
                       <div className="flex items-center gap-1.5">
                         <Play className="w-4 h-4" />
-                        <span>6 episodes</span>
+                        <span>5 episodes</span>
                       </div>
                       <div className="w-px h-4 bg-white/20" />
                       <div className="flex items-center gap-1.5">
@@ -995,18 +995,14 @@ function Home() {
                           </li>
                           <li className="flex items-start gap-2">
                             <span className="text-purple-400 font-mono text-xs mt-0.5">03</span>
-                            <span><span className="text-white font-medium">Erreurs fatales</span> — Fuites de données & pièges à éviter</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">04</span>
                             <span><span className="text-white font-medium">Pipeline fiable</span> — De la préparation à la prédiction</span>
                           </li>
                           <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">05</span>
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">04</span>
                             <span><span className="text-white font-medium">Évaluation</span> — Métriques adaptées au contexte</span>
                           </li>
                           <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">06</span>
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">05</span>
                             <span><span className="text-white font-medium">Calibration</span> — Probabilités interprétables</span>
                           </li>
                         </ul>
