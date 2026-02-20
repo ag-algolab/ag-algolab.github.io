@@ -1,6 +1,7 @@
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import ShahMat from "./pages/ShahMat"; 
 import FraudRiskScoring from "./pages/FraudRiskScoring";
+import SolverBet from "./pages/SolverBet";
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
