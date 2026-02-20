@@ -546,7 +546,7 @@ export default function SolverBet() {
                 How it Works
               </span>
             </h2>
-            <p className="text-white/40 max-w-xl mx-auto">From raw data to real-time signal in milliseconds.</p>
+            <p className="text-white/40 max-w-xl mx-auto">From raw data to real-time signal, here is the fully automated pipeline.</p>
           </motion.div>
 
           <div className="max-w-xl mx-auto">
