@@ -841,9 +841,6 @@ function Home() {
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                 Other Projects
               </h3>
-              <p className="text-[#8b9dc3]">
-                Explore our open-source work
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-6">
