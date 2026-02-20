@@ -1228,6 +1228,7 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/shahmat" element={<ShahMat />} />
       <Route path="/fraud-risk-scoring" element={<FraudRiskScoring />} />
+      <Route path="/solverbet" element={<SolverBet />} />
       <Route path="*" element={<Home />} />
     </Routes>
   );
