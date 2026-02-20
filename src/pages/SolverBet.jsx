@@ -421,15 +421,18 @@ export default function SolverBet() {
       </div>
 
       {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0a0d14]/80 backdrop-blur-xl border-b border-white/[0.06]">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-white/60 hover:text-white transition-colors group">
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm">AG Algo Lab</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-white/40 text-sm font-mono uppercase tracking-widest text-xs">Live</span>
+      <nav className="fixed top-0 w-full z-50 bg-[#0a0d14]/80 backdrop-blur-xl border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition">
+              <img src="/logo.jpg" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
+              <span className="text-xl font-bold bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent">
+                AG Algo Lab
+              </span>
+            </Link>
+            <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/70 hover:bg-white/5 hover:text-white transition">
+              ← Back home
+            </Link>
           </div>
         </div>
       </nav>
@@ -806,16 +809,15 @@ export default function SolverBet() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 border-t border-white/[0.05]">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition">
-            <img src="/logo.jpg" alt="Logo" className="w-8 h-8 rounded-lg object-contain" />
-            <span className="text-sm text-white/40">AG Algo Lab</span>
+      <footer className="py-8 px-6 border-t border-white/10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-3">
+            <img src="/logo.jpg" alt="Logo" className="w-8 h-8 object-contain rounded-lg" />
+            <span className="text-sm text-white/40">AG Algo Lab — SolverBet is a research tool. Past performance does not guarantee future results.</span>
+          </div>
+          <Link to="/" className="text-sm text-white/50 hover:text-white transition-colors">
+            ← Back to home
           </Link>
-          <p className="text-white/20 text-xs text-center">
-            SolverBet is a research tool. Past performance does not guarantee future results.
-          </p>
-          <div className="text-white/20 text-xs">© {new Date().getFullYear()} AG Algo Lab</div>
         </div>
       </footer>
     </div>
