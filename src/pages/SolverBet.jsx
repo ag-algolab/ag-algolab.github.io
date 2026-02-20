@@ -240,14 +240,14 @@ function TelegramBot() {
   const [selected, setSelected] = useState(null);
 
   const countries = [
-    { flag: '🇫🇷', name: 'France' },
-    { flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', name: 'England' },
-    { flag: '🇩🇪', name: 'Germany' },
-    { flag: '🇮🇹', name: 'Italy' },
-    { flag: '🇪🇸', name: 'Spain' },
-    { flag: '🇳🇱', name: 'Netherlands' },
-    { flag: '🇧🇪', name: 'Belgium' },
-    { flag: '🇯🇵', name: 'Japan' },
+    { name: 'France' },
+    { name: 'England' },
+    { name: 'Germany' },
+    { name: 'Italy' },
+    { name: 'Spain' },
+    { name: 'Netherlands' },
+    { name: 'Belgium' },
+    { name: 'Japan' },
   ];
 
   const results = {
@@ -319,12 +319,9 @@ function TelegramBot() {
                         onClick={() => handleSelect(c.name)}
                         className="bg-[#242f3d] hover:bg-[#2b3849] border border-white/[0.06] rounded-xl px-3 py-2 text-white/80 text-[12px] text-left transition-all duration-200 hover:border-amber-500/30 hover:text-amber-300"
                       >
-                        {c.flag} {c.name}
+                        {c.name}
                       </button>
                     ))}
-                    <button className="col-span-2 bg-[#242f3d] hover:bg-[#2b3849] border border-white/[0.06] rounded-xl px-3 py-2 text-white/80 text-[12px] text-center transition-all duration-200 hover:border-amber-500/30">
-                      🌍 See All
-                    </button>
                   </div>
                 </motion.div>
               ) : (
