@@ -898,8 +898,8 @@ function Home() {
                     <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
                       {[
                         { label: 'Leagues', value: '30+' },
-                        { label: 'Signals/day', value: '200+' },
-                        { label: 'Optimization', value: 'Optuna' },
+                        { label: 'Picks/week', value: '35~' },
+                        { label: 'Live ROI', value: 'Tracked - Public' },
                       ].map((s) => (
                         <div key={s.label} className="text-right">
                           <div className="text-amber-400 font-bold text-sm">{s.value}</div>
