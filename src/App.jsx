@@ -899,7 +899,7 @@ function Home() {
                       {[
                         { label: 'Leagues', value: '30+' },
                         { label: 'Picks/week', value: '35~' },
-                        { label: 'Live ROI', value: 'Tracked - Public' },
+                        { label: 'Live ROI', value: 'Public' },
                       ].map((s) => (
                         <div key={s.label} className="text-right">
                           <div className="text-amber-400 font-bold text-sm">{s.value}</div>
