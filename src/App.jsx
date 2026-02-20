@@ -936,8 +936,6 @@ function Home() {
                   color="blue"
                 />
               </div>
-
-            </div>
             </div>
           </div>
         </section>
