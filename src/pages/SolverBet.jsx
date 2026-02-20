@@ -487,8 +487,8 @@ export default function SolverBet() {
             {[
               { label: 'Leagues Covered', value: 30, suffix: '+' },
               { label: 'Daily Analyses', value: 200, suffix: '+' },
-              { label: 'Countries', value: 20, suffix: '+' },
-              { label: 'Avg Edge Detected', value: 18, suffix: '%' },
+              { label: 'Countries', value: 8, suffix: '+' },
+              { label: 'Picks per Week', value: 35, suffix: '~' },
             ].map((s, i) => (
               <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-4 text-center">
                 <div className="text-2xl font-black text-amber-400 mb-1">
@@ -557,29 +557,13 @@ export default function SolverBet() {
             <WorkflowNode
               icon={<Database className="w-5 h-5" />}
               title="Data Collection"
-              subtitle="Live match data retrieved via sports API — fixtures, historical results, team stats, H2H records across 30+ leagues worldwide."
+              subtitle="Live match data from a sports API: fixtures, historical results, and more across 30+ leagues worldwide."
               color="amber"
               delay={0}
             />
             <WorkflowArrow />
 
             {/* Step 2 */}
-            <WorkflowNode
-              icon={<Brain className="w-5 h-5" />}
-              title="ML Model Inference"
-              subtitle="Proprietary machine learning model — grounded in scientific literature on match outcome modeling. Architecture remains confidential."
-              color="purple"
-              delay={0.1}
-            >
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {['Scientific Studies', 'Confidential Architecture', 'Probability Scoring'].map(t => (
-                  <span key={t} className="px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400/70 text-[10px]">{t}</span>
-                ))}
-              </div>
-            </WorkflowNode>
-            <WorkflowArrow />
-
-            {/* Step 3 */}
             <WorkflowNode
               icon={<BarChart2 className="w-5 h-5" />}
               title="Optuna Optimization"
@@ -602,6 +586,24 @@ export default function SolverBet() {
               </div>
             </WorkflowNode>
             <WorkflowArrow />
+
+
+            {/* Step 3 */}            
+            <WorkflowNode
+              icon={<Brain className="w-5 h-5" />}
+              title="ML Model Inference"
+              subtitle="Proprietary machine learning model: grounded in scientific literature on match outcome modeling. Architecture remains confidential."
+              color="purple"
+              delay={0.1}
+            >
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {['Scientific Studies', 'Confidential Architecture', 'Probability Scoring'].map(t => (
+                  <span key={t} className="px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400/70 text-[10px]">{t}</span>
+                ))}
+              </div>
+            </WorkflowNode>
+            <WorkflowArrow />
+
 
             {/* Step 4 */}
             <WorkflowNode
