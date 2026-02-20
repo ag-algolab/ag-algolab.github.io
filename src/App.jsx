@@ -844,21 +844,100 @@ function Home() {
               </h3>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <FeatureCard
-                title="ShahMat Chess Engine"
-                description="A custom-built chess engine showcasing algorithmic thinking and game theory implementation."
-                href="/shahmat"
-                icon={<span className="text-2xl">♟️</span>}
-                color="green"
-              />
-              <FeatureCard
-                title="Fraud Risk Scoring"
-                description="AI-driven insurance fraud detection combining CatBoost with isotonic calibration for reliable risk scores."
-                href="/fraud-risk-scoring"
-                icon={<span className="text-2xl">📊</span>}
-                color="blue"
-              />
+            {/* === PROJECTS GRID === */}
+            <div className="flex flex-col gap-6">
+
+              {/* SolverBet — full width featured card */}
+              <Link to="/solverbet" className="block group">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-amber-500/50 hover:shadow-[0_0_40px_rgba(245,158,11,0.2)] transition-all duration-500 overflow-hidden"
+                >
+                  {/* Ambient glow */}
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                  <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
+                    {/* Icon + badge */}
+                    <div className="flex-shrink-0 flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-amber-500/20 group-hover:bg-amber-500/30 flex items-center justify-center transition-all duration-300 text-3xl shadow-lg shadow-amber-500/10">
+                        ⚽
+                      </div>
+                      <div className="flex flex-col gap-1.5 md:hidden">
+                        <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider w-fit">
+                          Featured Project
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider w-fit">
+                          🟢 Live
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Text content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="hidden md:flex items-center gap-2 mb-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider">
+                          Featured Project
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider">
+                          🟢 Live
+                        </span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors duration-300 mb-2">
+                        SolverBet
+                      </h3>
+                      <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                        AI sports intelligence system covering 30+ football leagues. Machine learning model optimized per league via Optuna, detecting statistically mispriced odds and delivering real-time signals via Telegram.
+                      </p>
+                    </div>
+
+                    {/* Right side stats */}
+                    <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
+                      {[
+                        { label: 'Leagues', value: '30+' },
+                        { label: 'Signals/day', value: '200+' },
+                        { label: 'Optimization', value: 'Optuna' },
+                      ].map((s) => (
+                        <div key={s.label} className="text-right">
+                          <div className="text-amber-400 font-bold text-sm">{s.value}</div>
+                          <div className="text-white/30 text-xs">{s.label}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Explore arrow */}
+                    <div className="flex-shrink-0 md:ml-2">
+                      <div className="flex items-center gap-2 text-white/50 group-hover:text-amber-400 transition-colors">
+                        <span className="text-sm font-medium hidden md:block">Explore</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+
+              {/* Bottom row: ShahMat + Fraud */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <FeatureCard
+                  title="ShahMat Chess Engine"
+                  description="A custom-built chess engine showcasing algorithmic thinking and game theory implementation."
+                  href="/shahmat"
+                  icon={<span className="text-2xl">♟️</span>}
+                  color="green"
+                />
+                <FeatureCard
+                  title="Fraud Risk Scoring"
+                  description="AI-driven insurance fraud detection combining CatBoost with isotonic calibration for reliable risk scores."
+                  href="/fraud-risk-scoring"
+                  icon={<span className="text-2xl">📊</span>}
+                  color="blue"
+                />
+              </div>
+
+            </div>
             </div>
           </div>
         </section>
