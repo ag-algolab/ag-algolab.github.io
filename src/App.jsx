@@ -598,7 +598,7 @@ function Home() {
 
       <div className="min-h-screen bg-[#0e1424] text-[#e7ecff]">
         {/* Navigation */}
-        <nav className="fixed top-0 w-full z-50 bg-[#0e1424]/80 backdrop-blur-xl border-b border-white/10">
+        <nav className="fixed top-0 w-full z-50 bg-[#0e1424] sm:bg-[#0e1424]/80 sm:backdrop-blur-xl border-b border-white/10">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex justify-between items-center">
               <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition">
@@ -626,7 +626,7 @@ function Home() {
         {/* Hero Section */}
         <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+            <div className="hidden sm:block absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-3xl" />
           </div>
