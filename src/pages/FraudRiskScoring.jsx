@@ -469,9 +469,13 @@ export default function FraudRiskScoring() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2 hover:opacity-80 transition min-w-0">
             <img src="/logo.jpg" alt="Logo" className="w-8 h-8 object-contain rounded-lg flex-shrink-0"/>
-            <span className="font-bold text-base sm:text-lg truncate">AG Algo Lab</span>
+            <span className="font-bold text-base sm:text-lg bg-gradient-to-r from-violet-700 to-violet-300 bg-clip-text text-transparent truncate">
+              AG Algo Lab
+            </span>
           </a>
-          <a href="/" className="text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-lg border border-white/15 text-[#b7c3e6] hover:bg-white/5 transition flex-shrink-0">← Back</a>
+          <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/70 hover:bg-white/5 hover:text-white transition">
+            ← Back home
+          </Link>
         </div>
       </nav>
 
