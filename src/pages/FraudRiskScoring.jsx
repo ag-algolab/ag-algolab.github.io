@@ -473,9 +473,9 @@ export default function FraudRiskScoring() {
               AG Algo Lab
             </span>
           </a>
-          <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/70 hover:bg-white/5 hover:text-white transition">
+          <a href="/" className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/70 hover:bg-white/5 hover:text-white transition">
             ← Back home
-          </Link>
+          </a>
         </div>
       </nav>
 
