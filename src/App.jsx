@@ -101,7 +101,10 @@ function BTCScannerChart() {
     if (!canvas) return;
     
     const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
+    const isMobile = window.innerWidth < 768;
+    
+    // ✅ DPR capé à 2 max
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * dpr;
@@ -117,24 +120,31 @@ function BTCScannerChart() {
     const minPrice = Math.min(...candles.map(c => c.l)) - 1;
     const maxPrice = Math.max(...candles.map(c => c.h)) + 1;
     const priceRange = maxPrice - minPrice;
-    
     const candleWidth = chartWidth / candles.length * 0.7;
     const candleGap = chartWidth / candles.length;
     
-    const priceToY = (price) => {
-      return padding.top + chartHeight - ((price - minPrice) / priceRange) * chartHeight;
-    };
-    
-    const indexToX = (index) => {
-      return padding.left + index * candleGap + candleGap / 2;
-    };
-
+    const priceToY = (price) =>
+      padding.top + chartHeight - ((price - minPrice) / priceRange) * chartHeight;
+    const indexToX = (index) =>
+      padding.left + index * candleGap + candleGap / 2;
+  
     let startTime = null;
+    let lastFrameTime = 0;
     const scanDuration = 5500;
     const revealDuration = 3500;
     const totalCycle = scanDuration + revealDuration;
     
+    // ✅ 30fps mobile, 60fps desktop
+    const targetInterval = isMobile ? 1000 / 30 : 0;
+  
     const drawFrame = (timestamp) => {
+      // ✅ Skip les frames excédentaires sur mobile
+      if (isMobile && timestamp - lastFrameTime < targetInterval) {
+        animationRef.current = requestAnimationFrame(drawFrame);
+        return;
+      }
+      lastFrameTime = timestamp;
+  
       if (!startTime) startTime = timestamp;
       const elapsed = (timestamp - startTime) % totalCycle;
       const isScanning = elapsed < scanDuration;
@@ -143,15 +153,16 @@ function BTCScannerChart() {
       
       setPhase(isScanning ? 'scanning' : 'revealed');
       
+      // Background
       ctx.fillStyle = '#060a10';
       ctx.fillRect(0, 0, width, height);
-      
       const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
       bgGradient.addColorStop(0, 'rgba(10, 15, 25, 1)');
       bgGradient.addColorStop(1, 'rgba(5, 8, 15, 1)');
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, width, height);
       
+      // Grid
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.025)';
       ctx.lineWidth = 1;
       for (let i = 0; i <= 5; i++) {
@@ -162,53 +173,50 @@ function BTCScannerChart() {
         ctx.stroke();
       }
       
+      // Price labels
       ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
       ctx.font = '11px monospace';
       ctx.textAlign = 'right';
-      const niceRound = (num, step = 0.5) => {
-        return Math.round(num / step) * step;
-      };
-      
       for (let i = 0; i <= 4; i++) {
         const price = minPrice + (priceRange / 4) * (4 - i);
-        const roundedPrice = niceRound(price, 0.25); // arrondi au quart
+        const rounded = Math.round(price / 0.25) * 0.25;
         const y = padding.top + (chartHeight / 4) * i;
-        ctx.fillText('$' + roundedPrice.toFixed(2), width - 8, y + 4);
+        ctx.fillText('$' + rounded.toFixed(2), width - 8, y + 4);
       }
-
-      
+  
       const scanX = padding.left + scanProgress * chartWidth;
       
+      // ✅ shadowBlur désactivé sur mobile — rendu sur une seule passe
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+  
       candles.forEach((candle, i) => {
         const x = indexToX(i);
         const candleRight = x + candleWidth / 2;
         const isGreen = candle.c > candle.o;
         
         let alpha = 0.12;
-        let glowIntensity = 0;
         
         if (isScanning) {
           if (candleRight < scanX) {
             alpha = 0.85;
-            glowIntensity = 0.5;
           } else if (x - candleWidth / 2 < scanX) {
-            const t = (scanX - (x - candleWidth / 2)) / candleWidth;
-            alpha = 0.12 + t * 0.73;
-            glowIntensity = t * 0.5;
+            alpha = 0.12 + ((scanX - (x - candleWidth / 2)) / candleWidth) * 0.73;
           }
         } else {
           alpha = 0.12 + revealProgress * 0.73;
-          glowIntensity = revealProgress * 0.4;
         }
         
         const baseColor = isGreen ? [16, 185, 129] : [239, 68, 68];
         const color = `rgba(${baseColor.join(',')}, ${alpha})`;
         
-        if (glowIntensity > 0) {
-          ctx.shadowColor = `rgba(${baseColor.join(',')}, ${glowIntensity * 0.6})`;
-          ctx.shadowBlur = 12;
+        // ✅ Shadow uniquement desktop et uniquement pour les candles visibles
+        if (!isMobile && alpha > 0.5) {
+          ctx.shadowColor = `rgba(${baseColor.join(',')}, 0.3)`;
+          ctx.shadowBlur = 8;
         }
         
+        // Wick
         ctx.strokeStyle = color;
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -216,33 +224,36 @@ function BTCScannerChart() {
         ctx.lineTo(x, priceToY(candle.l));
         ctx.stroke();
         
+        // Body
         const bodyTop = priceToY(Math.max(candle.o, candle.c));
         const bodyBottom = priceToY(Math.min(candle.o, candle.c));
-        const bodyHeight = Math.max(bodyBottom - bodyTop, 2);
-        
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.roundRect(x - candleWidth / 2, bodyTop, candleWidth, bodyHeight, 2);
+        ctx.roundRect(x - candleWidth / 2, bodyTop, candleWidth, Math.max(bodyBottom - bodyTop, 2), 2);
         ctx.fill();
         
+        // ✅ Reset shadow après chaque candle
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
       });
       
+      // ✅ Scan line : simplifié sur mobile (juste une ligne, pas de gradient)
       if (isScanning) {
-        const gradient = ctx.createLinearGradient(scanX - 100, 0, scanX + 15, 0);
-        gradient.addColorStop(0, 'rgba(59, 130, 246, 0)');
-        gradient.addColorStop(0.6, 'rgba(59, 130, 246, 0.06)');
-        gradient.addColorStop(0.85, 'rgba(59, 130, 246, 0.2)');
-        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
-        
-        ctx.fillStyle = gradient;
-        ctx.fillRect(scanX - 100, padding.top, 115, chartHeight);
+        if (!isMobile) {
+          const gradient = ctx.createLinearGradient(scanX - 100, 0, scanX + 15, 0);
+          gradient.addColorStop(0, 'rgba(59, 130, 246, 0)');
+          gradient.addColorStop(0.6, 'rgba(59, 130, 246, 0.06)');
+          gradient.addColorStop(0.85, 'rgba(59, 130, 246, 0.2)');
+          gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(scanX - 100, padding.top, 115, chartHeight);
+          
+          ctx.shadowColor = 'rgba(59, 130, 246, 0.8)';
+          ctx.shadowBlur = 15;
+        }
         
         ctx.strokeStyle = 'rgba(59, 130, 246, 0.7)';
         ctx.lineWidth = 1.5;
-        ctx.shadowColor = 'rgba(59, 130, 246, 0.8)';
-        ctx.shadowBlur = 15;
         ctx.beginPath();
         ctx.moveTo(scanX, padding.top);
         ctx.lineTo(scanX, height - padding.bottom);
@@ -255,19 +266,16 @@ function BTCScannerChart() {
         ctx.fill();
       }
       
+      // Markers
       extremes.forEach((extreme) => {
         const candle = candles[extreme.index];
         const x = indexToX(extreme.index);
         const candleRight = x + candleWidth / 2;
-        
         const shouldShow = isScanning ? candleRight < scanX - 15 : revealProgress > 0.2;
         if (!shouldShow) return;
         
         const markerAlpha = isScanning ? 1 : Math.min((revealProgress - 0.2) / 0.3, 1);
-        const y = extreme.type === 'low' 
-          ? priceToY(candle.l) + 28 
-          : priceToY(candle.h) - 28;
-        
+        const y = extreme.type === 'low' ? priceToY(candle.l) + 28 : priceToY(candle.h) - 28;
         const isLow = extreme.type === 'low';
         const markerColor = isLow ? [16, 185, 129] : [239, 68, 68];
         
@@ -313,14 +321,8 @@ function BTCScannerChart() {
     };
     
     animationRef.current = requestAnimationFrame(drawFrame);
-    
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
+    return () => cancelAnimationFrame(animationRef.current);
   }, []);
-
   return (
     <div className="relative">
       <div className="relative bg-gradient-to-b from-[#0a0f18] to-[#060a10] rounded-2xl border border-white/[0.06] overflow-hidden shadow-2xl shadow-black/50">
