@@ -102,8 +102,6 @@ function BTCScannerChart() {
     
     const ctx = canvas.getContext('2d');
     const isMobile = window.innerWidth < 768;
-    
-    // ✅ DPR capé à 2 max
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     
     const rect = canvas.getBoundingClientRect();
@@ -133,12 +131,9 @@ function BTCScannerChart() {
     const scanDuration = 5500;
     const revealDuration = 3500;
     const totalCycle = scanDuration + revealDuration;
-    
-    // ✅ 30fps mobile, 60fps desktop
     const targetInterval = isMobile ? 1000 / 30 : 0;
   
     const drawFrame = (timestamp) => {
-      // ✅ Skip les frames excédentaires sur mobile
       if (isMobile && timestamp - lastFrameTime < targetInterval) {
         animationRef.current = requestAnimationFrame(drawFrame);
         return;
@@ -153,7 +148,6 @@ function BTCScannerChart() {
       
       setPhase(isScanning ? 'scanning' : 'revealed');
       
-      // Background
       ctx.fillStyle = '#060a10';
       ctx.fillRect(0, 0, width, height);
       const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
@@ -162,7 +156,6 @@ function BTCScannerChart() {
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, width, height);
       
-      // Grid
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.025)';
       ctx.lineWidth = 1;
       for (let i = 0; i <= 5; i++) {
@@ -173,7 +166,6 @@ function BTCScannerChart() {
         ctx.stroke();
       }
       
-      // Price labels
       ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
       ctx.font = '11px monospace';
       ctx.textAlign = 'right';
@@ -185,8 +177,6 @@ function BTCScannerChart() {
       }
   
       const scanX = padding.left + scanProgress * chartWidth;
-      
-      // ✅ shadowBlur désactivé sur mobile — rendu sur une seule passe
       ctx.shadowColor = 'transparent';
       ctx.shadowBlur = 0;
   
@@ -196,7 +186,6 @@ function BTCScannerChart() {
         const isGreen = candle.c > candle.o;
         
         let alpha = 0.12;
-        
         if (isScanning) {
           if (candleRight < scanX) {
             alpha = 0.85;
@@ -210,13 +199,11 @@ function BTCScannerChart() {
         const baseColor = isGreen ? [16, 185, 129] : [239, 68, 68];
         const color = `rgba(${baseColor.join(',')}, ${alpha})`;
         
-        // ✅ Shadow uniquement desktop et uniquement pour les candles visibles
         if (!isMobile && alpha > 0.5) {
           ctx.shadowColor = `rgba(${baseColor.join(',')}, 0.3)`;
           ctx.shadowBlur = 8;
         }
         
-        // Wick
         ctx.strokeStyle = color;
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -224,7 +211,6 @@ function BTCScannerChart() {
         ctx.lineTo(x, priceToY(candle.l));
         ctx.stroke();
         
-        // Body
         const bodyTop = priceToY(Math.max(candle.o, candle.c));
         const bodyBottom = priceToY(Math.min(candle.o, candle.c));
         ctx.fillStyle = color;
@@ -232,12 +218,10 @@ function BTCScannerChart() {
         ctx.roundRect(x - candleWidth / 2, bodyTop, candleWidth, Math.max(bodyBottom - bodyTop, 2), 2);
         ctx.fill();
         
-        // ✅ Reset shadow après chaque candle
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
       });
       
-      // ✅ Scan line : simplifié sur mobile (juste une ligne, pas de gradient)
       if (isScanning) {
         if (!isMobile) {
           const gradient = ctx.createLinearGradient(scanX - 100, 0, scanX + 15, 0);
@@ -247,7 +231,6 @@ function BTCScannerChart() {
           gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
           ctx.fillStyle = gradient;
           ctx.fillRect(scanX - 100, padding.top, 115, chartHeight);
-          
           ctx.shadowColor = 'rgba(59, 130, 246, 0.8)';
           ctx.shadowBlur = 15;
         }
@@ -266,7 +249,6 @@ function BTCScannerChart() {
         ctx.fill();
       }
       
-      // Markers
       extremes.forEach((extreme) => {
         const candle = candles[extreme.index];
         const x = indexToX(extreme.index);
@@ -323,6 +305,7 @@ function BTCScannerChart() {
     animationRef.current = requestAnimationFrame(drawFrame);
     return () => cancelAnimationFrame(animationRef.current);
   }, []);
+
   return (
     <div className="relative">
       <div className="relative bg-gradient-to-b from-[#0a0f18] to-[#060a10] rounded-2xl border border-white/[0.06] overflow-hidden shadow-2xl shadow-black/50">
@@ -336,7 +319,6 @@ function BTCScannerChart() {
               <span className="text-white/30 text-[10px] uppercase tracking-wider">Spot</span>
             </div>
           </div>
-          
           <div className="flex items-center gap-2">
             <div className={`w-1.5 h-1.5 rounded-full ${phase === 'scanning' ? 'bg-blue-400 animate-pulse' : 'bg-emerald-400'}`} />
             <span className="text-white/40 font-mono text-[10px] uppercase tracking-widest">
@@ -345,12 +327,7 @@ function BTCScannerChart() {
           </div>
         </div>
         
-        <canvas 
-          ref={canvasRef}
-          className="w-full h-[400px]"
-          style={{ display: 'block' }}
-        />
-        
+        <canvas ref={canvasRef} className="w-full h-[400px]" style={{ display: 'block' }} />
         <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#060a10] to-transparent pointer-events-none" />
       </div>
       
@@ -383,11 +360,11 @@ function TelegramAlerts() {
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const allMessages = [
-  { id: 1, type: 'info', text: '🟢 Algorithm started — Scanning market...', time: '09:00' },
-  { id: 2, type: 'info', text: '⚡ High volatility detected — Be ready, opportunity might appear', time: '09:12' },
-  { id: 3, type: 'buy', price: '143.5', confidence: 94, time: '09:15' },
-  { id: 4, type: 'sell', price: '150.1', confidence: 91, time: '14:45' },
-];
+    { id: 1, type: 'info', text: '🟢 Algorithm started — Scanning market...', time: '09:00' },
+    { id: 2, type: 'info', text: '⚡ High volatility detected — Be ready, opportunity might appear', time: '09:12' },
+    { id: 3, type: 'buy', price: '143.5', confidence: 94, time: '09:15' },
+    { id: 4, type: 'sell', price: '150.1', confidence: 91, time: '14:45' },
+  ];
 
   useEffect(() => {
     setMessages([{ ...allMessages[0], visible: true }]);
@@ -395,9 +372,7 @@ function TelegramAlerts() {
     const interval = setInterval(() => {
       setCurrentIndex(prev => {
         const next = (prev + 1) % allMessages.length;
-        
         if (next === 0) {
-          // Fade out all messages before restarting
           setMessages(current => current.map(m => ({ ...m, fading: true })));
           setTimeout(() => {
             setMessages([{ ...allMessages[0], visible: true }]);
@@ -408,7 +383,6 @@ function TelegramAlerts() {
             return newMessages.slice(-4);
           });
         }
-        
         return next;
       });
     }, 2800);
@@ -448,45 +422,30 @@ function TelegramAlerts() {
               <motion.div
                 key={`${msg.id}-${idx}`}
                 initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                animate={{ 
-                  opacity: msg.fading ? 0 : 1, 
-                  y: msg.fading ? -10 : 0, 
-                  scale: msg.fading ? 0.95 : 1 
-                }}
+                animate={{ opacity: msg.fading ? 0 : 1, y: msg.fading ? -10 : 0, scale: msg.fading ? 0.95 : 1 }}
                 transition={{ duration: msg.fading ? 0.35 : 0.2, ease: 'easeOut' }}
                 className="max-w-[88%]"
               >
                 {msg.type === 'buy' || msg.type === 'sell' ? (
                   <div className={`rounded-2xl rounded-bl-sm px-3.5 py-2.5 ${
-                    msg.type === 'buy' 
-                      ? 'bg-gradient-to-br from-emerald-500/15 to-emerald-600/5 border border-emerald-500/20' 
+                    msg.type === 'buy'
+                      ? 'bg-gradient-to-br from-emerald-500/15 to-emerald-600/5 border border-emerald-500/20'
                       : 'bg-gradient-to-br from-red-500/15 to-red-600/5 border border-red-500/20'
                   }`}>
                     <div className="flex items-center gap-1.5 mb-1">
                       <span className={`w-1.5 h-1.5 rounded-full ${msg.type === 'buy' ? 'bg-emerald-400' : 'bg-red-400'}`} />
-                      <span className={`text-[10px] font-bold uppercase tracking-wider ${
-                        msg.type === 'buy' ? 'text-emerald-400' : 'text-red-400'
-                      }`}>
+                      <span className={`text-[10px] font-bold uppercase tracking-wider ${msg.type === 'buy' ? 'text-emerald-400' : 'text-red-400'}`}>
                         {msg.type === 'buy' ? 'Buy Signal' : 'Sell Signal'}
                       </span>
                     </div>
-                    <div className="text-white font-mono text-lg font-bold">
-                      ${msg.price}
-                    </div>
+                    <div className="text-white font-mono text-lg font-bold">${msg.price}</div>
                     <div className="flex items-center justify-between mt-1">
                       <span className="text-white/25 text-[10px]">{msg.time}</span>
                       <div className="flex items-center gap-1.5">
-                        <div className={`h-1 w-10 rounded-full overflow-hidden ${
-                          msg.type === 'buy' ? 'bg-emerald-900/40' : 'bg-red-900/40'
-                        }`}>
-                          <div 
-                            className={`h-full rounded-full ${msg.type === 'buy' ? 'bg-emerald-400' : 'bg-red-400'}`}
-                            style={{ width: `${msg.confidence}%` }}
-                          />
+                        <div className={`h-1 w-10 rounded-full overflow-hidden ${msg.type === 'buy' ? 'bg-emerald-900/40' : 'bg-red-900/40'}`}>
+                          <div className={`h-full rounded-full ${msg.type === 'buy' ? 'bg-emerald-400' : 'bg-red-400'}`} style={{ width: `${msg.confidence}%` }} />
                         </div>
-                        <span className={`text-[10px] font-medium ${
-                          msg.type === 'buy' ? 'text-emerald-400/60' : 'text-red-400/60'
-                        }`}>
+                        <span className={`text-[10px] font-medium ${msg.type === 'buy' ? 'text-emerald-400/60' : 'text-red-400/60'}`}>
                           {msg.confidence}%
                         </span>
                       </div>
@@ -536,7 +495,6 @@ function FeatureCard({ title, description, href, icon, color }) {
       text: "group-hover:text-blue-400"
     },
   };
-  
   const c = colorClasses[color] || colorClasses.blue;
 
   return (
@@ -551,12 +509,8 @@ function FeatureCard({ title, description, href, icon, color }) {
         <div className={`w-14 h-14 rounded-xl ${c.icon} flex items-center justify-center mb-4 transition-all duration-300`}>
           {icon}
         </div>
-        <h3 className={`text-xl font-bold mb-2 text-white ${c.text} transition-colors duration-300`}>
-          {title}
-        </h3>
-        <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">
-          {description}
-        </p>
+        <h3 className={`text-xl font-bold mb-2 text-white ${c.text} transition-colors duration-300`}>{title}</h3>
+        <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">{description}</p>
         <div className="flex items-center gap-2 text-white/50 group-hover:text-white/80 transition-colors">
           <span className="text-sm font-medium">Explore</span>
           <ExternalLink className="w-4 h-4" />
@@ -572,6 +526,295 @@ function KaggleIcon({ className }) {
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
       <path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.281.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.075.339"/>
     </svg>
+  );
+}
+
+/* ================= FLIPPING COURSE CARD ================= */
+function FlippingCourseCard() {
+  const [flipped, setFlipped] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [countdown, setCountdown] = useState(60);
+  const timerRef = useRef(null);
+  const countdownRef = useRef(null);
+
+  const doFlip = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setFlipped((f) => !f);
+    setTimeout(() => setIsAnimating(false), 700);
+    setCountdown(60);
+  };
+
+  useEffect(() => {
+    timerRef.current = setInterval(doFlip, 60000);
+    countdownRef.current = setInterval(() => {
+      setCountdown((c) => (c <= 1 ? 60 : c - 1));
+    }, 1000);
+    return () => {
+      clearInterval(timerRef.current);
+      clearInterval(countdownRef.current);
+    };
+  }, [isAnimating]);
+
+  const telegramCurriculum = [
+    { id: '01', title: 'Setup & Premier Bot', desc: "Créer son bot, récupérer le token & chat ID" },
+    { id: '02', title: 'Envoyer des Messages', desc: "Construire une fonction d'envoi Python propre" },
+    { id: '03', title: 'Recevoir & Écouter', desc: "Traiter les messages entrants depuis son bot" },
+    { id: '04', title: 'Envoyer des Photos', desc: "Médias visuels via l'API Telegram" },
+    { id: '05', title: 'Envoyer des Documents', desc: "PDF, fichiers & autres formats" },
+    { id: '06', title: 'Formatting HTML', desc: "Gras, italique, blocs de citation & plus" },
+    { id: '07', title: 'Créer son Channel', desc: "Setup complet + récupérer le token channel" },
+    { id: '08', title: 'Automatiser son Channel', desc: "Envoi automatique de contenus riches" },
+    { id: '09', title: 'Menus & QCM Interactifs', desc: "Boutons, commandes et interfaces", advanced: true },
+  ];
+
+  const catboostCurriculum = [
+    { id: '00', title: 'Préambule', desc: 'Présentation Cours & Dataset' },
+    { id: '01', title: 'Encodage Catégoriel', desc: 'Fonctionnement interne de CatBoost' },
+    { id: '02', title: 'CatBoost VS XGB / LGBM / RF', desc: 'Comparatifs sur datasets réels' },
+    { id: '03', title: 'Pipeline Fiable', desc: 'De la préparation à la prédiction' },
+    { id: '04', title: 'Évaluation', desc: 'Métriques adaptées au contexte' },
+    { id: '05', title: 'Calibration', desc: 'Probabilités interprétables' },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.1 }}
+      viewport={{ once: true }}
+      className="mb-12"
+    >
+      {/* Header controls */}
+      <div className="flex items-center justify-between mb-4 px-1">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <div className={`w-2 h-2 rounded-full transition-colors duration-300 ${!flipped ? 'bg-cyan-400' : 'bg-cyan-400/20'}`} />
+            <div className={`w-2 h-2 rounded-full transition-colors duration-300 ${flipped ? 'bg-purple-400' : 'bg-purple-400/20'}`} />
+          </div>
+          <span className="text-white/30 text-xs font-mono">
+            {flipped ? 'CatBoost Expliqué' : 'Telegram × Python'}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {/* Countdown ring */}
+          <div className="relative w-7 h-7">
+            <svg className="w-7 h-7 -rotate-90" viewBox="0 0 28 28">
+              <circle cx="14" cy="14" r="11" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2" />
+              <circle
+                cx="14" cy="14" r="11" fill="none"
+                stroke={flipped ? 'rgba(168,85,247,0.5)' : 'rgba(34,211,238,0.5)'}
+                strokeWidth="2"
+                strokeDasharray={`${2 * Math.PI * 11}`}
+                strokeDashoffset={`${2 * Math.PI * 11 * (1 - countdown / 60)}`}
+                strokeLinecap="round"
+                style={{ transition: 'stroke-dashoffset 1s linear' }}
+              />
+            </svg>
+            <span className="absolute inset-0 flex items-center justify-center text-[8px] font-mono text-white/30">{countdown}</span>
+          </div>
+
+          {/* Flip button */}
+          <button
+            onClick={doFlip}
+            disabled={isAnimating}
+            className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all duration-300 text-xs font-medium
+              ${flipped
+                ? 'border-purple-500/30 bg-purple-500/10 text-purple-400 hover:bg-purple-500/20'
+                : 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20'
+              } ${isAnimating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+          >
+            <svg
+              className={`w-3.5 h-3.5 transition-transform duration-300 ${isAnimating ? 'rotate-180' : 'group-hover:rotate-180'}`}
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+            >
+              <path d="M1 4v6h6" /><path d="M23 20v-6h-6" />
+              <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" />
+            </svg>
+            Retourner
+          </button>
+        </div>
+      </div>
+
+      {/* 3D Flip container */}
+      <div className="relative w-full" style={{ perspective: '1400px', perspectiveOrigin: '50% 40%' }}>
+        <div
+          className="relative w-full"
+          style={{
+            transformStyle: 'preserve-3d',
+            transition: 'transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1)',
+            transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          }}
+        >
+          {/* ===== FACE AVANT : Telegram × Python ===== */}
+          <div className="w-full" style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
+            <div className="bg-gradient-to-br from-[#141f38] to-[#0d1424] rounded-2xl border border-white/10 overflow-hidden">
+              <div className="bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-teal-500/10 border-b border-white/10 p-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/20 flex items-center justify-center">
+                      <span className="text-2xl">✈️</span>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs font-semibold uppercase tracking-wider">Free Course</span>
+                        <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider">🇫🇷 French</span>
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white">Piloter Telegram depuis Python</h3>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-white/50">
+                    <div className="flex items-center gap-1.5">
+                      <Play className="w-4 h-4" /><span>9 episodes</span>
+                    </div>
+                    <div className="w-px h-4 bg-white/20" />
+                    <div className="flex items-center gap-1.5">
+                      <span>🤖</span><span>Bot automation</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 md:p-8">
+                <div className="grid lg:grid-cols-5 gap-8">
+                  <div className="lg:col-span-3">
+                    <div className="aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-cyan-500/10">
+                      <iframe
+                        className="w-full h-full"
+                        src="https://www.youtube.com/embed/videoseries?list=PLpcu21l3JC8aTG9z5eGXV3Z1TSJpcwDHh"
+                        title="Piloter Telegram depuis Python"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-2 flex flex-col justify-between">
+                    <div>
+                      <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                        Programme du cours
+                      </h4>
+                      <ul className="space-y-2 text-sm text-[#b7c3e6]">
+                        {telegramCurriculum.map((ep) => (
+                          <li key={ep.id} className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-mono text-xs mt-0.5 flex-shrink-0">{ep.id}</span>
+                            <span>
+                              <span className="text-white font-medium">{ep.title}</span>
+                              {' — '}{ep.desc}
+                              {ep.advanced && (
+                                <span className="ml-1 px-1.5 py-0.5 rounded bg-orange-500/15 text-orange-400 text-[9px] font-bold uppercase tracking-wider">
+                                  Advanced
+                                </span>
+                              )}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <a
+                      href="https://youtube.com/playlist?list=PLpcu21l3JC8aTG9z5eGXV3Z1TSJpcwDHh"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-6 group flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 transition-all duration-300 font-semibold shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-[1.02]"
+                    >
+                      <Play className="w-5 h-5" />
+                      Commencer le cours
+                      <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ===== FACE ARRIÈRE : CatBoost ===== */}
+          <div
+            className="w-full absolute top-0 left-0"
+            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+          >
+            <div className="bg-gradient-to-br from-[#141f38] to-[#0d1424] rounded-2xl border border-white/10 overflow-hidden">
+              <div className="bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-green-500/10 border-b border-white/10 p-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center">
+                      <span className="text-2xl">🎓</span>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs font-semibold uppercase tracking-wider">Free Course</span>
+                        <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider">🇫🇷 French</span>
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white">
+                        Maîtriser CatBoost : l'élite du Machine Learning
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-white/50">
+                    <div className="flex items-center gap-1.5">
+                      <Play className="w-4 h-4" /><span>5 episodes</span>
+                    </div>
+                    <div className="w-px h-4 bg-white/20" />
+                    <div className="flex items-center gap-1.5">
+                      <span>📊</span><span>Real dataset</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 md:p-8">
+                <div className="grid lg:grid-cols-5 gap-8">
+                  <div className="lg:col-span-3">
+                    <div className="aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10">
+                      <iframe
+                        className="w-full h-full"
+                        src="https://www.youtube.com/embed/videoseries?list=PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1"
+                        title="Maîtriser CatBoost - Cours Complet"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-2 flex flex-col justify-between">
+                    <div>
+                      <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                        Programme du cours
+                      </h4>
+                      <ul className="space-y-2.5 text-sm text-[#b7c3e6]">
+                        {catboostCurriculum.map((ep) => (
+                          <li key={ep.id} className="flex items-start gap-2">
+                            <span className="text-purple-400 font-mono text-xs mt-0.5">{ep.id}</span>
+                            <span>
+                              <span className="text-white font-medium">{ep.title}</span>
+                              {' — '}{ep.desc}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <a
+                      href="https://www.youtube.com/playlist?list=PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-6 group flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 transition-all duration-300 font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02]"
+                    >
+                      <Play className="w-5 h-5" />
+                      Commencer le cours
+                      <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -609,7 +852,6 @@ function Home() {
                   AG Algo Lab
                 </span>
               </Link>
-
               <div className="hidden md:flex items-center gap-8">
                 {navItems.map((item) => (
                   <button
@@ -646,45 +888,14 @@ function Home() {
                     AI · Algorithmic Trading · ML Scoring
                   </span>
                 </div>
-                
                 <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-                  <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-                    AG Algo Lab
-                  </span>
+                  <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">AG Algo Lab</span>
                 </h1>
-                
-                <p className="text-2xl md:text-3xl font-light text-white/70 italic mb-8">
-                  Predict the Unpredictable
-                </p>
-                
+                <p className="text-2xl md:text-3xl font-light text-white/70 italic mb-8">Predict the Unpredictable</p>
                 <p className="text-lg text-[#b7c3e6] max-w-xl mb-10 leading-relaxed">
                   Research and development in algorithmic trading using deep learning. 
                   Building advanced prediction models and high-performance execution pipelines.
                 </p>
-
-                {/*
-                
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Link
-                    to="/shahmat"
-                    className="group px-8 py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 transition-all duration-300 font-semibold shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105 text-center"
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      ♟️ ShahMat Chess
-                      <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </span>
-                  </Link>
-                  <Link
-                    to="/fraud-risk-scoring"
-                    className="group px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 text-center"
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      📊 Fraud Risk Scoring
-                      <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </span>
-                  </Link>
-                </div>
-                */}
               </motion.div>
 
               <motion.div
@@ -703,10 +914,7 @@ function Home() {
               transition={{ delay: 1.5 }}
               className="absolute bottom-10 left-1/2 -translate-x-1/2"
             >
-              <button
-                onClick={() => scrollToSection('founder')}
-                className="text-white/30 hover:text-white/60 transition-colors animate-bounce"
-              >
+              <button onClick={() => scrollToSection('founder')} className="text-white/30 hover:text-white/60 transition-colors animate-bounce">
                 <ChevronDown className="w-8 h-8" />
               </button>
             </motion.div>
@@ -716,7 +924,6 @@ function Home() {
         {/* Founder Section */}
         <section id="founder" className="py-24 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent" />
-          
           <div className="max-w-5xl mx-auto px-6 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -738,18 +945,12 @@ function Home() {
               className="bg-[#141f38] rounded-2xl p-8 md:p-10 border border-white/10 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-              
               <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
                 <div className="flex-shrink-0">
                   <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-                    <img 
-                      src="/founder.png" 
-                      alt="Anthony Gocmen" 
-                      className="w-full h-full object-cover"
-                    />
+                    <img src="/founder.png" alt="Anthony Gocmen" className="w-full h-full object-cover" />
                   </div>
                 </div>
-
                 <div className="flex-1 text-center md:text-left">
                   <h3 className="text-2xl font-bold text-white mb-4">Anthony Gocmen</h3>
                   <div className="space-y-3 text-[#b7c3e6] leading-relaxed">
@@ -766,7 +967,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ================= BTC PREDICTION SECTION ================= */}
+        {/* Projects Section */}
         <section id="projects" className="py-24 relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] rounded-full blur-3xl" />
@@ -785,23 +986,19 @@ function Home() {
                 <span className="text-orange-400 font-bold">₿</span>
                 <span className="text-orange-400/70 text-sm font-medium">Crypto Intelligence</span>
               </div>
-              
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-white via-orange-100 to-orange-200 bg-clip-text text-transparent">
                   Reversal Detection Engine
                 </span>
               </h2>
-              
               <p className="text-lg text-[#8b9dc3] max-w-2xl mx-auto leading-relaxed">
-                Proprietary AI scans Bitcoin price action in real-time, identifying 
-                <span> </span><span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 font-medium">
-                   high-probability turning points
-                </span> before they happen. The model sees patterns invisible to traditional analysis.
+                Proprietary AI scans Bitcoin price action in real-time, identifying{' '}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 font-medium">
+                  high-probability turning points
+                </span>{' '}
+                before they happen. The model sees patterns invisible to traditional analysis.
               </p>
-              
-              <p className="text-white/25 mt-4 text-sm italic font-light">
-                Architecture details remain confidential
-              </p>
+              <p className="text-white/25 mt-4 text-sm italic font-light">Architecture details remain confidential</p>
             </motion.div>
 
             <motion.div
@@ -822,15 +1019,12 @@ function Home() {
               className="mb-20"
             >
               <div className="text-center mb-10">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                  Instant Signal Delivery & Execution
-                </h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">Instant Signal Delivery & Execution</h3>
                 <p className="text-[#8b9dc3] max-w-lg mx-auto">
                   When the AI detects a reversal opportunity, a real-time alert is sent with entry levels and 
                   confidence scores, and an order is automatically sent to the broker.
                 </p>
               </div>
-              
               <TelegramAlerts />
             </motion.div>
 
@@ -841,15 +1035,10 @@ function Home() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                Other Projects
-              </h3>
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Other Projects</h3>
             </motion.div>
 
-            {/* === PROJECTS GRID === */}
             <div className="flex flex-col gap-6">
-
-              {/* SolverBet — full width featured card */}
               <Link to="/solverbet" className="block group">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -858,59 +1047,34 @@ function Home() {
                   viewport={{ once: true }}
                   className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-amber-500/50 hover:shadow-[0_0_40px_rgba(245,158,11,0.2)] transition-all duration-500 overflow-hidden"
                 >
-                  {/* Ambient glow */}
                   <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
                   <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
-                    {/* Icon + badge */}
                     <div className="flex-shrink-0 flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-amber-500/20 group-hover:bg-amber-500/30 flex items-center justify-center transition-all duration-300 text-3xl shadow-lg shadow-amber-500/10">
-                        ⚽
-                      </div>
+                      <div className="w-16 h-16 rounded-2xl bg-amber-500/20 group-hover:bg-amber-500/30 flex items-center justify-center transition-all duration-300 text-3xl shadow-lg shadow-amber-500/10">⚽</div>
                       <div className="flex flex-col gap-1.5 md:hidden">
-                        <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider w-fit">
-                          Featured Project
-                        </span>
-                        <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider w-fit">
-                          🟢 Live
-                        </span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider w-fit">Featured Project</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider w-fit">🟢 Live</span>
                       </div>
                     </div>
-
-                    {/* Text content */}
                     <div className="flex-1 min-w-0">
                       <div className="hidden md:flex items-center gap-2 mb-2">
-                        <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider">
-                          Featured Project
-                        </span>
-                        <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider">
-                          🟢 Live
-                        </span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider">Featured Project</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider">🟢 Live</span>
                       </div>
-                      <h3 className="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors duration-300 mb-2">
-                        SolverBet
-                      </h3>
+                      <h3 className="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors duration-300 mb-2">SolverBet</h3>
                       <p className="text-[#b7c3e6] text-sm leading-relaxed">
                         AI sports intelligence system covering 30+ football leagues. Machine learning model optimized per league via Optuna, detecting statistically mispriced odds and delivering real-time signals via Telegram.
                       </p>
                     </div>
-
-                    {/* Right side stats */}
                     <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
-                      {[
-                        { label: 'Leagues', value: '30+' },
-                        { label: 'Picks/week', value: '50~' },
-                        { label: 'Live ROI', value: 'Public' },
-                      ].map((s) => (
+                      {[{ label: 'Leagues', value: '30+' }, { label: 'Picks/week', value: '50~' }, { label: 'Live ROI', value: 'Public' }].map((s) => (
                         <div key={s.label} className="text-right">
                           <div className="text-amber-400 font-bold text-sm">{s.value}</div>
                           <div className="text-white/30 text-xs">{s.label}</div>
                         </div>
                       ))}
                     </div>
-
-                    {/* Explore arrow */}
                     <div className="flex-shrink-0 md:ml-2">
                       <div className="flex items-center gap-2 text-white/50 group-hover:text-amber-400 transition-colors">
                         <span className="text-sm font-medium hidden md:block">Explore</span>
@@ -921,7 +1085,6 @@ function Home() {
                 </motion.div>
               </Link>
 
-              {/* Bottom row: ShahMat + Fraud */}
               <div className="grid md:grid-cols-2 gap-6">
                 <FeatureCard
                   title="ShahMat Chess Engine"
@@ -942,7 +1105,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ================= KNOWLEDGE HUB SECTION ================= */}
+        {/* Knowledge Hub Section */}
         <section id="knowledge-hub" className="py-24 relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
@@ -993,113 +1156,9 @@ function Home() {
                 </div>
               </div>
             </motion.div>
-        
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="mb-12"
-            >
-              <div className="bg-gradient-to-br from-[#141f38] to-[#0d1424] rounded-2xl border border-white/10 overflow-hidden">
-                <div className="bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-green-500/10 border-b border-white/10 p-6">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center">
-                        <span className="text-2xl">🎓</span>
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs font-semibold uppercase tracking-wider">
-                            Free Course
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider">
-                            🇫🇷 French
-                          </span>
-                        </div>
-                        <h3 className="text-xl md:text-2xl font-bold text-white">
-                          Maîtriser CatBoost : l'élite du Machine Learning
-                        </h3>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-white/50">
-                      <div className="flex items-center gap-1.5">
-                        <Play className="w-4 h-4" />
-                        <span>5 episodes</span>
-                      </div>
-                      <div className="w-px h-4 bg-white/20" />
-                      <div className="flex items-center gap-1.5">
-                        <span>📊</span>
-                        <span>Real dataset</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-        
-                <div className="p-6 md:p-8">
-                  <div className="grid lg:grid-cols-5 gap-8">
-                    <div className="lg:col-span-3">
-                      <div className="aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10">
-                        <iframe
-                          className="w-full h-full"
-                          src="https://www.youtube.com/embed/videoseries?list=PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1"
-                          title="Maîtriser CatBoost - Cours Complet"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
-                    </div>
-        
-                    <div className="lg:col-span-2 flex flex-col justify-between">
-                      <div>
-                        <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                          Programme du cours
-                        </h4>
-                        <ul className="space-y-2.5 text-sm text-[#b7c3e6]">
-                          <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">00</span>
-                            <span><span className="text-white font-medium">Préambule</span> — Présentation Cours & Dataset</span>
-                          </li>        
-                          <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">01</span>
-                            <span><span className="text-white font-medium">Encodage catégoriel</span> — Fonctionnement interne de CatBoost</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">02</span>
-                            <span><span className="text-white font-medium">CatBoost VS XGB / LGBM / RF</span> — Comparatifs sur datasets réels</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">03</span>
-                            <span><span className="text-white font-medium">Pipeline fiable</span> — De la préparation à la prédiction</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">04</span>
-                            <span><span className="text-white font-medium">Évaluation</span> — Métriques adaptées au contexte</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-purple-400 font-mono text-xs mt-0.5">05</span>
-                            <span><span className="text-white font-medium">Calibration</span> — Probabilités interprétables</span>
-                          </li>
-                        </ul>
-                      </div>
-        
-                      <a
-                        href="https://www.youtube.com/playlist?list=PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-6 group flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 transition-all duration-300 font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02]"
-                      >
-                        <Play className="w-5 h-5" />
-                        Commencer le cours
-                        <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+
+            {/* ✅ FLIPPING COURSE CARD — remplace l'ancien bloc statique */}
+            <FlippingCourseCard />
         
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -1116,7 +1175,6 @@ function Home() {
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
                 <div className="relative z-10 flex items-center gap-4">
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <Play className="w-6 h-6 text-red-400" />
@@ -1124,17 +1182,12 @@ function Home() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-lg">🇫🇷</span>
-                      <h4 className="text-white font-semibold group-hover:text-blue-400 transition-colors">
-                        Chaîne Française
-                      </h4>
+                      <h4 className="text-white font-semibold group-hover:text-blue-400 transition-colors">Chaîne Française</h4>
                     </div>
-                    <p className="text-white/50 text-sm">
-                      Cours ML, trading algorithmique & tutoriels Python
-                    </p>
+                    <p className="text-white/50 text-sm">Cours ML, trading algorithmique & tutoriels Python</p>
                   </div>
                   <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
                 </div>
-                
                 <div className="mt-4 pt-4 border-t border-white/5 font-mono text-xs text-white/30">
                   <span className="text-purple-400">@ag_algolab_fr</span>
                   <span className="text-white/20 mx-2">•</span>
@@ -1150,7 +1203,6 @@ function Home() {
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
                 <div className="relative z-10 flex items-center gap-4">
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <Play className="w-6 h-6 text-red-400" />
@@ -1158,17 +1210,12 @@ function Home() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-lg">🇬🇧</span>
-                      <h4 className="text-white font-semibold group-hover:text-purple-400 transition-colors">
-                        English Channel
-                      </h4>
+                      <h4 className="text-white font-semibold group-hover:text-purple-400 transition-colors">English Channel</h4>
                     </div>
-                    <p className="text-white/50 text-sm">
-                      Algo trading & Python tutorials
-                    </p>
+                    <p className="text-white/50 text-sm">Algo trading & Python tutorials</p>
                   </div>
                   <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
                 </div>
-                
                 <div className="mt-4 pt-4 border-t border-white/5 font-mono text-xs text-white/30">
                   <span className="text-purple-400">@ag_algolab</span>
                   <span className="text-white/20 mx-2">•</span>
@@ -1189,12 +1236,8 @@ function Home() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">
-                Contact
-              </h2>
-              <p className="text-lg text-[#b7c3e6]">
-                Get in touch for collaborations or inquiries
-              </p>
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">Contact</h2>
+              <p className="text-lg text-[#b7c3e6]">Get in touch for collaborations or inquiries</p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-6 mb-10">
@@ -1212,9 +1255,7 @@ function Home() {
                   </div>
                   <div>
                     <p className="text-white/50 text-sm">Phone (WhatsApp)</p>
-                    <p className="text-white font-semibold group-hover:text-green-400 transition-colors">
-                      +216 55 906 954
-                    </p>
+                    <p className="text-white font-semibold group-hover:text-green-400 transition-colors">+216 55 906 954</p>
                   </div>
                 </div>
               </motion.a>
@@ -1233,9 +1274,7 @@ function Home() {
                   </div>
                   <div>
                     <p className="text-white/50 text-sm">Email</p>
-                    <p className="text-white font-semibold group-hover:text-blue-400 transition-colors">
-                      anthony.gocmen@gmail.com
-                    </p>
+                    <p className="text-white font-semibold group-hover:text-blue-400 transition-colors">anthony.gocmen@gmail.com</p>
                   </div>
                 </div>
               </motion.a>
@@ -1250,28 +1289,16 @@ function Home() {
             >
               <p className="text-white/50 text-sm mb-4">Follow & Connect</p>
               <div className="flex items-center justify-center gap-4">
-                <a
-                  href="https://github.com/ag-algolab"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
-                >
+                <a href="https://github.com/ag-algolab" target="_blank" rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group">
                   <Github className="w-5 h-5 group-hover:text-white transition-colors" />
                 </a>
-                <a
-                  href="https://www.linkedin.com/in/anthony-gocmen"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
-                >
+                <a href="https://www.linkedin.com/in/anthony-gocmen" target="_blank" rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group">
                   <Linkedin className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
                 </a>
-                <a
-                  href="https://www.kaggle.com/anthonygocmen"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
-                >
+                <a href="https://www.kaggle.com/anthonygocmen" target="_blank" rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group">
                   <KaggleIcon className="w-5 h-5 group-hover:text-cyan-400 transition-colors" />
                 </a>
               </div>
