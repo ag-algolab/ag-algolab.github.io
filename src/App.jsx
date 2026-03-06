@@ -1242,29 +1242,10 @@ function Home() {
 
             <div className="grid md:grid-cols-2 gap-6 mb-10">
               <motion.a
-                href="tel:+21655906954"
+                href="mailto:anthony.gocmen@dauphine.eu"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="group bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
-                    <Phone className="w-6 h-6 text-green-400" />
-                  </div>
-                  <div>
-                    <p className="text-white/50 text-sm">Phone (WhatsApp)</p>
-                    <p className="text-white font-semibold group-hover:text-green-400 transition-colors">+216 55 906 954</p>
-                  </div>
-                </div>
-              </motion.a>
-
-              <motion.a
-                href="mailto:anthony.gocmen@gmail.com"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
                 viewport={{ once: true }}
                 className="group bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]"
               >
@@ -1274,35 +1255,32 @@ function Home() {
                   </div>
                   <div>
                     <p className="text-white/50 text-sm">Email</p>
-                    <p className="text-white font-semibold group-hover:text-blue-400 transition-colors">anthony.gocmen@gmail.com</p>
+                    <p className="text-white font-semibold group-hover:text-blue-400 transition-colors">anthony.gocmen@dauphine.eu</p>
+                  </div>
+                </div>
+              </motion.a>
+            
+              <motion.a
+                href="https://www.linkedin.com/in/anthony-gocmen"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="group bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
+                    <Linkedin className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-white/50 text-sm">LinkedIn</p>
+                    <p className="text-white font-semibold group-hover:text-blue-400 transition-colors">anthony-gocmen</p>
                   </div>
                 </div>
               </motion.a>
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <p className="text-white/50 text-sm mb-4">Follow & Connect</p>
-              <div className="flex items-center justify-center gap-4">
-                <a href="https://github.com/ag-algolab" target="_blank" rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group">
-                  <Github className="w-5 h-5 group-hover:text-white transition-colors" />
-                </a>
-                <a href="https://www.linkedin.com/in/anthony-gocmen" target="_blank" rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group">
-                  <Linkedin className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-                </a>
-                <a href="https://www.kaggle.com/anthonygocmen" target="_blank" rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-[#141f38] border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group">
-                  <KaggleIcon className="w-5 h-5 group-hover:text-cyan-400 transition-colors" />
-                </a>
-              </div>
-            </motion.div>
           </div>
         </section>
 
