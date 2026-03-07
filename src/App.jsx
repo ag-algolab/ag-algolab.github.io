@@ -558,13 +558,14 @@ function FlippingCourseCard() {
 
   const telegramCurriculum = [
     { id: '01', title: 'Setup & Premier Bot', desc: "Créer son bot, récupérer le token & chat ID" },
-    { id: '02', title: 'Envoyer des Messages', desc: "Construire une fonction d'envoi Python propre" },
-    { id: '03', title: 'Envoyer des Photos', desc: "Médias visuels via l'API Telegram" },
-    { id: '04', title: 'Envoyer des Documents', desc: "PDF, docx & autres formats" },
-    { id: '05', title: 'Formatting HTML', desc: "Gras, italique, blocs de citation & plus" },
-    { id: '06', title: 'Créer son Channel', desc: "Setup complet + récupérer le token channel" },
-    { id: '07', title: 'Automatiser son Channel', desc: "Envoi automatique de contenus riches" },
-    { id: '08', title: 'Menus & QCM Interactifs', desc: "Boutons, commandes et interfaces", advanced: true },
+    { id: '02', title: 'Envoyer des Messages', desc: "Construire une fonction d'envoi propre" },
+    { id: '03', title: 'Envoyer des Photos', desc: "PNG, JPG, ..." },
+    { id: '04', title: 'Envoyer des Vidéos', desc: "MP4, MKV, ..." },
+    { id: '05', title: 'Envoyer des Documents', desc: "PDF, DOCX, CSV, ..." },
+    { id: '06', title: 'Formatage  HTML', desc: "Blocs de citation ou de code, gras, ..." },
+    { id: '07', title: 'Créer son Channel', desc: "Création + récupération du token via bot" },
+    { id: '08', title: 'Automatiser son Channel', desc: "Envoi automatique de contenus" },
+    { id: '09', title: 'Menus & QCM Interactifs', desc: "Boutons, commandes et interfaces", advanced: true },
   ];
 
   const catboostCurriculum = [
@@ -665,7 +666,7 @@ function FlippingCourseCard() {
                   </div>
                   <div className="flex items-center gap-3 text-sm text-white/50">
                     <div className="flex items-center gap-1.5">
-                      <Play className="w-4 h-4" /><span>8 episodes</span>
+                      <Play className="w-4 h-4" /><span>9 episodes</span>
                     </div>
                     <div className="w-px h-4 bg-white/20" />
                     <div className="flex items-center gap-1.5">
