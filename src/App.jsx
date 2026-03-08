@@ -13,7 +13,7 @@ import { Toaster } from '@/components/ui/toaster';
 function TechOrbit() {
   const techs = [
     { name: "Python", logo: "/logos/python.png" },
-    { name: "TensorFlow", logo: "/logos/tensorflow.png" },
+    { name: "TensorFlow", logo: "/logos/catboost.png" },
     { name: "Pandas", logo: "/logos/pandas.png" },
     { name: "NumPy", logo: "/logos/numpy.png" },
     { name: "MetaTrader", logo: "/logos/mt5.png" },
