@@ -482,10 +482,10 @@ export default function SolverBet() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-16"
+            className="grid grid-cols-3 gap-4 max-w-xl mx-auto mb-16"
           >
             {[
-              { label: 'Leagues Covered', value: 22, suffix: '+' },
+              { label: 'Leagues Covered', value: 20, suffix: '+' },
               { label: 'Matches Analyzed', value: 60000, suffix: '+' },
               { label: 'Years of Backtest', value: 8, suffix: '' },
             ].map((s, i) => (
