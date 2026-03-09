@@ -485,10 +485,9 @@ export default function SolverBet() {
             className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-16"
           >
             {[
-              { label: 'Leagues Covered', value: 30, suffix: '+' },
-              { label: 'Daily Analyses', value: 200, suffix: '+' },
-              { label: 'Countries', value: 8, suffix: '+' },
-              { label: 'Picks per Week', value: 50, suffix: '~' },
+              { label: 'Leagues Covered', value: 22, suffix: '+' },
+              { label: 'Matches Analyzed', value: 60000, suffix: '+' },
+              { label: 'Years of Backtest', value: 8, suffix: '' },
             ].map((s, i) => (
               <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-4 text-center">
                 <div className="text-2xl font-black text-amber-400 mb-1">
