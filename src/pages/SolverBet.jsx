@@ -498,35 +498,6 @@ export default function SolverBet() {
               </div>
             ))}
           </motion.div>
-
-          {/* Tracker button */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="flex justify-center"
-          >
-            <a
-              href="https://app.bet-analytix.com/bankroll/1734144"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500/15 to-orange-500/10 border border-amber-500/30 hover:border-amber-500/60 transition-all duration-500 overflow-hidden hover:shadow-[0_0_60px_rgba(245,158,11,0.25)]"
-              onMouseEnter={() => setTrackerHover(true)}
-              onMouseLeave={() => setTrackerHover(false)}
-            >
-              <SparkCurve visible={trackerHover} />
-              <div className="relative z-10 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
-                  <TrendingUp className="w-4 h-4 text-amber-400" />
-                </div>
-                <div className="text-left">
-                  <div className="text-white font-bold text-sm">Live Performance Tracker</div>
-                  <div className="text-amber-400/60 text-xs">View ROI & bankroll evolution →</div>
-                </div>
-                <ExternalLink className="w-4 h-4 text-white/30 group-hover:text-amber-400 transition-colors" />
-              </div>
-            </a>
-          </motion.div>
         </div>
       </section>
 
@@ -753,60 +724,6 @@ export default function SolverBet() {
         </div>
       </section>
 
-      {/* ======== HOW SIGNALS ARE PRESENTED ======== */}
-      <section className="py-24 relative">
-        <div className="max-w-4xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-[#141f38] to-[#0d1117] rounded-3xl border border-white/[0.07] p-8 md:p-10"
-          >
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="flex-1">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 mb-4">
-                  <TrendingUp className="w-3.5 h-3.5 text-green-400" />
-                  <span className="text-green-400/80 text-xs font-medium">Performance</span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-black text-white mb-4">
-                  Transparent. Tracked. Verifiable.
-                </h3>
-                <p className="text-white/45 leading-relaxed mb-6">
-                  All picks are logged and tracked publicly. ROI is measured bet-by-bet on an independent platform. 
-                  Backtested on prior seasons, verified live. No hidden filters, no cherry-picking.
-                </p>
-                <a
-                  href="https://app.bet-analytix.com/bankroll/1734144"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-amber-500/15 border border-amber-500/30 hover:bg-amber-500/25 hover:border-amber-500/50 transition-all duration-300 font-semibold text-amber-300 hover:text-amber-200 hover:shadow-[0_0_40px_rgba(245,158,11,0.2)]"
-                >
-                  <BarChart2 className="w-4 h-4" />
-                  Open Bankroll Tracker
-                  <ExternalLink className="w-3.5 h-3.5 opacity-70" />
-                </a>
-              </div>
-              <div className="flex-shrink-0 grid grid-cols-1 gap-3 w-full md:w-auto">
-                {[
-                  { icon: '✅', label: 'Publicly tracked', sub: 'bet-analytix.com' },
-                  { icon: '📊', label: 'Backtested', sub: 'Prior season per league' },
-                  { icon: '🎯', label: 'Optuna-optimized', sub: 'Entry filters tuned' },
-                  { icon: '🔬', label: 'Science-based', sub: 'Peer-reviewed methods' },
-                ].map((f, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-white/[0.02] border border-white/[0.05] rounded-xl px-4 py-3">
-                    <span className="text-lg">{f.icon}</span>
-                    <div>
-                      <div className="text-white/80 text-sm font-medium">{f.label}</div>
-                      <div className="text-white/30 text-xs">{f.sub}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-white/10">
