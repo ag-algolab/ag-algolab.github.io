@@ -1068,7 +1068,7 @@ function Home() {
                       </p>
                     </div>
                     <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
-                      {[{ label: 'Leagues', value: '20+' }, { label: 'Countries', value: '8' }, { label: 'Matches Analyzed', value: '~60,000' }].map((s) => (
+                      {[{ label: 'Leagues', value: '20+' }, { label: 'Countries', value: '8' }, { label: 'Matches Analyzed', value: '~75,000' }].map((s) => (
                         <div key={s.label} className="text-right">
                           <div className="text-amber-400 font-bold text-sm">{s.value}</div>
                           <div className="text-white/30 text-xs">{s.label}</div>
