@@ -958,7 +958,7 @@ function Home() {
                       AG Algo Lab is led by Anthony Gocmen, Finance student at <span className="text-white font-medium">Université Paris Dauphine (PSL)</span>.
                     </p>
                     <p>
-                     The lab operates independently and focuses on <span className="text-white font-medium">machine learning for financial markets, algorithmic trading, predictive modeling</span> & way more. Winner of the 2025 Space Hackathon 4 Sustainability (1st Place, Arizona State University).
+                     The lab operates independently and focuses on <span className="text-white font-medium">machine learning for financial markets, algorithmic trading, predictive modeling across multiple domains</span>. Winner of the 2025 Space Hackathon 4 Sustainability (1st Place, Arizona State University).
                     </p>
                   </div>
                 </div>
