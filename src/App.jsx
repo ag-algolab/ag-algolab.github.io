@@ -955,10 +955,10 @@ function Home() {
                   <h3 className="text-2xl font-bold text-white mb-4">Anthony Gocmen</h3>
                   <div className="space-y-3 text-[#b7c3e6] leading-relaxed">
                     <p>
-                      AG AlgoLab is led by Anthony Gocmen, Master in Finance student at <span className="text-white font-medium">Université Paris Dauphine (PSL)</span>, specializing in Python-based ML, deep learning, and quantitative modeling.
+                      AG Algo Lab is led by Anthony Gocmen, Finance student at <span className="text-white font-medium">Université Paris Dauphine (PSL)</span>.
                     </p>
                     <p>
-                      Work focuses on risk and financial applications, including insurance fraud detection, and has been recognized in competitions such as the <span className="text-white font-medium">'2025 Space Hackathon 4 Sustainability'</span> (1st Place).
+                     The lab operates independently and focuses on <span className="text-white font-medium">machine learning for financial markets, algorithmic trading, predictive modeling</span> & way more. Winner of the 2025 Space Hackathon 4 Sustainability (1st Place, Arizona State University).
                     </p>
                   </div>
                 </div>
