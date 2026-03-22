@@ -485,7 +485,7 @@ export default function SolverBet() {
             className="grid grid-cols-3 gap-4 max-w-xl mx-auto mb-16"
           >
             {[
-              { label: 'Leagues Covered', value: 36, suffix: '' },
+              { label: 'Leagues Covered', value: 35, suffix: '' },
               { label: 'Matches Analyzed', value: 115000, suffix: '+' },
               { label: 'Years of Backtest', value: 10, suffix: '' },
             ].map((s, i) => (
