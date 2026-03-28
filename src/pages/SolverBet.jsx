@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ExternalLink, ChevronRight, CheckCircle, XCircle, Database, Brain, TrendingUp, Send, BarChart2, Zap, Globe, Phone, MoreVertical } from 'lucide-react';
 
-/* ========== SPARKLINE CURVE (hover on tracker button) ========== */
+/* ========== SPARKLINE CURVE ========== */
 function SparkCurve({ visible }) {
   const points = [0, 8, 5, 15, 10, 22, 16, 30, 24, 20, 28, 38, 32, 45, 40, 55, 50, 48, 60, 72];
   const w = 200, h = 50;
@@ -24,12 +24,12 @@ function SparkCurve({ visible }) {
           <svg width="100%" height="100%" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="absolute inset-0 opacity-30">
             <defs>
               <linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+                <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
               </linearGradient>
             </defs>
             <path d={path + ` L ${w} ${h} L 0 ${h} Z`} fill="url(#curveGrad)" />
-            <path d={path} fill="none" stroke="#f59e0b" strokeWidth="2" />
+            <path d={path} fill="none" stroke="#7c3aed" strokeWidth="2" />
           </svg>
         </motion.div>
       )}
@@ -67,20 +67,22 @@ function Counter({ end, suffix = '', prefix = '' }) {
 /* ========== WORKFLOW NODE ========== */
 function WorkflowNode({ icon, title, subtitle, color, delay, children }) {
   const colors = {
-    amber: 'border-amber-500/40 bg-amber-500/5 shadow-amber-500/10',
+    violet: 'border-violet-500/40 bg-violet-500/5 shadow-violet-500/10',
     blue: 'border-blue-500/40 bg-blue-500/5 shadow-blue-500/10',
     purple: 'border-purple-500/40 bg-purple-500/5 shadow-purple-500/10',
     green: 'border-green-500/40 bg-green-500/5 shadow-green-500/10',
     red: 'border-red-500/40 bg-red-500/5 shadow-red-500/10',
     cyan: 'border-cyan-500/40 bg-cyan-500/5 shadow-cyan-500/10',
+    indigo: 'border-indigo-500/40 bg-indigo-500/5 shadow-indigo-500/10',
   };
   const iconColors = {
-    amber: 'text-amber-400 bg-amber-500/15',
+    violet: 'text-violet-400 bg-violet-500/15',
     blue: 'text-blue-400 bg-blue-500/15',
     purple: 'text-purple-400 bg-purple-500/15',
     green: 'text-green-400 bg-green-500/15',
     red: 'text-red-400 bg-red-500/15',
     cyan: 'text-cyan-400 bg-cyan-500/15',
+    indigo: 'text-indigo-400 bg-indigo-500/15',
   };
 
   return (
@@ -149,34 +151,29 @@ function TelegramChannel() {
   return (
     <div className="w-full max-w-[340px]">
       <div className="bg-[#0e1621] rounded-[2.5rem] border border-white/[0.06] overflow-hidden shadow-2xl shadow-black/60">
-        {/* Top notch */}
         <div className="h-7 bg-[#0e1621] relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-b-2xl" />
         </div>
-        {/* Header */}
         <div className="bg-[#17212b] px-4 py-2.5 flex items-center gap-3 border-b border-white/[0.04]">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-lg shadow-violet-500/20">
             <span className="text-base">⚽</span>
           </div>
           <div className="flex-1 min-w-0">
             <span className="text-white font-semibold text-sm">SolverBet Channel</span>
-            <div className="text-white/35 text-[11px]">📢 {' '}public channel</div>
+            <div className="text-white/35 text-[11px]">📢 public channel</div>
           </div>
           <div className="flex items-center gap-2.5 text-white/25">
             <MoreVertical className="w-4 h-4" />
           </div>
         </div>
 
-        {/* Messages */}
         <div className="h-[340px] p-3 flex flex-col gap-2 bg-[#0e1621] overflow-hidden">
-          {/* Intro msg */}
           <div className="max-w-[90%] bg-[#182533] rounded-2xl rounded-bl-sm px-3.5 py-2 border border-white/[0.03]">
             <p className="text-white/70 text-[12px] mb-0.5">🟢 <span className="font-semibold text-white/90">SolverBet</span> wishes you a profitable day!</p>
             <p className="text-white/50 text-[11px]">🚀 The model is now running</p>
             <span className="text-white/20 text-[10px]">7:37 AM</span>
           </div>
 
-          {/* Rotating match cards */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeMsg}
@@ -184,9 +181,9 @@ function TelegramChannel() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3 }}
-              className="max-w-[95%] bg-[#182533] rounded-2xl rounded-bl-sm px-3.5 py-2.5 border border-amber-500/10"
+              className="max-w-[95%] bg-[#182533] rounded-2xl rounded-bl-sm px-3.5 py-2.5 border border-violet-500/10"
             >
-              <p className="text-amber-400/80 font-semibold text-[11px] mb-2">{messages[activeMsg].league}</p>
+              <p className="text-violet-400/80 font-semibold text-[11px] mb-2">{messages[activeMsg].league}</p>
               {messages[activeMsg].matches.map((m, i) => (
                 <div key={i} className={`mb-2 last:mb-0 rounded-xl p-2.5 border ${confidenceColor(m.confidence)}`}>
                   <div className="flex items-center justify-between mb-1">
@@ -199,7 +196,7 @@ function TelegramChannel() {
                     <div><span className="text-white/40">Winner:</span> <span className="text-white font-semibold">{m.winner} 🏆</span></div>
                     <div className="flex gap-3 mt-1">
                       <span>💰 Fair: <span className="text-green-400">{m.fairOdd}</span></span>
-                      <span>🎰 Real: <span className="text-amber-400">{m.realOdd}</span></span>
+                      <span>🎰 Real: <span className="text-violet-400">{m.realOdd}</span></span>
                     </div>
                     <div className="text-green-400/70 text-[9px]">✅ DNB: {m.dnb}</div>
                   </div>
@@ -209,20 +206,18 @@ function TelegramChannel() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Indicators */}
           <div className="flex justify-center gap-1.5 mt-auto">
             {messages.map((_, i) => (
-              <div key={i} className={`h-1 rounded-full transition-all duration-300 ${i === activeMsg ? 'w-4 bg-amber-400' : 'w-1.5 bg-white/15'}`} />
+              <div key={i} className={`h-1 rounded-full transition-all duration-300 ${i === activeMsg ? 'w-4 bg-violet-400' : 'w-1.5 bg-white/15'}`} />
             ))}
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="bg-[#17212b] px-3 py-2 border-t border-white/[0.04]">
           <div className="bg-[#242f3d] rounded-full px-4 py-2 flex items-center gap-2">
             <span className="text-white/20 text-sm flex-1">Message</span>
-            <div className="w-7 h-7 rounded-full bg-amber-500/15 flex items-center justify-center">
-              <Send className="w-3.5 h-3.5 text-amber-400/70" />
+            <div className="w-7 h-7 rounded-full bg-violet-500/15 flex items-center justify-center">
+              <Send className="w-3.5 h-3.5 text-violet-400/70" />
             </div>
           </div>
         </div>
@@ -236,18 +231,12 @@ function TelegramChannel() {
 
 /* ========== TELEGRAM BOT MOCK ========== */
 function TelegramBot() {
-  const [screen, setScreen] = useState('menu'); // menu | result
+  const [screen, setScreen] = useState('menu');
   const [selected, setSelected] = useState(null);
 
   const countries = [
-    { name: 'France' },
-    { name: 'England' },
-    { name: 'Germany' },
-    { name: 'Italy' },
-    { name: 'Spain' },
-    { name: 'Netherlands' },
-    { name: 'Belgium' },
-    { name: 'Japan' },
+    { name: 'France' }, { name: 'England' }, { name: 'Germany' }, { name: 'Italy' },
+    { name: 'Spain' }, { name: 'Netherlands' }, { name: 'Belgium' }, { name: 'Japan' },
   ];
 
   const results = {
@@ -261,22 +250,17 @@ function TelegramBot() {
     Japan: [{ league: 'J. League', time: '12:00', home: 'Kashima', away: 'Yokohama', winner: 'Kashima', prob: '55.7%', fairOdd: '1.80', realOdd: '2.05' }],
   };
 
-  const handleSelect = (name) => {
-    setSelected(name);
-    setScreen('result');
-  };
+  const handleSelect = (name) => { setSelected(name); setScreen('result'); };
 
   return (
     <div className="w-full max-w-[340px]">
       <div className="bg-[#0e1621] rounded-[2.5rem] border border-white/[0.06] overflow-hidden shadow-2xl shadow-black/60">
-        {/* Math bg style */}
         <div className="h-7 bg-[#0e1621] relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-b-2xl" />
         </div>
 
-        {/* Header */}
         <div className="bg-[#17212b] px-4 py-2.5 flex items-center gap-3 border-b border-white/[0.04]">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-lg shadow-violet-500/20">
             <span className="text-base font-bold text-white text-sm">S</span>
           </div>
           <div className="flex-1 min-w-0">
@@ -291,18 +275,15 @@ function TelegramBot() {
           <MoreVertical className="w-4 h-4 text-white/25" />
         </div>
 
-        {/* Chat area */}
         <div className="h-[340px] bg-[#0e1621] overflow-hidden relative" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ctext x='5' y='20' fill='rgba(255,255,255,0.03)' font-size='10' font-family='monospace'%3Esin(x)%3C/text%3E%3Ctext x='40' y='50' fill='rgba(255,255,255,0.03)' font-size='8' font-family='monospace'%3Eπ²/6%3C/text%3E%3Ctext x='10' y='80' fill='rgba(255,255,255,0.03)' font-size='9' font-family='monospace'%3Elim→∞%3C/text%3E%3C/svg%3E")`,
         }}>
           <div className="p-3 flex flex-col gap-2 h-full">
-            {/* User: /start */}
             <div className="self-end bg-[#2b5278] rounded-2xl rounded-br-sm px-3 py-1.5 max-w-[60%]">
               <span className="text-white text-[13px] font-mono">/start</span>
               <span className="text-white/30 text-[9px] ml-2">13:46 ✓✓</span>
             </div>
 
-            {/* Bot reply */}
             <AnimatePresence mode="wait">
               {screen === 'menu' ? (
                 <motion.div key="menu" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="max-w-[95%]">
@@ -317,7 +298,7 @@ function TelegramBot() {
                       <button
                         key={c.name}
                         onClick={() => handleSelect(c.name)}
-                        className="bg-[#242f3d] hover:bg-[#2b3849] border border-white/[0.06] rounded-xl px-3 py-2 text-white/80 text-[12px] text-left transition-all duration-200 hover:border-amber-500/30 hover:text-amber-300"
+                        className="bg-[#242f3d] hover:bg-[#2b3849] border border-white/[0.06] rounded-xl px-3 py-2 text-white/80 text-[12px] text-left transition-all duration-200 hover:border-violet-500/30 hover:text-violet-300"
                       >
                         {c.name}
                       </button>
@@ -327,12 +308,12 @@ function TelegramBot() {
               ) : (
                 <motion.div key="result" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="flex flex-col gap-2 max-w-[95%]">
                   <div className="self-end bg-[#2b5278] rounded-2xl rounded-br-sm px-3 py-1.5">
-                    <span className="text-white text-[12px]">{countries.find(c => c.name === selected)?.flag} {selected}</span>
+                    <span className="text-white text-[12px]">{selected}</span>
                   </div>
                   {(results[selected] || []).map((m, i) => (
-                    <div key={i} className="bg-[#182533] rounded-2xl rounded-bl-sm px-3.5 py-2.5 border border-amber-500/10">
-                      <p className="text-white/60 text-[11px] mb-1.5">Today's inflated odd(s) in {countries.find(c => c.name === selected)?.flag}:</p>
-                      <p className="text-amber-400/80 font-semibold text-[11px] mb-1">⚡ {m.league} — {m.time} ⚡</p>
+                    <div key={i} className="bg-[#182533] rounded-2xl rounded-bl-sm px-3.5 py-2.5 border border-violet-500/10">
+                      <p className="text-white/60 text-[11px] mb-1.5">Today's inflated odd(s) in {selected}:</p>
+                      <p className="text-violet-400/80 font-semibold text-[11px] mb-1">⚡ {m.league} — {m.time} ⚡</p>
                       <p className="text-white font-semibold text-[12px]">{m.home} VS {m.away}</p>
                       <p className="text-white/70 text-[11px]">🥇 Winner → <span className="text-white font-medium">{m.winner}</span></p>
                       <p className="text-white/70 text-[11px]">🎯 Probability → <span className="text-green-400 font-medium">{m.prob}</span></p>
@@ -356,12 +337,11 @@ function TelegramBot() {
           </div>
         </div>
 
-        {/* Input */}
         <div className="bg-[#17212b] px-3 py-2 border-t border-white/[0.04]">
           <div className="bg-[#242f3d] rounded-full px-4 py-2 flex items-center gap-2">
             <span className="text-white/20 text-sm flex-1">Message</span>
-            <div className="w-7 h-7 rounded-full bg-amber-500/15 flex items-center justify-center">
-              <Send className="w-3.5 h-3.5 text-amber-400/70" />
+            <div className="w-7 h-7 rounded-full bg-violet-500/15 flex items-center justify-center">
+              <Send className="w-3.5 h-3.5 text-violet-400/70" />
             </div>
           </div>
         </div>
@@ -373,14 +353,8 @@ function TelegramBot() {
   );
 }
 
-/* ========== ANIMATED WORKFLOW ========== */
-function WorkflowArrow({ color = 'amber', label, condition }) {
-  const colorMap = {
-    amber: 'border-amber-500/30 bg-amber-500/5',
-    green: 'bg-green-400',
-    red: 'bg-red-400',
-  };
-  
+/* ========== WORKFLOW ARROW ========== */
+function WorkflowArrow({ condition }) {
   if (condition) {
     return (
       <div className="flex flex-col items-center gap-1 my-1">
@@ -392,18 +366,16 @@ function WorkflowArrow({ color = 'amber', label, condition }) {
       </div>
     );
   }
-
   return (
     <div className="flex flex-col items-center my-1">
-      <div className="w-px h-6 bg-gradient-to-b from-amber-500/40 to-amber-500/10" />
-      <div className="w-2 h-2 border-r-2 border-b-2 border-amber-500/40 rotate-45 -mt-1" />
+      <div className="w-px h-6 bg-gradient-to-b from-violet-500/40 to-violet-500/10" />
+      <div className="w-2 h-2 border-r-2 border-b-2 border-violet-500/40 rotate-45 -mt-1" />
     </div>
   );
 }
 
 /* ========== MAIN PAGE ========== */
 export default function SolverBet() {
-  const [trackerHover, setTrackerHover] = useState(false);
   const [pulseStep, setPulseStep] = useState(0);
 
   useEffect(() => {
@@ -413,11 +385,12 @@ export default function SolverBet() {
 
   return (
     <div className="min-h-screen bg-[#0a0d14] text-[#e7ecff]" style={{ fontFamily: "'Syne', 'Space Grotesk', sans-serif" }}>
-      {/* Ambient bg */}
+
+      {/* Ambient bg — purple/blue instead of amber */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.03] rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-violet-500/[0.03] rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-500/[0.02] rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-violet-600/[0.05] rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/[0.04] rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/[0.03] rounded-full blur-3xl" />
       </div>
 
       {/* Nav */}
@@ -426,7 +399,7 @@ export default function SolverBet() {
           <div className="flex justify-between items-center">
             <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition">
               <img src="/logo.jpg" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
-              <span className="text-xl font-bold bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                 AG Algo Lab
               </span>
             </Link>
@@ -441,22 +414,30 @@ export default function SolverBet() {
       <section className="min-h-screen flex items-center justify-center pt-24 pb-16 relative">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 mb-8">
-              <span className="text-amber-400 text-lg">⚽</span>
-              <span className="text-amber-400/80 text-sm font-medium">AI Sports Intelligence · 30+ Leagues</span>
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8">
+              <span className="text-violet-400 text-lg">⚽</span>
+              <span className="text-violet-400/80 text-sm font-medium">Sports Intelligence · 30+ Leagues</span>
             </div>
           </motion.div>
 
-          <motion.h1
+          {/* Title row: Logo | SolverBet */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-6xl md:text-8xl font-black tracking-tight mb-6"
+            className="flex items-center justify-center gap-5 mb-6"
           >
-            <span className="bg-gradient-to-br from-amber-300 via-orange-400 to-red-500 bg-clip-text text-transparent">
-              SolverBet
-            </span>
-          </motion.h1>
+            <img
+              src="/solverbet_eagle.png"
+              alt="SolverBet Logo"
+              className="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-[0_0_30px_rgba(124,58,237,0.5)]"
+            />
+            <h1 className="text-6xl md:text-8xl font-black tracking-tight">
+              <span className="bg-gradient-to-br from-violet-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
+                SolverBet
+              </span>
+            </h1>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}
@@ -473,7 +454,7 @@ export default function SolverBet() {
             transition={{ delay: 0.4 }}
             className="text-base text-white/40 max-w-2xl mx-auto mb-14 leading-relaxed"
           >
-            Probabilistic model trained on scientific research, optimized by Optuna per league, 
+            Probabilistic model trained on scientific research, optimized by Optuna per league,
             identifying statistically mispriced outcomes across global football competitions.
           </motion.p>
 
@@ -490,7 +471,7 @@ export default function SolverBet() {
               { label: 'Years of Backtest', value: 10, suffix: '' },
             ].map((s, i) => (
               <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-4 text-center">
-                <div className="text-2xl font-black text-amber-400 mb-1">
+                <div className="text-2xl font-black bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent mb-1">
                   <Counter end={s.value} suffix={s.suffix} />
                 </div>
                 <div className="text-white/35 text-xs">{s.label}</div>
@@ -510,9 +491,9 @@ export default function SolverBet() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-5">
-              <Zap className="w-4 h-4 text-violet-400" />
-              <span className="text-violet-400/80 text-sm font-medium">System Architecture</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-5">
+              <Zap className="w-4 h-4 text-blue-400" />
+              <span className="text-blue-400/80 text-sm font-medium">System Architecture</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
               <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
@@ -523,17 +504,15 @@ export default function SolverBet() {
           </motion.div>
 
           <div className="max-w-xl mx-auto">
-            {/* Step 1 */}
             <WorkflowNode
               icon={<Database className="w-5 h-5" />}
               title="Data Collection"
               subtitle="Live match data from a sports API: fixtures, historical results, and more across 30+ leagues worldwide."
-              color="amber"
+              color="violet"
               delay={0}
             />
             <WorkflowArrow />
 
-            {/* Step 2 */}
             <WorkflowNode
               icon={<BarChart2 className="w-5 h-5" />}
               title="Optuna Optimization"
@@ -557,8 +536,6 @@ export default function SolverBet() {
             </WorkflowNode>
             <WorkflowArrow />
 
-
-            {/* Step 3 */}            
             <WorkflowNode
               icon={<Brain className="w-5 h-5" />}
               title="Model Inference"
@@ -574,8 +551,6 @@ export default function SolverBet() {
             </WorkflowNode>
             <WorkflowArrow />
 
-
-            {/* Step 4 */}
             <WorkflowNode
               icon={<Globe className="w-5 h-5" />}
               title="Live Odds Retrieval"
@@ -591,10 +566,10 @@ export default function SolverBet() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
               viewport={{ once: true }}
-              className="relative rounded-2xl border border-yellow-500/40 bg-yellow-500/5 p-5 shadow-lg shadow-yellow-500/10"
+              className="relative rounded-2xl border border-indigo-500/40 bg-indigo-500/5 p-5 shadow-lg shadow-indigo-500/10"
             >
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-yellow-500/15 text-yellow-400">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-indigo-500/15 text-indigo-400">
                   <span className="text-lg">⚖️</span>
                 </div>
                 <div className="flex-1">
@@ -602,7 +577,6 @@ export default function SolverBet() {
                   <p className="text-white/40 text-xs">Is the bookmaker odd significantly higher than the model's fair odd? Is the signal within the Optuna-optimized entry thresholds?</p>
                 </div>
               </div>
-              {/* Branch indicators */}
               <div className="flex justify-between mt-4 pt-3 border-t border-white/[0.06]">
                 <div className="flex items-center gap-2">
                   <XCircle className="w-4 h-4 text-red-400" />
@@ -614,11 +588,10 @@ export default function SolverBet() {
                 </div>
               </div>
             </motion.div>
-            
-            {/* YES arrow + signal */}
+
             <WorkflowArrow condition="yes" />
 
-            {/* Final: Signal */}
+            {/* Final signal */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -659,8 +632,8 @@ export default function SolverBet() {
       {/* ======== TELEGRAM DEMOS ======== */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
         </div>
 
         <div className="max-w-6xl mx-auto px-6">
@@ -682,7 +655,6 @@ export default function SolverBet() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-12 items-start justify-items-center">
-            {/* Bot */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -701,7 +673,6 @@ export default function SolverBet() {
               <TelegramBot />
             </motion.div>
 
-            {/* Channel */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -710,9 +681,9 @@ export default function SolverBet() {
               className="flex flex-col items-center gap-5 w-full max-w-[340px]"
             >
               <div className="text-center">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 mb-3">
-                  <span className="text-amber-400 text-sm">📢</span>
-                  <span className="text-amber-400/80 text-xs font-medium">Broadcast Channel</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 mb-3">
+                  <span className="text-blue-400 text-sm">📢</span>
+                  <span className="text-blue-400/80 text-xs font-medium">Broadcast Channel</span>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-1">SolverBet Channel</h3>
                 <p className="text-white/35 text-sm">All daily signals across every covered league — confidence, fair odds, and value gap.</p>
@@ -722,7 +693,6 @@ export default function SolverBet() {
           </div>
         </div>
       </section>
-
 
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-white/10">
