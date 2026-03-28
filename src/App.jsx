@@ -1087,11 +1087,14 @@ function Home() {
                       </div>
                       <h3 className="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors duration-300 mb-2">SolverBet</h3>
                       <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                        AI sports intelligence system covering 35+ football leagues. Machine learning model optimized per league via Optuna, detecting statistically mispriced odds and delivering real-time signals via Telegram.
+                        Fully automatized sports intelligence system covering 35+ football leagues. Model optimized per league via Optuna, detecting statistically mispriced odds and delivering real-time signals via Telegram.
                       </p>
                     </div>
                     <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
-                      {[{ label: 'Leagues', value: '35' }, { label: 'Countries', value: '24' }, { label: 'Matches Analyzed', value: '115,000+' }].map((s) => (
+                      {[{ label: 'Leagues', value: '35' }, 
+                        { label: 'Countries', value: '24' }, 
+                        { label: 'Matches Analyzed', value: '115,000+' }
+                       ].map((s) => (
                         <div key={s.label} className="text-right">
                           <div className="text-amber-400 font-bold text-sm">{s.value}</div>
                           <div className="text-white/30 text-xs">{s.label}</div>
@@ -1138,9 +1141,9 @@ function Home() {
                   </div>
                   <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
                     {[
-                      { label: 'Type of AI', value: 'Machine Learning' },
                       { label: 'Players', value: '16,000+' },
                       { label: 'Data Used', value: '800,000+' },
+                      { label: 'Type of AI', value: 'Machine Learning' },
                     ].map((s) => (
                       <div key={s.label} className="text-right">
                         <div className="text-sky-400 font-bold text-sm">{s.value}</div>
