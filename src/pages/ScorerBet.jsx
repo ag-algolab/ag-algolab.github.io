@@ -648,23 +648,6 @@ export default function ScorerBet() {
             })}
           </div>
 
-          {/* Highlight stat */}
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-4 mb-12">
-            {[
-              { value: '83.6%', label: 'Actual rate at top tier', sub: 'Model predicted 86.7%', color: 'text-orange-400' },
-              { value: '< 3%', label: 'Average calibration error', sub: 'Across all active thresholds', color: 'text-green-400' },
-              { value: '1,848', label: 'Actionable signals', sub: 'Above the 35% threshold', color: 'text-white' },
-            ].map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.1 }} viewport={{ once: true }}
-                className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 text-center">
-                <div className={`text-3xl font-black mb-1 ${s.color}`}>{s.value}</div>
-                <div className="text-white font-semibold text-sm mb-1">{s.label}</div>
-                <div className="text-white/30 text-xs">{s.sub}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-
           {/* WIP note */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}
             className="relative bg-white/[0.02] border border-white/[0.08] rounded-2xl p-6 overflow-hidden">
