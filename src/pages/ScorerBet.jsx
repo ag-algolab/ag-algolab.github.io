@@ -327,7 +327,7 @@ export default function ScorerBet() {
             transition={{ delay: 0.3 }}
             className="text-xl md:text-2xl font-light text-white/50 italic mb-4"
           >
-            The market doesn't price players — we do
+            The market doesn't price players correctly — we do
           </motion.p>
 
           <motion.p
