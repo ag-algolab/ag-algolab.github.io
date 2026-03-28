@@ -1138,9 +1138,9 @@ function Home() {
                   </div>
                   <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
                     {[
-                      { label: 'Players', value: 'X' },
-                      { label: 'Type of AI', value: 'ML' },
-                      { label: 'Data Used', value: '+800,000' },
+                      { label: 'Type of AI', value: 'Machine Learning' },
+                      { label: 'Players', value: '16,000+' },
+                      { label: 'Data Used', value: '800,000+' },
                     ].map((s) => (
                       <div key={s.label} className="text-right">
                         <div className="text-sky-400 font-bold text-sm">{s.value}</div>
