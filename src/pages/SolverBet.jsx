@@ -473,7 +473,7 @@ export default function SolverBet() {
             transition={{ delay: 0.4 }}
             className="text-base text-white/40 max-w-2xl mx-auto mb-14 leading-relaxed"
           >
-            Machine learning system trained on scientific research, optimized by Optuna per league, 
+            Probabilistic model trained on scientific research, optimized by Optuna per league, 
             identifying statistically mispriced outcomes across global football competitions.
           </motion.p>
 
@@ -561,8 +561,8 @@ export default function SolverBet() {
             {/* Step 3 */}            
             <WorkflowNode
               icon={<Brain className="w-5 h-5" />}
-              title="ML Model Inference"
-              subtitle="Proprietary machine learning model: grounded in scientific literature on match outcome modeling. Architecture remains confidential."
+              title="Model Inference"
+              subtitle="Grounded in scientific literature on match outcome modeling. Architecture remains confidential."
               color="purple"
               delay={0.1}
             >
