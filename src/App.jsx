@@ -1063,105 +1063,78 @@ function Home() {
             <div className="flex flex-col gap-6">
 
               {/* ===== SOLVERBET CARD — untouched ===== */}
+                           
               <Link to="/solverbet" className="block group">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  viewport={{ once: true }}
-                  className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-amber-500/50 hover:shadow-[0_0_40px_rgba(245,158,11,0.2)] transition-all duration-500 overflow-hidden"
-                >
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}
+                  className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-violet-500/50 hover:shadow-[0_0_40px_rgba(124,58,237,0.2)] transition-all duration-500 overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
                     <div className="flex-shrink-0 flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-amber-500/20 group-hover:bg-amber-500/30 flex items-center justify-center transition-all duration-300 text-3xl shadow-lg shadow-amber-500/10">⚽</div>
+                      <div className="w-16 h-16 rounded-2xl bg-violet-500/20 group-hover:bg-violet-500/30 flex items-center justify-center transition-all duration-300 shadow-lg shadow-violet-500/10">
+                        <img src="/solverbet_eagle.png" alt="SolverBet" className="w-10 h-10 object-contain" />
+                      </div>
                       <div className="flex flex-col gap-1.5 md:hidden">
-                        <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider w-fit">Featured Project</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-violet-500/15 border border-violet-500/25 text-violet-400 text-[10px] font-bold uppercase tracking-wider w-fit">Featured Project</span>
                         <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider w-fit">🟢 Live</span>
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="hidden md:flex items-center gap-2 mb-2">
-                        <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider">Featured Project</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-violet-500/15 border border-violet-500/25 text-violet-400 text-[10px] font-bold uppercase tracking-wider">Featured Project</span>
                         <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider">🟢 Live</span>
                       </div>
-                      <h3 className="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors duration-300 mb-2">SolverBet</h3>
-                      <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                        Fully automatized sports intelligence system covering 35+ football leagues. Model optimized per league via Optuna, detecting statistically mispriced odds and delivering real-time signals via Telegram.
-                      </p>
+                      <h3 className="text-2xl font-bold text-white group-hover:text-violet-400 transition-colors duration-300 mb-2">SolverBet</h3>
+                      <p className="text-[#b7c3e6] text-sm leading-relaxed">Fully automatized sports intelligence system covering 35+ football leagues. Model optimized per league via Optuna, detecting statistically mispriced odds and delivering real-time signals via Telegram.</p>
                     </div>
                     <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
-                      {[{ label: 'Leagues', value: '35' }, 
-                        { label: 'Countries', value: '24' }, 
-                        { label: 'Matches Analyzed', value: '115,000+' }
-                       ].map((s) => (
-                        <div key={s.label} className="text-right">
-                          <div className="text-amber-400 font-bold text-sm">{s.value}</div>
-                          <div className="text-white/30 text-xs">{s.label}</div>
-                        </div>
+                      {[{ label: 'Leagues', value: '35' },{ label: 'Countries', value: '24' },{ label: 'Matches Analyzed', value: '115,000+' }].map((s) => (
+                        <div key={s.label} className="text-right"><div className="text-violet-400 font-bold text-sm">{s.value}</div><div className="text-white/30 text-xs">{s.label}</div></div>
                       ))}
                     </div>
                     <div className="flex-shrink-0 md:ml-2">
-                      <div className="flex items-center gap-2 text-white/50 group-hover:text-amber-400 transition-colors">
-                        <span className="text-sm font-medium hidden md:block">Explore</span>
-                        <ExternalLink className="w-4 h-4" />
-                      </div>
+                      <div className="flex items-center gap-2 text-white/50 group-hover:text-violet-400 transition-colors"><span className="text-sm font-medium hidden md:block">Explore</span><ExternalLink className="w-4 h-4" /></div>
                     </div>
                   </div>
                 </motion.div>
               </Link>
-
-              {/* ===== SCORERBET CARD ===== */}
+ 
+              {/* ===== SCORERBET — orange/red palette ===== */}
               <Link to="/scorerbet" className="block group">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-sky-500/50 hover:shadow-[0_0_40px_rgba(14,165,233,0.2)] transition-all duration-500 overflow-hidden group cursor-default"
-                >
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true }}
+                  className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-orange-500/50 hover:shadow-[0_0_40px_rgba(249,115,22,0.2)] transition-all duration-500 overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-red-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
                     <div className="flex-shrink-0 flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-sky-500/20 group-hover:bg-sky-500/30 flex items-center justify-center transition-all duration-300 text-3xl shadow-lg shadow-sky-500/10">🎯</div>
+                      <div className="w-16 h-16 rounded-2xl bg-orange-500/20 group-hover:bg-orange-500/30 flex items-center justify-center transition-all duration-300 shadow-lg shadow-orange-500/10">
+                        <img src="/scorerbet_eagle.png" alt="ScorerBet" className="w-10 h-10 object-contain" />
+                      </div>
                       <div className="flex flex-col gap-1.5 md:hidden">
-                        <span className="px-2.5 py-0.5 rounded-full bg-sky-500/15 border border-sky-500/25 text-sky-400 text-[10px] font-bold uppercase tracking-wider w-fit">New Project</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-orange-500/15 border border-orange-500/25 text-orange-400 text-[10px] font-bold uppercase tracking-wider w-fit">New Project</span>
                         <BuildingBadge />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="hidden md:flex items-center gap-2 mb-2">
-                        <span className="px-2.5 py-0.5 rounded-full bg-sky-500/15 border border-sky-500/25 text-sky-400 text-[10px] font-bold uppercase tracking-wider">New Project</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-orange-500/15 border border-orange-500/25 text-orange-400 text-[10px] font-bold uppercase tracking-wider">New Project</span>
                         <BuildingBadge />
                       </div>
-                      <h3 className="text-2xl font-bold text-white group-hover:text-sky-400 transition-colors duration-300 mb-2">ScorerBet</h3>
-                      <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                        AI-powered player prediction system targeting goalscorer markets. Trained on hundreds of thousands of player performances to identify mispriced individual player odds and deliver precision signals.
-                      </p>
+                      <h3 className="text-2xl font-bold text-white group-hover:text-orange-400 transition-colors duration-300 mb-2">ScorerBet</h3>
+                      <p className="text-[#b7c3e6] text-sm leading-relaxed">AI-powered player prediction system targeting goalscorer markets. Trained on hundreds of thousands of player performances to identify mispriced individual player odds and deliver precision signals.</p>
                     </div>
                     <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
-                      {[
-                        { label: 'Players', value: '16,000+' },
-                        { label: 'Data Used', value: '800,000+' },
-                        { label: 'Type of AI', value: 'Machine Learning' },
-                      ].map((s) => (
-                        <div key={s.label} className="text-right">
-                          <div className="text-sky-400 font-bold text-sm">{s.value}</div>
-                          <div className="text-white/30 text-xs">{s.label}</div>
-                        </div>
+                      {[{ label: 'Players', value: '16,000+' },{ label: 'Data Used', value: '800,000+' },{ label: 'Type of AI', value: 'Machine Learning' }].map((s) => (
+                        <div key={s.label} className="text-right"><div className="text-orange-400 font-bold text-sm">{s.value}</div><div className="text-white/30 text-xs">{s.label}</div></div>
                       ))}
                     </div>
                     <div className="flex-shrink-0 md:ml-2">
-                      <div className="flex items-center gap-2 text-white/50 group-hover:text-sky-400 transition-colors">
-                        <span className="text-sm font-medium hidden md:block">Explore</span>
-                        <ExternalLink className="w-4 h-4" />
-                      </div>
+                      <div className="flex items-center gap-2 text-white/50 group-hover:text-orange-400 transition-colors"><span className="text-sm font-medium hidden md:block">Explore</span><ExternalLink className="w-4 h-4" /></div>
                     </div>
                   </div>
                 </motion.div>
               </Link>
+
 
               <div className="grid md:grid-cols-2 gap-6">
                 <FeatureCard
