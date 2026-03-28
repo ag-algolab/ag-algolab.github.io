@@ -2,6 +2,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import ShahMat from "./pages/ShahMat"; 
 import FraudRiskScoring from "./pages/FraudRiskScoring";
 import SolverBet from "./pages/SolverBet";
+import ScorerBet from "./pages/ScorerBet";
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
@@ -1112,52 +1113,55 @@ function Home() {
               </Link>
 
               {/* ===== SCORERBET CARD ===== */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                viewport={{ once: true }}
-                className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-sky-500/50 hover:shadow-[0_0_40px_rgba(14,165,233,0.2)] transition-all duration-500 overflow-hidden group cursor-default"
-              >
-                <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
-                  <div className="flex-shrink-0 flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-2xl bg-sky-500/20 group-hover:bg-sky-500/30 flex items-center justify-center transition-all duration-300 text-3xl shadow-lg shadow-sky-500/10">🎯</div>
-                    <div className="flex flex-col gap-1.5 md:hidden">
-                      <span className="px-2.5 py-0.5 rounded-full bg-sky-500/15 border border-sky-500/25 text-sky-400 text-[10px] font-bold uppercase tracking-wider w-fit">New Project</span>
-                      <BuildingBadge />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="hidden md:flex items-center gap-2 mb-2">
-                      <span className="px-2.5 py-0.5 rounded-full bg-sky-500/15 border border-sky-500/25 text-sky-400 text-[10px] font-bold uppercase tracking-wider">New Project</span>
-                      <BuildingBadge />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white group-hover:text-sky-400 transition-colors duration-300 mb-2">ScorerBet</h3>
-                    <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                      AI-powered player prediction system targeting goalscorer markets. Trained on hundreds of thousands of player performances to identify mispriced individual player odds and deliver precision signals.
-                    </p>
-                  </div>
-                  <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
-                    {[
-                      { label: 'Players', value: '16,000+' },
-                      { label: 'Data Used', value: '800,000+' },
-                      { label: 'Type of AI', value: 'Machine Learning' },
-                    ].map((s) => (
-                      <div key={s.label} className="text-right">
-                        <div className="text-sky-400 font-bold text-sm">{s.value}</div>
-                        <div className="text-white/30 text-xs">{s.label}</div>
+              <Link to="/scorerbet" className="block group">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-sky-500/50 hover:shadow-[0_0_40px_rgba(14,165,233,0.2)] transition-all duration-500 overflow-hidden group cursor-default"
+                >
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
+                    <div className="flex-shrink-0 flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-sky-500/20 group-hover:bg-sky-500/30 flex items-center justify-center transition-all duration-300 text-3xl shadow-lg shadow-sky-500/10">🎯</div>
+                      <div className="flex flex-col gap-1.5 md:hidden">
+                        <span className="px-2.5 py-0.5 rounded-full bg-sky-500/15 border border-sky-500/25 text-sky-400 text-[10px] font-bold uppercase tracking-wider w-fit">New Project</span>
+                        <BuildingBadge />
                       </div>
-                    ))}
-                  </div>
-                  <div className="flex-shrink-0 md:ml-2">
-                    <div className="flex items-center gap-2 text-white/20">
-                      <span className="text-sm font-medium hidden md:block italic">Coming soon</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="hidden md:flex items-center gap-2 mb-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-sky-500/15 border border-sky-500/25 text-sky-400 text-[10px] font-bold uppercase tracking-wider">New Project</span>
+                        <BuildingBadge />
+                      </div>
+                      <h3 className="text-2xl font-bold text-white group-hover:text-sky-400 transition-colors duration-300 mb-2">ScorerBet</h3>
+                      <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                        AI-powered player prediction system targeting goalscorer markets. Trained on hundreds of thousands of player performances to identify mispriced individual player odds and deliver precision signals.
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
+                      {[
+                        { label: 'Players', value: '16,000+' },
+                        { label: 'Data Used', value: '800,000+' },
+                        { label: 'Type of AI', value: 'Machine Learning' },
+                      ].map((s) => (
+                        <div key={s.label} className="text-right">
+                          <div className="text-sky-400 font-bold text-sm">{s.value}</div>
+                          <div className="text-white/30 text-xs">{s.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex-shrink-0 md:ml-2">
+                      <div className="flex items-center gap-2 text-white/50 group-hover:text-sky-400 transition-colors">
+                        <span className="text-sm font-medium hidden md:block">Explore</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </Link>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <FeatureCard
@@ -1386,6 +1390,7 @@ export default function App() {
       <Route path="/shahmat" element={<ShahMat />} />
       <Route path="/fraud-risk-scoring" element={<FraudRiskScoring />} />
       <Route path="/solverbet" element={<SolverBet />} />
+      <Route path="/scorerbet" element={<ScorerBet />} />
       <Route path="*" element={<Home />} />
     </Routes>
   );
