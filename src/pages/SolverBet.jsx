@@ -591,6 +591,21 @@ export default function SolverBet() {
 
             <WorkflowArrow condition="yes" />
 
+            <WorkflowNode
+              icon={<TrendingUp className="w-5 h-5" />}
+              title="Kelly Criterion Sizing"
+              subtitle="Each position is sized according to the detected edge. The Kelly fraction optimally allocates bankroll to maximize long-term growth while controlling downside risk."
+              color="green"
+              delay={0.45}
+            >
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {['Edge-Based Sizing', 'Bankroll Management', 'Optimal Growth'].map(t => (
+                  <span key={t} className="px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400/70 text-[10px]">{t}</span>
+                ))}
+              </div>
+            </WorkflowNode>
+            <WorkflowArrow />
+
             {/* Final signal */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
