@@ -396,13 +396,20 @@ export default function SolverBet() {
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-[#0a0d14]/80 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center relative">
             <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition">
               <img src="/logo.jpg" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
               <span className="text-xl font-bold bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                 AG Algo Lab
               </span>
             </Link>
+            <div className="absolute left-1/2 -translate-x-1/2">
+              <img
+                src="/solverbet_eagle.png"
+                alt="SolverBet Logo"
+                className="w-10 h-10 object-contain drop-shadow-[0_0_14px_rgba(124,58,237,0.7)]"
+              />
+            </div>
             <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/70 hover:bg-white/5 hover:text-white transition">
               ← Back home
             </Link>
@@ -420,24 +427,17 @@ export default function SolverBet() {
             </div>
           </motion.div>
 
-          {/* Title row: Logo | SolverBet */}
-          <motion.div
+          {/* Title */}
+          <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="flex items-center justify-center gap-5 mb-6"
+            className="text-6xl md:text-8xl font-black tracking-tight mb-6"
           >
-            <img
-              src="/solverbet_eagle.png"
-              alt="SolverBet Logo"
-              className="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-[0_0_30px_rgba(124,58,237,0.5)]"
-            />
-            <h1 className="text-6xl md:text-8xl font-black tracking-tight">
-              <span className="bg-gradient-to-br from-violet-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
-                SolverBet
-              </span>
-            </h1>
-          </motion.div>
+            <span className="bg-gradient-to-br from-violet-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
+              SolverBet
+            </span>
+          </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
