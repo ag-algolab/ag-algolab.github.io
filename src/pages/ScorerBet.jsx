@@ -423,7 +423,7 @@ export default function ScorerBet() {
               <div className="mt-2 grid grid-cols-2 gap-1.5">
                 {[
                   { label: 'Feature count', val: '80+' },
-                  { label: 'Rolling windows', val: '3 / 5 / 10 games' },
+                  { label: 'Rolling windows', val: '5 / 10 / 20 / 30 games' },
                   { label: 'Opponent encoding', val: 'Strength adjusted' },
                   { label: 'Leakage control', val: 'Strict cutoff' },
                 ].map(r => (
@@ -440,12 +440,12 @@ export default function ScorerBet() {
             <WorkflowNode
               icon={<Brain className="w-5 h-5" />}
               title="Machine Learning Model Training"
-              subtitle="Model trained on historical player data to predict goalscoring probability. Architecture remains confidential."
+              subtitle="Model trained on historical player data to predict goalscoring probability."
               color="red"
               delay={0.2}
             >
               <div className="mt-2 flex flex-wrap gap-1.5">
-                {['Confidential architecture', 'Per-league training', 'Walk-forward validation', 'Hyperparameter optimization'].map(t => (
+                {['Confidential architecture'].map(t => (
                   <span key={t} className="px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400/70 text-[10px]">{t}</span>
                 ))}
               </div>
@@ -536,66 +536,147 @@ export default function ScorerBet() {
           <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
         </div>
 
-        <div className="max-w-5xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+        <div className="max-w-4xl mx-auto px-6">
+
+          {/* Header */}
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 mb-5">
               <TrendingUp className="w-4 h-4 text-orange-400" />
               <span className="text-orange-400/80 text-sm font-medium">Research Phase</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
-              <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-                The Results Are Promising
-              </span>
+              <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">The Results Are Promising</span>
             </h2>
-            <p className="text-white/40 max-w-2xl mx-auto leading-relaxed">
-              Below is our backtesting data — walk-forward validated, no data leakage, 
-              tested across multiple top European leagues.
+            <p className="text-white/40 max-w-xl mx-auto leading-relaxed">
+              When our model flags a scorer, the calibrated probability matches reality with remarkable precision.
+              Below is our validation data across <span className="text-white/60">236,893 player observations</span>.
             </p>
           </motion.div>
 
-          {/* Key stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-            <ResultCard label="Avg Monthly ROI" value="+11.1%" sub="Over 8 months" color="green" delay={0} />
-            <ResultCard label="Win Rate" value="67.3%" sub="On flagged scorers" color="orange" delay={0.1} />
-            <ResultCard label="Avg Calibration Error" value="2.8%" sub="Brier score optimized" color="blue" delay={0.2} />
-            <ResultCard label="Kelly Avg Stake" value="4.2%" sub="Of bankroll per bet" color="orange" delay={0.3} />
+          {/* Threshold callout */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}
+            className="relative bg-gradient-to-r from-orange-500/10 via-red-500/5 to-orange-500/10 border border-orange-500/30 rounded-2xl p-6 mb-10 text-center overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 to-transparent" />
+            <div className="relative z-10">
+              <div className="text-5xl font-black bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">&gt; 35%</div>
+              <div className="text-white font-semibold text-lg mb-1">The Signal Threshold</div>
+              <div className="text-white/40 text-sm max-w-lg mx-auto">Below this calibrated probability, the sample size is too large and the edge too thin to act on. Above it — the model is statistically sharp and deployable.</div>
+            </div>
+          </motion.div>
+
+          {/* Calibration rows */}
+          <div className="space-y-3 mb-12">
+            {[
+              { raw: 4.8,  cal: 4.8,  actual: 4.8,  n: 157954, active: false },
+              { raw: 14.2, cal: 14.1, actual: 14.2, n: 50093,  active: false },
+              { raw: 24.2, cal: 24.0, actual: 23.9, n: 20880,  active: false },
+              { raw: 33.8, cal: 35.0, actual: 34.9, n: 6118,   active: true  },
+              { raw: 43.8, cal: 44.7, actual: 45.2, n: 1462,   active: true  },
+              { raw: 53.3, cal: 67.5, actual: 64.6, n: 325,    active: true  },
+              { raw: 63.5, cal: 86.7, actual: 83.6, n: 61,     active: true  },
+            ].map((row, i) => {
+              const diff = Math.abs(row.cal - row.actual).toFixed(1);
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.07 }}
+                  viewport={{ once: true }}
+                  className={`relative rounded-xl border p-4 transition-all duration-300 ${
+                    row.active
+                      ? 'border-orange-500/40 bg-orange-500/5'
+                      : 'border-white/[0.05] bg-white/[0.02] opacity-50'
+                  }`}
+                >
+                  {row.active && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1 rounded-l-xl bg-gradient-to-b from-orange-400 to-red-500" />
+                  )}
+                  <div className="flex items-center gap-4 pl-2">
+                    {/* Status */}
+                    <div className="flex-shrink-0">
+                      {row.active
+                        ? <span className="text-green-400 text-sm font-bold">✓</span>
+                        : <span className="text-white/20 text-sm">–</span>
+                      }
+                    </div>
+
+                    {/* Calibrated prob — the main number */}
+                    <div className="w-20 flex-shrink-0">
+                      <div className={`text-xl font-black ${row.active ? 'text-orange-400' : 'text-white/20'}`}>{row.cal}%</div>
+                      <div className="text-white/25 text-[10px] uppercase tracking-wider">Model says</div>
+                    </div>
+
+                    {/* Arrow */}
+                    <div className={`text-lg ${row.active ? 'text-white/40' : 'text-white/10'}`}>→</div>
+
+                    {/* Actual */}
+                    <div className="w-20 flex-shrink-0">
+                      <div className={`text-xl font-black ${row.active ? 'text-white' : 'text-white/20'}`}>{row.actual}%</div>
+                      <div className="text-white/25 text-[10px] uppercase tracking-wider">Reality</div>
+                    </div>
+
+                    {/* Error */}
+                    <div className="hidden sm:block flex-shrink-0">
+                      <div className={`text-sm font-semibold ${row.active ? parseFloat(diff) <= 3 ? 'text-green-400' : 'text-amber-400' : 'text-white/15'}`}>
+                        Δ {diff}%
+                      </div>
+                      <div className="text-white/20 text-[10px]">error</div>
+                    </div>
+
+                    {/* Bar */}
+                    <div className="flex-1 hidden md:block">
+                      <div className="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${row.actual}%` }}
+                          transition={{ duration: 0.8, delay: i * 0.1 }}
+                          viewport={{ once: true }}
+                          className={`h-full rounded-full ${row.active ? 'bg-gradient-to-r from-orange-400 to-red-400' : 'bg-white/10'}`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* N */}
+                    <div className="flex-shrink-0 text-right">
+                      <div className={`text-sm font-mono font-semibold ${row.active ? 'text-white/60' : 'text-white/15'}`}>{row.n.toLocaleString()}</div>
+                      <div className="text-white/20 text-[10px]">samples</div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
-          {/* Chart */}
-          <div className="mb-8">
-            <BacktestChart />
-          </div>
-
-          {/* Table */}
-          <div className="mb-12">
-            <PrecisionTable />
-          </div>
+          {/* Highlight stat */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}
+            className="grid md:grid-cols-3 gap-4 mb-12">
+            {[
+              { value: '83.6%', label: 'Actual rate at top tier', sub: 'Model predicted 86.7%', color: 'text-orange-400' },
+              { value: '< 3%', label: 'Average calibration error', sub: 'Across all active thresholds', color: 'text-green-400' },
+              { value: '1,848', label: 'Actionable signals', sub: 'Above the 35% threshold', color: 'text-white' },
+            ].map((s, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.1 }} viewport={{ once: true }}
+                className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 text-center">
+                <div className={`text-3xl font-black mb-1 ${s.color}`}>{s.value}</div>
+                <div className="text-white font-semibold text-sm mb-1">{s.label}</div>
+                <div className="text-white/30 text-xs">{s.sub}</div>
+              </motion.div>
+            ))}
+          </motion.div>
 
           {/* WIP note */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="relative bg-white/[0.02] border border-white/[0.08] rounded-2xl p-6 overflow-hidden"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}
+            className="relative bg-white/[0.02] border border-white/[0.08] rounded-2xl p-6 overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 bg-orange-500/5 rounded-full blur-3xl" />
             <div className="relative z-10 flex flex-col md:flex-row items-start gap-5">
-              <div className="w-12 h-12 rounded-xl bg-orange-500/15 flex items-center justify-center flex-shrink-0 text-2xl">
-                🔨
-              </div>
+              <div className="w-12 h-12 rounded-xl bg-orange-500/15 flex items-center justify-center flex-shrink-0 text-2xl">🔨</div>
               <div>
                 <h4 className="text-white font-bold text-base mb-2">Automation in Progress</h4>
                 <p className="text-white/45 text-sm leading-relaxed">
-                  ScorerBet is not yet fully deployed. As with our previous projects, the pipeline runs end-to-end — 
-                  but full automation requires live access to player-level odds, which remains the key technical challenge. 
-                  Sourcing real-time goalscorer odds reliably across leagues is significantly harder than match-level odds. 
+                  ScorerBet is not yet fully deployed. As with our previous projects, the pipeline runs end-to-end —
+                  but full automation requires live access to player-level odds, which remains the key technical challenge.
+                  Sourcing real-time goalscorer odds reliably across leagues is significantly harder than match-level odds.
                   This is the final step before live deployment.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
