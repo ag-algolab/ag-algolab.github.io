@@ -349,9 +349,9 @@ export default function ScorerBet() {
             className="grid grid-cols-3 gap-4 max-w-xl mx-auto mb-16"
           >
             {[
+              { label: 'Players', value: 16000, suffix: '+' },
               { label: 'Player Records', value: 800000, suffix: '+' },
-              { label: 'Features Engineered', value: 80, suffix: '+' },
-              { label: 'Leagues Covered', value: 10, suffix: '' },
+              { label: 'Avg. Error', value: '< 1', suffix: '%' },
             ].map((s, i) => (
               <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-4 text-center">
                 <div className="text-2xl font-black bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-1">
