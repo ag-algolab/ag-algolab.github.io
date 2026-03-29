@@ -351,11 +351,11 @@ export default function ScorerBet() {
             {[
               { label: 'Players', value: 16000, suffix: '+' },
               { label: 'Player Records', value: 800000, suffix: '+' },
-              { label: 'Avg. Error', value: '< 1', suffix: '%' },
-            ].map((s, i) => (
+              { label: 'Avg. Error', value: '< 1%', static: true },            
+          ].map((s, i) => (
               <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-4 text-center">
                 <div className="text-2xl font-black bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-1">
-                  <Counter end={s.value} suffix={s.suffix} />
+                  {s.static ? s.value : <Counter end={s.value} suffix={s.suffix} />}
                 </div>
                 <div className="text-white/35 text-xs">{s.label}</div>
               </div>
