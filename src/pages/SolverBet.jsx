@@ -377,17 +377,17 @@ function WorkflowArrow({ condition }) {
 /* ========== HEDGE HUNT SECTION ========== */
 function HedgeHuntSection() {
   const bookmakerPoints = [
-    { icon: '🎯', label: 'Their only goal', text: 'Profit regardless of who wins. Not to predict — to protect.' },
-    { icon: '📋', label: 'Opening odds', text: 'First odds are just a draft. A starting point to test the market.' },
-    { icon: '📊', label: 'They watch the money', text: 'If bets pile up on one team, they shorten those odds — not because the team changed, but to limit their exposure.' },
-    { icon: '⚖️', label: 'Always balanced', text: 'They adjust until they\'re covered on every side. Win or lose, they collect their cut.' },
+    { label: 'Their only goal', text: 'Profit regardless of who wins. Not to predict, to protect.' },
+    { label: 'Opening odds', text: 'First odds are just a draft. A starting point to test the market.' },
+    { label: 'They watch the money', text: "If bets pile up on one team, they shorten those odds. Not because the team changed, but to limit their exposure." },
+    { label: 'Always balanced', text: "They adjust until covered on every side. Win or lose, they collect their cut." },
   ];
 
   const ourPoints = [
-    { icon: '⏱️', label: 'The window', text: 'Right after odds open, they\'re often unbalanced. The market hasn\'t moved yet. That\'s our entry point.' },
-    { icon: '🧮', label: 'Real probability', text: 'Our model calculates what the true odds should be — independent of public pressure or volume.' },
-    { icon: '🔍', label: 'Spot the gap', text: 'When the bookmaker\'s odds pay more than our probability justifies, that\'s a value signal.' },
-    { icon: '🚀', label: 'We act first', text: 'Before the crowd adjusts the market. Before the odds converge to "fair".' },
+    { label: 'The window', text: "Right after odds open, they are often unbalanced. The market has not moved yet. That is our entry point." },
+    { label: 'Real probability', text: 'Our model calculates what the true odds should be, independent of public pressure or volume.' },
+    { label: 'Spot the gap', text: "When the bookmaker pays more than our probability justifies, that is a value signal." },
+    { label: 'We act first', text: 'Before the crowd adjusts the market. Before the odds converge back to fair.' },
   ];
 
   return (
@@ -415,9 +415,9 @@ function HedgeHuntSection() {
 
           <h2 className="text-5xl md:text-6xl font-black tracking-tight">
             <span className="text-white/30">Bookmakers </span>
-            <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">Hedge.</span>
+            <span className="bg-gradient-to-r from-orange-500 via-orange-300 to-white bg-clip-text text-transparent">Hedge.</span>
             <span className="text-white"> We </span>
-            <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">Hunt.</span>
+            <span className="bg-gradient-to-r from-violet-400 via-blue-300 to-white bg-clip-text text-transparent">Hunt.</span>
           </h2>
 
           <p className="text-white/35 text-base mt-4 max-w-md mx-auto leading-relaxed">
@@ -456,9 +456,9 @@ function HedgeHuntSection() {
                   viewport={{ once: true }}
                   className="flex items-start gap-3"
                 >
-                  <span className="text-lg mt-0.5 flex-shrink-0">{p.icon}</span>
+                  <span className="text-white/25 text-sm mt-0.5 flex-shrink-0 font-light">→</span>
                   <div>
-                    <span className="text-white/70 text-sm font-semibold">{p.label} — </span>
+                    <span className="text-white/70 text-sm font-semibold">{p.label}: </span>
                     <span className="text-white/40 text-sm">{p.text}</span>
                   </div>
                 </motion.div>
@@ -501,9 +501,9 @@ function HedgeHuntSection() {
                   viewport={{ once: true }}
                   className="flex items-start gap-3"
                 >
-                  <span className="text-lg mt-0.5 flex-shrink-0">{p.icon}</span>
+                  <span className="text-white/25 text-sm mt-0.5 flex-shrink-0 font-light">→</span>
                   <div>
-                    <span className="text-white/70 text-sm font-semibold">{p.label} — </span>
+                    <span className="text-white/70 text-sm font-semibold">{p.label}: </span>
                     <span className="text-white/40 text-sm">{p.text}</span>
                   </div>
                 </motion.div>
