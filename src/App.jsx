@@ -859,7 +859,7 @@ function Home() {
     <>
       <Helmet>
         <title>AG Algo Lab - Predict the Unpredictable</title>
-        <meta name="description" content="AG Algo Lab specializes in research and development in algorithmic trading using deep learning." />
+        <meta name="description" content="AG Algo Lab specializes in research and development using AI for predictive modelling and anomaly detection." />
         <link rel="icon" type="image/jpg" href="/logo.jpg" />
       </Helmet>
 
