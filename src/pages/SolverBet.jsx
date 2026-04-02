@@ -374,6 +374,174 @@ function WorkflowArrow({ condition }) {
   );
 }
 
+/* ========== HEDGE HUNT SECTION ========== */
+function HedgeHuntSection() {
+  const bookmakerPoints = [
+    { icon: '🎯', label: 'Their only goal', text: 'Profit regardless of who wins. Not to predict — to protect.' },
+    { icon: '📋', label: 'Opening odds', text: 'First odds are just a draft. A starting point to test the market.' },
+    { icon: '📊', label: 'They watch the money', text: 'If bets pile up on one team, they shorten those odds — not because the team changed, but to limit their exposure.' },
+    { icon: '⚖️', label: 'Always balanced', text: 'They adjust until they\'re covered on every side. Win or lose, they collect their cut.' },
+  ];
+
+  const ourPoints = [
+    { icon: '⏱️', label: 'The window', text: 'Right after odds open, they\'re often unbalanced. The market hasn\'t moved yet. That\'s our entry point.' },
+    { icon: '🧮', label: 'Real probability', text: 'Our model calculates what the true odds should be — independent of public pressure or volume.' },
+    { icon: '🔍', label: 'Spot the gap', text: 'When the bookmaker\'s odds pay more than our probability justifies, that\'s a value signal.' },
+    { icon: '🚀', label: 'We act first', text: 'Before the crowd adjusts the market. Before the odds converge to "fair".' },
+  ];
+
+  return (
+    <section className="py-28 relative overflow-hidden">
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+
+      {/* Background glow accents */}
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-72 h-72 bg-red-500/[0.04] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-72 h-72 bg-violet-500/[0.06] rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto px-6">
+
+        {/* Title */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/10 mb-6">
+            <span className="text-white/40 text-xs font-medium uppercase tracking-widest">The Real Game</span>
+          </div>
+
+          <h2 className="text-5xl md:text-6xl font-black tracking-tight">
+            <span className="text-white/30">Bookmakers </span>
+            <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">Hedge.</span>
+            <span className="text-white"> We </span>
+            <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">Hunt.</span>
+          </h2>
+
+          <p className="text-white/35 text-base mt-4 max-w-md mx-auto leading-relaxed">
+            They play a different game than you think. Understanding theirs is how we win ours.
+          </p>
+        </motion.div>
+
+        {/* Two columns */}
+        <div className="grid md:grid-cols-2 gap-5 items-start">
+
+          {/* LEFT — Bookmaker */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="rounded-3xl border border-white/[0.07] bg-white/[0.02] overflow-hidden"
+          >
+            {/* Header */}
+            <div className="px-6 pt-6 pb-5 border-b border-white/[0.06]">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="w-8 h-8 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-base">🏦</div>
+                <span className="text-red-400/80 text-xs font-semibold uppercase tracking-widest">The Bookmaker</span>
+              </div>
+              <p className="text-white font-bold text-xl mt-3">Their job isn't to predict.<br/>It's to always win.</p>
+            </div>
+
+            {/* Points */}
+            <div className="px-6 py-5 flex flex-col gap-4">
+              {bookmakerPoints.map((p, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
+                  viewport={{ once: true }}
+                  className="flex items-start gap-3"
+                >
+                  <span className="text-lg mt-0.5 flex-shrink-0">{p.icon}</span>
+                  <div>
+                    <span className="text-white/70 text-sm font-semibold">{p.label} — </span>
+                    <span className="text-white/40 text-sm">{p.text}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Footer tag */}
+            <div className="mx-6 mb-6 rounded-2xl bg-red-500/5 border border-red-500/15 px-4 py-3">
+              <p className="text-red-400/70 text-xs font-medium text-center">
+                The odds reflect risk management — not truth.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* RIGHT — Us */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="rounded-3xl border border-violet-500/20 bg-violet-500/[0.03] overflow-hidden"
+          >
+            {/* Header */}
+            <div className="px-6 pt-6 pb-5 border-b border-violet-500/[0.12]">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="w-8 h-8 rounded-xl bg-violet-500/15 border border-violet-500/25 flex items-center justify-center text-base">⚡</div>
+                <span className="text-violet-400/80 text-xs font-semibold uppercase tracking-widest">SolverBet</span>
+              </div>
+              <p className="text-white font-bold text-xl mt-3">Our job is to price<br/>better than the market.</p>
+            </div>
+
+            {/* Points */}
+            <div className="px-6 py-5 flex flex-col gap-4">
+              {ourPoints.map((p, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.25 + i * 0.08 }}
+                  viewport={{ once: true }}
+                  className="flex items-start gap-3"
+                >
+                  <span className="text-lg mt-0.5 flex-shrink-0">{p.icon}</span>
+                  <div>
+                    <span className="text-white/70 text-sm font-semibold">{p.label} — </span>
+                    <span className="text-white/40 text-sm">{p.text}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Footer tag */}
+            <div className="mx-6 mb-6 rounded-2xl bg-violet-500/8 border border-violet-500/20 px-4 py-3">
+              <p className="text-violet-400/80 text-xs font-medium text-center">
+                We don't beat the bookmaker. We beat the clock.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom connector line */}
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="mt-10 flex items-center justify-center gap-4"
+        >
+          <div className="h-px flex-1 max-w-[140px] bg-gradient-to-r from-transparent to-red-500/30" />
+          <div className="px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.03]">
+            <span className="text-white/50 text-xs font-medium">The gap between them is where the edge lives</span>
+          </div>
+          <div className="h-px flex-1 max-w-[140px] bg-gradient-to-l from-transparent to-violet-500/30" />
+        </motion.div>
+
+      </div>
+
+      {/* Subtle bottom separator */}
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+    </section>
+  );
+}
+
 /* ========== MAIN PAGE ========== */
 export default function SolverBet() {
   const [pulseStep, setPulseStep] = useState(0);
@@ -386,7 +554,7 @@ export default function SolverBet() {
   return (
     <div className="min-h-screen bg-[#0a0d14] text-[#e7ecff]" style={{ fontFamily: "'Syne', 'Space Grotesk', sans-serif" }}>
 
-      {/* Ambient bg — purple/blue instead of amber */}
+      {/* Ambient bg */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-violet-600/[0.05] rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/[0.04] rounded-full blur-3xl" />
@@ -427,7 +595,6 @@ export default function SolverBet() {
             </div>
           </motion.div>
 
-          {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -458,7 +625,6 @@ export default function SolverBet() {
             identifying statistically mispriced outcomes across global football competitions.
           </motion.p>
 
-          {/* Stats */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -480,6 +646,9 @@ export default function SolverBet() {
           </motion.div>
         </div>
       </section>
+
+      {/* ======== HEDGE / HUNT SECTION ======== */}
+      <HedgeHuntSection />
 
       {/* ======== WORKFLOW ======== */}
       <section className="py-24 relative">
@@ -560,7 +729,6 @@ export default function SolverBet() {
             />
             <WorkflowArrow />
 
-            {/* Decision node */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -606,7 +774,6 @@ export default function SolverBet() {
             </WorkflowNode>
             <WorkflowArrow />
 
-            {/* Final signal */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
