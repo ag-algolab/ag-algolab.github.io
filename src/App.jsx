@@ -915,8 +915,8 @@ function Home() {
                 </h1>
                 <p className="text-2xl md:text-3xl font-light text-white/70 italic mb-8">Predict the Unpredictable</p>
                 <p className="text-lg text-[#b7c3e6] max-w-xl mb-10 leading-relaxed">
-                  Research and development in algorithmic trading using deep learning. 
-                  Building advanced prediction models and high-performance execution pipelines.
+                  Research and development using AI for predictive modelling and anomaly detection.
+                  From model design to production-ready execution pipelines.
                 </p>
               </motion.div>
 
