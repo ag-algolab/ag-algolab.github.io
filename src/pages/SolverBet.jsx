@@ -414,10 +414,9 @@ function HedgeHuntSection() {
           </div>
 
           <h2 className="text-5xl md:text-6xl font-black tracking-tight">
-            <span className="text-white/30">Bookmakers </span>
-            <span className="bg-gradient-to-r from-orange-500 via-orange-300 to-white bg-clip-text text-transparent">Hedge.</span>
-            <span className="text-white"> We </span>
-            <span className="bg-gradient-to-r from-violet-400 via-blue-300 to-white bg-clip-text text-transparent">Hunt.</span>
+            <span className="bg-gradient-to-r from-orange-500 via-orange-300 to-orange-100 bg-clip-text text-transparent">Bookmakers Hedge.</span>
+            <span className="text-white"> </span>
+            <span className="bg-gradient-to-r from-violet-400 via-blue-300 to-blue-100 bg-clip-text text-transparent">We Hunt.</span>
           </h2>
 
           <p className="text-white/35 text-base mt-4 max-w-md mx-auto leading-relaxed">
@@ -426,7 +425,7 @@ function HedgeHuntSection() {
         </motion.div>
 
         {/* Two columns */}
-        <div className="grid md:grid-cols-2 gap-5 items-start">
+        <div className="grid md:grid-cols-2 gap-5 items-stretch">
 
           {/* LEFT — Bookmaker */}
           <motion.div
@@ -434,7 +433,7 @@ function HedgeHuntSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="rounded-3xl border border-white/[0.07] bg-white/[0.02] overflow-hidden"
+            className="rounded-3xl border border-white/[0.07] bg-white/[0.02] overflow-hidden flex flex-col"
           >
             {/* Header */}
             <div className="px-6 pt-6 pb-5 border-b border-white/[0.06]">
@@ -446,7 +445,7 @@ function HedgeHuntSection() {
             </div>
 
             {/* Points */}
-            <div className="px-6 py-5 flex flex-col gap-4">
+            <div className="px-6 py-5 flex flex-col gap-4 flex-1">
               {bookmakerPoints.map((p, i) => (
                 <motion.div
                   key={i}
@@ -479,7 +478,7 @@ function HedgeHuntSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="rounded-3xl border border-violet-500/20 bg-violet-500/[0.03] overflow-hidden"
+            className="rounded-3xl border border-violet-500/20 bg-violet-500/[0.03] overflow-hidden flex flex-col"
           >
             {/* Header */}
             <div className="px-6 pt-6 pb-5 border-b border-violet-500/[0.12]">
@@ -491,7 +490,7 @@ function HedgeHuntSection() {
             </div>
 
             {/* Points */}
-            <div className="px-6 py-5 flex flex-col gap-4">
+            <div className="px-6 py-5 flex flex-col gap-4 flex-1">
               {ourPoints.map((p, i) => (
                 <motion.div
                   key={i}
