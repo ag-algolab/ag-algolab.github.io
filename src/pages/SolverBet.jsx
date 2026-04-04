@@ -543,51 +543,53 @@ function HedgeHuntSection() {
 
 
 /* ========== PERFORMANCE SECTION ========== */
-// UPDATE HERE: add new picks to the bottom of each array, in order
+// UPDATE: add new picks to the bottom of each array
 const PERF_DATA = {
   pnl: [
-    -63.8, -58.3, 112.4, 97.9, -55.7, 95.5, 433.9, -122.5, 182.7, 223.7,
-    266.9, -77.0, 117.8, 98.4, -56.9, 84.1, -85.4, 85.2, 108.2, -60.5,
-    -81.3, -70.1, 132.7, -107.3, -112.6, 160.1, 66.8, 67.0, -140.7, -93.2,
-    210.8, -78.1, 114.3, 170.8, -79.7, 61.7, -81.5, 88.0, 85.0,
+    -63.8,-58.3,112.4,97.9,-55.7,95.5,433.9,-122.5,182.7,223.7,
+    266.9,-77.0,117.8,98.4,-56.9,84.1,-85.4,85.2,108.2,-60.5,
+    -81.3,-70.1,132.7,-107.3,-112.6,160.1,66.8,67.0,-140.7,-93.2,
+    210.8,-78.1,114.3,170.8,-79.7,61.7,-81.5,88.0,85.0,
   ],
-  edge: [
-    0.5205, 0.4118, 0.5715, 0.5344, 0.4533, 0.3945, 1.6106, 1.0061, 0.8566,
-    1.0241, 1.2267, 0.6884, 0.5103, 0.5339, 0.4597, 0.4697, 0.5914, 0.4917,
-    0.5714, 0.4476, 0.55, 0.50, 0.66, 1.49, 0.7515, 0.6817, 0.43, 0.3970,
-    1.2191, 1.0230, 0.9664, 0.6606, 0.5934, 0.8076, 0.7452, 0.3930, 0.7764,
-    0.48, 0.47,
-  ],
-  roi: 'X',
+  roi: '327.9',
+  avgEdge: '0.69',
+  signals: 39,
+  totalPnL: 1639.4,
 };
+
+// Pre-computed SVG path (800x220 viewBox, padding 58/20/20/30)
+const CHART_PATH = "M 58.0 184.4 L 77.0 190.0 L 96.0 179.2 L 115.0 169.7 L 134.0 175.1 L 153.0 165.9 L 172.0 124.0 L 191.0 135.8 L 210.0 118.2 L 229.0 96.6 L 248.0 70.8 L 267.0 78.3 L 286.0 66.9 L 305.0 57.4 L 324.0 62.9 L 343.0 54.8 L 362.0 63.0 L 381.0 54.8 L 400.0 44.3 L 419.0 50.2 L 438.0 58.0 L 457.0 64.8 L 476.0 52.0 L 495.0 62.3 L 514.0 73.2 L 533.0 57.8 L 552.0 51.3 L 571.0 44.8 L 590.0 58.4 L 609.0 67.4 L 628.0 47.1 L 647.0 54.6 L 666.0 43.6 L 685.0 27.1 L 704.0 34.8 L 723.0 28.8 L 742.0 36.7 L 761.0 28.2 L 780.0 20.0";
+const PATH_LENGTH = 860;
+const LAST_X = 780;
+const LAST_Y = 20;
+const Y_TICKS = [{ val: -122, y: 190.0 }, { val: 379, y: 148.0 }, { val: 880, y: 105.0 }, { val: 1381, y: 63.0 }, { val: 1639, y: 20.0 }];
+const ZERO_Y = 184.4;
 
 function PerformanceSection() {
   const ref = useRef(null);
-  const [progress, setProgress] = useState(0);
+  const [dashOffset, setDashOffset] = useState(PATH_LENGTH);
+  const [done, setDone] = useState(false);
   const animStarted = useRef(false);
-
-  const cumulative = PERF_DATA.pnl.reduce((acc, v, i) => {
-    acc.push(parseFloat(((acc[i - 1] || 0) + v).toFixed(1)));
-    return acc;
-  }, []);
-
-  const totalPnL = cumulative[cumulative.length - 1];
-  const avgEdge = (PERF_DATA.edge.reduce((a, b) => a + b, 0) / PERF_DATA.edge.length).toFixed(2);
-  const signals = PERF_DATA.pnl.length;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !animStarted.current) {
           animStarted.current = true;
+          const duration = 2800;
           let start = null;
-          const duration = 2200;
-          const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+          const ease = (t) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
           const step = (ts) => {
             if (!start) start = ts;
             const raw = Math.min((ts - start) / duration, 1);
-            setProgress(ease(raw));
-            if (raw < 1) requestAnimationFrame(step);
+            const eased = ease(raw);
+            setDashOffset(PATH_LENGTH * (1 - eased));
+            if (raw < 1) {
+              requestAnimationFrame(step);
+            } else {
+              setDashOffset(0);
+              setDone(true);
+            }
           };
           requestAnimationFrame(step);
         }
@@ -598,37 +600,36 @@ function PerformanceSection() {
     return () => observer.disconnect();
   }, []);
 
-  const W = 800, H = 220;
-  const PAD = { top: 20, right: 20, bottom: 30, left: 58 };
-  const chartW = W - PAD.left - PAD.right;
-  const chartH = H - PAD.top - PAD.bottom;
-  const minY = Math.min(...cumulative, 0);
-  const maxY = Math.max(...cumulative);
-  const yRange = maxY - minY || 1;
-
-  const xScale = (i) => PAD.left + (i / (cumulative.length - 1)) * chartW;
-  const yScale = (v) => PAD.top + chartH - ((v - minY) / yRange) * chartH;
-
-  const visibleCount = Math.max(2, Math.floor(progress * cumulative.length));
-  const pts = cumulative.slice(0, visibleCount);
-  const animPath = pts.map((v, i) => `${i === 0 ? 'M' : 'L'} ${xScale(i).toFixed(1)} ${yScale(v).toFixed(1)}`).join(' ');
-  const areaPath = animPath + ` L ${xScale(visibleCount - 1).toFixed(1)} ${yScale(minY).toFixed(1)} L ${xScale(0).toFixed(1)} ${yScale(minY).toFixed(1)} Z`;
-  const zeroY = yScale(0);
-  const yTicks = [0, 0.25, 0.5, 0.75, 1].map(t => Math.round(minY + t * yRange));
-
-  const lastIdx = visibleCount - 1;
-  const lastX = xScale(lastIdx);
-  const lastY = yScale(cumulative[lastIdx]);
-
   const stats = [
-    { label: 'Signals sent', display: `${signals}` },
-    { label: 'Total P&L', display: `${totalPnL >= 0 ? '+' : ''}${totalPnL.toLocaleString()} u`, green: totalPnL >= 0 },
-    { label: 'Avg edge', display: `+${avgEdge} odds` },
-    { label: 'Overall ROI', display: PERF_DATA.roi === 'X' ? '—' : `${parseFloat(PERF_DATA.roi) > 0 ? '+' : ''}${PERF_DATA.roi}%`, green: PERF_DATA.roi !== 'X' && parseFloat(PERF_DATA.roi) >= 0 },
+    { label: 'Signals sent', display: `${PERF_DATA.signals}`, color: 'violet' },
+    { label: 'Total P&L', display: `+${PERF_DATA.totalPnL.toLocaleString()} u`, color: 'green' },
+    { label: 'Avg edge', display: `+${PERF_DATA.avgEdge} odds`, color: 'violet' },
+    { label: 'Overall ROI', display: `+${PERF_DATA.roi}%`, color: 'green' },
   ];
 
   return (
     <section className="py-28 relative overflow-hidden">
+      <style>{`
+        @keyframes heartbeat {
+          0%   { opacity: 1; r: 5; }
+          15%  { opacity: 0.9; r: 10; }
+          30%  { opacity: 1; r: 5; }
+          45%  { opacity: 0.85; r: 13; }
+          65%  { opacity: 1; r: 5; }
+          100% { opacity: 1; r: 5; }
+        }
+        @keyframes heartbeat-inner {
+          0%   { r: 3; opacity: 1; }
+          15%  { r: 6; opacity: 0.7; }
+          30%  { r: 3; opacity: 1; }
+          45%  { r: 8; opacity: 0.6; }
+          65%  { r: 3; opacity: 1; }
+          100% { r: 3; opacity: 1; }
+        }
+        .hb-outer { animation: heartbeat 1.6s ease-in-out infinite; }
+        .hb-inner { animation: heartbeat-inner 1.6s ease-in-out infinite; }
+      `}</style>
+
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-500/[0.03] rounded-full blur-3xl pointer-events-none" />
 
@@ -660,69 +661,88 @@ function PerformanceSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="rounded-3xl border border-white/[0.07] bg-white/[0.02] p-6 mb-6"
+          className="rounded-3xl border border-white/[0.07] bg-white/[0.02] p-6 mb-5"
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L (units)</span>
-            <span className={`text-sm font-bold ${totalPnL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              {totalPnL >= 0 ? '+' : ''}{totalPnL.toLocaleString()} units
-            </span>
+            <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L — Kelly adjusted (units)</span>
+            <span className="text-green-400 text-sm font-bold">+1,639.4 units</span>
           </div>
 
-          <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: '220px' }} preserveAspectRatio="none">
+          <svg viewBox="0 0 800 220" className="w-full" style={{ height: '220px' }} preserveAspectRatio="none">
             <defs>
               <linearGradient id="perfFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.2" />
+                <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.18" />
                 <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
               </linearGradient>
-              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+              <linearGradient id="lineGradPerf" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#6d28d9" />
                 <stop offset="100%" stopColor="#a78bfa" />
               </linearGradient>
               <clipPath id="chartClip">
-                <rect x={PAD.left} y={PAD.top} width={chartW} height={chartH} />
+                <rect x="58" y="20" width="722" height="170" />
               </clipPath>
             </defs>
 
-            {yTicks.map((tick, i) => (
+            {/* Grid lines + Y labels */}
+            {Y_TICKS.map((t, i) => (
               <g key={i}>
-                <line x1={PAD.left} y1={yScale(tick)} x2={W - PAD.right} y2={yScale(tick)} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-                <text x={PAD.left - 8} y={yScale(tick) + 4} textAnchor="end" fill="rgba(255,255,255,0.22)" fontSize="10" fontFamily="monospace">
-                  {tick >= 0 ? `+${tick}` : tick}
+                <line x1="58" y1={t.y} x2="780" y2={t.y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+                <text x="50" y={t.y + 4} textAnchor="end" fill="rgba(255,255,255,0.22)" fontSize="10" fontFamily="monospace">
+                  {t.val >= 0 ? `+${t.val}` : t.val}
                 </text>
               </g>
             ))}
 
-            {minY < 0 && (
-              <line x1={PAD.left} y1={zeroY} x2={W - PAD.right} y2={zeroY} stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4 4" />
+            {/* Zero dashed line */}
+            <line x1="58" y1={ZERO_Y} x2="780" y2={ZERO_Y} stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4 4" />
+
+            {/* Signal X labels */}
+            {[1,5,10,15,20,25,30,35,39].map((n, i) => {
+              const x = 58 + ((n-1)/38)*722;
+              return <text key={i} x={x} y="214" textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize="9" fontFamily="monospace">#{n}</text>;
+            })}
+
+            {/* Area fill — static, behind line */}
+            <path
+              d={CHART_PATH + ` L ${LAST_X} ${ZERO_Y} L 58 ${ZERO_Y} Z`}
+              fill="url(#perfFill)"
+              clipPath="url(#chartClip)"
+              opacity={done ? 1 : 0.4}
+            />
+
+            {/* Animated line via stroke-dashoffset */}
+            <path
+              d={CHART_PATH}
+              fill="none"
+              stroke="url(#lineGradPerf)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray={PATH_LENGTH}
+              strokeDashoffset={dashOffset}
+              clipPath="url(#chartClip)"
+            />
+
+            {/* Endpoint dot — static when drawing, heartbeat when done */}
+            {!done && dashOffset < PATH_LENGTH && (
+              <circle cx={LAST_X} cy={LAST_Y} r="3" fill="#a78bfa" opacity={1 - dashOffset / PATH_LENGTH} />
             )}
-
-            {cumulative.map((_, i) => (
-              i % 5 === 0 && (
-                <text key={i} x={xScale(i)} y={H - 6} textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize="9" fontFamily="monospace">
-                  #{i + 1}
-                </text>
-              )
-            ))}
-
-            <path d={areaPath} fill="url(#perfFill)" clipPath="url(#chartClip)" />
-            <path d={animPath} fill="none" stroke="url(#lineGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" clipPath="url(#chartClip)" />
-
-            {visibleCount > 1 && (
+            {done && (
               <g>
-                <circle cx={lastX} cy={lastY} r="6" fill="#7c3aed" opacity="0.3" />
-                <circle cx={lastX} cy={lastY} r="3" fill="#a78bfa" />
+                <circle className="hb-outer" cx={LAST_X} cy={LAST_Y} r="5" fill="#7c3aed" opacity="0.35" />
+                <circle className="hb-inner" cx={LAST_X} cy={LAST_Y} r="3" fill="#a78bfa" />
               </g>
             )}
           </svg>
 
           <div className="flex items-center justify-between mt-2">
             <span className="text-white/20 text-[10px] font-mono">Signal #1</span>
-            <span className="text-white/20 text-[10px] font-mono">Signal #{signals}</span>
+            <span className="text-white/20 text-[10px] font-mono">Signal #39</span>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Stat cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
           {stats.map((s, i) => (
             <motion.div
               key={i}
@@ -733,9 +753,9 @@ function PerformanceSection() {
               className="rounded-2xl border border-white/[0.07] bg-white/[0.02] px-5 py-5 text-center"
             >
               <div className={`text-xl font-black mb-1.5 ${
-                s.green === true ? 'text-green-400' :
-                s.green === false ? 'text-red-400' :
-                'bg-gradient-to-r from-violet-400 to-blue-300 bg-clip-text text-transparent'
+                s.color === 'green'
+                  ? 'text-green-400'
+                  : 'bg-gradient-to-r from-violet-400 to-blue-300 bg-clip-text text-transparent'
               }`}>
                 {s.display}
               </div>
@@ -744,9 +764,23 @@ function PerformanceSection() {
           ))}
         </div>
 
-        <p className="text-center text-white/20 text-[11px] mt-8">
-          Live results since model deployment. Past performance does not guarantee future returns.
-        </p>
+        {/* Kelly note */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="rounded-2xl border border-white/[0.05] bg-white/[0.015] px-5 py-4 flex items-start gap-3"
+        >
+          <span className="text-white/20 text-xs mt-0.5 flex-shrink-0">ℹ</span>
+          <p className="text-white/30 text-xs leading-relaxed">
+            These results are based on a <span className="text-white/50 font-medium">Kelly-adjusted staking strategy</span>, 
+            calibrated for a starting bankroll of <span className="text-white/50 font-medium">500€</span>. 
+            The Kelly fraction is adjusted per signal based on the detected edge. 
+            Past performance does not guarantee future returns.
+          </p>
+        </motion.div>
+
       </div>
     </section>
   );
