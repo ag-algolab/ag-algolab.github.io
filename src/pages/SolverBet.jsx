@@ -665,7 +665,7 @@ function PerformanceSection() {
         >
           <div className="flex items-center justify-between mb-4">
             <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L — Kelly adjusted (units)</span>
-            <span className="text-green-400 text-sm font-bold">+1,639.4 units</span>
+            <span className="text-green-400 text-sm font-bold">+1,639.4 €</span>
           </div>
 
           <svg viewBox="0 0 800 220" className="w-full" style={{ height: '220px' }} preserveAspectRatio="none">
