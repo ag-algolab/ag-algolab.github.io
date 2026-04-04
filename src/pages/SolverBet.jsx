@@ -602,7 +602,7 @@ function PerformanceSection() {
 
   const stats = [
     { label: 'Signals sent', display: `${PERF_DATA.signals}`, color: 'violet' },
-    { label: 'Total P&L', display: `+${PERF_DATA.totalPnL.toLocaleString()} u`, color: 'green' },
+    { label: 'Total P&L', display: `+${PERF_DATA.totalPnL.toLocaleString()} €`, color: 'green' },
     { label: 'Avg edge', display: `+${PERF_DATA.avgEdge} odds`, color: 'violet' },
     { label: 'Overall ROI', display: `+${PERF_DATA.roi}%`, color: 'green' },
   ];
