@@ -541,6 +541,217 @@ function HedgeHuntSection() {
   );
 }
 
+
+/* ========== PERFORMANCE SECTION ========== */
+// UPDATE HERE: add new picks to the bottom of each array, in order
+const PERF_DATA = {
+  pnl: [
+    -63.8, -58.3, 112.4, 97.9, -55.7, 95.5, 433.9, -122.5, 182.7, 223.7,
+    266.9, -77.0, 117.8, 98.4, -56.9, 84.1, -85.4, 85.2, 108.2, -60.5,
+    -81.3, -70.1, 132.7, -107.3, -112.6, 160.1, 66.8, 67.0, -140.7, -93.2,
+    210.8, -78.1, 114.3, 170.8, -79.7, 61.7, -81.5, 88.0, 85.0,
+  ],
+  edge: [
+    0.5205, 0.4118, 0.5715, 0.5344, 0.4533, 0.3945, 1.6106, 1.0061, 0.8566,
+    1.0241, 1.2267, 0.6884, 0.5103, 0.5339, 0.4597, 0.4697, 0.5914, 0.4917,
+    0.5714, 0.4476, 0.55, 0.50, 0.66, 1.49, 0.7515, 0.6817, 0.43, 0.3970,
+    1.2191, 1.0230, 0.9664, 0.6606, 0.5934, 0.8076, 0.7452, 0.3930, 0.7764,
+    0.48, 0.47,
+  ],
+  roi: 'X',
+};
+
+function PerformanceSection() {
+  const ref = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const animStarted = useRef(false);
+
+  const cumulative = PERF_DATA.pnl.reduce((acc, v, i) => {
+    acc.push(parseFloat(((acc[i - 1] || 0) + v).toFixed(1)));
+    return acc;
+  }, []);
+
+  const totalPnL = cumulative[cumulative.length - 1];
+  const avgEdge = (PERF_DATA.edge.reduce((a, b) => a + b, 0) / PERF_DATA.edge.length).toFixed(2);
+  const signals = PERF_DATA.pnl.length;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !animStarted.current) {
+          animStarted.current = true;
+          let start = null;
+          const duration = 2200;
+          const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+          const step = (ts) => {
+            if (!start) start = ts;
+            const raw = Math.min((ts - start) / duration, 1);
+            setProgress(ease(raw));
+            if (raw < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.25 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const W = 800, H = 220;
+  const PAD = { top: 20, right: 20, bottom: 30, left: 58 };
+  const chartW = W - PAD.left - PAD.right;
+  const chartH = H - PAD.top - PAD.bottom;
+  const minY = Math.min(...cumulative, 0);
+  const maxY = Math.max(...cumulative);
+  const yRange = maxY - minY || 1;
+
+  const xScale = (i) => PAD.left + (i / (cumulative.length - 1)) * chartW;
+  const yScale = (v) => PAD.top + chartH - ((v - minY) / yRange) * chartH;
+
+  const visibleCount = Math.max(2, Math.floor(progress * cumulative.length));
+  const pts = cumulative.slice(0, visibleCount);
+  const animPath = pts.map((v, i) => `${i === 0 ? 'M' : 'L'} ${xScale(i).toFixed(1)} ${yScale(v).toFixed(1)}`).join(' ');
+  const areaPath = animPath + ` L ${xScale(visibleCount - 1).toFixed(1)} ${yScale(minY).toFixed(1)} L ${xScale(0).toFixed(1)} ${yScale(minY).toFixed(1)} Z`;
+  const zeroY = yScale(0);
+  const yTicks = [0, 0.25, 0.5, 0.75, 1].map(t => Math.round(minY + t * yRange));
+
+  const lastIdx = visibleCount - 1;
+  const lastX = xScale(lastIdx);
+  const lastY = yScale(cumulative[lastIdx]);
+
+  const stats = [
+    { label: 'Signals sent', display: `${signals}` },
+    { label: 'Total P&L', display: `${totalPnL >= 0 ? '+' : ''}${totalPnL.toLocaleString()} u`, green: totalPnL >= 0 },
+    { label: 'Avg edge', display: `+${avgEdge} odds` },
+    { label: 'Overall ROI', display: PERF_DATA.roi === 'X' ? '—' : `${parseFloat(PERF_DATA.roi) > 0 ? '+' : ''}${PERF_DATA.roi}%`, green: PERF_DATA.roi !== 'X' && parseFloat(PERF_DATA.roi) >= 0 },
+  ];
+
+  return (
+    <section className="py-28 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-500/[0.03] rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6">
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-14"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/10 mb-6">
+            <span className="text-white/40 text-xs font-medium uppercase tracking-widest">Live Results</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-3">
+            <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+              Current Performances
+            </span>
+          </h2>
+          <p className="text-white/35 text-base max-w-md mx-auto">
+            Real signals only. No backtest. Cumulative P&L since the model went live.
+          </p>
+        </motion.div>
+
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="rounded-3xl border border-white/[0.07] bg-white/[0.02] p-6 mb-6"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L (units)</span>
+            <span className={`text-sm font-bold ${totalPnL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {totalPnL >= 0 ? '+' : ''}{totalPnL.toLocaleString()} units
+            </span>
+          </div>
+
+          <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: '220px' }} preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="perfFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#6d28d9" />
+                <stop offset="100%" stopColor="#a78bfa" />
+              </linearGradient>
+              <clipPath id="chartClip">
+                <rect x={PAD.left} y={PAD.top} width={chartW} height={chartH} />
+              </clipPath>
+            </defs>
+
+            {yTicks.map((tick, i) => (
+              <g key={i}>
+                <line x1={PAD.left} y1={yScale(tick)} x2={W - PAD.right} y2={yScale(tick)} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+                <text x={PAD.left - 8} y={yScale(tick) + 4} textAnchor="end" fill="rgba(255,255,255,0.22)" fontSize="10" fontFamily="monospace">
+                  {tick >= 0 ? `+${tick}` : tick}
+                </text>
+              </g>
+            ))}
+
+            {minY < 0 && (
+              <line x1={PAD.left} y1={zeroY} x2={W - PAD.right} y2={zeroY} stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4 4" />
+            )}
+
+            {cumulative.map((_, i) => (
+              i % 5 === 0 && (
+                <text key={i} x={xScale(i)} y={H - 6} textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize="9" fontFamily="monospace">
+                  #{i + 1}
+                </text>
+              )
+            ))}
+
+            <path d={areaPath} fill="url(#perfFill)" clipPath="url(#chartClip)" />
+            <path d={animPath} fill="none" stroke="url(#lineGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" clipPath="url(#chartClip)" />
+
+            {visibleCount > 1 && (
+              <g>
+                <circle cx={lastX} cy={lastY} r="6" fill="#7c3aed" opacity="0.3" />
+                <circle cx={lastX} cy={lastY} r="3" fill="#a78bfa" />
+              </g>
+            )}
+          </svg>
+
+          <div className="flex items-center justify-between mt-2">
+            <span className="text-white/20 text-[10px] font-mono">Signal #1</span>
+            <span className="text-white/20 text-[10px] font-mono">Signal #{signals}</span>
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {stats.map((s, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.09 }}
+              viewport={{ once: true }}
+              className="rounded-2xl border border-white/[0.07] bg-white/[0.02] px-5 py-5 text-center"
+            >
+              <div className={`text-xl font-black mb-1.5 ${
+                s.green === true ? 'text-green-400' :
+                s.green === false ? 'text-red-400' :
+                'bg-gradient-to-r from-violet-400 to-blue-300 bg-clip-text text-transparent'
+              }`}>
+                {s.display}
+              </div>
+              <div className="text-white/30 text-xs">{s.label}</div>
+            </motion.div>
+          ))}
+        </div>
+
+        <p className="text-center text-white/20 text-[11px] mt-8">
+          Live results since model deployment. Past performance does not guarantee future returns.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 /* ========== MAIN PAGE ========== */
 export default function SolverBet() {
   const [pulseStep, setPulseStep] = useState(0);
@@ -874,6 +1085,9 @@ export default function SolverBet() {
           </div>
         </div>
       </section>
+
+      {/* ======== PERFORMANCE ======== */}
+      <PerformanceSection />
 
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-white/10">
