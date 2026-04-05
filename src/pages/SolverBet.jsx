@@ -554,18 +554,25 @@ const PERF_DATA = {
     -45.2,96.8,155.6,70.0,-71.1
   ],
   roi: '447.4',
-  avgOdd: '2.609',
+  avgOdd: '2.60',
   signals: 57,
   totalPnL: 2237.2,
 };
 
 // Pre-computed SVG path (800x220 viewBox, padding 58/20/20/30)
-const CHART_PATH = "M 58.0 184.4 L 77.0 190.0 L 96.0 179.2 L 115.0 169.7 L 134.0 175.1 L 153.0 165.9 L 172.0 124.0 L 191.0 135.8 L 210.0 118.2 L 229.0 96.6 L 248.0 70.8 L 267.0 78.3 L 286.0 66.9 L 305.0 57.4 L 324.0 62.9 L 343.0 54.8 L 362.0 63.0 L 381.0 54.8 L 400.0 44.3 L 419.0 50.2 L 438.0 58.0 L 457.0 64.8 L 476.0 52.0 L 495.0 62.3 L 514.0 73.2 L 533.0 57.8 L 552.0 51.3 L 571.0 44.8 L 590.0 58.4 L 609.0 67.4 L 628.0 47.1 L 647.0 54.6 L 666.0 43.6 L 685.0 27.1 L 704.0 34.8 L 723.0 28.8 L 742.0 36.7 L 761.0 28.2 L 780.0 20.0";
-const PATH_LENGTH = 860;
+const CHART_PATH = "M 58.0 177.3 L 70.9 180.9 L 83.8 174.0 L 96.7 167.9 L 109.6 171.4 L 122.5 165.5 L 135.4 138.7 L 148.2 146.3 L 161.1 135.0 L 174.0 121.2 L 186.9 104.7 L 199.8 109.5 L 212.7 102.2 L 225.6 96.1 L 238.5 99.7 L 251.4 94.5 L 264.3 99.7 L 277.2 94.5 L 290.1 87.8 L 303.0 91.5 L 315.9 96.5 L 328.8 100.9 L 341.6 92.7 L 354.5 99.3 L 367.4 106.3 L 380.3 96.4 L 393.2 92.3 L 406.1 88.1 L 419.0 96.8 L 431.9 102.6 L 444.8 89.5 L 457.7 94.4 L 470.6 87.3 L 483.5 76.8 L 496.4 81.7 L 509.2 77.9 L 522.1 82.9 L 535.0 77.5 L 547.9 72.2 L 560.8 77.5 L 573.7 85.1 L 586.6 79.3 L 599.5 68.2 L 612.4 39.6 L 625.3 43.9 L 638.2 29.1 L 651.1 40.2 L 664.0 47.4 L 676.9 54.3 L 689.8 57.7 L 702.6 43.6 L 715.5 48.1 L 728.4 50.9 L 741.3 44.9 L 754.2 35.3 L 767.1 31.0 L 780.0 35.4";
+
+const PATH_LENGTH = 863;
 const LAST_X = 780;
-const LAST_Y = 20;
-const Y_TICKS = [{ val: -122, y: 190.0 }, { val: 379, y: 148.0 }, { val: 880, y: 105.0 }, { val: 1381, y: 63.0 }, { val: 1639, y: 20.0 }];
-const ZERO_Y = 184.4;
+const LAST_Y = 35.4;
+const Y_TICKS = [
+  { val: -270, y: 190.0 },
+  { val:  419, y: 147.5 },
+  { val: 1108, y: 105.0 },
+  { val: 1797, y:  62.5 },
+  { val: 2486, y:  20.0 },
+];
+const ZERO_Y = 173.4;
 
 function PerformanceSection() {
   const ref = useRef(null);
@@ -605,7 +612,7 @@ function PerformanceSection() {
   const stats = [
     { label: 'Signals sent', display: `${PERF_DATA.signals}`, color: 'violet' },
     { label: 'Total P&L', display: `+${PERF_DATA.totalPnL.toLocaleString()} €`, color: 'green' },
-    { label: 'Avg odds', display: `+${PERF_DATA.avgOdd} odds`, color: 'violet' },
+    { label: 'Avg odds', display: `${PERF_DATA.avgOdd}`, color: 'violet' },
     { label: 'Return on bankroll', display: `+${PERF_DATA.roi}%`, color: 'green' },
   ];
 
@@ -699,8 +706,8 @@ function PerformanceSection() {
             <line x1="58" y1={ZERO_Y} x2="780" y2={ZERO_Y} stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4 4" />
 
             {/* Signal X labels */}
-            {[1,5,10,15,20,25,30,35,39].map((n, i) => {
-              const x = 58 + ((n-1)/38)*722;
+            {[1, 10, 20, 30, 40, 50, 57].map((n, i) => {
+              const x = 58 + ((n-1)/56)*722;
               return <text key={i} x={x} y="214" textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize="9" fontFamily="monospace">#{n}</text>;
             })}
 
@@ -739,7 +746,7 @@ function PerformanceSection() {
 
           <div className="flex items-center justify-between mt-2">
             <span className="text-white/20 text-[10px] font-mono">Signal #1</span>
-            <span className="text-white/20 text-[10px] font-mono">Signal #39</span>
+            <span className="text-white/20 text-[10px] font-mono">Signal #57</span>
           </div>
         </motion.div>
 
