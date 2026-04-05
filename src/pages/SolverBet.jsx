@@ -544,6 +544,185 @@ function HedgeHuntSection() {
 
 /* ========== PERFORMANCE SECTION ========== */
 // UPDATE: add new picks to the bottom of each array
+
+/* ========== WEEKLY BREAKDOWN — paste this block into your file ========== */
+
+// Add new weeks at the bottom — the component adapts automatically
+const WEEKS_DATA = [
+  {
+    week: 12,
+    signals: 37,
+    pnl: 1466.5,
+    flatYield: 44.9,
+    rob: 293.3,
+    note: null,
+  },
+  {
+    week: 13,
+    signals: 2,
+    pnl: 172.9,
+    flatYield: 126.2,
+    rob: 34.6,
+    note: 'International break — very few matches played',
+  },
+  {
+    week: 14,
+    signals: 18,
+    pnl: 597.8,
+    flatYield: 34.0,
+    rob: 119.6,
+    note: null,
+  },
+];
+
+function WeeklyBreakdown() {
+  const maxPnL = Math.max(...WEEKS_DATA.map((w) => w.pnl));
+  const totalPnL = WEEKS_DATA.reduce((s, w) => s + w.pnl, 0);
+  const totalSignals = WEEKS_DATA.reduce((s, w) => s + w.signals, 0);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="mt-5"
+    >
+      {/* Section header */}
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
+          <span className="text-white/40 text-xs uppercase tracking-widest font-medium">
+            Weekly breakdown
+          </span>
+          <div className="h-px w-10 bg-white/10" />
+        </div>
+        <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider hidden md:block">
+          Kelly adjusted · 500€ bankroll
+        </span>
+      </div>
+
+      {/* Scrollable wrapper for small screens */}
+      <div className="overflow-x-auto">
+        <div className="min-w-[520px]">
+
+          {/* Column headers */}
+          <div className="grid grid-cols-[56px_64px_1fr_88px_108px] gap-3 px-4 mb-2">
+            {['Week', 'Signals', 'Kelly P&L', 'Flat yield', 'On bankroll'].map((h) => (
+              <span
+                key={h}
+                className={`text-white/20 text-[10px] uppercase tracking-wider font-mono ${
+                  h === 'Flat yield' || h === 'On bankroll' ? 'text-right' : ''
+                }`}
+              >
+                {h}
+              </span>
+            ))}
+          </div>
+
+          {/* Week rows */}
+          <div className="space-y-2">
+            {WEEKS_DATA.map((w, i) => (
+              <motion.div
+                key={w.week}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                viewport={{ once: true }}
+                className="group relative rounded-2xl border border-white/[0.06] bg-white/[0.02] px-4 py-3.5
+                           hover:border-violet-500/25 hover:bg-violet-500/[0.03] transition-all duration-300 cursor-default"
+              >
+                {/* Top scan line on hover */}
+                <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                                bg-gradient-to-r from-transparent via-violet-400/30 to-transparent pointer-events-none" />
+
+                <div className="grid grid-cols-[56px_64px_1fr_88px_108px] gap-3 items-center">
+                  {/* Week badge */}
+                  <div className="flex items-center">
+                    <span className="text-[10px] font-mono font-black px-2 py-0.5 rounded-md
+                                     bg-violet-500/10 border border-violet-500/20
+                                     bg-gradient-to-r from-violet-400 to-blue-300 bg-clip-text text-transparent">
+                      W{w.week}
+                    </span>
+                  </div>
+
+                  {/* Signals */}
+                  <span className="text-white/45 text-sm font-mono">{w.signals}</span>
+
+                  {/* PnL bar + value */}
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex-1 h-[3px] bg-white/[0.06] rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${(w.pnl / maxPnL) * 100}%` }}
+                        transition={{ duration: 0.9, delay: i * 0.08 + 0.25, ease: 'easeOut' }}
+                        viewport={{ once: true }}
+                        className="h-full rounded-full"
+                        style={{
+                          background: 'linear-gradient(90deg, #6d28d9, #93c5fd)',
+                        }}
+                      />
+                    </div>
+                    <span className="text-green-400 font-mono text-sm font-bold whitespace-nowrap">
+                      +{w.pnl.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} u
+                    </span>
+                  </div>
+
+                  {/* Flat yield */}
+                  <div className="text-right">
+                    <span
+                      className="font-mono text-sm font-bold bg-clip-text text-transparent"
+                      style={{ backgroundImage: 'linear-gradient(135deg, #a78bfa, #93c5fd)' }}
+                    >
+                      +{w.flatYield.toFixed(1)}%
+                    </span>
+                  </div>
+
+                  {/* Return on bankroll */}
+                  <div className="text-right">
+                    <span className="text-green-400 font-mono text-sm font-bold">
+                      +{w.rob.toFixed(1)}%
+                    </span>
+                  </div>
+                </div>
+
+                {/* Note line */}
+                {w.note && (
+                  <div className="mt-2 flex items-center gap-2">
+                    <div className="w-1 h-1 rounded-full bg-amber-400/50 flex-shrink-0" />
+                    <span className="text-white/22 text-[10px] font-mono italic">{w.note}</span>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+
+            {/* Totals row */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: WEEKS_DATA.length * 0.08 + 0.1 }}
+              viewport={{ once: true }}
+              className="grid grid-cols-[56px_64px_1fr_88px_108px] gap-3 items-center
+                         px-4 pt-3 border-t border-white/[0.05]"
+            >
+              <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider">Total</span>
+              <span className="text-white/35 text-sm font-mono font-bold">{totalSignals}</span>
+              <div className="flex items-center gap-2.5">
+                <div className="flex-1" />
+                <span className="text-green-400 font-mono text-sm font-bold whitespace-nowrap">
+                  +{totalPnL.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} u
+                </span>
+              </div>
+              <div />
+              <div />
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 const PERF_DATA = {
   pnl: [
     -63.8,-58.3,112.4,97.9,-55.7,95.5,433.9,-122.5,182.7,223.7,
@@ -673,8 +852,8 @@ function PerformanceSection() {
           className="rounded-3xl border border-white/[0.07] bg-white/[0.02] p-6 mb-5"
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L — Kelly adjusted (units)</span>
-            <span className="text-green-400 text-sm font-bold">+1,639.4 €</span>
+            <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L — Kelly adjusted</span>
+            <span className="text-green-400 text-sm font-bold">+2,237.2 €</span>
           </div>
 
           <svg viewBox="0 0 800 220" className="w-full" style={{ height: '220px' }} preserveAspectRatio="none">
@@ -792,8 +971,14 @@ function PerformanceSection() {
 
       </div>
     </section>
+    <WeeklyBreakdown />
   );
 }
+
+
+
+
+
 
 /* ========== MAIN PAGE ========== */
 export default function SolverBet() {
