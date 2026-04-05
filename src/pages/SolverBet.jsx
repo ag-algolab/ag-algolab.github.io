@@ -968,10 +968,10 @@ function PerformanceSection() {
             Past performance does not guarantee future returns.
           </p>
         </motion.div>
-
+        <WeeklyBreakdown />
       </div>
     </section>
-    <WeeklyBreakdown />
+    
   );
 }
 
