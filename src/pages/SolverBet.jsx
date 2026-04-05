@@ -549,12 +549,14 @@ const PERF_DATA = {
     -63.8,-58.3,112.4,97.9,-55.7,95.5,433.9,-122.5,182.7,223.7,
     266.9,-77.0,117.8,98.4,-56.9,84.1,-85.4,85.2,108.2,-60.5,
     -81.3,-70.1,132.7,-107.3,-112.6,160.1,66.8,67.0,-140.7,-93.2,
-    210.8,-78.1,114.3,170.8,-79.7,61.7,-81.5,88.0,85.0,
+    210.8,-78.1,114.3,170.8,-79.7,61.7,-81.5,88.0,85.0,-84.9,-123.2,
+    94.0,180.1,463.9,-69.8,239.3,-180.3,-115.6,-113.1,-54.7,228.3,-72.5,
+    -45.2,96.8,155.6,70.0,-71.1
   ],
-  roi: '327.9',
-  avgEdge: '0.69',
-  signals: 39,
-  totalPnL: 1639.4,
+  roi: '447.4',
+  avgOdd: '2.609',
+  signals: 57,
+  totalPnL: 2237.2,
 };
 
 // Pre-computed SVG path (800x220 viewBox, padding 58/20/20/30)
@@ -603,8 +605,8 @@ function PerformanceSection() {
   const stats = [
     { label: 'Signals sent', display: `${PERF_DATA.signals}`, color: 'violet' },
     { label: 'Total P&L', display: `+${PERF_DATA.totalPnL.toLocaleString()} €`, color: 'green' },
-    { label: 'Avg edge', display: `+${PERF_DATA.avgEdge} odds`, color: 'violet' },
-    { label: 'Overall ROI', display: `+${PERF_DATA.roi}%`, color: 'green' },
+    { label: 'Avg odds', display: `+${PERF_DATA.avgOdd} odds`, color: 'violet' },
+    { label: 'Return on bankroll', display: `+${PERF_DATA.roi}%`, color: 'green' },
   ];
 
   return (
