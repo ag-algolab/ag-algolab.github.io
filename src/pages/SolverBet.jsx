@@ -1077,16 +1077,6 @@ export default function SolverBet() {
             We don't predict the future — we price it better than the market
           </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-base text-white/40 max-w-2xl mx-auto mb-14 leading-relaxed"
-          >
-            Machine learning model 
-            identifying statistically mispriced outcomes across global football competitions.
-          </motion.p>
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
