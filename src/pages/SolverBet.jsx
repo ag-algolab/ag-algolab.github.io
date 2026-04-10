@@ -999,7 +999,7 @@ export default function SolverBet() {
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8">
               <span className="text-violet-400 text-lg">⚽</span>
-              <span className="text-violet-400/80 text-sm font-medium">Sports Intelligence · 30+ Leagues</span>
+              <span className="text-violet-400/80 text-sm font-medium">Sports Intelligence · 35+ Leagues</span>
             </div>
           </motion.div>
 
@@ -1029,7 +1029,7 @@ export default function SolverBet() {
             transition={{ delay: 0.4 }}
             className="text-base text-white/40 max-w-2xl mx-auto mb-14 leading-relaxed"
           >
-            Probabilistic model trained on scientific research, optimized by Optuna per league,
+            Machine learning model 
             identifying statistically mispriced outcomes across global football competitions.
           </motion.p>
 
@@ -1092,17 +1092,17 @@ export default function SolverBet() {
 
             <WorkflowNode
               icon={<BarChart2 className="w-5 h-5" />}
-              title="Optuna Optimization"
-              subtitle="Per-league hyperparameter tuning on the previous season. Entry thresholds and filters are maximized for ROI using Bayesian optimization."
+              title="Feature Engineering"
+              subtitle="Dozens of features constructed from raw data: rolling averages, form indicators, opponent strength, home/away splits,..."
               color="cyan"
               delay={0.2}
             >
               <div className="mt-2 grid grid-cols-2 gap-1.5">
                 {[
-                  { label: 'Method', val: 'Bayesian Search' },
-                  { label: 'Target', val: 'Max ROI' },
-                  { label: 'Scope', val: 'Per League' },
-                  { label: 'Dataset', val: 'Prior Season' },
+                  { label: 'Feature count', val: '80+' },
+                  { label: 'Rolling windows', val: '5 / 10 / 20 games' },
+                  { label: 'Opponent encoding', val: 'Strength adjusted' },
+                  { label: 'Leakage control', val: 'Strict cutoff' },
                 ].map(r => (
                   <div key={r.label} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg px-2.5 py-1.5">
                     <div className="text-white/25 text-[9px] uppercase tracking-wider">{r.label}</div>
@@ -1111,7 +1111,6 @@ export default function SolverBet() {
                 ))}
               </div>
             </WorkflowNode>
-            <WorkflowArrow />
 
             <WorkflowNode
               icon={<Brain className="w-5 h-5" />}
@@ -1126,6 +1125,30 @@ export default function SolverBet() {
                 ))}
               </div>
             </WorkflowNode>
+            <WorkflowArrow />
+
+            <WorkflowNode
+              icon={<TrendingUp className="w-5 h-5" />}
+              title="Probability Calibration"
+              subtitle="Raw model outputs are not used directly. We apply calibration to ensure predicted probabilities reflect true real-world frequencies — a 70% prediction should win 70% of the time."
+              color="indigo"
+              delay={0.25}
+            >
+              <div className="mt-2 grid grid-cols-2 gap-1.5">
+                {[
+                  { label: 'Method', val: 'Isotonic regression' },
+                  { label: 'Goal', val: 'Real probability' },
+                  { label: 'Validation', val: 'Calibration curve' },
+                  { label: 'Output', val: 'Fair probability' },
+                ].map(r => (
+                  <div key={r.label} className="bg-indigo-500/5 border border-indigo-500/10 rounded-lg px-2.5 py-1.5">
+                    <div className="text-white/25 text-[9px] uppercase tracking-wider">{r.label}</div>
+                    <div className="text-indigo-400/80 text-[11px] font-medium">{r.val}</div>
+                  </div>
+                ))}
+              </div>
+            </WorkflowNode>
+
             <WorkflowArrow />
 
             <WorkflowNode
