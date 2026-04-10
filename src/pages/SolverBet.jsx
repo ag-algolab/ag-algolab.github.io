@@ -1072,7 +1072,7 @@ export default function SolverBet() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-xl md:text-2xl font-light text-white/50 italic mb-4"
+            className="text-xl md:text-2xl font-light text-white/50 italic mb-8"
           >
             We don't predict the future — we price it better than the market
           </motion.p>
