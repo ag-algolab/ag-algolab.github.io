@@ -1085,10 +1085,12 @@ function Home() {
                         <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider">🟢 Live</span>
                       </div>
                       <h3 className="text-2xl font-bold text-white group-hover:text-violet-400 transition-colors duration-300 mb-2">SolverBet</h3>
-                      <p className="text-[#b7c3e6] text-sm leading-relaxed">Fully automatized sports intelligence system covering 35+ football leagues. Model optimized per league via Optuna, detecting statistically mispriced odds and delivering real-time signals via Telegram.</p>
+                      <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                      Fully automated AI system covering 35+ football leagues. League-specific models identify statistically mispriced odds and deliver real-time signals via Telegram.
+                      </p>                    
                     </div>
                     <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
-                      {[{ label: 'Leagues', value: '35' },{ label: 'Countries', value: '24' },{ label: 'Matches Analyzed', value: '115,000+' }].map((s) => (
+                      {[{ label: 'Leagues', value: '35' },{ label: 'Matches Analyzed', value: '115,000+' },{ label: 'AI Approach', value: 'Machine Learning' }].map((s) => (
                         <div key={s.label} className="text-right"><div className="text-violet-400 font-bold text-sm">{s.value}</div><div className="text-white/30 text-xs">{s.label}</div></div>
                       ))}
                     </div>
@@ -1097,10 +1099,10 @@ function Home() {
                     </div>
                   </div>
                 </motion.div>
-              </Link>
- 
+              </Link> 
+
               {/* ===== SCORERBET — orange/red palette ===== */}
-              <Link to="/scorerbet" className="block group">
+              {/*<Link to="/scorerbet" className="block group">
                 <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true }}
                   className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-orange-500/50 hover:shadow-[0_0_40px_rgba(249,115,22,0.2)] transition-all duration-500 overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -1133,7 +1135,7 @@ function Home() {
                     </div>
                   </div>
                 </motion.div>
-              </Link>
+              </Link>*/}
 
 
               <div className="grid md:grid-cols-2 gap-6">
