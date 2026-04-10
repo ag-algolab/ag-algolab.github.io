@@ -1099,10 +1099,8 @@ export default function SolverBet() {
             >
               <div className="mt-2 grid grid-cols-2 gap-1.5">
                 {[
-                  { label: 'Feature count', val: '80+' },
-                  { label: 'Rolling windows', val: '5 / 10 / 20 games' },
-                  { label: 'Opponent encoding', val: 'Strength adjusted' },
-                  { label: 'Leakage control', val: 'Strict cutoff' },
+                  { label: 'Feature count', val: '300+' },
+                  { label: 'Rolling windows', val: '5 / 10 / 20 games' }
                 ].map(r => (
                   <div key={r.label} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg px-2.5 py-1.5">
                     <div className="text-white/25 text-[9px] uppercase tracking-wider">{r.label}</div>
@@ -1111,11 +1109,13 @@ export default function SolverBet() {
                 ))}
               </div>
             </WorkflowNode>
+            
+            <WorkflowArrow />
 
             <WorkflowNode
               icon={<Brain className="w-5 h-5" />}
               title="Model Inference"
-              subtitle="Grounded in scientific literature on match outcome modeling. Architecture remains confidential."
+              subtitle="Grounded in scientific literature on match outcome modeling."
               color="purple"
               delay={0.1}
             >
@@ -1125,20 +1125,19 @@ export default function SolverBet() {
                 ))}
               </div>
             </WorkflowNode>
+            
             <WorkflowArrow />
 
             <WorkflowNode
               icon={<TrendingUp className="w-5 h-5" />}
               title="Probability Calibration"
-              subtitle="Raw model outputs are not used directly. We apply calibration to ensure predicted probabilities reflect true real-world frequencies — a 70% prediction should win 70% of the time."
+              subtitle="Raw model outputs are not used directly. We apply calibration to ensure predicted probabilities reflect true real-world frequencies."
               color="indigo"
               delay={0.25}
             >
               <div className="mt-2 grid grid-cols-2 gap-1.5">
                 {[
                   { label: 'Method', val: 'Isotonic regression' },
-                  { label: 'Goal', val: 'Real probability' },
-                  { label: 'Validation', val: 'Calibration curve' },
                   { label: 'Output', val: 'Fair probability' },
                 ].map(r => (
                   <div key={r.label} className="bg-indigo-500/5 border border-indigo-500/10 rounded-lg px-2.5 py-1.5">
