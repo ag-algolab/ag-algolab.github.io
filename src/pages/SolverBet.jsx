@@ -701,6 +701,7 @@ function WeeklyBreakdown() {
   );
 }
 
+const MODEL_UPGRADE_AT = 57;
 const PERF_DATA = {
   pnl: [
     -63.8,-58.3,112.4,97.9,-55.7,95.5,433.9,-122.5,182.7,223.7,
@@ -785,6 +786,9 @@ function PerformanceSection() {
           65%  { r: 3; opacity: 1; }
           100% { r: 3; opacity: 1; }
         }
+        @media (max-width: 640px) {
+          .y-tick-hide { display: none; }
+        }
         .hb-outer { animation: heartbeat 1.6s ease-in-out infinite; }
         .hb-inner { animation: heartbeat-inner 1.6s ease-in-out infinite; }
       `}</style>
@@ -826,7 +830,9 @@ function PerformanceSection() {
             <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L — Kelly adjusted</span>
           </div>
 
-          <svg viewBox="0 0 800 220" className="w-full" style={{ height: '220px' }} preserveAspectRatio="none">
+
+          <div className="relative w-full">
+            <svg viewBox="0 0 800 220" className="w-full" style={{ height: '220px' }} preserveAspectRatio="none">
             <defs>
               <linearGradient id="perfFill" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.18" />
@@ -843,7 +849,7 @@ function PerformanceSection() {
 
             {/* Grid lines + Y labels */}
             {Y_TICKS.map((t, i) => (
-              <g key={i}>
+              <g key={i} className={i === 1 || i === 3 ? 'y-tick-hide' : ''}>
                 <line x1="58" y1={t.y} x2="780" y2={t.y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
                 <text x="50" y={t.y + 4} textAnchor="end" fill="rgba(255,255,255,0.22)" fontSize="10" fontFamily="monospace">
                   {t.val >= 0 ? `+${t.val}` : t.val}
@@ -854,11 +860,41 @@ function PerformanceSection() {
             {/* Zero dashed line */}
             <line x1="58" y1={ZERO_Y} x2="780" y2={ZERO_Y} stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4 4" />
 
-            {/* Signal X labels */}
-            {[1, 10, 20, 30, 40, 50, 57].map((n, i) => {
-              const x = 58 + ((n-1)/56)*722;
-              return <text key={i} x={x} y="214" textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize="9" fontFamily="monospace">#{n}</text>;
-            })}
+            {/* Signal X labels — dynamic */}
+            {(() => {
+              const total = PERF_DATA.pnl.length;
+              const step = Math.ceil(total / 6);
+              const ticks = [];
+              for (let n = 1; n <= total; n += step) ticks.push(n);
+              if (ticks[ticks.length - 1] !== total) ticks.push(total);
+              return ticks.map((n, i) => {
+                const x = 58 + ((n - 1) / (total - 1)) * 722;
+                return <text key={i} x={x} y="214" textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize="9" fontFamily="monospace">#{n}</text>;
+              });
+            })()}
+            
+            {/* Model Upgrade marker */}
+            {(() => {
+              const total = PERF_DATA.pnl.length;
+              const ux = 58 + ((MODEL_UPGRADE_AT - 1) / (total - 1)) * 722;
+              return (
+                <g>
+                  <line x1={ux} y1="20" x2={ux} y2="190" stroke="rgba(239,68,68,0.55)" strokeWidth="1.5" strokeDasharray="4 3" />
+                  <text
+                    x={ux - 7}
+                    y="32"
+                    fill="rgba(239,68,68,0.7)"
+                    fontSize="9"
+                    fontFamily="monospace"
+                    fontWeight="bold"
+                    transform={`rotate(-45, ${ux - 7}, 32)`}
+                  >
+                    Model Upgrade
+                  </text>
+                </g>
+              );
+            })()}
+
 
             {/* Area fill — static, behind line */}
             <path
@@ -880,18 +916,36 @@ function PerformanceSection() {
               strokeDashoffset={dashOffset}
               clipPath="url(#chartClip)"
             />
-
-            {/* Endpoint dot — static when drawing, heartbeat when done */}
-            {!done && dashOffset < PATH_LENGTH && (
-              <circle cx={LAST_X} cy={LAST_Y} r="3" fill="#a78bfa" opacity={1 - dashOffset / PATH_LENGTH} />
-            )}
-            {done && (
-              <g>
-                <circle className="hb-outer" cx={LAST_X} cy={LAST_Y} r="5" fill="#7c3aed" opacity="0.35" />
-                <circle className="hb-inner" cx={LAST_X} cy={LAST_Y} r="3" fill="#a78bfa" />
-              </g>
-            )}
           </svg>
+          {!done && dashOffset < PATH_LENGTH && (
+            <div
+              className="absolute pointer-events-none"
+              style={{
+                left: `${(LAST_X / 800) * 100}%`,
+                top: `${(LAST_Y / 220) * 100}%`,
+                transform: 'translate(-50%, -50%)',
+                opacity: 1 - dashOffset / PATH_LENGTH,
+              }}
+            >
+              <div className="w-2 h-2 rounded-full bg-violet-400" />
+            </div>
+          )}
+          {done && (
+            <div
+              className="absolute pointer-events-none"
+              style={{
+                left: `${(LAST_X / 800) * 100}%`,
+                top: `${(LAST_Y / 220) * 100}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              <div className="relative flex items-center justify-center">
+                <div className="absolute w-5 h-5 rounded-full bg-violet-500/30 animate-ping" />
+                <div className="w-2.5 h-2.5 rounded-full bg-violet-400" />
+              </div>
+            </div>
+          )}
+          </div>
 
           <div className="flex items-center justify-between mt-2">
             <span className="text-white/20 text-[10px] font-mono">Signal #1</span>
