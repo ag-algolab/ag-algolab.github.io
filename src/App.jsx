@@ -1094,15 +1094,12 @@ function Home() {
                         <div key={s.label} className="text-right"><div className="text-violet-400 font-bold text-sm">{s.value}</div><div className="text-white/30 text-xs">{s.label}</div></div>
                       ))}
                     </div>
-                    <div className="flex-shrink-0 md:ml-2">
-                      <div className="flex items-center gap-2 text-white/50 group-hover:text-violet-400 transition-colors"><span className="text-sm font-medium hidden md:block">Explore</span><ExternalLink className="w-4 h-4" /></div>
-                    </div>
                   </div>
                 </motion.div>
               </Link> 
 
               {/* ===== SCORERBET — orange/red palette ===== */}
-              {/*<Link to="/scorerbet" className="block group">
+              <div className="block group cursor-default">
                 <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true }}
                   className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-orange-500/50 hover:shadow-[0_0_40px_rgba(249,115,22,0.2)] transition-all duration-500 overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
