@@ -491,7 +491,7 @@ export default function ReversalEngine() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-wrap justify-center gap-4 mt-12"
             >
-              <StatPill value="3" label="Active Assets" color="#9945FF" />
+              <StatPill value="2" label="Active Assets" color="#9945FF" />
               <StatPill value="15m" label="Timeframe" color="#14F195" />
               <StatPill value="24/7" label="Monitoring" color="#00C2FF" />
               <StatPill value="Auto" label="Execution" color="#9945FF" />
