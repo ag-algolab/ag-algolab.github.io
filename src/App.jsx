@@ -31,6 +31,23 @@ function BuildingBadge() {
   );
 }
 
+function StandbyBadge() {
+  const [dotCount, setDotCount] = useState(1);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDotCount((prev) => (prev % 3) + 1);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+  const dots = ['●', '●●', '●●●'][dotCount - 1];
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[10px] font-bold uppercase tracking-wider">
+      <span>Standby</span>
+      <span className="font-mono text-[10px] text-yellow-400/60 w-5 text-left transition-all">{dots}</span>
+    </span>
+  );
+}
+
 /* ================= TECH ORBIT COMPONENT ================ */
 function TechOrbit() {
   const techs = [
@@ -1051,17 +1068,6 @@ function Home() {
                 </motion.div>
               </Link>
 
-              {/* OTHER PROJECTS */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="text-center mb-10"
-              >
-                <h3 className="text-2xl md:text-3xl font-bold text-white">Other Projects</h3>
-              </motion.div>
-              
               <div className="flex flex-col gap-6">
               
                 {/* REVERSAL ENGINE */}
@@ -1076,14 +1082,14 @@ function Home() {
                           <span className="text-2xl">◎</span>
                         </div>
                         <div className="flex flex-col gap-1.5 md:hidden">
-                          <span className="px-2.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[10px] font-bold uppercase tracking-wider w-fit">Standby</span>
-                          <span className="px-2.5 py-0.5 rounded-full bg-[#9945FF]/10 border border-[#9945FF]/20 text-[#9945FF] text-[10px] font-bold uppercase tracking-wider w-fit">Crypto</span>
+                          <StandbyBadge />
+                          <span className="px-2.5 py-0.5 rounded-full bg-[#00C2FF]/10 border border-[#00C2FF]/20 text-[#00C2FF] text-[10px] font-bold uppercase tracking-wider w-fit">Crypto</span>
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="hidden md:flex items-center gap-2 mb-2">
-                          <span className="px-2.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[10px] font-bold uppercase tracking-wider">Standby</span>
-                          <span className="px-2.5 py-0.5 rounded-full bg-[#9945FF]/10 border border-[#9945FF]/20 text-[#9945FF] text-[10px] font-bold uppercase tracking-wider">Crypto</span>
+                          <StandbyBadge />
+                          <span className="px-2.5 py-0.5 rounded-full bg-[#00C2FF]/10 border border-[#00C2FF]/20 text-[#00C2FF] text-[10px] font-bold uppercase tracking-wider">Crypto</span>
                         </div>
                         <h3 className="text-2xl font-bold text-white group-hover:text-[#14F195] transition-colors duration-300 mb-2">Reversal Engine</h3>
                         <p className="text-[#b7c3e6] text-sm leading-relaxed">
@@ -1093,7 +1099,7 @@ function Home() {
                       <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
                         {[{ label: 'Active Assets', value: 'SOL · BTC' }, { label: 'Timeframe', value: '15m' }, { label: 'Execution', value: 'Automated' }].map((s) => (
                           <div key={s.label} className="text-right">
-                            <div className="text-[#9945FF] font-bold text-sm">{s.value}</div>
+                            <div className="text-[#00C2FF] font-bold text-sm">{s.value}</div>
                             <div className="text-white/30 text-xs">{s.label}</div>
                           </div>
                         ))}
