@@ -1050,94 +1050,84 @@ function Home() {
                   </div>
                 </motion.div>
               </Link>
-          
-              {/* SCORERBET */}
-              <div className="block group cursor-default">
-                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true }}
-                  className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 transition-all duration-500 overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-red-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
-                    <div className="flex-shrink-0 flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-orange-500/20 flex items-center justify-center transition-all duration-300 shadow-lg shadow-orange-500/10">
-                        <img src="/scorerbet_eagle.png" alt="ScorerBet" className="w-10 h-10 object-contain" />
+
+              {/* OTHER PROJECTS */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-center mb-10"
+              >
+                <h3 className="text-2xl md:text-3xl font-bold text-white">Other Projects</h3>
+              </motion.div>
+              
+              <div className="flex flex-col gap-6">
+              
+                {/* REVERSAL ENGINE */}
+                <Link to="/reversal-engine" className="block group">
+                  <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}
+                    className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-[#9945FF]/50 hover:shadow-[0_0_40px_rgba(153,69,255,0.2)] transition-all duration-500 overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#9945FF]/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#14F195]/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
+                      <div className="flex-shrink-0 flex items-center gap-4">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9945FF]/20 to-[#14F195]/10 border border-[#9945FF]/20 flex items-center justify-center transition-all duration-300 shadow-lg shadow-[#9945FF]/10 group-hover:scale-110">
+                          <span className="text-2xl">◎</span>
+                        </div>
+                        <div className="flex flex-col gap-1.5 md:hidden">
+                          <span className="px-2.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[10px] font-bold uppercase tracking-wider w-fit">Standby</span>
+                          <span className="px-2.5 py-0.5 rounded-full bg-[#9945FF]/10 border border-[#9945FF]/20 text-[#9945FF] text-[10px] font-bold uppercase tracking-wider w-fit">Crypto</span>
+                        </div>
                       </div>
-                      <div className="flex flex-col gap-1.5 md:hidden">
-                        <span className="px-2.5 py-0.5 rounded-full bg-orange-500/15 border border-orange-500/25 text-orange-400 text-[10px] font-bold uppercase tracking-wider w-fit">New Project</span>
-                        <BuildingBadge />
+                      <div className="flex-1 min-w-0">
+                        <div className="hidden md:flex items-center gap-2 mb-2">
+                          <span className="px-2.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[10px] font-bold uppercase tracking-wider">Standby</span>
+                          <span className="px-2.5 py-0.5 rounded-full bg-[#9945FF]/10 border border-[#9945FF]/20 text-[#9945FF] text-[10px] font-bold uppercase tracking-wider">Crypto</span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-white group-hover:text-[#14F195] transition-colors duration-300 mb-2">Reversal Engine</h3>
+                        <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                          AI system detecting high-probability price reversals on SOL and BTC in real-time. Signals delivered and executed automatically via Telegram.
+                        </p>
+                      </div>
+                      <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
+                        {[{ label: 'Active Assets', value: 'SOL · BTC' }, { label: 'Timeframe', value: '15m' }, { label: 'Execution', value: 'Automated' }].map((s) => (
+                          <div key={s.label} className="text-right">
+                            <div className="text-[#9945FF] font-bold text-sm">{s.value}</div>
+                            <div className="text-white/30 text-xs">{s.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex-shrink-0 md:ml-2">
+                        <div className="flex items-center gap-2 text-white/50 group-hover:text-[#14F195] transition-colors">
+                          <span className="text-sm font-medium hidden md:block">Explore</span>
+                          <ExternalLink className="w-4 h-4" />
+                        </div>
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="hidden md:flex items-center gap-2 mb-2">
-                        <span className="px-2.5 py-0.5 rounded-full bg-orange-500/15 border border-orange-500/25 text-orange-400 text-[10px] font-bold uppercase tracking-wider">New Project</span>
-                        <BuildingBadge />
-                      </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">ScorerBet</h3>
-                      <p className="text-[#b7c3e6] text-sm leading-relaxed">AI-powered player prediction system targeting goalscorer markets. Trained on hundreds of thousands of player performances to identify mispriced individual player odds and deliver precision signals.</p>
-                    </div>
-                    <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
-                      {[{ label: 'Players', value: '16,000+' },{ label: 'Data Used', value: '800,000+' },{ label: 'Type of AI', value: 'Machine Learning' }].map((s) => (
-                        <div key={s.label} className="text-right"><div className="text-orange-400 font-bold text-sm">{s.value}</div><div className="text-white/30 text-xs">{s.label}</div></div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </Link>
+              
+                {/* SHAHMAT + FRAUD */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <FeatureCard
+                    title="ShahMat Chess Engine"
+                    description="A custom-built chess engine showcasing algorithmic thinking and game theory implementation."
+                    href="/shahmat"
+                    icon={<span className="text-2xl">♟️</span>}
+                    color="green"
+                  />
+                  <FeatureCard
+                    title="Fraud Risk Scoring"
+                    description="AI-driven insurance fraud detection combining CatBoost with isotonic calibration for reliable risk scores."
+                    href="/fraud-risk-scoring"
+                    icon={<span className="text-2xl">📊</span>}
+                    color="blue"
+                  />
+                </div>
+              
               </div>
-          
-            </div>
-          
-            {/* OTHER PROJECTS */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-10"
-            >
-              <h3 className="text-2xl md:text-3xl font-bold text-white">Other Projects</h3>
-            </motion.div>
-          
-            <div className="grid md:grid-cols-3 gap-6">
-              <Link to="/reversal-engine" className="block group">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  viewport={{ once: true }}
-                  className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-[#9945FF]/50 hover:shadow-[0_0_40px_rgba(153,69,255,0.2)] transition-all duration-500 h-full"
-                >
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#9945FF]/20 to-[#14F195]/10 border border-[#9945FF]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <span className="text-2xl">◎</span>
-                  </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-0.5 rounded bg-[#9945FF]/15 text-[#9945FF] text-[10px] font-bold uppercase tracking-wider border border-[#9945FF]/20">Live</span>
-                    <span className="px-2 py-0.5 rounded bg-[#14F195]/10 text-[#14F195] text-[10px] font-bold uppercase tracking-wider border border-[#14F195]/20">Crypto</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-white group-hover:text-[#14F195] transition-colors duration-300">Reversal Engine</h3>
-                  <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">AI system detecting high-probability price reversals on SOL, BTC and XAU in real-time. Signals delivered and executed automatically.</p>
-                  <div className="flex items-center gap-2 text-white/50 group-hover:text-[#14F195] transition-colors">
-                    <span className="text-sm font-medium">Explore</span>
-                    <ExternalLink className="w-4 h-4" />
-                  </div>
-                </motion.div>
-              </Link>
-          
-              <FeatureCard
-                title="ShahMat Chess Engine"
-                description="A custom-built chess engine showcasing algorithmic thinking and game theory implementation."
-                href="/shahmat"
-                icon={<span className="text-2xl">♟️</span>}
-                color="green"
-              />
-              <FeatureCard
-                title="Fraud Risk Scoring"
-                description="AI-driven insurance fraud detection combining CatBoost with isotonic calibration for reliable risk scores."
-                href="/fraud-risk-scoring"
-                icon={<span className="text-2xl">📊</span>}
-                color="blue"
-              />
-            </div>
-          
+             </div>         
           </div>
         </section>
 
