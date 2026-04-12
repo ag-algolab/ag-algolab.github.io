@@ -1132,7 +1132,7 @@ function Home() {
                     </div>
                   </div>
                 </motion.div>
-              </Link>
+              </div>
 
 
               <div className="grid md:grid-cols-2 gap-6">
