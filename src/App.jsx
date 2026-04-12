@@ -1094,9 +1094,15 @@ function Home() {
                         <div key={s.label} className="text-right"><div className="text-violet-400 font-bold text-sm">{s.value}</div><div className="text-white/30 text-xs">{s.label}</div></div>
                       ))}
                     </div>
+                    <div className="flex-shrink-0 md:ml-2">
+                      <div className="flex items-center gap-2 text-white/50 group-hover:text-violet-400 transition-colors">
+                        <span className="text-sm font-medium hidden md:block">Explore</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
-              </Link> 
+              </Link>
 
               {/* ===== SCORERBET — orange/red palette ===== */}
               <div className="block group cursor-default">
@@ -1126,9 +1132,6 @@ function Home() {
                       {[{ label: 'Players', value: '16,000+' },{ label: 'Data Used', value: '800,000+' },{ label: 'Type of AI', value: 'Machine Learning' }].map((s) => (
                         <div key={s.label} className="text-right"><div className="text-orange-400 font-bold text-sm">{s.value}</div><div className="text-white/30 text-xs">{s.label}</div></div>
                       ))}
-                    </div>
-                    <div className="flex-shrink-0 md:ml-2">
-                      <div className="flex items-center gap-2 text-white/50 group-hover:text-orange-400 transition-colors"><span className="text-sm font-medium hidden md:block">Explore</span><ExternalLink className="w-4 h-4" /></div>
                     </div>
                   </div>
                 </motion.div>
