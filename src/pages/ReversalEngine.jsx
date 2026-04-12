@@ -348,7 +348,7 @@ function TelegramAlerts() {
                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
               </svg>
             </div>
-            <span className="text-white/35 text-[11px]">bot · SOL · BTC · XAU</span>
+            <span className="text-white/35 text-[11px]">bot · SOL · BTC</span>
           </div>
           <div className="flex items-center gap-2.5 text-white/25">
             <Phone className="w-4 h-4" />
@@ -430,7 +430,7 @@ export default function ReversalEngine() {
     <>
       <Helmet>
         <title>Reversal Engine — AG Algo Lab</title>
-        <meta name="description" content="AI-powered reversal detection system for SOL, BTC and XAU. Real-time signals, automated execution." />
+        <meta name="description" content="AI-powered reversal detection system for SOL and BTC. Real-time signals, automated execution." />
       </Helmet>
 
       <div className="min-h-screen text-[#e7ecff]" style={{ backgroundColor: '#070711' }}>
@@ -461,7 +461,7 @@ export default function ReversalEngine() {
               <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border mb-8"
                 style={{ backgroundColor: 'rgba(153,69,255,0.08)', borderColor: 'rgba(153,69,255,0.2)' }}>
                 <span className="text-lg">◎</span>
-                <span className="text-sm font-medium" style={{ color: '#9945FF' }}>Crypto Intelligence · SOL · BTC · XAU</span>
+                <span className="text-sm font-medium" style={{ color: '#9945FF' }}>Crypto Intelligence · SOL · BTC</span>
               </div>
 
               <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
@@ -546,7 +546,7 @@ export default function ReversalEngine() {
                 {
                   step: '01',
                   title: 'Real-Time Ingestion',
-                  desc: 'Price action and order flow data streamed continuously across SOL, BTC, and XAU on 15-minute intervals.',
+                  desc: 'Price action and order flow data streamed continuously across SOL and BTC on 15-minute intervals.',
                   color: '#9945FF',
                 },
                 {
@@ -626,11 +626,10 @@ export default function ReversalEngine() {
               }}
             >
               <h3 className="text-white font-bold text-xl mb-6 text-center">Assets Covered</h3>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {[
                   { symbol: '◎', name: 'Solana', ticker: 'SOL/USDC', color: '#9945FF' },
                   { symbol: '₿', name: 'Bitcoin', ticker: 'BTC/USDT', color: '#F7931A' },
-                  { symbol: '✦', name: 'Gold', ticker: 'XAU/USD', color: '#FFD700' },
                 ].map((asset) => (
                   <div key={asset.ticker} className="flex flex-col items-center gap-2 py-4 rounded-xl border border-white/5 bg-white/[0.02]">
                     <span className="text-3xl" style={{ color: asset.color }}>{asset.symbol}</span>
