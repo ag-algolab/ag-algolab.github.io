@@ -987,7 +987,7 @@ function Home() {
               <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
                 <div className="flex-shrink-0">
                   <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-                    <img src="/founder.jpeg" alt="Anthony Gocmen" className="w-full h-full object-cover" />
+                    <img src="/founder.jpg" alt="Anthony Gocmen" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 <div className="flex-1 text-center md:text-left">
