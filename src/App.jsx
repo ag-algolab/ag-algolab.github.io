@@ -604,7 +604,6 @@ function FlippingCourseCard() {
     { id: '06', title: 'Formatage  HTML', desc: "Blocs de citation ou de code, gras, ..." },
     { id: '07', title: 'Créer son Channel', desc: "Création + récupération de l'ID via bot" },
     { id: '08', title: 'Automatiser son Channel', desc: "Envoi automatique de contenus" },
-    { id: '09', title: 'Menus & QCM Interactifs', desc: "Boutons, commandes et interfaces", advanced: true },
   ];
 
   const catboostCurriculum = [
