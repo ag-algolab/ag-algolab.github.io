@@ -240,9 +240,10 @@ function ServicesSection() {
                 so your team focuses time and money where it actually counts.
               </p>
               <div className="mt-auto pt-4 border-t border-white/[0.06] flex items-center gap-3">
-                <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider">Stack</span>
+                <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider">Workflow </span>
                 <div className="flex items-center gap-2">
-                  {['CatBoost', 'Isotonic Calibration', 'SHAP'].map((s) => (
+                  {['Preprocessing', 'CatBoost', 'Isotonic Calibration', 'Scoring System', 'SHAP Report'].map((s) => (
+
                     <span key={s} className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06] text-white/30 text-[10px] font-mono">
                       {s}
                     </span>
