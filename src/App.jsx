@@ -144,7 +144,7 @@ function ServicesSection() {
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
                 <div className="flex items-start gap-4">
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/10 border border-white/10 flex items-center justify-center flex-shrink-0 text-2xl">
-                    ∿
+                    ❖
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-white mb-1">
@@ -283,28 +283,46 @@ function ServicesSection() {
                 Let's discuss and design something together, built for YOUR context,
                 scoped around YOUR actual constraints.
               </p>
- 
-              <div className="mt-auto pt-4 border-t border-white/[0.06] flex items-center gap-3 flex-wrap">
-                <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider">Sectors</span>
-                <div className="flex items-center gap-2 flex-wrap">
-                  {['Finance', 'Insurance', 'Operations', 'Research', 'Other'].map((s) => (
-                    <span key={s} className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06] text-white/30 text-[10px] font-mono">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
           </motion.div>
         </div>
         <div className="flex justify-center mt-8">
           <button
             onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-            className="group flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-amber-500/15 to-orange-500/10 border border-amber-500/25 hover:border-amber-500/50 hover:from-amber-500/20 hover:to-orange-500/15 transition-all duration-300"
+            className="group relative flex items-center gap-3 px-10 py-4 rounded-2xl border border-white/20 overflow-hidden transition-all duration-500 hover:border-white/30 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(52,211,153,0.2)]"
+            style={{
+              background: 'linear-gradient(135deg, #0e2a1f, #0e1f2a, #0e2a1f)',
+            }}
           >
-            <Mail className="w-4 h-4 text-amber-400" />
-            <span className="text-amber-300 font-semibold text-sm">Discuss your project</span>
-            <ArrowRight className="w-4 h-4 text-amber-400/60 group-hover:translate-x-1 transition-transform" />
+            {/* Animated gradient background */}
+            <div
+              className="absolute inset-0 opacity-60"
+              style={{
+                background: 'linear-gradient(270deg, #34d399, #38bdf8, #6ee7b7, #34d399)',
+                backgroundSize: '400% 400%',
+                animation: 'gradientShift 6s ease infinite',
+                mixBlendMode: 'screen',
+              }}
+            />
+          
+            {/* Soft glow pulse */}
+            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+              style={{ boxShadow: 'inset 0 0 30px rgba(52,211,153,0.1)' }}
+            />
+          
+            <Mail className="w-4 h-4 text-emerald-300 relative z-10" />
+            <span className="text-white font-semibold text-sm tracking-wide relative z-10">
+              Discuss your project
+            </span>
+            <ArrowRight className="w-4 h-4 text-emerald-300/70 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
+          
+            <style>{`
+              @keyframes gradientShift {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+              }
+            `}</style>
           </button>
         </div>
       </div>
