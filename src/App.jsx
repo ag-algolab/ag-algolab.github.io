@@ -236,23 +236,10 @@ function ServicesSection() {
               </div>
  
               <p className="text-[#b7c3e6] text-sm leading-relaxed mb-6">
-                Detect what your rules miss. ML systems trained on your historical data
-                to surface suspicious patterns, outliers, and high-risk signals — before they cost you.
+                Stop reviewing everything — know exactly where to look. ML systems trained on your 
+                historical data prioritize what matters, with calibrated probabilities and explainable 
+                risk factors so your team focuses time and resources where it counts.
               </p>
- 
-              <div className="space-y-2 mb-6">
-                {[
-                  'Fraud scoring with calibrated probabilities',
-                  'Real-time anomaly flagging pipeline',
-                  'Explainable risk factors per case',
-                  'Integration with your existing workflow',
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/60 mt-1.5 flex-shrink-0" />
-                    <span className="text-white/50 text-xs">{item}</span>
-                  </div>
-                ))}
-              </div>
  
               <div className="mt-auto pt-4 border-t border-white/[0.06]">
                 <span className="text-white/20 text-[10px] font-mono">Stack — CatBoost · Isotonic Calibration · SHAP</span>
@@ -287,17 +274,9 @@ function ServicesSection() {
  
               <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">
                 Have a problem that doesn't fit a standard mold? Good.
-                The most valuable systems are the ones designed from scratch
-                for a specific context — not adapted from a template.
+                Let's discuss and design something together, built for YOUR context,
+                scoped around YOUR actual constraints.
               </p>
- 
-              <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 mb-6">
-                <p className="text-white/60 text-xs italic leading-relaxed">
-                  "Whether it's a scoring engine, a research prototype, an automated pipeline,
-                  or something you're not sure how to frame yet —
-                  bring the problem. We'll scope it together."
-                </p>
-              </div>
  
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Finance', 'Insurance', 'Operations', 'Research', 'Other'].map((tag) => (
