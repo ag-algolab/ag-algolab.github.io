@@ -7,7 +7,7 @@ import ReversalEngine from "./pages/ReversalEngine";
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play, Send, MoreVertical } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play, Send, MoreVertical, ArrowRight } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 
 /* ================= BUILDING BADGE COMPONENT ================= */
@@ -1151,6 +1151,7 @@ function Home() {
   const navItems = [
     { label: 'Home', to: 'home' },
     { label: 'Founder', to: 'founder' },
+    { label: 'Services', to: 'services' },
     { label: 'Projects', to: 'projects' },
     { label: 'Knowledge Hub', to: 'knowledge-hub' },
     { label: 'Contact', to: 'contact' },
@@ -1291,7 +1292,9 @@ function Home() {
         </section>
 
         {/* Service Section */}
-        <ServicesSection />
+        <section id="services" className="py-24 relative">
+          <ServicesSection />
+        </section>
 
         {/* Projects Section */}
         <section id="projects" className="py-24 relative overflow-hidden">
