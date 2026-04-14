@@ -121,10 +121,6 @@ function ServicesSection() {
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">
             Services
           </h2>
-          <p className="text-[#b7c3e6] max-w-xl mx-auto leading-relaxed">
-            Every model is stress-tested before it touches a decision.
-            Rigorous validation, measurable results, production-grade delivery.
-          </p>
         </motion.div>
  
         {/* ── SERVICE 1 : Predictive Analytics ── */}
@@ -265,7 +261,7 @@ function ServicesSection() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-500/8 to-transparent rounded-bl-full" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
  
-            <div className="p-7 flex flex-col h-full relative z-10">
+            <div className="p-7 flex flex-col h-full justify-center relative z-10">
               <div className="flex items-start gap-4 mb-3">
                 <div className="w-14 h-14 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 text-2xl">
                   ✦
