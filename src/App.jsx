@@ -48,6 +48,291 @@ function StandbyBadge() {
   );
 }
 
+
+{/*Service Section*/}
+function ServicesSection() {
+  const tiers = [
+    {
+      label: 'Statistical',
+      badge: 'Layer 01',
+      color: 'cyan',
+      icon: '📐',
+      tools: 'ARIMA · ETS · Prophet · Theta',
+      desc: 'Fast, interpretable baselines. Perfect when explainability matters more than raw performance.',
+    },
+    {
+      label: 'Machine Learning',
+      badge: 'Layer 02',
+      color: 'violet',
+      icon: '⚙️',
+      tools: 'CatBoost · LightGBM · MLForecast',
+      desc: 'Production-grade pipelines with walk-forward validation and feature engineering. The core offering.',
+      highlight: true,
+    },
+    {
+      label: 'Deep Learning',
+      badge: 'Layer 03',
+      color: 'pink',
+      icon: '🧠',
+      tools: 'N-HiTS · TFT · PatchTST',
+      desc: 'State-of-the-art architectures for complex patterns, long horizons, and multi-variate series.',
+    },
+  ];
+ 
+  const tierColors = {
+    cyan: {
+      badge: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400',
+      glow: 'hover:border-cyan-500/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.08)]',
+      dot: 'bg-cyan-400',
+      tool: 'text-cyan-400/70',
+    },
+    violet: {
+      badge: 'bg-violet-500/10 border-violet-500/20 text-violet-400',
+      glow: 'hover:border-violet-500/40 hover:shadow-[0_0_30px_rgba(139,92,246,0.12)]',
+      dot: 'bg-violet-400',
+      tool: 'text-violet-400/70',
+    },
+    pink: {
+      badge: 'bg-pink-500/10 border-pink-500/20 text-pink-400',
+      glow: 'hover:border-pink-500/40 hover:shadow-[0_0_30px_rgba(236,72,153,0.08)]',
+      dot: 'bg-pink-400',
+      tool: 'text-pink-400/70',
+    },
+  };
+ 
+  return (
+    <section id="services" className="py-24 relative overflow-hidden">
+      {/* Background atmosphere */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-blue-500/[0.03] rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-purple-500/[0.03] rounded-full blur-3xl" />
+      </div>
+ 
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+ 
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <span className="inline-block px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-white/40 text-xs font-mono uppercase tracking-widest mb-4">
+            What we build for you
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">
+            Services
+          </h2>
+          <p className="text-[#b7c3e6] max-w-xl mx-auto leading-relaxed">
+            Every engagement is scoped, built, and validated from scratch.
+            No templates. No shortcuts. Built to go into production.
+          </p>
+        </motion.div>
+ 
+        {/* ── SERVICE 1 : Predictive Analytics ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mb-6"
+        >
+          <div className="relative bg-[#141f38] rounded-2xl border border-white/10 overflow-hidden">
+            {/* Top glow */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
+ 
+            {/* Header of card */}
+            <div className="p-8 pb-6">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/10 border border-white/10 flex items-center justify-center flex-shrink-0 text-2xl">
+                    📈
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-1">
+                      Predictive Analytics & Forecasting
+                    </h3>
+                    <p className="text-[#b7c3e6] text-sm leading-relaxed max-w-xl">
+                      Turn your historical data into a foresight engine. Revenue, demand, claims, cash flow —
+                      forecast what matters with the right level of sophistication for your context.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex-shrink-0">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider">
+                    3 Approaches
+                  </span>
+                </div>
+              </div>
+ 
+              {/* 3 tier cards */}
+              <div className="grid md:grid-cols-3 gap-4">
+                {tiers.map((tier, i) => {
+                  const c = tierColors[tier.color];
+                  return (
+                    <motion.div
+                      key={tier.label}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: i * 0.1 }}
+                      viewport={{ once: true }}
+                      className={`relative bg-[#0e1424] rounded-xl p-5 border border-white/[0.07] transition-all duration-300 ${c.glow} ${tier.highlight ? 'ring-1 ring-violet-500/20' : ''}`}
+                    >
+                      {tier.highlight && (
+                        <div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
+                      )}
+                      <div className="flex items-center justify-between mb-3">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${c.badge}`}>
+                          {tier.badge}
+                        </span>
+                        <span className="text-lg">{tier.icon}</span>
+                      </div>
+                      <h4 className="text-white font-semibold mb-2">{tier.label}</h4>
+                      <p className="text-white/40 text-[11px] font-mono mb-3 leading-relaxed">{tier.tools}</p>
+                      <p className="text-[#b7c3e6] text-xs leading-relaxed">{tier.desc}</p>
+                      {tier.highlight && (
+                        <div className="mt-3 pt-3 border-t border-white/5">
+                          <span className="text-violet-400/60 text-[10px] font-semibold uppercase tracking-wider">Core offering</span>
+                        </div>
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </div>
+ 
+              {/* Deliverable strip */}
+              <div className="mt-4 px-4 py-3 rounded-lg bg-white/[0.02] border border-white/[0.05] flex flex-wrap gap-4 items-center">
+                <span className="text-white/25 text-xs uppercase tracking-widest font-mono">Deliverables</span>
+                {['Backtested model', 'Walk-forward validation report', 'Interactive forecast dashboard', 'Confidence intervals'].map((d) => (
+                  <span key={d} className="flex items-center gap-1.5 text-white/50 text-xs">
+                    <span className="w-1 h-1 rounded-full bg-blue-400/60" />
+                    {d}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+ 
+        {/* ── SERVICES 2 & 3 side by side ── */}
+        <div className="grid md:grid-cols-2 gap-6">
+ 
+          {/* SERVICE 2 : Fraud & Anomaly Detection */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="relative bg-[#141f38] rounded-2xl border border-white/10 overflow-hidden hover:border-emerald-500/30 hover:shadow-[0_0_40px_rgba(16,185,129,0.07)] transition-all duration-500"
+          >
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
+            <div className="p-7 flex flex-col h-full">
+              <div className="flex items-start gap-4 mb-5">
+                <div className="w-14 h-14 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0 text-2xl">
+                  🛡️
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">
+                    Fraud & Anomaly Detection
+                  </h3>
+                  <span className="text-[10px] uppercase tracking-widest text-emerald-400/60 font-mono">Insurance · Finance · Operations</span>
+                </div>
+              </div>
+ 
+              <p className="text-[#b7c3e6] text-sm leading-relaxed mb-6">
+                Detect what your rules miss. ML systems trained on your historical data
+                to surface suspicious patterns, outliers, and high-risk signals — before they cost you.
+              </p>
+ 
+              <div className="space-y-2 mb-6">
+                {[
+                  'Fraud scoring with calibrated probabilities',
+                  'Real-time anomaly flagging pipeline',
+                  'Explainable risk factors per case',
+                  'Integration with your existing workflow',
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/60 mt-1.5 flex-shrink-0" />
+                    <span className="text-white/50 text-xs">{item}</span>
+                  </div>
+                ))}
+              </div>
+ 
+              <div className="mt-auto pt-4 border-t border-white/[0.06]">
+                <span className="text-white/20 text-[10px] font-mono">Stack — CatBoost · Isotonic Calibration · SHAP</span>
+              </div>
+            </div>
+          </motion.div>
+ 
+          {/* SERVICE 3 : On-Demand */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="relative bg-gradient-to-br from-[#141f38] to-[#1a1535] rounded-2xl border border-white/10 overflow-hidden hover:border-amber-500/30 hover:shadow-[0_0_40px_rgba(245,158,11,0.07)] transition-all duration-500"
+          >
+            {/* Decorative corner */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-500/8 to-transparent rounded-bl-full" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
+ 
+            <div className="p-7 flex flex-col h-full relative z-10">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="w-14 h-14 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 text-2xl">
+                  ✦
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">
+                    Built Around Your Problem
+                  </h3>
+                  <span className="text-[10px] uppercase tracking-widest text-amber-400/60 font-mono">On-demand · No fixed scope</span>
+                </div>
+              </div>
+ 
+              <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">
+                Have a problem that doesn't fit a standard mold? Good.
+                The most valuable systems are the ones designed from scratch
+                for a specific context — not adapted from a template.
+              </p>
+ 
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 mb-6">
+                <p className="text-white/60 text-xs italic leading-relaxed">
+                  "Whether it's a scoring engine, a research prototype, an automated pipeline,
+                  or something you're not sure how to frame yet —
+                  bring the problem. We'll scope it together."
+                </p>
+              </div>
+ 
+              <div className="flex flex-wrap gap-2 mb-6">
+                {['Finance', 'Insurance', 'Operations', 'Research', 'Other'].map((tag) => (
+                  <span key={tag} className="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white/40 text-xs">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+ 
+              <div className="mt-auto">
+                <a
+                  href="mailto:anthony.gocmen@dauphine.eu"
+                  className="group w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500/15 to-orange-500/10 border border-amber-500/25 hover:border-amber-500/50 hover:from-amber-500/20 hover:to-orange-500/15 transition-all duration-300"
+                >
+                  <Mail className="w-4 h-4 text-amber-400" />
+                  <span className="text-amber-300 font-semibold text-sm">Discuss your project</span>
+                  <ArrowRight className="w-4 h-4 text-amber-400/60 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+ 
+      </div>
+    </section>
+  );
+}
+ 
+
+
 /* ================= TECH ORBIT COMPONENT ================ */
 function TechOrbit() {
   const techs = [
@@ -1004,6 +1289,9 @@ function Home() {
             </motion.div>
           </div>
         </section>
+
+        {/* Service Section */}
+        <ServicesSection />
 
         {/* Projects Section */}
         <section id="projects" className="py-24 relative overflow-hidden">
