@@ -236,13 +236,18 @@ function ServicesSection() {
               </div>
  
               <p className="text-[#b7c3e6] text-sm leading-relaxed mb-6">
-                Stop reviewing everything — know exactly where to look. ML systems trained on your 
-                historical data prioritize what matters, with calibrated probabilities and explainable 
-                risk factors so your team focuses time and resources where it counts.
+                Know exactly where to look. Calibrated risk scores and explainable signals, 
+                so your team focuses time and money where it actually counts.
               </p>
- 
-              <div className="mt-auto pt-4 border-t border-white/[0.06]">
-                <span className="text-white/20 text-[10px] font-mono">Stack — CatBoost · Isotonic Calibration · SHAP</span>
+              <div className="mt-auto pt-4 border-t border-white/[0.06] flex items-center gap-3">
+                <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider">Stack</span>
+                <div className="flex items-center gap-2">
+                  {['CatBoost', 'Isotonic Calibration', 'SHAP'].map((s) => (
+                    <span key={s} className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06] text-white/30 text-[10px] font-mono">
+                      {s}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
