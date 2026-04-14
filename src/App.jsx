@@ -118,15 +118,12 @@ function ServicesSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-white/40 text-xs font-mono uppercase tracking-widest mb-4">
-            What we build for you
-          </span>
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">
             Services
           </h2>
           <p className="text-[#b7c3e6] max-w-xl mx-auto leading-relaxed">
-            Every engagement is scoped, built, and validated from scratch.
-            No templates. No shortcuts. Built to go into production.
+            Every model is stress-tested before it touches a decision.
+            Rigorous validation, measurable results, production-grade delivery.
           </p>
         </motion.div>
  
@@ -154,7 +151,7 @@ function ServicesSection() {
                       Predictive Analytics & Forecasting
                     </h3>
                     <p className="text-[#b7c3e6] text-sm leading-relaxed max-w-xl">
-                      Turn your historical data into a foresight engine. Revenue, demand, claims, cash flow —
+                      Turn your historical data into a foresight engine. Revenue, demand, claims, cash flow,
                       forecast what matters with the right level of sophistication for your context.
                     </p>
                   </div>
@@ -202,14 +199,12 @@ function ServicesSection() {
               </div>
  
               {/* Deliverable strip */}
-              <div className="mt-4 px-4 py-3 rounded-lg bg-white/[0.02] border border-white/[0.05] flex flex-wrap gap-4 items-center">
-                <span className="text-white/25 text-xs uppercase tracking-widest font-mono">Deliverables</span>
-                {['Backtested model', 'Walk-forward validation report', 'Interactive forecast dashboard', 'Confidence intervals'].map((d) => (
-                  <span key={d} className="flex items-center gap-1.5 text-white/50 text-xs">
-                    <span className="w-1 h-1 rounded-full bg-blue-400/60" />
-                    {d}
-                  </span>
-                ))}
+              <div className="mt-4 px-4 py-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+                <span className="text-white/25 text-xs uppercase tracking-widest font-mono block mb-2">Deliverables tailored to your needs</span>
+                <p className="text-white/45 text-xs leading-relaxed">
+                  From a standalone model to a fully documented pipeline, interactive dashboard, 
+                  automated reporting, or API-ready deployment, scoped around what you actually need.
+                </p>
               </div>
             </div>
           </div>
@@ -286,7 +281,7 @@ function ServicesSection() {
                   <h3 className="text-xl font-bold text-white mb-1">
                     Built Around Your Problem
                   </h3>
-                  <span className="text-[10px] uppercase tracking-widest text-amber-400/60 font-mono">On-demand · No fixed scope</span>
+                  <span className="text-[10px] uppercase tracking-widest text-amber-400/60 font-mono">On-demand · Fully tailored scope</span>
                 </div>
               </div>
  
@@ -311,21 +306,19 @@ function ServicesSection() {
                   </span>
                 ))}
               </div>
- 
-              <div className="mt-auto">
-                <a
-                  href="mailto:anthony.gocmen@dauphine.eu"
-                  className="group w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500/15 to-orange-500/10 border border-amber-500/25 hover:border-amber-500/50 hover:from-amber-500/20 hover:to-orange-500/15 transition-all duration-300"
-                >
-                  <Mail className="w-4 h-4 text-amber-400" />
-                  <span className="text-amber-300 font-semibold text-sm">Discuss your project</span>
-                  <ArrowRight className="w-4 h-4 text-amber-400/60 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
             </div>
           </motion.div>
         </div>
- 
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
+            className="group flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-amber-500/15 to-orange-500/10 border border-amber-500/25 hover:border-amber-500/50 hover:from-amber-500/20 hover:to-orange-500/15 transition-all duration-300"
+          >
+            <Mail className="w-4 h-4 text-amber-400" />
+            <span className="text-amber-300 font-semibold text-sm">Discuss your project</span>
+            <ArrowRight className="w-4 h-4 text-amber-400/60 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
       </div>
     </section>
   );
