@@ -66,7 +66,7 @@ function ServicesSection() {
       color: 'violet',
       icon: '⚙️',
       tools: 'CatBoost · LightGBM · MLForecast',
-      desc: 'Production-grade pipelines with walk-forward validation and feature engineering. The core offering.',
+      desc: 'Production-grade pipelines with walk-forward validation and feature engineering.',
       highlight: true,
     },
     {
@@ -144,7 +144,7 @@ function ServicesSection() {
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
                 <div className="flex items-start gap-4">
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/10 border border-white/10 flex items-center justify-center flex-shrink-0 text-2xl">
-                    📈
+                    ∿
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-white mb-1">
@@ -279,17 +279,20 @@ function ServicesSection() {
               </div>
  
               <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">
-                Have a problem that doesn't fit a standard mold? Good.
+                Have a problem that doesn't fit a standard mold? Good. <br />
                 Let's discuss and design something together, built for YOUR context,
                 scoped around YOUR actual constraints.
               </p>
  
-              <div className="flex flex-wrap gap-2 mb-6">
-                {['Finance', 'Insurance', 'Operations', 'Research', 'Other'].map((tag) => (
-                  <span key={tag} className="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white/40 text-xs">
-                    {tag}
-                  </span>
-                ))}
+              <div className="mt-auto pt-4 border-t border-white/[0.06] flex items-center gap-3 flex-wrap">
+                <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider">Sectors</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {['Finance', 'Insurance', 'Operations', 'Research', 'Other'].map((s) => (
+                    <span key={s} className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06] text-white/30 text-[10px] font-mono">
+                      {s}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
