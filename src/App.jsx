@@ -56,7 +56,6 @@ function ServicesSection() {
       label: 'Statistical',
       badge: 'Layer 01',
       color: 'cyan',
-      icon: '📐',
       tools: 'ARIMA · ETS · Prophet · Theta',
       desc: 'Fast, interpretable baselines. Perfect when explainability matters more than raw performance.',
     },
@@ -64,7 +63,6 @@ function ServicesSection() {
       label: 'Machine Learning',
       badge: 'Layer 02',
       color: 'violet',
-      icon: '⚙️',
       tools: 'CatBoost · LightGBM · MLForecast',
       desc: 'Production-grade pipelines with walk-forward validation and feature engineering.',
       highlight: true,
@@ -73,7 +71,6 @@ function ServicesSection() {
       label: 'Deep Learning',
       badge: 'Layer 03',
       color: 'pink',
-      icon: '🧠',
       tools: 'N-HiTS · TFT · PatchTST',
       desc: 'State-of-the-art architectures for complex patterns, long horizons, and multi-variate series.',
     },
@@ -179,7 +176,6 @@ function ServicesSection() {
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${c.badge}`}>
                           {tier.badge}
                         </span>
-                        <span className="text-lg">{tier.icon}</span>
                       </div>
                       <h4 className="text-white font-semibold mb-2">{tier.label}</h4>
                       <p className="text-white/40 text-[11px] font-mono mb-3 leading-relaxed">{tier.tools}</p>
@@ -261,7 +257,8 @@ function ServicesSection() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-500/8 to-transparent rounded-bl-full" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
  
-            <div className="p-7 flex flex-col h-full justify-center relative z-10">
+            <div className="p-7 flex flex-col h-full relative z-10">
+              {/* Titre + sous-titre — alignés en haut comme la carte 2 */}
               <div className="flex items-start gap-4 mb-3">
                 <div className="w-14 h-14 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 text-2xl">
                   ✦
@@ -273,12 +270,15 @@ function ServicesSection() {
                   <span className="text-[10px] uppercase tracking-widest text-amber-400/60 font-mono">On-demand · Fully tailored scope</span>
                 </div>
               </div>
- 
-              <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">
-                Have a problem that doesn't fit a standard mold? Good. <br />
-                Let's discuss and design something together, built for YOUR context,
-                scoped around YOUR actual constraints.
-              </p>
+            
+              {/* Corps du texte — centré dans l'espace restant */}
+              <div className="flex-1 flex items-center">
+                <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                  Have a problem that doesn't fit a standard mold? Good.<br />
+                  Let's discuss and design something together, built for YOUR context,
+                  scoped around YOUR actual constraints.
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -287,14 +287,14 @@ function ServicesSection() {
             onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
             className="group relative flex items-center gap-3 px-10 py-4 rounded-2xl border border-white/20 overflow-hidden transition-all duration-500 hover:border-white/30 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(52,211,153,0.2)]"
             style={{
-              background: 'linear-gradient(135deg, #0e2a1f, #0e1f2a, #0e2a1f)',
+              background: 'linear-gradient(135deg, #020f07, #020a0f, #020f07)',
             }}
           >
             {/* Animated gradient background */}
             <div
               className="absolute inset-0 opacity-60"
               style={{
-                background: 'linear-gradient(270deg, #34d399, #38bdf8, #6ee7b7, #34d399)',
+                background: 'linear-gradient(270deg, #10b981, #0ea5e9, #8b5cf6, #10b981)',
                 backgroundSize: '400% 400%',
                 animation: 'gradientShift 6s ease infinite',
                 mixBlendMode: 'screen',
