@@ -706,80 +706,25 @@ function ServicesSection() {
                   </div>
                 </div>
             
-                {/* Performance block */}
+                {/* Every case is different */}
                 <div className="bg-[#0e1424] rounded-xl border border-white/[0.07] p-5">
-                  <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center gap-2 mb-3">
                     <span className="w-1 h-4 rounded-full bg-pink-400"/>
                     <span className="text-[10px] font-mono uppercase tracking-wider text-pink-400/80">
-                      Benchmarked results — retail forecasting
+                      Not always the right tool — and that's the point
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                    {[
-                      { label:'vs XGBoost',    val:'↑ 29%', sub:'MASE improvement',  color:'#f472b6' },
-                      { label:'vs LSTM',       val:'↑ 26%', sub:'MASE improvement',  color:'#a78bfa' },
-                      { label:'vs ARIMA/ETS',  val:'↑ 34%', sub:'WQL reduction',     color:'#60a5fa' },
-                      { label:'R²',            val:'0.987',  sub:'on held-out data',  color:'#34d399' },
-                    ].map(m => (
-                      <div key={m.label}
-                           className="bg-white/[0.02] rounded-lg p-3 border border-white/[0.05] text-center">
-                        <div className="text-[10px] text-white/30 font-mono mb-1">{m.label}</div>
-                        <div className="text-lg font-bold font-mono" style={{color: m.color}}>{m.val}</div>
-                        <div className="text-[9px] text-white/25 mt-0.5 leading-tight">{m.sub}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-[#b7c3e6] text-xs leading-relaxed">
-                    Across a large-scale retail dataset spanning multiple stores, years, 
-                    and dozens of external variables, TFT consistently outperformed every 
-                    benchmark — on short horizons like 1 to 2 weeks as much as on longer ones. 
-                    <span className="text-white font-medium"> The more complex the data environment, 
-                    the wider the gap.</span>
+                  <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                    TFT doesn't replace statistical or ML approaches. It becomes relevant when your data
+                    environment is genuinely complex — multiple interacting signals, external variables,
+                    long horizons. The more connections exist in your data,
+                    {' '}<span className="text-white font-medium">the more TFT has to work with.</span>
+                    {' '}Every forecast problem is different. What we can predict, how far ahead,
+                    and what drives the signal — that's always determined by your data first,
+                    not by the model.
                   </p>
                 </div>
-            
-                {/* What signals mattered */}
-                <div className="bg-[#0e1424] rounded-xl border border-white/[0.07] p-5">
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="w-1 h-4 rounded-full bg-pink-400"/>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-pink-400/80">
-                      What the model learned to watch — retail case
-                    </span>
-                  </div>
-                  <div className="space-y-2.5">
-                    {[
-                      { label:'Promotion periods',           val:91, color:'#f472b6' },
-                      { label:'National holidays',           val:84, color:'#a78bfa' },
-                      { label:'Past sales (lag)',             val:78, color:'#60a5fa' },
-                      { label:'Price / CPI signals',         val:61, color:'#34d399' },
-                      { label:'Location / store identity',   val:54, color:'#fbbf24' },
-                      { label:'Weather & external signals',  val:42, color:'#f97316' },
-                    ].map((item, i) => (
-                      <div key={item.label} className="flex items-center gap-3">
-                        <span className="text-[10px] text-white/40 font-mono flex-shrink-0 w-44">
-                          {item.label}
-                        </span>
-                        <div className="flex-1 h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
-                          <div className="h-full rounded-full"
-                               style={{
-                                 width:`${item.val}%`,
-                                 background: item.color,
-                                 opacity: 0.60,
-                                 animation:`barGrow 1.2s ease-out ${i*0.12+0.3}s both`,
-                                 ['--w']: `${item.val}%`
-                               }}/>
-                        </div>
-                        <span className="text-[9px] font-mono text-white/20 w-8 text-right">
-                          {item.val}%
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-white/25 text-[10px] font-mono mt-3">
-                    * Variable importance derived from TFT attention weights — retail forecasting benchmark
-                  </p>
-                </div>
-            
+                
                 {/* CTA */}
                 <div className="bg-gradient-to-br from-pink-500/[0.06] to-violet-500/[0.04] 
                                 rounded-xl border border-pink-500/[0.15] p-5 
@@ -808,8 +753,7 @@ function ServicesSection() {
                     Discuss your project
                     <ArrowRight className="w-4 h-4" />
                   </button>
-                </div>
-            
+                </div>            
               </div>
             )}
           </motion.div>  
