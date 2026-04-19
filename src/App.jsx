@@ -812,6 +812,9 @@ function ServicesSection() {
             
               </div>
             )}
+          </motion.div>  
+        </div>          
+      )}
     </section>
   );
 }
