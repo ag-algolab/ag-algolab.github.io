@@ -58,6 +58,7 @@ function ServicesSection() {
       label: 'Statistical',
       badge: '3–7 days',
       color: 'cyan',
+      hoverColor: 'hover:text-cyan-400', 
       tools: 'ARIMA · ETS · CES · Theta',
       desc: 'Fast, interpretable baselines. Perfect when explainability matters more than raw performance.',
     },
@@ -65,6 +66,7 @@ function ServicesSection() {
       label: 'Machine Learning',
       badge: '1–2 weeks',
       color: 'violet',
+      hoverColor: 'hover:text-violet-400',
       tools: 'CatBoost · LightGBM · MLForecast',
       desc: 'Production-grade pipelines with walk-forward validation and feature engineering.',
       highlight: true,
@@ -73,6 +75,7 @@ function ServicesSection() {
       label: 'Deep Learning',
       badge: 'Scope-dependent',
       color: 'pink',
+      hoverColor: 'hover:text-pink-400',
       tools: 'N-HiTS · TFT · PatchTST',
       desc: 'State-of-the-art architectures for complex patterns, long horizons, and multi-variate series.',
     },
@@ -193,8 +196,9 @@ function ServicesSection() {
                             setDemoActive(tier.label.toLowerCase().replace(' ', '-'));
                             setDemoOpen(true);
                           }}
-                          className="text-[10px] font-mono text-white/25 hover:text-white/60 
-                                     transition-colors duration-200 ml-auto"
+                          className={`text-[10px] font-mono text-white 
+                                       ${tier.hoverColor}
+                                       transition-colors duration-200 ml-auto`}
                         >
                           See example →
                         </button>
@@ -453,9 +457,6 @@ function ServicesSection() {
                     alt="CES forecast vs. realized revenue over 6 months"
                     className="w-full rounded-xl border border-white/[0.07]"
                   />
-                  <p className="text-white/40 text-[11px] font-mono mt-2 text-center">
-                    The last 6 months were hidden from the model during training — they are pure out-of-sample predictions.
-                  </p>
                 </div>
       
                 {/* MAPE explanation */}
