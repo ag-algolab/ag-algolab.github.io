@@ -57,56 +57,22 @@ body {
 
 
 /* Custom scrollbar */
-@property --sw {
-  syntax: '<percentage>';
-  inherits: true;
-  initial-value: 0%;
-}
-
-:root {
-  animation: sw-roll 5s linear infinite;
-}
-
-@keyframes sw-roll {
-  0%   { --sw: 0%;  }
-  100% { --sw: 50%; }   /* ← 50% et non 100% = loop parfaitement seamless */
-}
-
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(14, 20, 36, 0.5);
+  background: #0e1424;  /* même couleur que ton bg du site */
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 9999px;
-  background: linear-gradient(
-    180deg,
-    rgba(12, 55, 105, 0.75),    /* bleu marine profond */
-    rgba(50, 20, 110, 0.75),    /* violet profond */
-    rgba(12, 55, 105, 0.75),    /* ← repeat pour le seamless */
-    rgba(50, 20, 110, 0.75),
-    rgba(12, 55, 105, 0.75)
-  );
-  background-size: 100% 400%;
-  background-position: 0% var(--sw);
+  background: rgba(99, 102, 241, 0.35);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    rgba(12, 55, 105, 0.95),
-    rgba(50, 20, 110, 0.95),
-    rgba(12, 55, 105, 0.95),
-    rgba(50, 20, 110, 0.95),
-    rgba(12, 55, 105, 0.95)
-  );
-  background-size: 100% 400%;
-  background-position: 0% var(--sw);
+  background: rgba(99, 102, 241, 0.60);
 }
-
 
 
 
