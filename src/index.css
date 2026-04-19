@@ -57,37 +57,62 @@ body {
 
 
 /* Custom scrollbar */
+@property --sw {
+  syntax: '<percentage>';
+  inherits: true;        /* ← clé : ça cascade partout, même scrollbar */
+  initial-value: 0%;
+}
+
+:root {
+  animation: sw-roll 4s linear infinite;
+}
+
+@keyframes sw-roll {
+  0%   { --sw: 0%;   }
+  100% { --sw: 100%; }
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(14, 20, 36, 0.6);  /* dark, quasi invisible */
+  background: rgba(14, 20, 36, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 9999px;
   background: linear-gradient(
     180deg,
-    #38bdf8,   /* blue */
-    #8b5cf6,   /* purple */
-    #38bdf8,   /* blue — pour que la boucle soit seamless */
-    #8b5cf6,   /* purple */
-    #38bdf8    /* blue */
+    rgba(56, 189, 248, 0.28),    /* blue — muted */
+    rgba(139, 92, 246, 0.28),    /* purple — muted */
+    rgba(56, 189, 248, 0.28),
+    rgba(139, 92, 246, 0.28),
+    rgba(56, 189, 248, 0.28)
   );
   background-size: 100% 400%;
-  animation: scrollbar-wave 3s linear infinite;
+  background-position: 0% var(--sw);   /* ← la variable animée fait bouger le gradient */
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.50),
+    rgba(139, 92, 246, 0.50),
+    rgba(56, 189, 248, 0.50),
+    rgba(139, 92, 246, 0.50),
+    rgba(56, 189, 248, 0.50)
+  );
   background-size: 100% 400%;
-  filter: brightness(1.2);
+  background-position: 0% var(--sw);
 }
 
-@keyframes scrollbar-wave {
-  0%   { background-position: 0% 0%;   }
-  100% { background-position: 0% 100%; }
-}
+
+
+
+
+
+
 
 /* Glassmorphism effect */
 .glass {
