@@ -58,35 +58,37 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(14, 20, 36, 0.6);  /* dark, quasi invisible */
 }
 
 ::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
   background: linear-gradient(
     180deg,
-    #38bdf8,
-    #8b5cf6,
-    #38bdf8
+    #38bdf8,   /* blue */
+    #8b5cf6,   /* purple */
+    #38bdf8,   /* blue — pour que la boucle soit seamless */
+    #8b5cf6,   /* purple */
+    #38bdf8    /* blue */
   );
-  background-size: 100% 300%;
-  border-radius: 9999px;
-  animation: scrollbar-wave 4s ease-in-out infinite;
-  opacity: 0.5;
+  background-size: 100% 400%;
+  animation: scrollbar-wave 3s linear infinite;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  opacity: 0.85;
+  background-size: 100% 400%;
+  filter: brightness(1.2);
 }
 
 @keyframes scrollbar-wave {
   0%   { background-position: 0% 0%;   }
-  50%  { background-position: 0% 100%; }
-  100% { background-position: 0% 0%;   }
+  100% { background-position: 0% 100%; }
 }
+
 /* Glassmorphism effect */
 .glass {
   background: rgba(255, 255, 255, 0.05);
