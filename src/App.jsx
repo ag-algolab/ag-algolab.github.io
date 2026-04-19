@@ -51,17 +51,19 @@ function StandbyBadge() {
 
 {/*Service Section*/}
 function ServicesSection() {
+  const [demoOpen, setDemoOpen] = useState(false);
+  const [demoActive, setDemoActive] = useState('statistical');
   const tiers = [
     {
       label: 'Statistical',
-      badge: 'Layer 01',
+      badge: '3–7 days',
       color: 'cyan',
-      tools: 'ARIMA · ETS · Prophet · Theta',
+      tools: 'ARIMA · ETS · CES · Theta',
       desc: 'Fast, interpretable baselines. Perfect when explainability matters more than raw performance.',
     },
     {
       label: 'Machine Learning',
-      badge: 'Layer 02',
+      badge: '1–2 weeks',
       color: 'violet',
       tools: 'CatBoost · LightGBM · MLForecast',
       desc: 'Production-grade pipelines with walk-forward validation and feature engineering.',
@@ -69,7 +71,7 @@ function ServicesSection() {
     },
     {
       label: 'Deep Learning',
-      badge: 'Layer 03',
+      badge: 'Scope-dependent',
       color: 'pink',
       tools: 'N-HiTS · TFT · PatchTST',
       desc: 'State-of-the-art architectures for complex patterns, long horizons, and multi-variate series.',
@@ -180,11 +182,23 @@ function ServicesSection() {
                       <h4 className="text-white font-semibold mb-2">{tier.label}</h4>
                       <p className="text-white/40 text-[11px] font-mono mb-3 leading-relaxed">{tier.tools}</p>
                       <p className="text-[#b7c3e6] text-xs leading-relaxed">{tier.desc}</p>
-                      {tier.highlight && (
-                        <div className="mt-3 pt-3 border-t border-white/5">
-                          <span className="text-violet-400/60 text-[10px] font-semibold uppercase tracking-wider">Core offering</span>
-                        </div>
-                      )}
+                      <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
+                        {tier.highlight && (
+                          <span className="text-violet-400/60 text-[10px] font-semibold uppercase tracking-wider">
+                            Core offering
+                          </span>
+                        )}
+                        <button
+                          onClick={() => {
+                            setDemoActive(tier.label.toLowerCase().replace(' ', '-'));
+                            setDemoOpen(true);
+                          }}
+                          className="text-[10px] font-mono text-white/25 hover:text-white/60 
+                                     transition-colors duration-200 ml-auto"
+                        >
+                          See example →
+                        </button>
+                      </div>
                     </motion.div>
                   );
                 })}
@@ -322,6 +336,224 @@ function ServicesSection() {
           </button>
         </div>
       </div>
+      {/* ── DEMO MODAL ── */}
+      {demoOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          onClick={() => setDemoOpen(false)}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      
+          {/* Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+            className="relative bg-[#141f38] rounded-2xl border border-white/10 
+                       w-full max-w-4xl max-h-[92vh] overflow-y-auto z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Sticky header with tabs */}
+            <div className="sticky top-0 z-20 bg-[#141f38]/95 backdrop-blur-md 
+                            flex items-center justify-between px-6 py-4 
+                            border-b border-white/[0.07]">
+              <div className="flex gap-2">
+                {[
+                  { id: 'statistical',       label: 'Statistical'      },
+                  { id: 'machine-learning',  label: 'ML'               },
+                  { id: 'deep-learning',     label: 'Deep Learning'    },
+                ].map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setDemoActive(tab.id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200
+                      ${demoActive === tab.id
+                        ? 'bg-white/10 text-white border border-white/20'
+                        : 'text-white/30 hover:text-white/60 border border-transparent'
+                      }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => setDemoOpen(false)}
+                className="text-white/30 hover:text-white/70 transition-colors text-lg leading-none w-8 h-8 flex items-center justify-center"
+              >
+                ✕
+              </button>
+            </div>
+      
+            {/* ============ STATISTICAL ============ */}
+            {demoActive === 'statistical' && (
+              <div className="p-6 md:p-8 space-y-6">
+      
+                {/* Context badges */}
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20 
+                                   text-cyan-400 text-[10px] font-semibold uppercase tracking-wider">
+                    Case study
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] 
+                                   text-white/50 text-[10px] font-mono uppercase tracking-wider">
+                    French SME
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] 
+                                   text-white/50 text-[10px] font-mono uppercase tracking-wider">
+                    Real data
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] 
+                                   text-white/50 text-[10px] font-mono uppercase tracking-wider">
+                    6-month horizon
+                  </span>
+                </div>
+      
+                {/* Hero title + narrative */}
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-3">
+                    Revenue Forecasting — French SME
+                  </h3>
+                  <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                    A French small-to-medium business reached out with a simple need: 
+                    anticipate their monthly revenue to plan inventory, staffing, and cash flow 
+                    with more confidence. They provided <span className="text-white font-medium">3.5 years 
+                    of historical data</span> — nothing fancy, just two columns: <span className="text-cyan-400 font-mono text-xs">date</span> and 
+                    the <span className="text-cyan-400 font-mono text-xs">revenue</span> recorded that day.
+                  </p>
+                </div>
+      
+                {/* Model selection card */}
+                <div className="bg-[#0e1424] rounded-xl border border-white/[0.07] p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-1 h-4 rounded-full bg-cyan-400" />
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-400/80">
+                      Model selection
+                    </span>
+                  </div>
+                  <p className="text-[#b7c3e6] text-sm leading-relaxed mb-3">
+                    Picking the right model is not guesswork. Before training anything, 
+                    the data is decomposed to measure two things: <span className="text-white font-medium">trend strength</span> (is 
+                    revenue drifting up or down over time?) and <span className="text-white font-medium">seasonality strength</span> (are 
+                    there recurring monthly or yearly patterns?).
+                  </p>
+                  <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                    For this client, the analysis pointed clearly toward{' '}
+                    <span className="text-cyan-400 font-mono text-xs">CES</span> (Complex Exponential Smoothing) — a 
+                    method designed for series where trend and seasonality coexist without being 
+                    rigidly periodic. It also produces <span className="text-white font-medium">calibrated probabilistic forecasts</span>,
+                    meaning every prediction comes with an honest uncertainty range.
+                  </p>
+                </div>
+      
+                {/* The chart */}
+                <div>
+                  <img
+                    src="/forecast_stats_6M.png"
+                    alt="CES forecast vs. realized revenue over 6 months"
+                    className="w-full rounded-xl border border-white/[0.07]"
+                  />
+                  <p className="text-white/40 text-[11px] font-mono mt-2 text-center">
+                    The last 6 months were hidden from the model during training — they are pure out-of-sample predictions.
+                  </p>
+                </div>
+      
+                {/* MAPE explanation */}
+                <div className="bg-[#0e1424] rounded-xl border border-white/[0.07] p-5">
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="w-1 h-4 rounded-full bg-green-400" />
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-green-400/80">
+                          The result
+                        </span>
+                      </div>
+                      <p className="text-white/50 text-xs">Mean Absolute Percentage Error</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold font-mono text-green-400 leading-none">2.7%</div>
+                      <div className="text-white/30 text-[10px] uppercase tracking-wider mt-1">MAPE</div>
+                    </div>
+                  </div>
+                  <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                    MAPE tells you, on average, how far predictions were off in percentage terms. 
+                    A MAPE of <span className="text-green-400 font-mono text-xs">2.7%</span> means the 
+                    model was, on average, within <span className="text-white font-medium">±2.7% of the actual revenue</span> each month.
+                    For context, in retail and service businesses, anything below 
+                    <span className="text-white font-medium"> 5%</span> is considered excellent forecasting performance.
+                  </p>
+                </div>
+      
+                {/* Bottom CTA */}
+                <div className="bg-gradient-to-br from-cyan-500/[0.06] to-blue-500/[0.04] 
+                                rounded-xl border border-cyan-500/[0.15] p-5 
+                                flex flex-col md:flex-row md:items-center gap-4">
+                  <div className="flex-1">
+                    <p className="text-white font-medium text-sm mb-1">
+                      Have historical data sitting somewhere?
+                    </p>
+                    <p className="text-[#b7c3e6] text-xs leading-relaxed">
+                      If you have at least 2 years of time-stamped records, 
+                      there is likely a forecast worth building. Let's talk scope.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setDemoOpen(false);
+                      setTimeout(() => {
+                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                      }, 200);
+                    }}
+                    className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg
+                               bg-cyan-500/10 border border-cyan-500/30 text-cyan-300
+                               hover:bg-cyan-500/20 hover:border-cyan-500/50
+                               transition-all duration-200 text-sm font-medium"
+                  >
+                    Discuss your project
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+      
+              </div>
+            )}
+      
+            {/* ============ ML ============ */}
+            {demoActive === 'machine-learning' && (
+              <div className="p-12">
+                <div className="flex flex-col items-center justify-center text-center gap-3 py-12">
+                  <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 
+                                  flex items-center justify-center text-xl">
+                    ⏳
+                  </div>
+                  <p className="text-white/60 font-mono text-sm">Case study in preparation</p>
+                  <p className="text-white/30 text-xs max-w-sm">
+                    A production-grade ML pipeline showcase is being finalized. 
+                    In the meantime, the statistical example shows the same rigor applied at a simpler level.
+                  </p>
+                </div>
+              </div>
+            )}
+      
+            {/* ============ DEEP LEARNING ============ */}
+            {demoActive === 'deep-learning' && (
+              <div className="p-12">
+                <div className="flex flex-col items-center justify-center text-center gap-3 py-12">
+                  <div className="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 
+                                  flex items-center justify-center text-xl">
+                    ⏳
+                  </div>
+                  <p className="text-white/60 font-mono text-sm">Case study in preparation</p>
+                  <p className="text-white/30 text-xs max-w-sm">
+                    Deep learning examples are deployed case-by-case given their scope-dependent nature. 
+                    Discuss your specific use case to see what a tailored solution looks like.
+                  </p>
+                </div>
+              </div>
+            )}
+      
+          </motion.div>
+        </div>
+      )}
     </section>
   );
 }
