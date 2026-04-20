@@ -537,23 +537,6 @@ function ServicesSection() {
             {/* ============ DEEP LEARNING ============ */}
             {demoActive === 'deep-learning' && (
               <div className="p-6 md:p-8 space-y-6">
-                <style>{`
-                  @keyframes flowIn {
-                    0%   { opacity:0; transform:translateX(-8px); }
-                    100% { opacity:1; transform:translateX(0); }
-                  }
-                  @keyframes pulse {
-                    0%,100% { opacity:0.4; } 50% { opacity:1; }
-                  }
-                  @keyframes barGrow {
-                    from { width:0; } to { width:var(--w); }
-                  }
-                  @keyframes drawLine {
-                    from { stroke-dashoffset: 400; } to { stroke-dashoffset: 0; }
-                  }
-                  .flow-in { opacity:0; animation: flowIn 0.5s ease-out forwards; }
-                  .tft-pulse { animation: pulse 2s ease-in-out infinite; }
-                `}</style>
             
                 {/* Badges */}
                 <div className="flex flex-wrap gap-2">
@@ -563,168 +546,116 @@ function ServicesSection() {
                   </span>
                   <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] 
                                    text-white/50 text-[10px] font-mono uppercase tracking-wider">
-                    Multi-horizon
+                    TFT · N-HiTS · PatchTST
                   </span>
-                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] 
-                                   text-white/50 text-[10px] font-mono uppercase tracking-wider">
-                    Heterogeneous inputs
-                  </span>
-                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] 
-                                   text-white/50 text-[10px] font-mono uppercase tracking-wider">
-                    TFT
+                  <span className="px-2.5 py-1 rounded-md bg-pink-500/10 border border-pink-500/20 
+                                   text-pink-400 text-[10px] font-semibold uppercase tracking-wider">
+                    By appointment only
                   </span>
                 </div>
             
-                {/* Title + intro */}
+                {/* Title */}
                 <div>
                   <h3 className="text-2xl font-bold text-white mb-3">
-                    When the data gets complex — TFT takes over
+                    State-of-the-art forecasting — no ceiling on complexity
                   </h3>
                   <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                    Statistical models and ML pipelines perform well when the signal is clean. 
-                    But some businesses accumulate{' '}
-                    <span className="text-white font-medium">years of heterogeneous data</span> — 
-                    promotions, pricing, external economic signals, calendar effects, weather — 
-                    and no single model was designed to handle all of it at once.{' '}
-                    TFT was. And when complexity is high,{' '}
-                    <span className="text-white font-medium">the performance gap versus every other approach becomes very hard to ignore.</span>
+                    Where statistical models need clean, simple signals and ML pipelines 
+                    rely on engineered features from historical data, deep learning architectures 
+                    like TFT operate on a different level entirely.{' '}
+                    <span className="text-white font-medium">
+                      They ingest heterogeneous data streams — past observations, 
+                      known future variables, static metadata — simultaneously,
+                    </span>{' '}
+                    and produce calibrated multi-horizon forecasts across any time range 
+                    without retraining for each horizon.
                   </p>
                 </div>
             
-                {/* Architecture diagram */}
+                {/* What makes it different */}
                 <div className="bg-[#0e1424] rounded-xl border border-white/[0.07] p-5">
-                  <p className="text-[10px] font-mono uppercase tracking-wider text-white/25 mb-4">
-                    How TFT processes your data
-                  </p>
-            
-                  <div className="flex items-center gap-2">
-            
-                    {/* LEFT: inputs */}
-                    <div className="flex flex-col gap-1.5 flex-shrink-0 w-40">
-                      {[
-                        { label:'Past sales',         color:'#f472b6', delay:'0s'   },
-                        { label:'Promotions',         color:'#a78bfa', delay:'0.1s' },
-                        { label:'National holidays',  color:'#60a5fa', delay:'0.2s' },
-                        { label:'CPI / inflation',    color:'#34d399', delay:'0.3s' },
-                        { label:'Weather signals',    color:'#fbbf24', delay:'0.4s' },
-                        { label:'Product / location', color:'#f97316', delay:'0.5s' },
-                      ].map(inp => (
-                        <div key={inp.label}
-                             className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg 
-                                        bg-white/[0.03] border border-white/[0.06] flow-in"
-                             style={{animationDelay: inp.delay}}>
-                          <div className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                               style={{background: inp.color, opacity: 0.8}}/>
-                          <span className="text-[10px] font-mono text-white/45 truncate">
-                            {inp.label}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-            
-                    {/* Arrows → */}
-                    <div className="flex-shrink-0">
-                      <svg width="28" height="148" viewBox="0 0 28 148">
-                        {[12,36,60,84,108,132].map((y,i) => (
-                          <line key={i} x1="0" y1={y} x2="22" y2="74"
-                                stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
-                        ))}
-                        <polygon points="22,70 28,74 22,78" fill="rgba(255,255,255,0.15)"/>
-                      </svg>
-                    </div>
-            
-                    {/* CENTER: TFT box */}
-                    <div className="flex-shrink-0 flex flex-col items-center gap-2 w-20">
-                      <div className="w-16 h-20 rounded-xl border border-pink-500/30 flex flex-col 
-                                      items-center justify-center gap-2 tft-pulse"
-                           style={{
-                             background:'linear-gradient(135deg,rgba(236,72,153,0.10),rgba(139,92,246,0.10))',
-                             boxShadow:'0 0 20px rgba(236,72,153,0.10)'
-                           }}>
-                        <span className="text-[9px] font-mono text-white/40 tracking-widest">TFT</span>
-                        <div className="flex flex-col gap-1">
-                          {[0,1,2].map(i => (
-                            <div key={i} className="w-6 h-0.5 rounded-full"
-                                 style={{
-                                   background:'linear-gradient(90deg,#f472b6,#8b5cf6)',
-                                   opacity: 0.5,
-                                   animation:`pulse ${1.2+i*0.3}s ease-in-out infinite`,
-                                   animationDelay:`${i*0.2}s`
-                                 }}/>
-                          ))}
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="w-1 h-4 rounded-full bg-pink-400"/>
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-pink-400/80">
+                      What separates this from ML
+                    </span>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      {
+                        title: 'Known future inputs',
+                        desc: 'CatBoost only sees the past. TFT can integrate variables already known for the future — planned promotions, confirmed holidays, scheduled price changes — and factor them directly into the forecast.',
+                        color: '#f472b6',
+                      },
+                      {
+                        title: 'Native multi-horizon',
+                        desc: 'ML models require one model per forecast horizon, with errors compounding at each step. TFT produces 1-week through 52-week forecasts in a single forward pass, with calibrated uncertainty at every step.',
+                        color: '#a78bfa',
+                      },
+                      {
+                        title: 'Temporal attention',
+                        desc: 'The model learns which moments in the past mattered most for each prediction — surfacing interpretable patterns across seasonality, regime shifts, and lag effects without manual feature engineering.',
+                        color: '#60a5fa',
+                      },
+                    ].map((item, i) => (
+                      <div key={i} className="flex gap-3">
+                        <div className="w-1 flex-shrink-0 rounded-full mt-1.5"
+                             style={{background: item.color, opacity: 0.7, minHeight: '12px'}}/>
+                        <div>
+                          <span className="text-white text-sm font-medium">{item.title} — </span>
+                          <span className="text-[#b7c3e6] text-sm leading-relaxed">{item.desc}</span>
                         </div>
                       </div>
-                      <span className="text-[8px] text-white/20 font-mono text-center leading-tight">
-                        learns all<br/>at once
-                      </span>
-                    </div>
-            
-                    {/* Arrows → */}
-                    <div className="flex-shrink-0">
-                      <svg width="28" height="148" viewBox="0 0 28 148">
-                        {[12,36,60,84,108,132].map((y,i) => (
-                          <line key={i} x1="6" y1="74" x2="28" y2={y}
-                                stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
-                        ))}
-                        <polygon points="6,70 0,74 6,78" fill="rgba(255,255,255,0.15)"/>
-                      </svg>
-                    </div>
-            
-                    {/* RIGHT: outputs */}
-                    <div className="flex flex-col gap-1.5 flex-1">
-                      {[
-                        { label:'1-week forecast',   val:97, color:'#f472b6' },
-                        { label:'2-week forecast',   val:95, color:'#f472b6' },
-                        { label:'4-week forecast',   val:91, color:'#a78bfa' },
-                        { label:'8-week forecast',   val:87, color:'#a78bfa' },
-                        { label:'12-week forecast',  val:82, color:'#60a5fa' },
-                        { label:'Uncertainty band',  val:95, color:'#34d399' },
-                      ].map((out, i) => (
-                        <div key={out.label}
-                             className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg 
-                                        bg-white/[0.03] border border-white/[0.06] flow-in"
-                             style={{animationDelay:`${0.1*i+0.3}s`}}>
-                          <span className="text-[10px] font-mono text-white/40 flex-shrink-0 w-28 truncate">
-                            {out.label}
-                          </span>
-                          <div className="flex-1 h-1 bg-white/[0.05] rounded-full overflow-hidden">
-                            <div className="h-full rounded-full"
-                                 style={{
-                                   width:`${out.val}%`,
-                                   background: out.color,
-                                   opacity: 0.55,
-                                   animation:`barGrow 1s ease-out ${i*0.1+0.5}s both`,
-                                   ['--w']: `${out.val}%`
-                                 }}/>
-                          </div>
-                          <span className="text-[9px] font-mono text-white/20 w-7 text-right flex-shrink-0">
-                            {out.val}%
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                    ))}
                   </div>
                 </div>
             
-                {/* Every case is different */}
-                <div className="bg-[#0e1424] rounded-xl border border-white/[0.07] p-5">
+                {/* Who it's for */}
+                <div className="bg-[#0e1424] rounded-xl border border-pink-500/[0.12] p-5">
                   <div className="flex items-center gap-2 mb-3">
                     <span className="w-1 h-4 rounded-full bg-pink-400"/>
                     <span className="text-[10px] font-mono uppercase tracking-wider text-pink-400/80">
-                      Not always the right tool — and that's the point
+                      Who this is built for
                     </span>
                   </div>
-                  <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                    TFT doesn't replace statistical or ML approaches. It becomes relevant when your data
-                    environment is genuinely complex — multiple interacting signals, external variables,
-                    long horizons. The more connections exist in your data,
-                    {' '}<span className="text-white font-medium">the more TFT has to work with.</span>
-                    {' '}Every forecast problem is different. What we can predict, how far ahead,
-                    and what drives the signal — that's always determined by your data first,
-                    not by the model.
+                  <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">
+                    Deep learning forecasting is not a turnkey product. It requires 
+                    substantial data infrastructure, clean pipelines, and technical 
+                    ownership on your side.{' '}
+                    <span className="text-white font-medium">
+                      This offering is designed for organizations that already have 
+                      an internal data or engineering function — a CTO, a data team, 
+                      or an existing ML stack — and are looking for specialized expertise 
+                      to push their forecasting capabilities further.
+                    </span>
                   </p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      'Existing data infrastructure',
+                      'Internal technical team',
+                      'High data volume',
+                      'Long forecast horizons',
+                      'Multiple interacting signals',
+                    ].map(tag => (
+                      <span key={tag}
+                            className="px-2.5 py-1 rounded-md bg-pink-500/[0.06] border border-pink-500/[0.15] 
+                                       text-pink-300/60 text-[10px] font-mono">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                
+            
+                {/* No example block */}
+                <div className="flex items-start gap-3 px-4 py-3 rounded-lg 
+                                bg-white/[0.02] border border-white/[0.05]">
+                  <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider leading-relaxed">
+                    No standardized example is provided here — every deep learning engagement 
+                    starts from your data, your architecture constraints, and your forecast objectives. 
+                    The scope is defined together.
+                  </span>
+                </div>
+            
                 {/* CTA */}
                 <div className="bg-gradient-to-br from-pink-500/[0.06] to-violet-500/[0.04] 
                                 rounded-xl border border-pink-500/[0.15] p-5 
@@ -734,8 +665,7 @@ function ServicesSection() {
                       You're sitting on signals you haven't started reading yet.
                     </p>
                     <p className="text-[#b7c3e6] text-xs leading-relaxed">
-                      Pricing history, external events, operational data — 
-                      if the complexity is there, so is the performance gain.
+                      If the infrastructure is there, so is the opportunity.
                     </p>
                   </div>
                   <button
@@ -753,9 +683,10 @@ function ServicesSection() {
                     Discuss your project
                     <ArrowRight className="w-4 h-4" />
                   </button>
-                </div>            
+                </div>
+            
               </div>
-            )}
+            )} 
           </motion.div>  
         </div>          
       )}
@@ -1416,23 +1347,13 @@ function Home() {
                 </Link>
               
                 {/* SHAHMAT + FRAUD */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  <FeatureCard
-                    title="ShahMat Chess Engine"
-                    description="A custom-built chess engine showcasing algorithmic thinking and game theory implementation."
-                    href="/shahmat"
-                    icon={<span className="text-2xl">♟️</span>}
-                    color="green"
-                  />
-                  <FeatureCard
-                    title="Fraud Risk Scoring"
-                    description="AI-driven insurance fraud detection combining CatBoost with isotonic calibration for reliable risk scores."
-                    href="/fraud-risk-scoring"
-                    icon={<span className="text-2xl">📊</span>}
-                    color="blue"
-                  />
-                </div>
-              
+                <FeatureCard
+                  title="ShahMat Chess Engine"
+                  description="A custom-built chess engine showcasing algorithmic thinking and game theory implementation."
+                  href="/shahmat"
+                  icon={<span className="text-2xl">♟️</span>}
+                  color="green"
+                />
               </div>
              </div>         
           </div>
