@@ -1425,7 +1425,7 @@ function Home() {
                       Knowledge Hub
                     </h2>
                     <p className="text-[#b7c3e6] leading-relaxed">
-                      Free courses and tutorials on <span className="text-purple-400">Machine Learning</span>, <span className="text-blue-400">Python</span>, and <span className="text-green-400">Algorithmic Trading</span>. 
+                      Free courses and tutorials in French on <span className="text-purple-400">Machine Learning</span>, <span className="text-blue-400">Python</span>, and <span className="text-green-400">Algorithmic Trading</span>. 
                       Learn by doing with real datasets and practical implementations.
                     </p>
                   </div>
@@ -1434,70 +1434,6 @@ function Home() {
             </motion.div>
 
             <FlippingCourseCard />
-        
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 gap-6"
-            >
-              <a
-                href="https://www.youtube.com/@ag_algolab_fr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative bg-[#141f38] rounded-xl p-6 border border-white/10 hover:border-blue-500/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Play className="w-6 h-6 text-red-400" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-lg">🇫🇷</span>
-                      <h4 className="text-white font-semibold group-hover:text-blue-400 transition-colors">Chaîne Française</h4>
-                    </div>
-                    <p className="text-white/50 text-sm">Cours ML, trading algorithmique & tutoriels Python</p>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
-                </div>
-                <div className="mt-4 pt-4 border-t border-white/5 font-mono text-xs text-white/30">
-                  <span className="text-purple-400">@ag_algolab_fr</span>
-                  <span className="text-white/20 mx-2">•</span>
-                  <span>Primary channel</span>
-                </div>
-              </a>
-        
-              <a
-                href="https://www.youtube.com/@ag_algolab"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative bg-[#141f38] rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Play className="w-6 h-6 text-red-400" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-lg">🇬🇧</span>
-                      <h4 className="text-white font-semibold group-hover:text-purple-400 transition-colors">English Channel</h4>
-                    </div>
-                    <p className="text-white/50 text-sm">Algo trading & Python tutorials</p>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" />
-                </div>
-                <div className="mt-4 pt-4 border-t border-white/5 font-mono text-xs text-white/30">
-                  <span className="text-purple-400">@ag_algolab</span>
-                  <span className="text-white/20 mx-2">•</span>
-                  <span>International content</span>
-                </div>
-              </a>
-            </motion.div>
           </div>
         </section>
 
