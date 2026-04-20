@@ -1357,9 +1357,14 @@ function Home() {
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
+                        {/* Badges row — aligne le titre avec les autres cards */}
+                        <div className="hidden md:flex items-center gap-2 mb-2">
+                          <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider">Open Source</span>
+                          <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/40 text-[10px] font-bold uppercase tracking-wider">PyPI</span>
+                        </div>
                         <h3 className="text-lg font-bold text-white group-hover:text-green-400 transition-colors duration-300 mb-1">ShahMat · Chess.com Analytics</h3>
                         <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                          Pull your Chess.com games, dissect your patterns by hour, Elo gap, and color, all in one Python call.
+                          Pull your Chess.com games, dissect your patterns by hour, Elo gap, and color — all in one Python call.
                         </p>
                       </div>
                       <div className="flex-shrink-0 md:ml-2">
