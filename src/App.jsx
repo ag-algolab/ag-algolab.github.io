@@ -1346,14 +1346,31 @@ function Home() {
                   </motion.div>
                 </Link>
               
-                {/* SHAHMAT + FRAUD */}
-                <FeatureCard
-                  title="ShahMat Chess Engine"
-                  description="A custom-built chess engine showcasing algorithmic thinking and game theory implementation."
-                  href="/shahmat"
-                  icon={<span className="text-2xl">♟️</span>}
-                  color="green"
-                />
+                {/* SHAHMAT */}
+                <Link to="/shahmat" className="block group">
+                  <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}
+                    className="relative bg-[#141f38] rounded-2xl p-5 border border-white/10 hover:border-green-500/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.12)] transition-all duration-500 overflow-hidden">
+                    <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-5">
+                      <div className="flex-shrink-0">
+                        <div className="w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/15 flex items-center justify-center transition-all duration-300 group-hover:bg-green-500/20">
+                          <span className="text-xl">♟️</span>
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg font-bold text-white group-hover:text-green-400 transition-colors duration-300 mb-1">ShahMat · Chess.com Analytics</h3>
+                        <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                          Pull your Chess.com games, dissect your patterns by hour, Elo gap, and color, all in one Python call.
+                        </p>
+                      </div>
+                      <div className="flex-shrink-0 md:ml-2">
+                        <div className="flex items-center gap-2 text-white/40 group-hover:text-green-400 transition-colors">
+                          <span className="text-sm font-medium hidden md:block">Explore</span>
+                          <ExternalLink className="w-4 h-4" />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
               </div>
              </div>         
           </div>
