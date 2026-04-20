@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Phone, ChevronDown, ExternalLink, Play, Send, MoreVertical, ArrowRight } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
+import { AnimatedPipelineDesktop, PipelineMobile, useIsMobile } from "./pages/FraudRiskScoring";
 
 /* ================= BUILDING BADGE COMPONENT ================= */
 function BuildingBadge() {
@@ -53,6 +54,7 @@ function StandbyBadge() {
 function ServicesSection() {
   const [demoOpen, setDemoOpen] = useState(false);
   const [demoActive, setDemoActive] = useState('statistical');
+  const [fraudOpen, setFraudOpen] = useState(false);
   const tiers = [
     {
       label: 'Statistical',
@@ -249,16 +251,23 @@ function ServicesSection() {
                 Know exactly where to look. Calibrated risk scores and explainable signals, 
                 so your team focuses time and money where it actually counts.
               </p>
-              <div className="mt-auto pt-4 border-t border-white/[0.06] flex items-center gap-3">
-                <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider">Workflow </span>
+              <div className="mt-auto pt-4 border-t border-white/[0.06] flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  {['Preprocessing', 'CatBoost', 'Isotonic Calibration', 'Scoring System', 'SHAP Report'].map((s) => (
-
-                    <span key={s} className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06] text-white/30 text-[10px] font-mono">
-                      {s}
-                    </span>
-                  ))}
+                  <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider">
+                    Usual model
+                  </span>
+                  <span className="text-white/40 text-[10px] font-mono">·</span>
+                  <span className="text-emerald-400/60 text-[10px] font-mono">
+                    CatBoost + Calibration
+                  </span>
                 </div>
+                <button
+                  onClick={() => setFraudOpen(true)}
+                  className="text-[10px] font-mono text-white hover:text-emerald-400
+                             transition-colors duration-200"
+                >
+                  See example →
+                </button>
               </div>
             </div>
           </motion.div>
