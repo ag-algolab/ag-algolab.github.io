@@ -94,7 +94,7 @@ export function PipelineMobile() {
   useEffect(() => {
     const cycle = () => {
       const raw = +(Math.random() * 0.5 + 0.35).toFixed(2);
-      const cal = +(Math.min(0.95, Math.max(0.08, raw * (0.85 + Math.random() * 0.25)))).toFixed(2);
+      const cal = +(raw * (0.25 + Math.random() * 0.25)).toFixed(3);
       setStep(0);
       setTimeout(() => setStep(1), 600);
       setTimeout(() => { setRawProba(raw); setStep(2); }, 2000);
@@ -239,7 +239,7 @@ export function AnimatedPipelineDesktop() {
   useEffect(() => {
     const run = () => {
       const nr = Math.random()*0.5+0.35;
-      const nc = Math.min(0.95, Math.max(0.08, nr*(0.85+Math.random()*0.25)));
+      const nc = nr * (0.25 + Math.random() * 0.25);
       const f1 = features[Math.floor(Math.random()*features.length)];
       const f2 = features[Math.floor(Math.random()*features.length)];
       const tv = {
@@ -266,8 +266,16 @@ export function AnimatedPipelineDesktop() {
     return () => clearInterval(id);
   }, []);
 
-  const riskColor = calibratedProba > 0.7 ? "#ef4444" : calibratedProba > 0.4 ? "#eab308" : "#22c55e";
-  const riskLabel = calibratedProba > 0.7 ? "HIGH RISK" : calibratedProba > 0.4 ? "MEDIUM RISK" : "LOW RISK";
+  
+  const riskColor = calibratedProba > 0.40 ? "#ef4444"
+                  : calibratedProba > 0.20 ? "#f97316"
+                  : calibratedProba > 0.08 ? "#eab308"
+                  : "#22c55e";
+
+  const riskLabel = calibratedProba > 0.40 ? "VERY HIGH"
+                  : calibratedProba > 0.20 ? "HIGH"
+                  : calibratedProba > 0.08 ? "MEDIUM"
+                  : "LOW";
   const riskBg    = calibratedProba > 0.7 ? "rgba(239,68,68,0.12)" : calibratedProba > 0.4 ? "rgba(234,179,8,0.12)" : "rgba(34,197,94,0.12)";
 
   const tags = [
