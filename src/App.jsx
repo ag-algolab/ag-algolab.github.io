@@ -55,6 +55,7 @@ function ServicesSection() {
   const [demoOpen, setDemoOpen] = useState(false);
   const [demoActive, setDemoActive] = useState('statistical');
   const [fraudOpen, setFraudOpen] = useState(false);
+  const isMobile = useIsMobile();
   const tiers = [
     {
       label: 'Statistical',
@@ -697,11 +698,57 @@ function ServicesSection() {
               </div>
             )} 
           </motion.div>  
-        </div>          
+        </div>
       )}
-    </section>
+      {/* ── FRAUD MODAL ── */}
+      {fraudOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          onClick={() => setFraudOpen(false)}
+        >
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+            className="relative bg-[#141f38] rounded-2xl border border-white/10
+                       w-full max-w-2xl max-h-[92vh] overflow-y-auto z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="sticky top-0 z-20 bg-[#141f38]/95 backdrop-blur-md
+                            flex items-center justify-between px-6 py-4
+                            border-b border-white/[0.07]">
+              <div className="flex items-center gap-3">
+                <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20
+                                 text-emerald-400 text-[10px] font-semibold uppercase tracking-wider">
+                  Live Pipeline
+                </span>
+                <span className="text-white/40 text-[10px] font-mono">
+                  Fraud & Anomaly Detection
+                </span>
+              </div>
+              <button
+                onClick={() => setFraudOpen(false)}
+                className="text-white/30 hover:text-white/70 transition-colors
+                           text-lg leading-none w-8 h-8 flex items-center justify-center"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Pipeline */}
+            <div className="p-6">
+              {isMobile ? <PipelineMobile /> : <AnimatedPipelineDesktop />}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </section>  {/* ← fermeture finale */}
   );
 }
+
  
 
 
