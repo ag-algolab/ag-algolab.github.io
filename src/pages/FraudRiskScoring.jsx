@@ -509,29 +509,6 @@ export default function FraudRiskScoring() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 pb-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative overflow-hidden bg-gradient-to-br from-[#141f38] via-[#1a2744] to-[#141f38] border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center">
-            <div className="hidden sm:block absolute inset-0 opacity-30 pointer-events-none">
-              <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"/>
-              <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl"/>
-            </div>
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-xs sm:text-sm font-semibold mb-5"><span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"/>Outstanding Results</div>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3">See the Full Analysis</h3>
-              <p className="text-[#b7c3e6] text-sm sm:text-base max-w-2xl mx-auto mb-6 leading-relaxed">Our model achieves <span className="text-white font-semibold">exceptional discrimination</span> between fraudulent and legitimate claims, enabling <span className="text-white font-semibold">precise risk-based prioritization</span>.</p>
-              <div className="flex justify-center gap-6 sm:gap-8 mb-8">
-                {[["High","AUC-ROC Score","text-blue-400"],["Calibrated","Probabilities","text-purple-400"],["Ready","For Production","text-green-400"]].map(([v,l,c])=>(<div key={l} className="text-center"><div className={`text-2xl sm:text-4xl font-bold ${c}`}>{v}</div><div className="text-xs sm:text-sm text-white/50 mt-1">{l}</div></div>))}
-              </div>
-              <a href="https://www.kaggle.com/writeups/anthonygocmen/insurance-fraud-detection-with-calibrated-gradient" target="_blank" rel="noreferrer"
-                className="inline-flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3 sm:py-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all duration-300 font-bold text-sm sm:text-lg shadow-lg shadow-purple-500/30">
-                📊 Explore the Notebook (Kaggle)
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <footer className="px-4 sm:px-6 pb-10">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6">
