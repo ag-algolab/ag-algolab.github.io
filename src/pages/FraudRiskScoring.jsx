@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 /* ================= MOBILE DETECTION ================= */
-function useIsMobile() {
+export function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
@@ -14,7 +14,7 @@ function useIsMobile() {
 }
 
 /* ================= PIPELINE MOBILE — version statique simplifiée ================= */
-function PipelineMobile() {
+export function PipelineMobile() {
   const [step, setStep] = useState(0);
   const [rawProba, setRawProba] = useState(0.73);
   const [calibratedProba, setCalibratedProba] = useState(0.68);
@@ -407,7 +407,7 @@ function OutputDisplay({ probability, active, adjusting }) {
 }
 
 /* ================= PIPELINE DESKTOP ================= */
-function AnimatedPipelineDesktop() {
+export function AnimatedPipelineDesktop() {
   const [rawProba, setRawProba] = useState(0.73);
   const [calibratedProba, setCalibratedProba] = useState(0.68);
   const [activeStep, setActiveStep] = useState(0);
