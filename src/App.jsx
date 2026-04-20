@@ -50,7 +50,7 @@ function StandbyBadge() {
 }
 
 
-{/*Service Section*/}
+/*Service Section*/
 function ServicesSection() {
   const [demoOpen, setDemoOpen] = useState(false);
   const [demoActive, setDemoActive] = useState('statistical');
@@ -745,7 +745,7 @@ function ServicesSection() {
           </motion.div>
         </div>
       )}
-    </section>  {/* ← fermeture finale */}
+    </section>  
   );
 }
 
