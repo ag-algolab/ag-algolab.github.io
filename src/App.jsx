@@ -560,64 +560,23 @@ function ServicesSection() {
                   </span>
                   <span className="px-2.5 py-1 rounded-md bg-pink-500/10 border border-pink-500/20 
                                    text-pink-400 text-[10px] font-semibold uppercase tracking-wider">
-                    By appointment only
+                    Collaboration tier
                   </span>
                 </div>
             
-                {/* Title */}
+                {/* Title + pitch */}
                 <div>
                   <h3 className="text-2xl font-bold text-white mb-3">
-                    State-of-the-art forecasting — no ceiling on complexity
+                    When the patterns run deep
                   </h3>
                   <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                    Where statistical models need clean, simple signals and ML pipelines 
-                    rely on engineered features from historical data, deep learning architectures 
-                    like TFT operate on a different level entirely.{' '}
+                    Deep learning architectures like TFT are built for one thing: finding{' '}
                     <span className="text-white font-medium">
-                      They ingest heterogeneous data streams — past observations, 
-                      known future variables, static metadata — simultaneously,
+                      non-obvious dependencies across many variables — including ones already known about the future
                     </span>{' '}
-                    and produce calibrated multi-horizon forecasts across any time range 
-                    without retraining for each horizon.
+                    (planned promotions, confirmed holidays, scheduled prices). They surface
+                    signals that statistical and ML models structurally cannot see.
                   </p>
-                </div>
-            
-                {/* What makes it different */}
-                <div className="bg-[#0e1424] rounded-xl border border-white/[0.07] p-5">
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="w-1 h-4 rounded-full bg-pink-400"/>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-pink-400/80">
-                      What separates this from ML
-                    </span>
-                  </div>
-                  <div className="space-y-3">
-                    {[
-                      {
-                        title: 'Known future inputs',
-                        desc: 'CatBoost only sees the past. TFT can integrate variables already known for the future — planned promotions, confirmed holidays, scheduled price changes — and factor them directly into the forecast.',
-                        color: '#f472b6',
-                      },
-                      {
-                        title: 'Native multi-horizon',
-                        desc: 'ML models require one model per forecast horizon, with errors compounding at each step. TFT produces 1-week through 52-week forecasts in a single forward pass, with calibrated uncertainty at every step.',
-                        color: '#a78bfa',
-                      },
-                      {
-                        title: 'Temporal attention',
-                        desc: 'The model learns which moments in the past mattered most for each prediction — surfacing interpretable patterns across seasonality, regime shifts, and lag effects without manual feature engineering.',
-                        color: '#60a5fa',
-                      },
-                    ].map((item, i) => (
-                      <div key={i} className="flex gap-3">
-                        <div className="w-1 flex-shrink-0 rounded-full mt-1.5"
-                             style={{background: item.color, opacity: 0.7, minHeight: '12px'}}/>
-                        <div>
-                          <span className="text-white text-sm font-medium">{item.title} — </span>
-                          <span className="text-[#b7c3e6] text-sm leading-relaxed">{item.desc}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                 </div>
             
                 {/* Who it's for */}
@@ -625,45 +584,16 @@ function ServicesSection() {
                   <div className="flex items-center gap-2 mb-3">
                     <span className="w-1 h-4 rounded-full bg-pink-400"/>
                     <span className="text-[10px] font-mono uppercase tracking-wider text-pink-400/80">
-                      Who this is built for
+                      Who this is for
                     </span>
                   </div>
-                  <p className="text-[#b7c3e6] text-sm leading-relaxed mb-4">
-                    Deep learning forecasting is not a turnkey product. It requires 
-                    substantial data infrastructure, clean pipelines, and technical 
-                    ownership on your side.{' '}
-                    <span className="text-white font-medium">
-                      This offering is designed for organizations that already have 
-                      an internal data or engineering function — a CTO, a data team, 
-                      or an existing ML stack — and are looking for specialized expertise 
-                      to push their forecasting capabilities further.
-                    </span>
+                  <p className="text-[#b7c3e6] text-sm leading-relaxed">
+                    This tier is designed for teams with an{' '}
+                    <span className="text-white font-medium">established data function</span> — 
+                    a CTO, data team, or existing ML stack. Deep learning isn't a deliverable,
+                    it's a collaboration: building the model, deploying it, and keeping it
+                    healthy over time requires technical ownership on both sides.
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      'Existing data infrastructure',
-                      'Internal technical team',
-                      'High data volume',
-                      'Long forecast horizons',
-                      'Multiple interacting signals',
-                    ].map(tag => (
-                      <span key={tag}
-                            className="px-2.5 py-1 rounded-md bg-pink-500/[0.06] border border-pink-500/[0.15] 
-                                       text-pink-300/60 text-[10px] font-mono">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-            
-                {/* No example block */}
-                <div className="flex items-start gap-3 px-4 py-3 rounded-lg 
-                                bg-white/[0.02] border border-white/[0.05]">
-                  <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider leading-relaxed">
-                    No standardized example is provided here — every deep learning engagement 
-                    starts from your data, your architecture constraints, and your forecast objectives. 
-                    The scope is defined together.
-                  </span>
                 </div>
             
                 {/* CTA */}
@@ -696,7 +626,7 @@ function ServicesSection() {
                 </div>
             
               </div>
-            )} 
+            )}
           </motion.div>  
         </div>
       )}
