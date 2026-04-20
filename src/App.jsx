@@ -572,7 +572,7 @@ function ServicesSection() {
                   <p className="text-[#b7c3e6] text-sm leading-relaxed">
                     Deep learning architectures like TFT are built for one thing: finding{' '}
                     <span className="text-white font-medium">
-                      non-obvious dependencies across many variables — including ones already known about the future
+                      non-obvious dependencies across many variables including ones already known about the future
                     </span>{' '}
                     (planned promotions, confirmed holidays, scheduled prices). They surface
                     signals that statistical and ML models structurally cannot see.
@@ -588,11 +588,11 @@ function ServicesSection() {
                     </span>
                   </div>
                   <p className="text-[#b7c3e6] text-sm leading-relaxed">
-                    This tier is designed for teams with an{' '}
-                    <span className="text-white font-medium">established data function</span> — 
-                    a CTO, data team, or existing ML stack. Deep learning isn't a deliverable,
-                    it's a collaboration: building the model, deploying it, and keeping it
-                    healthy over time requires technical ownership on both sides.
+                    Best suited for organizations that already have data pipelines and
+                    some technical ownership in-house. Deep learning is a long-term
+                    commitment, the model needs to be maintained, monitored, and
+                    updated as your data evolves. That kind of durability requires
+                    collaboration, not just a handoff.
                   </p>
                 </div>
             
