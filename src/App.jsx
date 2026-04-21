@@ -1137,7 +1137,7 @@ function Home() {
               >
                 <div className="inline-block mb-6">
                   <span className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-white/10 text-sm font-medium text-white/80">
-                    AI · Algorithmic Trading · ML Scoring
+                    Statistics · Machine Learning · Deep Learning
                   </span>
                 </div>
                 <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
