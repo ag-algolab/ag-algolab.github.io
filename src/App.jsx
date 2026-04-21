@@ -83,26 +83,10 @@ function ServicesSection() {
       desc: 'State-of-the-art architectures for complex patterns, long horizons, and multi-variate series.',
     },
   ];
- 
   const tierColors = {
-    cyan: {
-      badge: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400',
-      glow: 'hover:border-cyan-500/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.08)]',
-      dot: 'bg-cyan-400',
-      tool: 'text-cyan-400/70',
-    },
-    violet: {
-      badge: 'bg-violet-500/10 border-violet-500/20 text-violet-400',
-      glow: 'hover:border-violet-500/40 hover:shadow-[0_0_30px_rgba(139,92,246,0.12)]',
-      dot: 'bg-violet-400',
-      tool: 'text-violet-400/70',
-    },
-    pink: {
-      badge: 'bg-pink-500/10 border-pink-500/20 text-pink-400',
-      glow: 'hover:border-pink-500/40 hover:shadow-[0_0_30px_rgba(236,72,153,0.08)]',
-      dot: 'bg-pink-400',
-      tool: 'text-pink-400/70',
-    },
+    cyan:   { badge: 'bg-blue-500/10 border-blue-500/20 text-blue-400', glow: 'hover:border-blue-500/30', dot: 'bg-blue-400', tool: 'text-blue-400/60' },
+    violet: { badge: 'bg-blue-500/15 border-blue-500/25 text-blue-300', glow: 'hover:border-blue-400/40', dot: 'bg-blue-300', tool: 'text-blue-300/60' },
+    pink:   { badge: 'bg-blue-400/10 border-blue-400/20 text-blue-200', glow: 'hover:border-blue-300/30', dot: 'bg-blue-200', tool: 'text-blue-200/60' },
   };
  
   return (
@@ -123,7 +107,7 @@ function ServicesSection() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Services
           </h2>
         </motion.div>
@@ -608,21 +592,13 @@ function ServicesSection() {
                       If the infrastructure is there, so is the opportunity.
                     </p>
                   </div>
-                  <button
-                    onClick={() => {
-                      setDemoOpen(false);
-                      setTimeout(() => {
-                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                      }, 200);
-                    }}
-                    className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg
-                               bg-pink-500/10 border border-pink-500/30 text-pink-300
-                               hover:bg-pink-500/20 hover:border-pink-500/50
-                               transition-all duration-200 text-sm font-medium"
-                  >
-                    Discuss your project
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                    <button className="group flex items-center gap-3 px-8 py-3.5 rounded-xl 
+                      bg-white/5 border border-white/15 hover:bg-white/8 hover:border-white/25 
+                      transition-all duration-300">
+                      <Mail className="w-4 h-4 text-white/60" />
+                      <span className="text-white font-medium text-sm tracking-wide">Discuss your project</span>
+                      <ArrowRight className="w-4 h-4 text-white/40 group-hover:translate-x-0.5 transition-transform duration-200" />
+                    </button>
                 </div>
             
               </div>
@@ -1183,7 +1159,7 @@ function Home() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                 Founder
               </h2>
             </motion.div>
@@ -1226,7 +1202,7 @@ function Home() {
         {/* Projects Section */}
         <section id="projects" className="py-24 relative overflow-hidden">
           <div className="absolute inset-0">
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] rounded-full blur-3xl" />
+            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/[0.02] rounded-full blur-3xl" />
             <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/[0.02] rounded-full blur-3xl" />
           </div>
           
@@ -1239,7 +1215,7 @@ function Home() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">Projects</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Projects</h2>
             </motion.div>
           
             <div className="flex flex-col gap-6 mb-16">
@@ -1290,25 +1266,24 @@ function Home() {
                 {/* REVERSAL ENGINE */}
                 <Link to="/reversal-engine" className="block group">
                   <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}
-                    className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-[#9945FF]/50 hover:shadow-[0_0_40px_rgba(153,69,255,0.2)] transition-all duration-500 overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#9945FF]/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#14F195]/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    className="relative bg-[#141f38] rounded-2xl p-6 border border-white/10 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.12)] transition-all duration-500 overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                     <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
                       <div className="flex-shrink-0 flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9945FF]/20 to-[#14F195]/10 border border-[#9945FF]/20 flex items-center justify-center transition-all duration-300 shadow-lg shadow-[#9945FF]/10 group-hover:scale-110">
+                        <div className="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center transition-all duration-300 group-hover:bg-blue-500/15">
                           <span className="text-2xl">◎</span>
                         </div>
                         <div className="flex flex-col gap-1.5 md:hidden">
                           <StandbyBadge />
-                          <span className="px-2.5 py-0.5 rounded-full bg-[#00C2FF]/10 border border-[#00C2FF]/20 text-[#00C2FF] text-[10px] font-bold uppercase tracking-wider w-fit">Crypto</span>
+                          <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-wider w-fit">Crypto</span>
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="hidden md:flex items-center gap-2 mb-2">
                           <StandbyBadge />
-                          <span className="px-2.5 py-0.5 rounded-full bg-[#00C2FF]/10 border border-[#00C2FF]/20 text-[#00C2FF] text-[10px] font-bold uppercase tracking-wider">Crypto</span>
+                          <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-wider">Crypto</span>
                         </div>
-                        <h3 className="text-2xl font-bold text-white group-hover:text-[#14F195] transition-colors duration-300 mb-2">Reversal Engine</h3>
+                        <h3 className="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300 mb-2">Reversal Engine</h3>
                         <p className="text-[#b7c3e6] text-sm leading-relaxed">
                           AI system detecting high-probability price reversals on SOL and BTC in real-time. Signals delivered and executed automatically via Telegram.
                         </p>
@@ -1316,13 +1291,13 @@ function Home() {
                       <div className="flex-shrink-0 hidden md:flex flex-col gap-2 items-end">
                         {[{ label: 'Active Assets', value: 'SOL · BTC' }, { label: 'Timeframe', value: '15m' }, { label: 'Execution', value: 'Automated' }].map((s) => (
                           <div key={s.label} className="text-right">
-                            <div className="text-[#00C2FF] font-bold text-sm">{s.value}</div>
+                            <div className="text-blue-400 font-bold text-sm">{s.value}</div>
                             <div className="text-white/30 text-xs">{s.label}</div>
                           </div>
                         ))}
                       </div>
                       <div className="flex-shrink-0 md:ml-2">
-                        <div className="flex items-center gap-2 text-white/50 group-hover:text-[#14F195] transition-colors">
+                        <div className="flex items-center gap-2 text-white/50 group-hover:text-blue-400 transition-colors">
                           <span className="text-sm font-medium hidden md:block">Explore</span>
                           <ExternalLink className="w-4 h-4" />
                         </div>
@@ -1432,7 +1407,7 @@ function Home() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent mb-4">Contact</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Contact</h2>
               <p className="text-lg text-[#b7c3e6]">Get in touch for collaborations or inquiries</p>
             </motion.div>
 
