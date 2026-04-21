@@ -1,38 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* === Variables de thème violet → bleu === */
+/* ========================================
+   THEME VARIABLES — Vercel-inspired dark
+   ======================================== */
 :root {
-  --brand-purple-dark: 270 76% 23%;  /* #3C0D66 */
-  --brand-purple:      267 64% 51%;  /* #6E2FCF */
-  --brand-purple-lite: 262 83% 67%;  /* #8B5CF6 */
-  --brand-blue:        217 91% 60%;  /* #3B82F6 */
-  --brand-blue-deep:   217 89% 33%;  /* #0D47A1 */
+  --background: 0 0% 0%;            /* #000000 pure black */
+  --foreground: 0 0% 93%;           /* #ededed */
 
-  --background: 222 47% 5%;
-  --foreground: 210 40% 98%;
+  --card: 0 0% 4%;                  /* #0a0a0a */
+  --card-foreground: 0 0% 93%;
 
-  --primary: 267 64% 51%;
-  --primary-foreground: 0 0% 100%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 60%;
 
-  --secondary: 217 91% 60%;
-  --secondary-foreground: 0 0% 100%;
+  --primary: 0 0% 100%;             /* white, used as primary CTA */
+  --primary-foreground: 0 0% 0%;
 
-  --accent: 262 83% 67%;
+  --secondary: 0 0% 10%;
+  --secondary-foreground: 0 0% 93%;
+
+  --accent: 214 100% 48%;           /* #0070f3 Vercel blue, used sparingly */
   --accent-foreground: 0 0% 100%;
 
-  --border: 220 14% 25%;
-  --input: 220 14% 20%;
-  --ring: 262 83% 67%;
-  --radius: 1rem;
+  --border: 0 0% 100% / 0.08;
+  --input: 0 0% 100% / 0.1;
+  --ring: 0 0% 100% / 0.2;
+
+  --radius: 0.75rem;
 }
 
-
-/* Ensuite ton import de police */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
-
+/* ========================================
+   RESET + BASE
+   ======================================== */
 * {
   margin: 0;
   padding: 0;
@@ -44,293 +47,64 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  /* Fond clair avec une légère touche violet→bleu */
-  background:
-    radial-gradient(1200px 600px at 10% 0%, rgba(139,92,246,0.10), transparent 60%),
-    radial-gradient(1000px 500px at 90% 20%, rgba(59,130,246,0.10), transparent 60%),
-    #ffffff; /* base blanche */
-  color: #0f172a; /* slate-900 */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #000000;
+  color: #ededed;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01', 'cv11';
 }
 
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
 
-
-/* Custom scrollbar */
+/* ========================================
+   SCROLLBAR
+   ======================================== */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0e1424;  /* même couleur que ton bg du site */
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 9999px;
-  background: rgba(99, 102, 241, 0.35);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.60);
+  background: rgba(255, 255, 255, 0.25);
 }
 
-
-
-
-
-
-/* Glassmorphism effect */
-.glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Gradient text animation */
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-gradient {
-  background: linear-gradient(-45deg, #06b6d4, #8b5cf6, #ec4899, #06b6d4);
-  background-size: 400% 400%;
-  animation: gradient-shift 3s ease infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Floating animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Pulse glow effect */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.6); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* Custom button hover effects */
-.btn-gradient {
-  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-  transition: all 0.3s ease;
-}
-
-.btn-gradient:hover {
-  background: linear-gradient(135deg, #0891b2, #7c3aed);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
-}
-
-/* Particle animation */
-@keyframes particle-float {
-  0% {
-    transform: translateY(100vh) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100vh) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-.particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: linear-gradient(45deg, #06b6d4, #8b5cf6);
-  border-radius: 50%;
-  animation: particle-float 15s linear infinite;
-}
-
-/* Responsive design improvements */
-@media (max-width: 768px) {
-  .text-7xl {
-    font-size: 3rem;
-  }
-  
-  .text-5xl {
-    font-size: 2.5rem;
-  }
-}
-
-/* Focus states for accessibility */
-button:focus,
-input:focus,
-textarea:focus {
-  outline: 2px solid #06b6d4;
+/* ========================================
+   FOCUS STATES
+   ======================================== */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.4);
   outline-offset: 2px;
+  border-radius: 4px;
 }
 
-/* Loading animation */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.animate-spin-slow {
-  animation: spin 3s linear infinite;
-}
-
-/* Card hover effects */
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-10px) rotateX(5deg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-/* Text reveal animation */
-@keyframes text-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* ========================================
+   UTILITY — Gradient title (conservé pour flexibilité)
+   ======================================== */
 @layer utilities {
   .gradient-title {
-    @apply font-bold bg-clip-text text-transparent inline-block
-           leading-[1.15] md:leading-[1.1] pb-1;
+    @apply font-bold bg-clip-text text-transparent inline-block leading-[1.15] md:leading-[1.1] pb-1;
   }
 }
 
-
-.animate-text-reveal {
-  animation: text-reveal 0.8s ease-out forwards;
-}
-
-
-
-/* === Thème ShahMat (couleurs via CSS vars) === */
-.theme-shahmat {
-  --bg: #0F3D2E;        /* vert foncé */
-  --bg-soft: #1F6F51;   /* vert moyen pour cartes */
-  --accent: #7BD389;    /* vert clair pour CTA */
-  --paper: #F5F3E7;     /* ivoire (texte/fond contrasté) */
-  --paper-soft: rgba(245,243,231,0.8);
-  --ink-soft: #DDE7DE;
-  --ink-strong: #0B2A20;
-}
-
-/* === Motif “chessboard + petits points” (subtil) === */
-.shahmat-pattern {
-  background-color: var(--bg);
-  background-image:
-    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(45deg, rgba(0, 0, 0, 0.06) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.06) 75%),
-    linear-gradient(45deg, rgba(0, 0, 0, 0.06) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.06) 75%);
-  background-size: 6px 6px, 28px 28px, 28px 28px;
-  background-position: 0 0, 0 0, 14px 14px;
-}
-
-/* === Cartes / boutons réutilisables === */
-.card {
-  background: var(--bg-soft);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-}
-
-.card-title {
-  font-size: 1.125rem; /* text-lg */
-  font-weight: 700;
-  margin-bottom: .75rem;
-}
-
-.card-subtitle {
-  font-weight: 600;
-  margin-bottom: .25rem;
-}
-
-.card-text {
-  color: var(--paper-soft);
-  font-size: .95rem;
-}
-
-/* Boutons */
-.btn-accent {
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: .5rem; padding: .625rem 1rem;
-  background: var(--accent);
-  color: var(--ink-strong);
-  border-radius: .75rem;
-  border: 1px solid rgba(0,0,0,0.06);
-  font-weight: 700;
-}
-.btn-accent:hover { filter: brightness(0.95); }
-
-.btn-ghost {
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: .5rem; padding: .6rem 1rem;
-  background: transparent; color: var(--paper);
-  border-radius: .75rem; border: 1px solid rgba(255,255,255,0.16);
-}
-.btn-ghost:hover { background: rgba(255,255,255,0.06); }
-
-/* Codeblock simple */
-.codeblock {
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 14px;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 0.92rem;
-}
-
-/* === Scrollbar custom (scopée à la page ShahMat) === */
-.theme-shahmat ::-webkit-scrollbar { width: 10px; height: 10px; }
-.theme-shahmat ::-webkit-scrollbar-track { background: var(--bg); }
-.theme-shahmat ::-webkit-scrollbar-thumb {
-  background: var(--accent);
-  border-radius: 8px; border: 2px solid var(--bg);
-}
-.theme-shahmat { scrollbar-color: var(--accent) var(--bg); scrollbar-width: thin; }
-
-/* === PNG des pièces en filigrane (positions fluides) === */
-.piece-bg {
-  position: absolute; z-index: -1; opacity: 0.07; filter: saturate(0.8);
-  width: clamp(120px, 18vw, 240px); pointer-events: none; user-select: none;
-}
-.piece-1 { top: 6%;  left: 4%;  transform: rotate(-8deg); }
-.piece-2 { top: 18%; right: 8%; transform: rotate(7deg);  }
-.piece-3 { bottom: 12%; left: 6%; transform: rotate(3deg); }
-.piece-4 { bottom: 8%; right: 10%; transform: rotate(-6deg); }
-
-/* Optionnel : flouter très légèrement si tes PNG sont trop “nets” */
-.piece-bg { filter: saturate(0.8) blur(0.2px); }
-
-
-
-/* ================= Orbit (Data features) ================= */
-
-
+/* ========================================
+   ORBIT ANIMATION — TechOrbit
+   ======================================== */
 @keyframes orbit {
   from {
     transform: translate(-50%, -50%)
@@ -346,31 +120,6 @@ textarea:focus {
   }
 }
 
-.tag-green {
-  border-color: #22c55e;
-  color: #dcfce7;
-  box-shadow:
-    0 0 0 1.5px #22c55e,
-    0 0 18px rgba(34, 197, 94, 0.6);
-}
-
-.tag-red {
-  border-color: #ef4444;
-  color: #fee2e2;
-  box-shadow:
-    0 0 0 1.5px #ef4444,
-    0 0 18px rgba(239, 68, 68, 0.6);
-}
-
-.tag-violet {
-  border-color: #a78bfa;
-  color: #ede9fe;
-  box-shadow:
-    0 0 0 1.5px #a78bfa,
-    0 0 20px rgba(167, 139, 250, 0.65);
-}
-
-
 .orbit-tag {
   --speed: 12s;
   --radius: 170px;
@@ -383,73 +132,235 @@ textarea:focus {
   padding: 9px 10px;
   border-radius: 9999px;
 
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
 
   font-size: 12px;
   line-height: 1;
   text-align: center;
+  color: #ededed;
 
   transform: translate(-50%, -50%);
   animation: orbit var(--speed) linear infinite;
   animation-delay: var(--phase);
 }
 
-.input-orb{
-  position: relative;
-  box-shadow: 0 0 30px rgba(255,255,255,0.06);
+/* Semantic tags — kept for status only (green=live, red=error, violet=info) */
+.tag-green {
+  border-color: #10b981;
+  color: #d1fae5;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4);
 }
 
-/* Bordure néon animée (vague) */
-.input-orb::before{
-  content:"";
-  position:absolute;
-  inset:-2px;                 /* épaisseur visuelle du ring */
-  border-radius:9999px;
+.tag-red {
+  border-color: #ef4444;
+  color: #fee2e2;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
+}
 
+.tag-violet {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ededed;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+/* ========================================
+   INPUT ORB — neon ring animation (monochrome version)
+   ======================================== */
+.input-orb {
+  position: relative;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.04);
+}
+
+.input-orb::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
   background: conic-gradient(
     from 0deg,
-    rgba(34,197,94,1),        /* green */
-    rgba(239,68,68,1),        /* red */
-    rgba(167,139,250,1),      /* violet */
-    rgba(34,197,94,1)         /* loop */
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.5)
   );
-
   filter: blur(0.2px);
-  animation: ringSpin 2.8s linear infinite;
-  opacity: 0.95;
+  animation: ringSpin 4s linear infinite;
+  opacity: 0.8;
   z-index: -1;
-
-  /* masque: on ne garde que la bordure */
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-
-  padding: 2px;               /* épaisseur réelle de la bordure */
+  padding: 2px;
 }
 
-/* Glow subtil (optionnel mais stylé) */
-.input-orb::after{
-  content:"";
-  position:absolute;
-  inset:-8px;
-  border-radius:9999px;
-  background: conic-gradient(
-    from 0deg,
-    rgba(34,197,94,0.35),
-    rgba(239,68,68,0.35),
-    rgba(167,139,250,0.4),
-    rgba(34,197,94,0.35)
-  );
-  filter: blur(10px);
-  opacity: 0.6;
+.input-orb::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
+  filter: blur(8px);
+  opacity: 0.5;
   z-index: -2;
-  animation: ringSpin 2.8s linear infinite;
 }
 
-@keyframes ringSpin{
+@keyframes ringSpin {
   to { transform: rotate(360deg); }
 }
+
+/* ========================================
+   SIMPLE ANIMATIONS (kept for flexibility)
+   ======================================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes text-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-text-reveal {
+  animation: text-reveal 0.6s ease-out forwards;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin 30s linear infinite;
+}
+
+/* ========================================
+   RESPONSIVE TYPOGRAPHY
+   ======================================== */
+@media (max-width: 768px) {
+  .text-7xl { font-size: 3rem; }
+  .text-5xl { font-size: 2.25rem; }
+}
+
+/* ========================================
+   SHAHMAT THEME — scoped to .theme-shahmat only
+   (kept exactly as your original, lives on its own page)
+   ======================================== */
+.theme-shahmat {
+  --bg: #0F3D2E;
+  --bg-soft: #1F6F51;
+  --accent: #7BD389;
+  --paper: #F5F3E7;
+  --paper-soft: rgba(245, 243, 231, 0.8);
+  --ink-soft: #DDE7DE;
+  --ink-strong: #0B2A20;
+}
+
+.shahmat-pattern {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(45deg, rgba(0, 0, 0, 0.06) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.06) 75%),
+    linear-gradient(45deg, rgba(0, 0, 0, 0.06) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.06) 75%);
+  background-size: 6px 6px, 28px 28px, 28px 28px;
+  background-position: 0 0, 0 0, 14px 14px;
+}
+
+.theme-shahmat .card {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+}
+
+.theme-shahmat .card-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.theme-shahmat .card-subtitle {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.theme-shahmat .card-text {
+  color: var(--paper-soft);
+  font-size: 0.95rem;
+}
+
+.theme-shahmat .btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: var(--accent);
+  color: var(--ink-strong);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-weight: 700;
+}
+.theme-shahmat .btn-accent:hover { filter: brightness(0.95); }
+
+.theme-shahmat .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: transparent;
+  color: var(--paper);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.theme-shahmat .btn-ghost:hover { background: rgba(255, 255, 255, 0.06); }
+
+.theme-shahmat .codeblock {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.92rem;
+}
+
+.theme-shahmat ::-webkit-scrollbar { width: 10px; height: 10px; }
+.theme-shahmat ::-webkit-scrollbar-track { background: var(--bg); }
+.theme-shahmat ::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 8px;
+  border: 2px solid var(--bg);
+}
+.theme-shahmat { scrollbar-color: var(--accent) var(--bg); scrollbar-width: thin; }
+
+.theme-shahmat .piece-bg {
+  position: absolute;
+  z-index: -1;
+  opacity: 0.07;
+  filter: saturate(0.8) blur(0.2px);
+  width: clamp(120px, 18vw, 240px);
+  pointer-events: none;
+  user-select: none;
+}
+.theme-shahmat .piece-1 { top: 6%; left: 4%; transform: rotate(-8deg); }
+.theme-shahmat .piece-2 { top: 18%; right: 8%; transform: rotate(7deg); }
+.theme-shahmat .piece-3 { bottom: 12%; left: 6%; transform: rotate(3deg); }
+.theme-shahmat .piece-4 { bottom: 8%; right: 10%; transform: rotate(-6deg); }
