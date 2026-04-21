@@ -1143,10 +1143,9 @@ function Home() {
                 <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
                   <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">AG Algo Lab</span>
                 </h1>
-                <p className="text-2xl md:text-3xl font-light text-white/70 italic mb-8">Predict the Unpredictable</p>
+                <p className="text-2xl md:text-3xl font-light text-white/70 italic mb-8">Before It Happens</p>
                 <p className="text-lg text-[#b7c3e6] max-w-xl mb-10 leading-relaxed">
-                  Research and development using AI for predictive modelling and anomaly detection.
-                  From model design to production-ready execution pipelines.
+                  Predictive modelling and anomaly detection.
                 </p>
               </motion.div>
 
