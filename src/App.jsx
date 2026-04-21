@@ -1145,7 +1145,7 @@ function Home() {
                 </h1>
                 <p className="text-2xl md:text-3xl font-light text-white/70 italic mb-8">Before It Happens</p>
                 <p className="text-lg text-[#b7c3e6] max-w-xl mb-10 leading-relaxed">
-                  Predictive modelling and anomaly detection.
+                  Predictive modelling and anomaly detection
                 </p>
               </motion.div>
 
