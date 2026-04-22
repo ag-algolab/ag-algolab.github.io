@@ -1109,7 +1109,7 @@ function Home() {
 
             <div className="grid md:grid-cols-2 gap-3">
               <motion.a
-                href="mailto:anthony.gocmen@dauphine.eu"
+                href="mailto:anthony@agalgolab.com"
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
@@ -1122,7 +1122,7 @@ function Home() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-neutral-500 text-xs font-mono uppercase tracking-wider mb-0.5">Email</p>
-                    <p className="text-white font-medium text-sm truncate">anthony.gocmen@dauphine.eu</p>
+                    <p className="text-white font-medium text-sm truncate">anthony@agalgolab.com</p>
                   </div>
                   <ArrowUpRight className="w-4 h-4 text-neutral-600 group-hover:text-white transition-colors" />
                 </div>
