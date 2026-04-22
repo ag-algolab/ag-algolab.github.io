@@ -57,14 +57,14 @@ function ServicesSection() {
   const tiers = [
     {
       label: 'Statistical',
-      badge: '3–7 days',
+      badge: '3-7 days',
       tools: 'ARIMA · ETS · CES · Theta',
       desc: 'Fast, interpretable baselines. Perfect when explainability matters more than raw performance.',
       id: 'statistical',
     },
     {
       label: 'Machine Learning',
-      badge: '1–2 weeks',
+      badge: '1-2 weeks',
       tools: 'CatBoost · LightGBM · MLForecast',
       desc: 'Production-grade pipelines with walk-forward validation and feature engineering.',
       id: 'machine-learning',
@@ -83,7 +83,6 @@ function ServicesSection() {
     <section id="services" className="py-32 relative">
       <div className="max-w-6xl mx-auto px-6">
 
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -100,7 +99,7 @@ function ServicesSection() {
           </p>
         </motion.div>
 
-        {/* ── SERVICE 1 : Predictive Analytics ── */}
+        {/* SERVICE 1 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -110,8 +109,6 @@ function ServicesSection() {
         >
           <div className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden">
             <div className="p-8 pb-6">
-
-              {/* Header — no number, no tag */}
               <div className="mb-8">
                 <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
                   Predictive Analytics & Forecasting
@@ -125,7 +122,6 @@ function ServicesSection() {
                 </p>
               </div>
 
-              {/* 3 tier cards */}
               <div className="grid md:grid-cols-3 gap-3">
                 {tiers.map((tier, i) => (
                   <motion.div
@@ -136,11 +132,11 @@ function ServicesSection() {
                     viewport={{ once: true }}
                     className={`relative bg-black rounded-lg p-5 border transition-colors duration-200 ${
                       tier.highlight
-                        ? 'border-blue-500/30 hover:border-blue-500/50 border-t-2 border-t-blue-500/60'
+                        ? 'border-blue-500/30 hover:border-blue-500/50'
                         : 'border-white/10 hover:border-white/20'
                     }`}
+                    style={tier.highlight ? { borderTop: '2px solid rgba(0,112,243,0.6)' } : {}}
                   >
-                    {/* Duration badge — all blue, no number, no extra tag */}
                     <div className="flex items-center justify-between mb-3">
                       <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/25 text-blue-400 text-[10px] font-mono font-medium tracking-wide">
                         {tier.badge}
@@ -149,21 +145,15 @@ function ServicesSection() {
                         <span className="text-[10px] font-mono text-blue-400 tracking-wider">CORE</span>
                       )}
                     </div>
-
                     <h4 className="text-white font-semibold mb-2">{tier.label}</h4>
                     <p className="text-neutral-500 text-[11px] font-mono mb-3 leading-relaxed">{tier.tools}</p>
                     <p className="text-neutral-400 text-xs leading-relaxed mb-4">{tier.desc}</p>
-
-                    {/* See example — visible but static */}
                     <button
                       onClick={() => {
                         setDemoActive(tier.id);
                         setDemoOpen(true);
                       }}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md
-                                 bg-white/[0.06] border border-white/15 
-                                 text-[11px] font-mono text-white/70 hover:text-white hover:bg-white/10 hover:border-white/25
-                                 transition-all duration-150"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/[0.06] border border-white/15 text-[11px] font-mono text-white/70 hover:text-white hover:bg-white/10 hover:border-white/25 transition-all duration-150"
                     >
                       See example
                       <ArrowRight className="w-3 h-3" />
@@ -172,7 +162,6 @@ function ServicesSection() {
                 ))}
               </div>
 
-              {/* Deliverable strip */}
               <div className="mt-6 px-4 py-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
                 <span className="text-neutral-500 text-[10px] uppercase tracking-widest font-mono block mb-1.5">
                   Deliverables tailored to your needs
@@ -186,10 +175,8 @@ function ServicesSection() {
           </div>
         </motion.div>
 
-        {/* ── SERVICES 2 & 3 side by side ── */}
+        {/* SERVICES 2 & 3 */}
         <div className="grid md:grid-cols-2 gap-3">
-
-          {/* SERVICE 2 : Fraud & Anomaly Detection — no number, no tag */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -202,19 +189,14 @@ function ServicesSection() {
                 Fraud & Anomaly Detection
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed mb-6 flex-1">
-                Know exactly where to look. Calibrated risk scores
+                Know exactly where to look. Calibrated risk scores and explainable signals,
                 so your team focuses time and money where it actually counts.
               </p>
               <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
-                <span className="text-neutral-500 text-[11px] font-mono">
-                  CatBoost + Calibration
-                </span>
+                <span className="text-neutral-500 text-[11px] font-mono">CatBoost + Calibration</span>
                 <button
                   onClick={() => setFraudOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md
-                             bg-white/[0.06] border border-white/15
-                             text-[11px] font-mono text-white/70 hover:text-white hover:bg-white/10 hover:border-white/25
-                             transition-all duration-150"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/[0.06] border border-white/15 text-[11px] font-mono text-white/70 hover:text-white hover:bg-white/10 hover:border-white/25 transition-all duration-150"
                 >
                   See example
                   <ArrowRight className="w-3 h-3" />
@@ -223,7 +205,6 @@ function ServicesSection() {
             </div>
           </motion.div>
 
-          {/* SERVICE 3 : On-Demand — no number, no tag */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -236,34 +217,42 @@ function ServicesSection() {
                 Built Around Your Problem
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed flex-1">
-                Have a problem that doesn't fit a standard mold? Good.
-                Let's discuss and design something together, built for your context,
+                Have a problem that does not fit a standard mold? Good.
+                Let us discuss and design something together, built for your context,
                 scoped around your actual constraints.
               </p>
             </div>
           </motion.div>
         </div>
 
+        {/* CTA */}
+        <div className="flex justify-center mt-12">
+          <button
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#0070f3] hover:bg-[#0060df] text-white text-sm font-medium transition-colors duration-150"
+          >
+            Discuss your project
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150" />
+          </button>
+        </div>
 
-      {/* ── DEMO MODAL ── */}
+      </div>
+
+      {/* DEMO MODAL */}
       {demoOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
           onClick={() => setDemoOpen(false)}
         >
           <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
-
           <motion.div
             initial={{ opacity: 0, scale: 0.97, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.2 }}
-            className="relative bg-[#0a0a0a] rounded-xl border border-white/10
-                       w-full max-w-4xl max-h-[92vh] overflow-y-auto z-10"
+            className="relative bg-[#0a0a0a] rounded-xl border border-white/10 w-full max-w-4xl max-h-[92vh] overflow-y-auto z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur-md
-                            flex items-center justify-between px-6 py-4
-                            border-b border-white/[0.08]">
+            <div className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur-md flex items-center justify-between px-6 py-4 border-b border-white/[0.08]">
               <div className="flex gap-1">
                 {[
                   { id: 'statistical', label: 'Statistical' },
@@ -273,11 +262,9 @@ function ServicesSection() {
                   <button
                     key={tab.id}
                     onClick={() => setDemoActive(tab.id)}
-                    className={`px-3 py-1.5 rounded-md text-xs font-mono transition-colors duration-150
-                      ${demoActive === tab.id
-                        ? 'bg-white/10 text-white'
-                        : 'text-neutral-500 hover:text-white'
-                      }`}
+                    className={`px-3 py-1.5 rounded-md text-xs font-mono transition-colors duration-150 ${
+                      demoActive === tab.id ? 'bg-white/10 text-white' : 'text-neutral-500 hover:text-white'
+                    }`}
                   >
                     {tab.label}
                   </button>
@@ -287,7 +274,7 @@ function ServicesSection() {
                 onClick={() => setDemoOpen(false)}
                 className="text-neutral-500 hover:text-white transition-colors text-lg leading-none w-8 h-8 flex items-center justify-center"
               >
-                ✕
+                &#x2715;
               </button>
             </div>
 
@@ -302,14 +289,16 @@ function ServicesSection() {
                 </div>
                 <div>
                   <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">
-                    Revenue Forecasting — French SME
+                    Revenue Forecasting - French SME
                   </h3>
                   <p className="text-neutral-400 text-sm leading-relaxed">
                     A French small-to-medium business reached out with a simple need:
                     anticipate their monthly revenue to plan inventory, staffing, and cash flow
-                    with more confidence. They provided <span className="text-white font-medium">3.5 years
-                    of historical data</span>, nothing fancy, just two columns: <span className="text-blue-400 font-mono text-xs">date</span> and
-                    the <span className="text-blue-400 font-mono text-xs">revenue</span> recorded that day.
+                    with more confidence. They provided{' '}
+                    <span className="text-white font-medium">3.5 years of historical data</span>,
+                    nothing fancy, just two columns:{' '}
+                    <span className="text-blue-400 font-mono text-xs">date</span> and the{' '}
+                    <span className="text-blue-400 font-mono text-xs">revenue</span> recorded that day.
                   </p>
                 </div>
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5">
@@ -318,19 +307,22 @@ function ServicesSection() {
                   </span>
                   <p className="text-neutral-400 text-sm leading-relaxed mb-3">
                     Picking the right model is not guesswork. Before training anything,
-                    the data is decomposed to measure two things: <span className="text-white font-medium">trend strength</span> and <span className="text-white font-medium">seasonality strength</span>.
+                    the data is decomposed to measure two things:{' '}
+                    <span className="text-white font-medium">trend strength</span> and{' '}
+                    <span className="text-white font-medium">seasonality strength</span>.
                   </p>
                   <p className="text-neutral-400 text-sm leading-relaxed">
                     For this client, the analysis pointed clearly toward{' '}
-                    <span className="text-blue-400 font-mono text-xs">CES</span> (Complex Exponential Smoothing), a
-                    method designed for series where trend and seasonality coexist without being
-                    rigidly periodic. It also produces <span className="text-white font-medium">calibrated probabilistic forecasts</span>.
+                    <span className="text-blue-400 font-mono text-xs">CES</span> (Complex Exponential Smoothing),
+                    a method designed for series where trend and seasonality coexist without being rigidly periodic.
+                    It also produces{' '}
+                    <span className="text-white font-medium">calibrated probabilistic forecasts</span>.
                   </p>
                 </div>
                 <div>
                   <img
                     src="/forecast_stats_6M.png"
-                    alt="CES forecast vs. realized revenue over 6 months"
+                    alt="CES forecast vs realized revenue over 6 months"
                     className="w-full rounded-lg border border-white/[0.08]"
                   />
                 </div>
@@ -348,20 +340,27 @@ function ServicesSection() {
                     </div>
                   </div>
                   <p className="text-neutral-400 text-sm leading-relaxed">
-                    MAPE tells you, on average, how far predictions were off in percentage terms.
-                    A MAPE of <span className="text-emerald-400 font-mono text-xs">2.7%</span> means the
-                    model was, on average, within <span className="text-white font-medium">±2.7% of the actual revenue</span> each month.
-                    In retail and service businesses, anything below <span className="text-white font-medium">5%</span> is considered excellent.
+                    A MAPE of{' '}
+                    <span className="text-emerald-400 font-mono text-xs">2.7%</span> means the model was,
+                    on average, within{' '}
+                    <span className="text-white font-medium">2.7% of the actual revenue</span> each month.
+                    In retail and service businesses, anything below{' '}
+                    <span className="text-white font-medium">5%</span> is considered excellent.
                   </p>
                 </div>
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5 flex flex-col md:flex-row md:items-center gap-4">
                   <div className="flex-1">
                     <p className="text-white font-medium text-sm mb-1">Have historical data sitting somewhere?</p>
-                    <p className="text-neutral-400 text-xs leading-relaxed">Two columns. A date and a number. That's all it takes to get started.</p>
+                    <p className="text-neutral-400 text-xs leading-relaxed">
+                      Two columns. A date and a number. That is all it takes to get started.
+                    </p>
                   </div>
                   <button
-                    onClick={() => { setDemoOpen(false); setTimeout(() => { document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }, 200); }}
-                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black hover:bg-neutral-200 transition-colors duration-150 text-sm font-medium"
+                    onClick={() => {
+                      setDemoOpen(false);
+                      setTimeout(() => { document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }, 200);
+                    }}
+                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0070f3] hover:bg-[#0060df] text-white transition-colors duration-150 text-sm font-medium"
                   >
                     Discuss your project
                     <ArrowRight className="w-4 h-4" />
@@ -374,9 +373,14 @@ function ServicesSection() {
             {demoActive === 'machine-learning' && (
               <div className="p-12">
                 <div className="flex flex-col items-center justify-center text-center gap-3 py-12">
-                  <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-lg">⏳</div>
+                  <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-lg">
+                    &#x23F3;
+                  </div>
                   <p className="text-white/80 font-mono text-sm">Case study in preparation</p>
-                  <p className="text-neutral-500 text-xs max-w-sm">A production-grade ML pipeline showcase is being finalized. In the meantime, the statistical example shows the same rigor applied at a simpler level.</p>
+                  <p className="text-neutral-500 text-xs max-w-sm">
+                    A production-grade ML pipeline showcase is being finalized.
+                    In the meantime, the statistical example shows the same rigor applied at a simpler level.
+                  </p>
                 </div>
               </div>
             )}
@@ -390,43 +394,57 @@ function ServicesSection() {
                   <NeutralBadge>Collaboration tier</NeutralBadge>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">When the patterns run deep</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">
+                    When the patterns run deep
+                  </h3>
                   <p className="text-neutral-400 text-sm leading-relaxed">
                     Deep learning architectures like TFT are built for one thing: finding{' '}
-                    <span className="text-white font-medium">non-obvious dependencies across many variables including ones already known about the future</span>{' '}
-                    (planned promotions, confirmed holidays, scheduled prices). They surface signals that statistical and ML models structurally cannot see.
+                    <span className="text-white font-medium">
+                      non-obvious dependencies across many variables including ones already known about the future
+                    </span>{' '}
+                    (planned promotions, confirmed holidays, scheduled prices). They surface
+                    signals that statistical and ML models structurally cannot see.
                   </p>
                 </div>
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 block mb-3">Who this is for</span>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 block mb-3">
+                    Who this is for
+                  </span>
                   <p className="text-neutral-400 text-sm leading-relaxed">
-                    Best suited for organizations that already have data pipelines and some technical ownership in-house. Deep learning is a long-term commitment — the model needs to be maintained, monitored, and updated as your data evolves.
+                    Best suited for organizations that already have data pipelines and
+                    some technical ownership in-house. Deep learning is a long-term
+                    commitment - the model needs to be maintained, monitored, and
+                    updated as your data evolves.
                   </p>
                 </div>
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5 flex flex-col md:flex-row md:items-center gap-4">
                   <div className="flex-1">
-                    <p className="text-white font-medium text-sm mb-1">You're sitting on signals you haven't started reading yet.</p>
-                    <p className="text-neutral-400 text-xs leading-relaxed">If the infrastructure is there, so is the opportunity.</p>
+                    <p className="text-white font-medium text-sm mb-1">
+                      You are sitting on signals you have not started reading yet.
+                    </p>
+                    <p className="text-neutral-400 text-xs leading-relaxed">
+                      If the infrastructure is there, so is the opportunity.
+                    </p>
                   </div>
-                    <button
-                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg
-                                 bg-[#0070f3] hover:bg-[#0060df]
-                                 text-white text-sm font-medium
-                                 transition-colors duration-150"
-                    >
-                      Discuss your project
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => {
+                      setDemoOpen(false);
+                      setTimeout(() => { document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }, 200);
+                    }}
+                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0070f3] hover:bg-[#0060df] text-white transition-colors duration-150 text-sm font-medium"
+                  >
+                    Discuss your project
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             )}
+
           </motion.div>
         </div>
       )}
 
-      {/* ── FRAUD MODAL ── */}
+      {/* FRAUD MODAL */}
       {fraudOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -445,7 +463,12 @@ function ServicesSection() {
                 <NeutralBadge>Live Pipeline</NeutralBadge>
                 <span className="text-neutral-500 text-[11px] font-mono">Fraud & Anomaly Detection</span>
               </div>
-              <button onClick={() => setFraudOpen(false)} className="text-neutral-500 hover:text-white transition-colors text-lg leading-none w-8 h-8 flex items-center justify-center">✕</button>
+              <button
+                onClick={() => setFraudOpen(false)}
+                className="text-neutral-500 hover:text-white transition-colors text-lg leading-none w-8 h-8 flex items-center justify-center"
+              >
+                &#x2715;
+              </button>
             </div>
             <div className="p-6">
               {isMobile ? <PipelineMobile /> : <AnimatedPipelineDesktop />}
