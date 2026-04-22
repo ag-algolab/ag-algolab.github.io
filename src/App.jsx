@@ -844,14 +844,6 @@ function Home() {
 
         {/* Hero */}
         <section id="home" className="min-h-screen flex items-center justify-center relative pt-20 overflow-hidden">
-          {/* Subtle grid backdrop */}
-          <div
-            className="absolute inset-0 opacity-[0.015]"
-            style={{
-              backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-              backgroundSize: '64px 64px',
-            }}
-          />
           {/* One single subtle glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/[0.04] rounded-full blur-3xl" />
 
