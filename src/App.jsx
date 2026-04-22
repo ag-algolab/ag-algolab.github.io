@@ -258,7 +258,7 @@ function ServicesSection() {
                 {[
                   { id: 'statistical', label: 'Statistical' },
                   { id: 'machine-learning', label: 'Machine Learning' },
-                  { id: 'deep-learning', label: 'DL' },
+                  { id: 'deep-learning', label: 'Deep Learning' },
                 ].map(tab => (
                   <button
                     key={tab.id}
@@ -823,7 +823,7 @@ function Home() {
               >
                 <div className="inline-flex items-center gap-2 mb-8 px-3 py-1 rounded-full bg-white/5 border border-white/10">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs text-neutral-300 font-mono tracking-wide">Statistics · ML · Deep Learning</span>
+                  <span className="text-xs text-neutral-300 font-mono tracking-wide">Statistics · Machine Learning · DL</span>
                 </div>
 
                 <h1 className="text-5xl md:text-7xl font-semibold tracking-[-0.04em] mb-5 text-white leading-[1.02]">
