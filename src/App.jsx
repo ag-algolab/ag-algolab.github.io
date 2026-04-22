@@ -844,8 +844,13 @@ function Home() {
 
         {/* Hero */}
         <section id="home" className="min-h-screen flex items-center justify-center relative pt-20 overflow-hidden">
-          {/* One single subtle glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/[0.04] rounded-full blur-3xl" />
+          {/* Background glows */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-blue-500/[0.04] rounded-full blur-[100px] sm:hidden" />
+            <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-500/[0.04] rounded-full blur-[100px] sm:hidden" />
+            <div className="hidden sm:block absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/[0.03] rounded-full blur-[120px]" />
+            <div className="hidden sm:block absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/[0.03] rounded-full blur-[120px]" />
+          </div>
 
           <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
