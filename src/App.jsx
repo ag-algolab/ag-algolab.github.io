@@ -58,6 +58,7 @@ function ServicesSection() {
     {
       label: 'Statistical',
       badge: '3–7 days',
+      icon: '⬡',
       tools: 'ARIMA · ETS · CES · Theta',
       desc: 'Fast, interpretable baselines. Perfect when explainability matters more than raw performance.',
       id: 'statistical',
@@ -65,6 +66,7 @@ function ServicesSection() {
     {
       label: 'Machine Learning',
       badge: '1–2 weeks',
+      icon: '◈',
       tools: 'CatBoost · LightGBM · MLForecast',
       desc: 'Production-grade pipelines with walk-forward validation and feature engineering.',
       id: 'machine-learning',
@@ -73,6 +75,7 @@ function ServicesSection() {
     {
       label: 'Deep Learning',
       badge: 'Scope-dependent',
+      icon: '◉',
       tools: 'N-HiTS · TFT · PatchTST',
       desc: 'State-of-the-art architectures for complex patterns, long horizons, and multi-variate series.',
       id: 'deep-learning',
@@ -142,6 +145,8 @@ function ServicesSection() {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
+                      {/* Icône — ajoute cette ligne */}
+                      <div className="text-2xl mb-4">{tier.icon}</div>
                       <NeutralBadge>{tier.badge}</NeutralBadge>
                       {tier.highlight && (
                         <span className="text-[10px] font-mono text-blue-400 tracking-wider">CORE</span>
