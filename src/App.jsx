@@ -189,7 +189,7 @@ function ServicesSection() {
                 Fraud & Anomaly Detection
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed mb-6 flex-1">
-                Know exactly where to look. Calibrated risk scores and explainable signals,
+                Know exactly where to look. Calibrated risk scores
                 so your team focuses time and money where it actually counts.
               </p>
               <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
