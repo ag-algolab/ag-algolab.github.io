@@ -257,8 +257,8 @@ function ServicesSection() {
               <div className="flex gap-1">
                 {[
                   { id: 'statistical', label: 'Statistical' },
-                  { id: 'machine-learning', label: 'ML' },
-                  { id: 'deep-learning', label: 'Deep Learning' },
+                  { id: 'machine-learning', label: 'Machine Learning' },
+                  { id: 'deep-learning', label: 'DL' },
                 ].map(tab => (
                   <button
                     key={tab.id}
