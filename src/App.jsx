@@ -229,7 +229,8 @@ function ServicesSection() {
         <div className="flex justify-center mt-12">
           <button
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#0070f3] hover:bg-[#0060df] text-white text-sm font-medium transition-colors duration-150"
+            className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white hover:bg-neutral-200 text-black text-sm font-medium transition-colors duration-150"
+            
           >
             Discuss your project
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150" />
@@ -360,7 +361,7 @@ function ServicesSection() {
                       setDemoOpen(false);
                       setTimeout(() => { document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }, 200);
                     }}
-                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0070f3] hover:bg-[#0060df] text-white transition-colors duration-150 text-sm font-medium"
+                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white hover:bg-neutral-200 text-black text-sm font-medium transition-colors duration-150"
                   >
                     Discuss your project
                     <ArrowRight className="w-4 h-4" />
@@ -431,8 +432,8 @@ function ServicesSection() {
                       setDemoOpen(false);
                       setTimeout(() => { document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }, 200);
                     }}
-                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0070f3] hover:bg-[#0060df] text-white transition-colors duration-150 text-sm font-medium"
-                  >
+                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white hover:bg-neutral-200 text-black text-sm font-medium transition-colors duration-150"
+                    >
                     Discuss your project
                     <ArrowRight className="w-4 h-4" />
                   </button>
