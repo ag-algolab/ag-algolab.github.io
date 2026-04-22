@@ -202,7 +202,7 @@ function ServicesSection() {
                 Fraud & Anomaly Detection
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed mb-6 flex-1">
-                Know exactly where to look. Calibrated risk scores and explainable signals,
+                Know exactly where to look. Calibrated risk scores
                 so your team focuses time and money where it actually counts.
               </p>
               <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
@@ -244,37 +244,6 @@ function ServicesSection() {
           </motion.div>
         </div>
 
-        {/* CTA — animated blue/white gradient */}
-        <div className="flex justify-center mt-12">
-          <button
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium overflow-hidden"
-            style={{ color: '#000' }}
-          >
-            {/* Animated gradient layer */}
-            <span
-              className="absolute inset-0 rounded-lg"
-              style={{
-                background: 'linear-gradient(270deg, #0070f3, #60a5fa, #ffffff, #60a5fa, #0070f3)',
-                backgroundSize: '300% 300%',
-                animation: 'ctaShift 5s ease infinite',
-              }}
-            />
-            {/* Content above gradient */}
-            <span className="relative z-10 font-semibold">Discuss your project</span>
-            <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </button>
-        </div>
-
-        {/* Keyframe for CTA animation */}
-        <style>{`
-          @keyframes ctaShift {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-        `}</style>
-      </div>
 
       {/* ── DEMO MODAL ── */}
       {demoOpen && (
@@ -439,13 +408,16 @@ function ServicesSection() {
                     <p className="text-white font-medium text-sm mb-1">You're sitting on signals you haven't started reading yet.</p>
                     <p className="text-neutral-400 text-xs leading-relaxed">If the infrastructure is there, so is the opportunity.</p>
                   </div>
-                  <button
-                    onClick={() => { setDemoOpen(false); setTimeout(() => { document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }, 200); }}
-                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black hover:bg-neutral-200 transition-colors duration-150 text-sm font-medium"
-                  >
-                    Discuss your project
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                    <button
+                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg
+                                 bg-[#0070f3] hover:bg-[#0060df]
+                                 text-white text-sm font-medium
+                                 transition-colors duration-150"
+                    >
+                      Discuss your project
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150" />
+                    </button>
                 </div>
               </div>
             )}
