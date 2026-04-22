@@ -58,7 +58,6 @@ function ServicesSection() {
     {
       label: 'Statistical',
       badge: '3–7 days',
-      icon: '⬡',
       tools: 'ARIMA · ETS · CES · Theta',
       desc: 'Fast, interpretable baselines. Perfect when explainability matters more than raw performance.',
       id: 'statistical',
@@ -66,7 +65,6 @@ function ServicesSection() {
     {
       label: 'Machine Learning',
       badge: '1–2 weeks',
-      icon: '◈',
       tools: 'CatBoost · LightGBM · MLForecast',
       desc: 'Production-grade pipelines with walk-forward validation and feature engineering.',
       id: 'machine-learning',
@@ -75,7 +73,6 @@ function ServicesSection() {
     {
       label: 'Deep Learning',
       badge: 'Scope-dependent',
-      icon: '◉',
       tools: 'N-HiTS · TFT · PatchTST',
       desc: 'State-of-the-art architectures for complex patterns, long horizons, and multi-variate series.',
       id: 'deep-learning',
@@ -85,7 +82,7 @@ function ServicesSection() {
   return (
     <section id="services" className="py-32 relative">
       <div className="max-w-6xl mx-auto px-6">
-        
+
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -113,20 +110,19 @@ function ServicesSection() {
         >
           <div className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden">
             <div className="p-8 pb-6">
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">01</span>
-                    <NeutralBadge>3 Approaches</NeutralBadge>
-                  </div>
-                  <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
-                    Predictive Analytics & Forecasting
-                  </h3>
-                  <p className="text-neutral-400 text-sm leading-relaxed max-w-2xl">
-                    Turn your historical data into a foresight engine. Revenue, demand, claims, cash flow —
-                    forecast what matters with the right level of sophistication for your context.
-                  </p>
-                </div>
+
+              {/* Header — no number, no tag */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+                  Predictive Analytics & Forecasting
+                </h3>
+                <p className="text-neutral-400 text-sm leading-relaxed max-w-2xl">
+                  Turn your historical data into a foresight engine. Revenue, demand, claims, cash flow —
+                  forecast what matters{' '}
+                  <span className="text-white font-semibold">
+                    with the right level of sophistication for your context.
+                  </span>
+                </p>
               </div>
 
               {/* 3 tier cards */}
@@ -139,31 +135,38 @@ function ServicesSection() {
                     transition={{ duration: 0.4, delay: i * 0.05 }}
                     viewport={{ once: true }}
                     className={`relative bg-black rounded-lg p-5 border transition-colors duration-200 ${
-                      tier.highlight 
-                        ? 'border-blue-500/30 hover:border-blue-500/50' 
+                      tier.highlight
+                        ? 'border-blue-500/30 hover:border-blue-500/50 border-t-2 border-t-blue-500/60'
                         : 'border-white/10 hover:border-white/20'
                     }`}
                   >
+                    {/* Duration badge — all blue, no number, no extra tag */}
                     <div className="flex items-center justify-between mb-3">
-                      {/* Icône — ajoute cette ligne */}
-                      <div className="text-2xl mb-4">{tier.icon}</div>
-                      <NeutralBadge>{tier.badge}</NeutralBadge>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/25 text-blue-400 text-[10px] font-mono font-medium tracking-wide">
+                        {tier.badge}
+                      </span>
                       {tier.highlight && (
                         <span className="text-[10px] font-mono text-blue-400 tracking-wider">CORE</span>
                       )}
                     </div>
+
                     <h4 className="text-white font-semibold mb-2">{tier.label}</h4>
                     <p className="text-neutral-500 text-[11px] font-mono mb-3 leading-relaxed">{tier.tools}</p>
                     <p className="text-neutral-400 text-xs leading-relaxed mb-4">{tier.desc}</p>
+
+                    {/* See example — visible but static */}
                     <button
                       onClick={() => {
                         setDemoActive(tier.id);
                         setDemoOpen(true);
                       }}
-                      className="text-[11px] font-mono text-neutral-400 hover:text-white transition-colors duration-150 flex items-center gap-1 group"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md
+                                 bg-white/[0.06] border border-white/15 
+                                 text-[11px] font-mono text-white/70 hover:text-white hover:bg-white/10 hover:border-white/25
+                                 transition-all duration-150"
                     >
                       See example
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowRight className="w-3 h-3" />
                     </button>
                   </motion.div>
                 ))}
@@ -186,7 +189,7 @@ function ServicesSection() {
         {/* ── SERVICES 2 & 3 side by side ── */}
         <div className="grid md:grid-cols-2 gap-3">
 
-          {/* SERVICE 2 : Fraud & Anomaly Detection */}
+          {/* SERVICE 2 : Fraud & Anomaly Detection — no number, no tag */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -195,10 +198,6 @@ function ServicesSection() {
             className="bg-[#0a0a0a] rounded-xl border border-white/10 hover:border-white/20 transition-colors duration-200"
           >
             <div className="p-8 flex flex-col h-full">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">02</span>
-                <NeutralBadge>Insurance · Finance · Ops</NeutralBadge>
-              </div>
               <h3 className="text-xl font-semibold text-white mb-2 tracking-tight">
                 Fraud & Anomaly Detection
               </h3>
@@ -212,16 +211,19 @@ function ServicesSection() {
                 </span>
                 <button
                   onClick={() => setFraudOpen(true)}
-                  className="text-[11px] font-mono text-neutral-400 hover:text-white transition-colors duration-150 flex items-center gap-1 group"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md
+                             bg-white/[0.06] border border-white/15
+                             text-[11px] font-mono text-white/70 hover:text-white hover:bg-white/10 hover:border-white/25
+                             transition-all duration-150"
                 >
                   See example
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
             </div>
           </motion.div>
 
-          {/* SERVICE 3 : On-Demand */}
+          {/* SERVICE 3 : On-Demand — no number, no tag */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -230,10 +232,6 @@ function ServicesSection() {
             className="bg-[#0a0a0a] rounded-xl border border-white/10 hover:border-white/20 transition-colors duration-200"
           >
             <div className="p-8 flex flex-col h-full">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">03</span>
-                <NeutralBadge>On-demand</NeutralBadge>
-              </div>
               <h3 className="text-xl font-semibold text-white mb-2 tracking-tight">
                 Built Around Your Problem
               </h3>
@@ -246,16 +244,36 @@ function ServicesSection() {
           </motion.div>
         </div>
 
-        {/* CTA */}
+        {/* CTA — animated blue/white gradient */}
         <div className="flex justify-center mt-12">
           <button
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-black hover:bg-neutral-200 transition-colors duration-150 text-sm font-medium"
+            className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium overflow-hidden"
+            style={{ color: '#000' }}
           >
-            Discuss your project
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            {/* Animated gradient layer */}
+            <span
+              className="absolute inset-0 rounded-lg"
+              style={{
+                background: 'linear-gradient(270deg, #0070f3, #60a5fa, #ffffff, #60a5fa, #0070f3)',
+                backgroundSize: '300% 300%',
+                animation: 'ctaShift 5s ease infinite',
+              }}
+            />
+            {/* Content above gradient */}
+            <span className="relative z-10 font-semibold">Discuss your project</span>
+            <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>
+
+        {/* Keyframe for CTA animation */}
+        <style>{`
+          @keyframes ctaShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}</style>
       </div>
 
       {/* ── DEMO MODAL ── */}
@@ -274,7 +292,6 @@ function ServicesSection() {
                        w-full max-w-4xl max-h-[92vh] overflow-y-auto z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
             <div className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur-md
                             flex items-center justify-between px-6 py-4
                             border-b border-white/[0.08]">
@@ -314,7 +331,6 @@ function ServicesSection() {
                   <NeutralBadge>Real data</NeutralBadge>
                   <NeutralBadge>6-month horizon</NeutralBadge>
                 </div>
-
                 <div>
                   <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">
                     Revenue Forecasting — French SME
@@ -327,7 +343,6 @@ function ServicesSection() {
                     the <span className="text-blue-400 font-mono text-xs">revenue</span> recorded that day.
                   </p>
                 </div>
-
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5">
                   <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 block mb-3">
                     Model selection
@@ -343,7 +358,6 @@ function ServicesSection() {
                     rigidly periodic. It also produces <span className="text-white font-medium">calibrated probabilistic forecasts</span>.
                   </p>
                 </div>
-
                 <div>
                   <img
                     src="/forecast_stats_6M.png"
@@ -351,7 +365,6 @@ function ServicesSection() {
                     className="w-full rounded-lg border border-white/[0.08]"
                   />
                 </div>
-
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5">
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div>
@@ -372,26 +385,14 @@ function ServicesSection() {
                     In retail and service businesses, anything below <span className="text-white font-medium">5%</span> is considered excellent.
                   </p>
                 </div>
-
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5 flex flex-col md:flex-row md:items-center gap-4">
                   <div className="flex-1">
-                    <p className="text-white font-medium text-sm mb-1">
-                      Have historical data sitting somewhere?
-                    </p>
-                    <p className="text-neutral-400 text-xs leading-relaxed">
-                      Two columns. A date and a number. That's all it takes to get started.
-                    </p>
+                    <p className="text-white font-medium text-sm mb-1">Have historical data sitting somewhere?</p>
+                    <p className="text-neutral-400 text-xs leading-relaxed">Two columns. A date and a number. That's all it takes to get started.</p>
                   </div>
                   <button
-                    onClick={() => {
-                      setDemoOpen(false);
-                      setTimeout(() => {
-                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                      }, 200);
-                    }}
-                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg
-                               bg-white text-black hover:bg-neutral-200
-                               transition-colors duration-150 text-sm font-medium"
+                    onClick={() => { setDemoOpen(false); setTimeout(() => { document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }, 200); }}
+                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black hover:bg-neutral-200 transition-colors duration-150 text-sm font-medium"
                   >
                     Discuss your project
                     <ArrowRight className="w-4 h-4" />
@@ -404,14 +405,9 @@ function ServicesSection() {
             {demoActive === 'machine-learning' && (
               <div className="p-12">
                 <div className="flex flex-col items-center justify-center text-center gap-3 py-12">
-                  <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-lg">
-                    ⏳
-                  </div>
+                  <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-lg">⏳</div>
                   <p className="text-white/80 font-mono text-sm">Case study in preparation</p>
-                  <p className="text-neutral-500 text-xs max-w-sm">
-                    A production-grade ML pipeline showcase is being finalized.
-                    In the meantime, the statistical example shows the same rigor applied at a simpler level.
-                  </p>
+                  <p className="text-neutral-500 text-xs max-w-sm">A production-grade ML pipeline showcase is being finalized. In the meantime, the statistical example shows the same rigor applied at a simpler level.</p>
                 </div>
               </div>
             )}
@@ -424,52 +420,28 @@ function ServicesSection() {
                   <NeutralBadge>TFT · N-HiTS · PatchTST</NeutralBadge>
                   <NeutralBadge>Collaboration tier</NeutralBadge>
                 </div>
-
                 <div>
-                  <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">
-                    When the patterns run deep
-                  </h3>
+                  <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">When the patterns run deep</h3>
                   <p className="text-neutral-400 text-sm leading-relaxed">
                     Deep learning architectures like TFT are built for one thing: finding{' '}
-                    <span className="text-white font-medium">
-                      non-obvious dependencies across many variables including ones already known about the future
-                    </span>{' '}
-                    (planned promotions, confirmed holidays, scheduled prices). They surface
-                    signals that statistical and ML models structurally cannot see.
+                    <span className="text-white font-medium">non-obvious dependencies across many variables including ones already known about the future</span>{' '}
+                    (planned promotions, confirmed holidays, scheduled prices). They surface signals that statistical and ML models structurally cannot see.
                   </p>
                 </div>
-
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 block mb-3">
-                    Who this is for
-                  </span>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 block mb-3">Who this is for</span>
                   <p className="text-neutral-400 text-sm leading-relaxed">
-                    Best suited for organizations that already have data pipelines and
-                    some technical ownership in-house. Deep learning is a long-term
-                    commitment — the model needs to be maintained, monitored, and
-                    updated as your data evolves.
+                    Best suited for organizations that already have data pipelines and some technical ownership in-house. Deep learning is a long-term commitment — the model needs to be maintained, monitored, and updated as your data evolves.
                   </p>
                 </div>
-
                 <div className="bg-black rounded-lg border border-white/[0.08] p-5 flex flex-col md:flex-row md:items-center gap-4">
                   <div className="flex-1">
-                    <p className="text-white font-medium text-sm mb-1">
-                      You're sitting on signals you haven't started reading yet.
-                    </p>
-                    <p className="text-neutral-400 text-xs leading-relaxed">
-                      If the infrastructure is there, so is the opportunity.
-                    </p>
+                    <p className="text-white font-medium text-sm mb-1">You're sitting on signals you haven't started reading yet.</p>
+                    <p className="text-neutral-400 text-xs leading-relaxed">If the infrastructure is there, so is the opportunity.</p>
                   </div>
                   <button
-                    onClick={() => {
-                      setDemoOpen(false);
-                      setTimeout(() => {
-                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                      }, 200);
-                    }}
-                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg
-                               bg-white text-black hover:bg-neutral-200
-                               transition-colors duration-150 text-sm font-medium"
+                    onClick={() => { setDemoOpen(false); setTimeout(() => { document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }, 200); }}
+                    className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black hover:bg-neutral-200 transition-colors duration-150 text-sm font-medium"
                   >
                     Discuss your project
                     <ArrowRight className="w-4 h-4" />
@@ -488,33 +460,20 @@ function ServicesSection() {
           onClick={() => setFraudOpen(false)}
         >
           <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
-
           <motion.div
             initial={{ opacity: 0, scale: 0.97, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.2 }}
-            className="relative bg-[#0a0a0a] rounded-xl border border-white/10
-                       w-full max-w-2xl max-h-[92vh] overflow-y-auto z-10"
+            className="relative bg-[#0a0a0a] rounded-xl border border-white/10 w-full max-w-2xl max-h-[92vh] overflow-y-auto z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur-md
-                            flex items-center justify-between px-6 py-4
-                            border-b border-white/[0.08]">
+            <div className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur-md flex items-center justify-between px-6 py-4 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <NeutralBadge>Live Pipeline</NeutralBadge>
-                <span className="text-neutral-500 text-[11px] font-mono">
-                  Fraud & Anomaly Detection
-                </span>
+                <span className="text-neutral-500 text-[11px] font-mono">Fraud & Anomaly Detection</span>
               </div>
-              <button
-                onClick={() => setFraudOpen(false)}
-                className="text-neutral-500 hover:text-white transition-colors
-                           text-lg leading-none w-8 h-8 flex items-center justify-center"
-              >
-                ✕
-              </button>
+              <button onClick={() => setFraudOpen(false)} className="text-neutral-500 hover:text-white transition-colors text-lg leading-none w-8 h-8 flex items-center justify-center">✕</button>
             </div>
-
             <div className="p-6">
               {isMobile ? <PipelineMobile /> : <AnimatedPipelineDesktop />}
             </div>
