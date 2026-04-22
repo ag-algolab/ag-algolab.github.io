@@ -418,6 +418,7 @@ function ServicesSection() {
                       Discuss your project
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150" />
                     </button>
+                  </div>
                 </div>
               </div>
             )}
