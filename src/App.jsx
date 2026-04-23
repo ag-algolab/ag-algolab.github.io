@@ -835,7 +835,7 @@ function Home() {
                 </p>
 
                 <p className="text-base text-neutral-500 max-w-md mb-10 leading-relaxed">
-                  Every engagement starts with a question. We answer it with a model.
+                  Asking the right question gets you halfway there. We take care of the other half.
                 </p>
 
                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
