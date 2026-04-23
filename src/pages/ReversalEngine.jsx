@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Send, Phone, MoreVertical, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Send, Phone, MoreVertical } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 
 /* ================= ANIMATED COUNTER ================= */
@@ -106,11 +106,9 @@ function SolScannerChart() {
       const revealProgress = isScanning ? 0 : Math.min((elapsed - scanDuration) / 400, 1);
       setPhase(isScanning ? 'scanning' : 'revealed');
 
-      // bg matches #0a0a0a
       ctx.fillStyle = '#0a0a0a';
       ctx.fillRect(0, 0, width, height);
 
-      // grid lines
       ctx.strokeStyle = 'rgba(255,255,255,0.04)';
       ctx.lineWidth = 1;
       for (let i = 0; i <= 5; i++) {
@@ -118,7 +116,6 @@ function SolScannerChart() {
         ctx.beginPath(); ctx.moveTo(padding.left, y); ctx.lineTo(width - padding.right, y); ctx.stroke();
       }
 
-      // price labels
       ctx.fillStyle = 'rgba(255,255,255,0.2)';
       ctx.font = '11px monospace';
       ctx.textAlign = 'right';
@@ -132,7 +129,6 @@ function SolScannerChart() {
       const scanX = padding.left + scanProgress * chartWidth;
       ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
 
-      // candles — muted green/red instead of neon
       candles.forEach((candle, i) => {
         const x = indexToX(i);
         const candleRight = x + candleWidth / 2;
@@ -143,7 +139,6 @@ function SolScannerChart() {
           else if (x - candleWidth / 2 < scanX) alpha = 0.1 + ((scanX - (x - candleWidth / 2)) / candleWidth) * 0.7;
         } else { alpha = 0.1 + revealProgress * 0.7; }
 
-        // softer green/red — closer to main app palette
         const baseColor = isGreen ? [74, 222, 128] : [248, 113, 113];
         const color = `rgba(${baseColor.join(',')}, ${alpha})`;
 
@@ -157,18 +152,15 @@ function SolScannerChart() {
         ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
       });
 
-      // scan line — use site blue
       if (isScanning) {
-        ctx.strokeStyle = 'rgba(74,144,226,0.6)'; ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(153,69,255,0.7)'; ctx.lineWidth = 1;
         ctx.setLineDash([4, 3]);
         ctx.beginPath(); ctx.moveTo(scanX, padding.top); ctx.lineTo(scanX, height - padding.bottom); ctx.stroke();
         ctx.setLineDash([]);
-
-        ctx.fillStyle = 'rgba(74,144,226,0.9)';
+        ctx.fillStyle = 'rgba(153,69,255,1)';
         ctx.beginPath(); ctx.arc(scanX, padding.top - 8, 3, 0, Math.PI * 2); ctx.fill();
       }
 
-      // reversal markers — subtle
       extremes.forEach((extreme) => {
         const candle = candles[extreme.index];
         const x = indexToX(extreme.index);
@@ -185,7 +177,6 @@ function SolScannerChart() {
         ctx.fillStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.06})`;
         ctx.beginPath(); ctx.arc(x, y, 11, 0, Math.PI * 2); ctx.fill();
         ctx.strokeStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.6})`; ctx.lineWidth = 1.5; ctx.stroke();
-
         ctx.strokeStyle = `rgba(${markerColor.join(',')}, ${markerAlpha * 0.9})`; ctx.lineWidth = 1.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
         if (isLow) {
           ctx.beginPath(); ctx.moveTo(x - 4, y); ctx.lineTo(x - 1, y + 4); ctx.lineTo(x + 5, y - 3); ctx.stroke();
@@ -203,21 +194,19 @@ function SolScannerChart() {
 
   return (
     <div className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden">
-      {/* Chart header */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06]">
         <div className="flex items-center gap-3">
           <span className="text-neutral-500 font-mono text-[11px] uppercase tracking-widest">SOL / USDC</span>
           <NeutralBadge>15m</NeutralBadge>
         </div>
         <div className="flex items-center gap-2">
-          <span className={`w-1.5 h-1.5 rounded-full ${phase === 'scanning' ? 'bg-blue-400 animate-pulse' : 'bg-emerald-400'}`} />
+          <span className={`w-1.5 h-1.5 rounded-full ${phase === 'scanning' ? 'bg-purple-400 animate-pulse' : 'bg-emerald-400'}`} />
           <span className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">
             {phase === 'scanning' ? 'Scanning' : 'Reversal detected'}
           </span>
         </div>
       </div>
       <canvas ref={canvasRef} className="w-full h-[340px]" style={{ display: 'block' }} />
-      {/* Legend */}
       <div className="flex items-center gap-6 px-5 py-3 border-t border-white/[0.06]">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center">
@@ -240,22 +229,24 @@ function SolScannerChart() {
 function TelegramAlerts() {
   const [messages, setMessages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const allMessages = [
     { id: 1, type: 'info', text: '⬡ Engine online — Scanning SOL/USDC 15m...', time: '09:00' },
     { id: 2, type: 'info', text: '⬡ Structure shift detected — Monitoring closely', time: '09:11' },
     { id: 3, type: 'buy', price: '143.50', confidence: 94, time: '09:15' },
     { id: 4, type: 'sell', price: '150.10', confidence: 91, time: '14:45' },
   ];
+
   useEffect(() => {
-    setMessages([{ ...allMessages[0], visible: true }]);
+    setMessages([{ ...allMessages[0] }]);
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
         const next = (prev + 1) % allMessages.length;
         if (next === 0) {
-          setMessages((current) => current.map((m) => ({ ...m, fading: true })));
-          setTimeout(() => setMessages([{ ...allMessages[0], visible: true }]), 400);
+          setMessages([]);
+          setTimeout(() => setMessages([{ ...allMessages[0] }]), 100);
         } else {
-          setMessages((current) => [...current, { ...allMessages[next], visible: true }].slice(-4));
+          setMessages((current) => [...current, { ...allMessages[next] }].slice(-4));
         }
         return next;
       });
@@ -265,22 +256,18 @@ function TelegramAlerts() {
 
   return (
     <div className="w-full max-w-[320px] mx-auto">
-      {/* Phone shell */}
       <div className="bg-[#111] rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl">
         <div className="h-6 bg-[#111] relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-b-2xl" />
         </div>
 
-        {/* Chat header */}
         <div className="bg-[#0a0a0a] px-4 py-2.5 flex items-center gap-3 border-b border-white/[0.06]">
-          <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-            <span className="text-sm text-neutral-300">◎</span>
+          <div className="w-8 h-8 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+            <span className="text-sm text-purple-300">◎</span>
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5">
-              <span className="text-white font-medium text-sm truncate">AG Reversal Signals</span>
-            </div>
-            <span className="text-neutral-500 text-[10px] font-mono">bot · SOL · BTC</span>
+            <span className="text-white font-medium text-sm">AG Reversal Signals</span>
+            <div className="text-neutral-500 text-[10px] font-mono">bot · SOL · BTC</div>
           </div>
           <div className="flex items-center gap-2 text-neutral-600">
             <Phone className="w-3.5 h-3.5" />
@@ -288,14 +275,14 @@ function TelegramAlerts() {
           </div>
         </div>
 
-        {/* Messages */}
+        {/* Messages — NO y animation to avoid scroll-up effect */}
         <div className="h-[280px] p-3 flex flex-col justify-end gap-2 bg-[#0d0d0d] overflow-hidden">
           {messages.map((msg, idx) => (
             <motion.div
               key={`${msg.id}-${idx}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: msg.fading ? 0 : 1, y: msg.fading ? -8 : 0 }}
-              transition={{ duration: msg.fading ? 0.3 : 0.18, ease: 'easeOut' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
               className="max-w-[90%]"
             >
               {msg.type === 'buy' || msg.type === 'sell' ? (
@@ -333,7 +320,6 @@ function TelegramAlerts() {
           ))}
         </div>
 
-        {/* Input */}
         <div className="bg-[#0a0a0a] px-3 py-2 border-t border-white/[0.06]">
           <div className="bg-white/[0.04] border border-white/[0.08] rounded-full px-4 py-2 flex items-center gap-2">
             <span className="text-neutral-600 text-sm flex-1">Message</span>
@@ -361,77 +347,87 @@ export default function ReversalEngine() {
 
       <div className="min-h-screen bg-black text-[#ededed] font-sans antialiased">
 
-        {/* Subtle background glow — same as main page */}
+        {/* Ambient glow — purple/orange for crypto identity */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          <div className="hidden sm:block absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/[0.03] rounded-full blur-[120px]" />
-          <div className="hidden sm:block absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/[0.03] rounded-full blur-[120px]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/[0.05] rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-500/[0.04] rounded-full blur-3xl" />
         </div>
 
-        {/* ── NAV — identical to main ── */}
+        {/* ── NAV ── */}
         <nav className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/[0.08]">
           <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center relative">
               <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
                 <img src="/logo.jpg" alt="Logo" className="w-8 h-8 object-contain rounded-md" />
                 <span className="text-[15px] font-semibold text-white tracking-tight">AG Algo Lab</span>
               </Link>
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md border border-white/10 text-neutral-400 hover:text-white hover:border-white/20 transition-colors duration-150 text-sm"
-              >
+              {/* Centered symbol */}
+              <div className="absolute left-1/2 -translate-x-1/2">
+                <span className="text-2xl text-purple-400/60">◎</span>
+              </div>
+              <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/10 text-neutral-400 hover:bg-white/5 hover:text-white transition-colors">
                 ← Back
               </Link>
             </div>
           </div>
         </nav>
 
-        {/* ── HERO ── */}
-        <section className="min-h-screen flex items-center justify-center pt-20 pb-16 relative">
-          <div className="max-w-6xl mx-auto px-6 w-full">
+        {/* ── HERO — centered like SolverBet ── */}
+        <section className="min-h-screen flex items-center justify-center pt-24 pb-16 relative">
+          <div className="max-w-5xl mx-auto px-6 text-center">
+
+            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                <span className="text-purple-400/80 text-sm font-medium font-mono tracking-wide">Crypto Intelligence · SOL · BTC</span>
+              </div>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="text-6xl md:text-8xl font-semibold tracking-[-0.04em] mb-6 text-white leading-[1.02]"
+            >
+              Reversal Engine
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-xl md:text-2xl font-light text-neutral-400 mb-12 tracking-tight max-w-xl mx-auto"
+            >
+              Detecting high-probability turning points in real-time.
+            </motion.p>
+
+            {/* Stat boxes — centered row */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-2xl"
+              transition={{ delay: 0.5 }}
+              className="grid grid-cols-3 gap-4 max-w-xl mx-auto"
             >
-              <div className="inline-flex items-center gap-2 mb-8 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs text-neutral-300 font-mono tracking-wide">
-                  SOL · BTC · 15m · Auto-execution
-                </span>
-              </div>
-
-              <h1 className="text-5xl md:text-7xl font-semibold tracking-[-0.04em] mb-5 text-white leading-[1.02]">
-                Reversal Engine
-              </h1>
-
-              <p className="text-2xl md:text-3xl font-light text-neutral-400 mb-6 tracking-tight">
-                Before it happens.
-              </p>
-
-              <p className="text-base text-neutral-500 max-w-md mb-10 leading-relaxed">
-                Real-time AI system detecting high-probability turning points on SOL and BTC.
-                Signal delivery and order execution — fully automated.
-              </p>
-
-              {/* Stats row */}
-              <div className="flex flex-wrap gap-4 mb-10">
-                {[
-                  { label: 'Assets', value: '2' },
-                  { label: 'Timeframe', value: '15m' },
-                  { label: 'Execution', value: 'Auto' },
-                ].map((s) => (
-                  <div key={s.label} className="px-4 py-3 rounded-lg bg-[#0a0a0a] border border-white/10">
-                    <div className="text-white font-semibold font-mono text-lg leading-none mb-1">{s.value}</div>
-                    <div className="text-neutral-500 text-[10px] uppercase tracking-wider">{s.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              <p className="text-neutral-600 text-xs font-mono italic">
-                Architecture details remain confidential.
-              </p>
+              {[
+                { label: 'Active Assets', value: '2' },
+                { label: 'Timeframe', value: '15m' },
+                { label: 'Execution', value: 'Auto' },
+              ].map((s, i) => (
+                <div key={i} className="bg-[#0a0a0a] border border-white/10 rounded-xl p-4 text-center hover:border-white/20 transition-colors duration-200">
+                  <div className="text-2xl font-semibold font-mono text-white mb-1">{s.value}</div>
+                  <div className="text-neutral-500 text-xs">{s.label}</div>
+                </div>
+              ))}
             </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="text-neutral-700 text-xs font-mono italic mt-8"
+            >
+              Architecture details remain confidential.
+            </motion.p>
           </div>
         </section>
 
@@ -443,14 +439,14 @@ export default function ReversalEngine() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-10"
+              className="mb-10 text-center"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">Pattern Recognition</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 Scanning in real-time.
               </h2>
-              <p className="text-neutral-400 mt-4 text-lg max-w-2xl">
-                Proprietary model identifies structural signatures across price action — invisible to traditional analysis.
+              <p className="text-neutral-400 mt-4 text-lg max-w-xl mx-auto">
+                Proprietary model identifies structural reversal signatures across price action — invisible to traditional analysis.
               </p>
             </motion.div>
 
@@ -473,13 +469,13 @@ export default function ReversalEngine() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-12 text-center"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">How It Works</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 From data to order.
               </h2>
-              <p className="text-neutral-400 mt-4 text-lg max-w-2xl">
+              <p className="text-neutral-400 mt-4 text-lg max-w-xl mx-auto">
                 Three steps, fully automated.
               </p>
             </motion.div>
@@ -495,7 +491,6 @@ export default function ReversalEngine() {
                   step: '02',
                   title: 'Pattern Recognition',
                   desc: 'Proprietary model identifies structural reversal signatures. A confidence score is computed per signal before dispatch.',
-                  highlight: true,
                 },
                 {
                   step: '03',
@@ -509,14 +504,10 @@ export default function ReversalEngine() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.08 }}
                   viewport={{ once: true }}
-                  className={`bg-[#0a0a0a] rounded-xl p-6 border transition-colors duration-200 ${
-                    item.highlight
-                      ? 'border-blue-500/30 hover:border-blue-500/50'
-                      : 'border-white/10 hover:border-white/20'
-                  }`}
-                  style={item.highlight ? { borderTop: '2px solid rgba(74,144,226,0.5)' } : {}}
+                  className="bg-[#0a0a0a] rounded-xl p-6 border border-white/10 hover:border-white/20 transition-colors duration-200"
                 >
-                  <div className="text-neutral-700 font-mono text-4xl font-semibold mb-4 leading-none">
+                  {/* Step number in blue — all three equal */}
+                  <div className="text-4xl font-semibold font-mono mb-4 leading-none text-blue-400 opacity-80">
                     {item.step}
                   </div>
                   <h3 className="text-white font-semibold mb-2 tracking-tight">{item.title}</h3>
@@ -535,13 +526,13 @@ export default function ReversalEngine() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-12 text-center"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">Signal Delivery</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 Instant. Precise.
               </h2>
-              <p className="text-neutral-400 mt-4 text-lg max-w-2xl">
+              <p className="text-neutral-400 mt-4 text-lg max-w-xl mx-auto">
                 Every reversal detection triggers an alert with entry price and confidence score,
                 followed by automatic order execution.
               </p>
@@ -567,7 +558,7 @@ export default function ReversalEngine() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-12 text-center"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">Assets</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
@@ -575,25 +566,25 @@ export default function ReversalEngine() {
               </h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-3 max-w-2xl">
+            <div className="grid md:grid-cols-2 gap-3 max-w-2xl mx-auto">
               {[
                 {
                   symbol: '◎',
                   name: 'Solana',
                   ticker: 'SOL / USDC',
-                  // subtle purple accent for SOL identity
                   accentBg: 'bg-purple-500/[0.06]',
                   accentBorder: 'border-purple-500/20',
                   accentText: 'text-purple-400',
+                  hoverBorder: 'hover:border-purple-500/30',
                 },
                 {
                   symbol: '₿',
                   name: 'Bitcoin',
                   ticker: 'BTC / USDT',
-                  // subtle orange accent for BTC identity
                   accentBg: 'bg-orange-500/[0.06]',
                   accentBorder: 'border-orange-500/20',
                   accentText: 'text-orange-400',
+                  hoverBorder: 'hover:border-orange-500/30',
                 },
               ].map((asset, i) => (
                 <motion.div
@@ -602,7 +593,7 @@ export default function ReversalEngine() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.08 }}
                   viewport={{ once: true }}
-                  className={`bg-[#0a0a0a] rounded-xl p-6 border border-white/10 hover:border-white/20 transition-colors duration-200`}
+                  className={`bg-[#0a0a0a] rounded-xl p-6 border border-white/10 ${asset.hoverBorder} transition-colors duration-200`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl ${asset.accentBg} border ${asset.accentBorder} flex items-center justify-center`}>
@@ -617,13 +608,13 @@ export default function ReversalEngine() {
               ))}
             </div>
 
-            <p className="text-neutral-600 text-xs font-mono italic mt-6">
+            <p className="text-neutral-700 text-xs font-mono italic text-center mt-8">
               Architecture details remain confidential.
             </p>
           </div>
         </section>
 
-        {/* ── FOOTER — same as main ── */}
+        {/* ── FOOTER ── */}
         <footer className="py-10 border-t border-white/[0.08]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
