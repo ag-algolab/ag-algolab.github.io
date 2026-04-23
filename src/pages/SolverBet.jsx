@@ -413,10 +413,8 @@ function HedgeHuntSection() {
             <span className="text-white/40 text-xs font-medium uppercase tracking-widest">The Real Game</span>
           </div>
 
-          <h2 className="text-5xl md:text-6xl font-black tracking-tight">
-            <span className="bg-gradient-to-r from-orange-500 via-orange-300 to-orange-100 bg-clip-text text-transparent">Bookmakers Hedge.</span>
-            <span className="text-white"> </span>
-            <span className="bg-gradient-to-r from-violet-400 via-blue-300 to-blue-100 bg-clip-text text-transparent">We Hunt.</span>
+          <h2 className="text-5xl md:text-6xl font-black tracking-tight text-white">
+            Bookmakers Hedge. We Hunt.
           </h2>
 
           <p className="text-white/35 text-base mt-4 max-w-md mx-auto leading-relaxed">
@@ -579,7 +577,7 @@ const WEEKS_DATA = [
     pnl: 469.0,
     flatYield: 39.1,
     rob: 93.8,
-    note: null,
+    note: 'Upgraded model live — prioritizing consistency over aggressive returns',
   },
   {
     week: 16,
@@ -692,13 +690,6 @@ function WeeklyBreakdown() {
                       +{w.flatYield.toFixed(1)}%
                     </span>
                   </div>
-
-                  {/* Return on bankroll */}
-                  <div className="text-right">
-                    <span className="text-green-400 font-mono text-sm font-bold">
-                      +{w.rob.toFixed(1)}%
-                    </span>
-                  </div>
                 </div>
 
                 {/* Note line */}
@@ -781,7 +772,6 @@ function PerformanceSection() {
     { label: 'Signals sent', display: `${PERF_DATA.signals}`, color: 'violet' },
     { label: 'Total P&L', display: `+${PERF_DATA.totalPnL.toLocaleString()} €`, color: 'green' },
     { label: 'Avg odds', display: `${PERF_DATA.avgOdd}`, color: 'violet' },
-    { label: 'Return on bankroll', display: `+${PERF_DATA.roi}%`, color: 'green' },
   ];
 
   return (
@@ -971,7 +961,7 @@ function PerformanceSection() {
         </motion.div>
 
         {/* Stat cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5">
           {stats.map((s, i) => (
             <motion.div
               key={i}
