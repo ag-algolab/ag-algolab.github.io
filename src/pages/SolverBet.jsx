@@ -620,8 +620,8 @@ function WeeklyBreakdown() {
         <div className="min-w-[520px]">
 
           {/* Column headers */}
-          <div className="grid grid-cols-[56px_64px_1fr_88px_108px] gap-3 px-4 mb-2">
-            {['Week', 'Signals', 'Kelly P&L', 'Flat yield', 'On bankroll'].map((h) => (
+          <div className="grid grid-cols-[56px_64px_1fr_88px] gap-3 px-4 mb-2">
+            {['Week', 'Signals', 'Kelly P&L', 'Flat yield'].map((h) => (
               <span
                 key={h}
                 className={`text-white/20 text-[10px] uppercase tracking-wider font-mono ${
@@ -649,7 +649,7 @@ function WeeklyBreakdown() {
                 <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300
                                 bg-gradient-to-r from-transparent via-violet-400/30 to-transparent pointer-events-none" />
 
-                <div className="grid grid-cols-[56px_64px_1fr_88px_108px] gap-3 items-center">
+                <div className="grid grid-cols-[56px_64px_1fr_88px] gap-3 items-center">
                   {/* Week badge */}
                   <div className="flex items-center">
                     <span className="text-[10px] font-mono font-black px-2 py-0.5 rounded-md
@@ -993,10 +993,7 @@ function PerformanceSection() {
         >
           <span className="text-white/20 text-xs mt-0.5 flex-shrink-0">ℹ</span>
           <p className="text-white/30 text-xs leading-relaxed">
-            These results are based on a <span className="text-white/50 font-medium">Kelly-adjusted staking strategy</span>, 
-            calibrated for a starting bankroll of <span className="text-white/50 font-medium">500€</span>. 
-            The Kelly fraction is adjusted per signal based on the detected edge. 
-            Past performance does not guarantee future returns.
+            All calculations are based on Betclic odds recorded at the time of each analysis. Past performance does not guarantee future returns.
           </p>
         </motion.div>
         <WeeklyBreakdown />
