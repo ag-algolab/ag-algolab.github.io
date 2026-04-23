@@ -767,7 +767,7 @@ function Home() {
     <>
       <Helmet>
         <title>AG Algo Lab — Predictive modelling & anomaly detection</title>
-        <meta name="description" content="AG Algo Lab specializes in research and development using AI for predictive modelling and anomaly detection." />
+        <meta name="description" content="AG Algo Lab specializes in research and development using Machine Learning for predictive modelling and anomaly detection." />
         <link rel="icon" type="image/jpg" href="/logo.jpg" />
       </Helmet>
 
@@ -835,7 +835,7 @@ function Home() {
                 </p>
 
                 <p className="text-base text-neutral-500 max-w-md mb-10 leading-relaxed">
-                  Predictive modelling and anomaly detection, built for organizations that need signal instead of noise.
+                  Every engagement starts with a question. We answer it with a model.
                 </p>
 
                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
