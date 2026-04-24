@@ -445,7 +445,7 @@ export default function ReversalEngine() {
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 Scanning in real-time.
               </h2>
-              <p className="text-neutral-400 mt-4 text-lg max-w-xl mx-auto">
+              <p className="text-neutral-400 mt-4 text-lg max-w-xl">
                 Proprietary model identifies structural reversal signatures across price action — invisible to traditional analysis.
               </p>
             </motion.div>
@@ -475,7 +475,7 @@ export default function ReversalEngine() {
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 From data to order.
               </h2>
-              <p className="text-neutral-400 mt-4 text-lg max-w-xl mx-auto">
+              <p className="text-neutral-400 mt-4 text-lg max-w-xl">
                 Three steps, fully automated.
               </p>
             </motion.div>
@@ -532,7 +532,7 @@ export default function ReversalEngine() {
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 Instant. Precise.
               </h2>
-              <p className="text-neutral-400 mt-4 text-lg max-w-xl mx-auto">
+              <p className="text-neutral-400 mt-4 text-lg max-w-xl">
                 Every reversal detection triggers an alert with entry price and confidence score,
                 followed by automatic order execution.
               </p>
@@ -566,7 +566,7 @@ export default function ReversalEngine() {
               </h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-3 max-w-2xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-3 max-w-2xl">
               {[
                 {
                   symbol: '◎',
