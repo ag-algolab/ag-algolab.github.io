@@ -590,7 +590,7 @@ const WEEKS_DATA = [
 ];
 
 function WeeklyBreakdown() {
-  const maxPnL = Math.max(...WEEKS_DATA.map((w) => w.pnl));
+  const maxFlatYield = Math.max(...WEEKS_DATA.map((w) => w.flatYield));
   const totalPnL = WEEKS_DATA.reduce((s, w) => s + w.pnl, 0);
   const totalSignals = WEEKS_DATA.reduce((s, w) => s + w.signals, 0);
 
@@ -610,9 +610,6 @@ function WeeklyBreakdown() {
           </span>
           <div className="h-px w-10 bg-white/10" />
         </div>
-        <span className="text-white/20 text-[10px] font-mono uppercase tracking-wider hidden md:block">
-          Kelly adjusted · 500€ bankroll
-        </span>
       </div>
 
       {/* Scrollable wrapper for small screens */}
@@ -621,7 +618,7 @@ function WeeklyBreakdown() {
 
           {/* Column headers */}
           <div className="grid grid-cols-[56px_64px_1fr_88px] gap-3 px-4 mb-2">
-            {['Week', 'Signals', 'Kelly P&L', 'Flat yield'].map((h) => (
+            {['Week', 'Signals', 'Flat yield', 'P&L'].map((h) => (
               <span
                 key={h}
                 className={`text-white/20 text-[10px] uppercase tracking-wider font-mono ${
@@ -662,32 +659,30 @@ function WeeklyBreakdown() {
                   {/* Signals */}
                   <span className="text-white/45 text-sm font-mono">{w.signals}</span>
 
-                  {/* PnL bar + value */}
+                  {/* Flat yield bar + value */}
                   <div className="flex items-center gap-2.5">
                     <div className="flex-1 h-[3px] bg-white/[0.06] rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
-                        whileInView={{ width: `${(w.pnl / maxPnL) * 100}%` }}
+                        whileInView={{ width: `${(w.flatYield / maxFlatYield) * 100}%` }}
                         transition={{ duration: 0.9, delay: i * 0.08 + 0.25, ease: 'easeOut' }}
                         viewport={{ once: true }}
                         className="h-full rounded-full"
-                        style={{
-                          background: 'linear-gradient(90deg, #6d28d9, #93c5fd)',
-                        }}
+                        style={{ background: 'linear-gradient(90deg, #6d28d9, #93c5fd)' }}
                       />
                     </div>
-                    <span className="text-green-400 font-mono text-sm font-bold whitespace-nowrap">
-                      +{w.pnl.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} €
-                    </span>
-                  </div>
-
-                  {/* Flat yield */}
-                  <div className="text-right">
                     <span
-                      className="font-mono text-sm font-bold bg-clip-text text-transparent"
+                      className="font-mono text-sm font-bold bg-clip-text text-transparent whitespace-nowrap"
                       style={{ backgroundImage: 'linear-gradient(135deg, #a78bfa, #93c5fd)' }}
                     >
                       +{w.flatYield.toFixed(1)}%
+                    </span>
+                  </div>
+                  
+                  {/* Kelly P&L — right */}
+                  <div className="text-right">
+                    <span className="text-green-400 font-mono text-sm font-bold whitespace-nowrap">
+                      +{w.pnl.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} €
                     </span>
                   </div>
                 </div>
@@ -834,7 +829,7 @@ function PerformanceSection() {
           className="rounded-3xl border border-white/[0.07] bg-white/[0.02] p-6 mb-5"
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L — Kelly adjusted</span>
+            <span className="text-white/40 text-xs uppercase tracking-widest font-medium">Cumulative P&L</span>
           </div>
 
 
