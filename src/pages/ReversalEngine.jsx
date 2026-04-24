@@ -439,7 +439,7 @@ export default function ReversalEngine() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-10 text-center"
+              className="mb-12"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">Pattern Recognition</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
@@ -469,7 +469,7 @@ export default function ReversalEngine() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-12 text-center"
+              className="mb-12"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">How It Works</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
@@ -526,7 +526,7 @@ export default function ReversalEngine() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-12 text-center"
+              className="mb-12"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">Signal Delivery</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
@@ -558,7 +558,7 @@ export default function ReversalEngine() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-12 text-center"
+              className="mb-12"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">Assets</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
