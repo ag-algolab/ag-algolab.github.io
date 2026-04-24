@@ -167,18 +167,19 @@ export default function ShahMat() {
       </div>
 
       {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0a1f18]/80 backdrop-blur-xl border-b border-white/10">
+      <nav className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/[0.08]">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition">
-              <img src="/logo.jpg" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
-              <span className="text-xl font-bold bg-gradient-to-r from-emerald-300 to-green-200 bg-clip-text text-transparent">
-                AG Algo Lab
-              </span>
+          <div className="flex justify-between items-center relative">
+            <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+              <img src="/logo.jpg" alt="Logo" className="w-8 h-8 object-contain rounded-md" />
+              <span className="text-[15px] font-semibold text-white tracking-tight">AG Algo Lab</span>
             </Link>
-
-            <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/70 hover:bg-white/5 hover:text-white transition">
-              ← Back home
+            {/* Centered symbol */}
+            <div className="absolute left-1/2 -translate-x-1/2">
+              <span className="text-2xl text-purple-400/60">♚</span>
+            </div>
+            <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/10 text-neutral-400 hover:bg-white/5 hover:text-white transition-colors">
+              ← Back
             </Link>
           </div>
         </div>
