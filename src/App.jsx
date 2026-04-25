@@ -92,11 +92,8 @@ function ServicesSection() {
         >
           <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">Services</p>
           <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
-            Built for signal, not noise.
+            See further. Act sooner.
           </h2>
-          <p className="text-neutral-400 mt-4 text-lg max-w-2xl">
-            Three capability levels, scoped around your actual constraints.
-          </p>
         </motion.div>
 
         {/* SERVICE 1 */}
@@ -769,6 +766,13 @@ function Home() {
         <title>AG Algo Lab — Predictive modelling & anomaly detection</title>
         <meta name="description" content="AG Algo Lab specializes in research and development using Machine Learning for predictive modelling and anomaly detection." />
         <link rel="icon" type="image/jpg" href="/logo.jpg" />
+        <meta property="og:title" content="AG Algo Lab — Predictive modelling & anomaly detection" />
+        <meta property="og:description" content="Asking the right question gets you halfway there. We take care of the other half." />
+        <meta property="og:image" content="https://agalgolab.com/logo_black.png" />
+        <meta property="og:url" content="https://agalgolab.com" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:image" content="https://agalgolab.com/logo_black.png" />
       </Helmet>
 
       <div className="min-h-screen bg-black text-[#ededed] font-sans antialiased">
