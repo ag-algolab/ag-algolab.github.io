@@ -948,7 +948,8 @@ function Home() {
             <div className="flex flex-col gap-3">
 
               {/* SOLVERBET */}
-              {/*<Link to="/solverbet" className="block group">
+              {/*
+              <Link to="/solverbet" className="block group">
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
