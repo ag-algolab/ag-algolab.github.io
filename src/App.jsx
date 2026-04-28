@@ -210,12 +210,11 @@ function ServicesSection() {
           >
             <div className="p-8 flex flex-col h-full">
               <h3 className="text-xl font-semibold text-white mb-2 tracking-tight">
-                Built Around Your Problem
+                Custom Scoping
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed flex-1">
-                Have a problem that does not fit a standard mold? Good.
-                Let us discuss and design something together, built for your context,
-                scoped around your actual constraints.
+                You bring the problem, we design the approach. <br />
+                Fixed-price diagnostic in 48h.
               </p>
             </div>
           </motion.div>
@@ -959,7 +958,7 @@ function Home() {
                     <span className="text-neutral-400 text-base leading-none">♟</span>
                     <div>
                       <p className="text-neutral-400 text-xs font-medium">FIDE-titled player</p>
-                      <p className="text-neutral-400/40 text-[10px] mt-0.5">Classical chess</p>
+                      <p className="text-neutral-400/40 text-[10px] mt-0.5">Chess</p>
                     </div>
                   </div>
 
