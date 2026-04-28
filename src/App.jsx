@@ -909,10 +909,6 @@ function Home() {
                 "Asking the right question gets you halfway there.
                 <span className="text-blue-300"> We take care of the other half.</span>"
               </p>
-              <div className="mt-2 flex items-center gap-2">
-                <span className="inline-block w-4 h-[1px] bg-blue-500/40" />
-                <span className="text-[10px] font-mono text-blue-500/50 uppercase tracking-widest">AG Algo Lab</span>
-              </div>
             </motion.div>
 
             {/* Card */}
