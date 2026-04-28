@@ -2,7 +2,6 @@ import { Routes, Route, Link } from 'react-router-dom';
 import ShahMat from "./pages/ShahMat"; 
 import FraudRiskScoring from "./pages/FraudRiskScoring";
 import SolverBet from "./pages/SolverBet";
-import ScorerBet from "./pages/ScorerBet";
 import ReversalEngine from "./pages/ReversalEngine";
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
@@ -949,7 +948,7 @@ function Home() {
             <div className="flex flex-col gap-3">
 
               {/* SOLVERBET */}
-              <Link to="/solverbet" className="block group">
+              {/*<Link to="/solverbet" className="block group">
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -988,7 +987,7 @@ function Home() {
                     <ArrowUpRight className="w-4 h-4 text-neutral-600 group-hover:text-white transition-colors flex-shrink-0" />
                   </div>
                 </motion.div>
-              </Link>
+              </Link>*/}
 
               {/* REVERSAL ENGINE */}
               <Link to="/reversal-engine" className="block group">
