@@ -882,14 +882,17 @@ function Home() {
         </section>
 
         {/* Founder */}
+
         <section id="founder" className="py-32 relative">
           <div className="max-w-5xl mx-auto px-6">
+
+            {/* Header */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-10"
             >
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-3">Founder</p>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
@@ -897,21 +900,43 @@ function Home() {
               </h2>
             </motion.div>
 
+            {/* Quote block */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              viewport={{ once: true }}
+              className="mb-8 relative pl-5 border-l-2 border-blue-500/40"
+            >
+              <div className="absolute -top-1 -left-[1px] w-[2px] h-4 bg-gradient-to-b from-blue-500/0 to-blue-500/40" />
+              <p className="text-lg md:text-xl font-light text-blue-400/80 leading-relaxed tracking-tight italic">
+                "Asking the right question gets you halfway there.
+                <span className="text-blue-300"> We take care of the other half.</span>"
+              </p>
+              <div className="mt-2 flex items-center gap-2">
+                <span className="inline-block w-4 h-[1px] bg-blue-500/40" />
+                <span className="text-[10px] font-mono text-blue-500/50 uppercase tracking-widest">AG Algo Lab</span>
+              </div>
+            </motion.div>
+
+            {/* Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               viewport={{ once: true }}
               className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden"
             >
               {/* Photo + bio */}
               <div className="p-8 md:p-10">
-                <div className="flex flex-col md:flex-row gap-8 items-start">
+                <div className="flex flex-col md:flex-row gap-8 items-center">
+
                   <div className="flex-shrink-0">
-                    <div className="w-36 h-36 md:w-44 md:h-44 rounded-xl overflow-hidden border border-white/10">
+                    <div className="w-36 h-36 md:w-40 md:h-40 rounded-xl overflow-hidden border border-white/10">
                       <img src="/founder.jpg" alt="Anthony Gocmen" className="w-full h-full object-cover" />
                     </div>
                   </div>
+
                   <div className="flex-1 text-center md:text-left">
                     <h3 className="text-2xl font-semibold text-white tracking-tight">Anthony Gocmen</h3>
                     <p className="text-neutral-500 text-sm font-mono mt-1 mb-5">Founder · AG Algo Lab</p>
@@ -919,45 +944,49 @@ function Home() {
                       <p>
                         AG Algo Lab is an independent ML lab delivering{' '}
                         <span className="text-white">production-grade predictive systems</span>{' '}
-                        — fraud detection, revenue forecasting, and risk modeling — built around your data,
-                        scoped to your constraints.
+                        — fraud detection, revenue forecasting, and risk modeling —
+                        built around your data, scoped to your constraints.
                       </p>
                       <p>
                         The underlying conviction: applying{' '}
                         <span className="text-white">competitor-level analytical discipline</span>{' '}
-                        to every data problem. The same rigor that builds a FIDE-titled chess player
-                        builds a model that holds in production.
+                        to every data problem. The same rigor that builds a FIDE-titled
+                        chess player builds a model that holds in production.
                       </p>
                     </div>
                   </div>
+
                 </div>
               </div>
 
-              {/* Credentials */}
+              {/* Credentials — no label, all blue */}
               <div className="border-t border-white/[0.06] px-8 md:px-10 py-6">
-                <p className="text-[10px] font-mono text-neutral-600 uppercase tracking-[0.2em] mb-4">Credentials</p>
                 <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-amber-500/[0.07] border border-amber-500/20">
-                    <span className="text-amber-400 text-base leading-none">♟</span>
+
+                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-blue-500/[0.07] border border-blue-500/20">
+                    <span className="text-blue-400 text-base leading-none">♟</span>
                     <div>
-                      <p className="text-amber-400 text-xs font-medium">FIDE-titled player</p>
-                      <p className="text-neutral-500 text-[10px] mt-0.5">Classical chess</p>
+                      <p className="text-blue-400 text-xs font-medium">FIDE-titled player</p>
+                      <p className="text-blue-400/40 text-[10px] mt-0.5">Classical chess</p>
                     </div>
                   </div>
+
                   <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-blue-500/[0.07] border border-blue-500/20">
                     <span className="text-blue-400 text-sm leading-none">🏆</span>
                     <div>
                       <p className="text-blue-400 text-xs font-medium">1st Place · ASU 2025</p>
-                      <p className="text-neutral-500 text-[10px] mt-0.5">Space Hackathon 4 Sustainability</p>
+                      <p className="text-blue-400/40 text-[10px] mt-0.5">Space Hackathon 4 Sustainability</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-white/[0.04] border border-white/10">
-                    <span className="text-neutral-300 text-sm leading-none">🎓</span>
+
+                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-blue-500/[0.07] border border-blue-500/20">
+                    <span className="text-blue-400 text-sm leading-none">🎓</span>
                     <div>
-                      <p className="text-neutral-300 text-xs font-medium">Université Paris Dauphine · PSL</p>
-                      <p className="text-neutral-500 text-[10px] mt-0.5">Finance</p>
+                      <p className="text-blue-400 text-xs font-medium">Université Paris Dauphine · PSL</p>
+                      <p className="text-blue-400/40 text-[10px] mt-0.5">Finance</p>
                     </div>
                   </div>
+
                 </div>
               </div>
 
