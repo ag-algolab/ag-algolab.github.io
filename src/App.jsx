@@ -837,10 +837,6 @@ function Home() {
                   Before it happens.
                 </p>
 
-                <p className="text-base text-neutral-500 max-w-md mb-10 leading-relaxed">
-                  Asking the right question gets you halfway there. We take care of the other half.
-                </p>
-
                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                   <button
                     onClick={() => scrollToSection('contact')}
@@ -964,26 +960,26 @@ function Home() {
                 <div className="flex flex-wrap gap-3">
 
                   <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-blue-500/[0.07] border border-blue-500/20">
-                    <span className="text-blue-400 text-base leading-none">♟</span>
+                    <span className="text-neutral-400 text-base leading-none">♟</span>
                     <div>
-                      <p className="text-blue-400 text-xs font-medium">FIDE-titled player</p>
-                      <p className="text-blue-400/40 text-[10px] mt-0.5">Classical chess</p>
+                      <p className="text-neutral-400 text-xs font-medium">FIDE-titled player</p>
+                      <p className="text-neutral-400/40 text-[10px] mt-0.5">Classical chess</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-blue-500/[0.07] border border-blue-500/20">
-                    <span className="text-blue-400 text-sm leading-none">🏆</span>
+                    <span className="text-neutral-400 text-sm leading-none">🏆</span>
                     <div>
-                      <p className="text-blue-400 text-xs font-medium">1st Place · ASU 2025</p>
-                      <p className="text-blue-400/40 text-[10px] mt-0.5">Space Hackathon 4 Sustainability</p>
+                      <p className="text-neutral-400 text-xs font-medium">1st Place · ASU 2025</p>
+                      <p className="text-neutral-400/40 text-[10px] mt-0.5">Space Hackathon 4 Sustainability</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg bg-blue-500/[0.07] border border-blue-500/20">
-                    <span className="text-blue-400 text-sm leading-none">🎓</span>
+                    <span className="text-neutral-400 text-sm leading-none">🎓</span>
                     <div>
-                      <p className="text-blue-400 text-xs font-medium">Université Paris Dauphine · PSL</p>
-                      <p className="text-blue-400/40 text-[10px] mt-0.5">Finance</p>
+                      <p className="text-neutral-400 text-xs font-medium">Université Paris Dauphine · PSL</p>
+                      <p className="text-neutral-400/40 text-[10px] mt-0.5">Finance</p>
                     </div>
                   </div>
 
