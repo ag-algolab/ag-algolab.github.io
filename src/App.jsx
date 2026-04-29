@@ -742,7 +742,7 @@ function CourseFace({ course }) {
                 ))}
               </ul>
             </div>
-            
+            <a
               href={`https://youtube.com/playlist?list=${course.playlist}`}
               target="_blank"
               rel="noopener noreferrer"
