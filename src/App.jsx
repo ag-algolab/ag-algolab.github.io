@@ -583,8 +583,8 @@ function FlippingCourseCard() {
   ];
 
   const currentCourse = flipped
-    ? { title: 'Master CatBoost', playlist: 'PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1', episodes: 5, curriculum: catboostCurriculum, emoji: '🎓' }
-    : { title: 'Control Telegram from Python', playlist: 'PLpcu21l3JC8aTG9z5eGXV3Z1TSJpcwDHh', episodes: 9, curriculum: telegramCurriculum, emoji: '✈️' };
+    ? { title: 'Master CatBoost', playlist: 'PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1', episodes: 5, curriculum: catboostCurriculum, emoji: '🎓', thumbnail: '/miniature_catboost.jpg' }
+    : { title: 'Control Telegram from Python', playlist: 'PLpcu21l3JC8aTG9z5eGXV3Z1TSJpcwDHh', episodes: 9, curriculum: telegramCurriculum, emoji: '✈️', thumbnail: '/miniature_telegram.jpg' };
 
   return (
     <motion.div
@@ -653,15 +653,15 @@ function FlippingCourseCard() {
         >
           {/* FACE AVANT */}
           <div className="w-full" style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
-            <CourseFace course={{ title: 'Piloter Telegram depuis Python', playlist: 'PLpcu21l3JC8aTG9z5eGXV3Z1TSJpcwDHh', episodes: 9, curriculum: telegramCurriculum, emoji: '✈️' }} />
+            <CourseFace course={{ title: 'Control Telegram from Python', playlist: 'PLpcu21l3JC8aTG9z5eGXV3Z1TSJpcwDHh', episodes: 9, curriculum: telegramCurriculum, emoji: '✈️', thumbnail: '/miniature_telegram.jpg' }} />
           </div>
-
+          
           {/* FACE ARRIERE */}
           <div
             className="w-full absolute top-0 left-0"
             style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
           >
-            <CourseFace course={{ title: "Maîtriser CatBoost : l'élite du Machine Learning", playlist: 'PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1', episodes: 5, curriculum: catboostCurriculum, emoji: '🎓' }} />
+            <CourseFace course={{ title: 'Master CatBoost', playlist: 'PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1', episodes: 5, curriculum: catboostCurriculum, emoji: '🎓', thumbnail: '/miniature_catboost.jpg' }} />
           </div>
         </div>
       </div>
@@ -670,6 +670,8 @@ function FlippingCourseCard() {
 }
 
 function CourseFace({ course }) {
+  const [playing, setPlaying] = useState(false);
+
   return (
     <div className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden">
       <div className="border-b border-white/[0.08] p-6">
@@ -697,22 +699,36 @@ function CourseFace({ course }) {
       <div className="p-6 md:p-8">
         <div className="grid lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3">
-            <div className="aspect-video rounded-lg overflow-hidden border border-white/10">
-              <iframe
-                className="w-full h-full"
-                src={`https://www.youtube.com/embed/videoseries?list=${course.playlist}`}
-                title={course.title}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+            <div
+              className="aspect-video rounded-lg overflow-hidden border border-white/10 relative cursor-pointer"
+              onClick={() => setPlaying(true)}
+            >
+              {playing ? (
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/videoseries?list=${course.playlist}&autoplay=1`}
+                  title={course.title}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <>
+                  <img src={course.thumbnail} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors duration-150">
+                    <div className="w-12 h-12 rounded-full bg-black/50 border border-white/20 flex items-center justify-center">
+                      <Play className="w-5 h-5 text-white ml-0.5" />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
           <div className="lg:col-span-2 flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500 block mb-3">
-                Programme
+                Curriculum
               </span>
               <ul className="space-y-2 text-sm text-neutral-400">
                 {course.curriculum.map((ep) => (
@@ -726,14 +742,14 @@ function CourseFace({ course }) {
                 ))}
               </ul>
             </div>
-            <a
+            
               href={`https://youtube.com/playlist?list=${course.playlist}`}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 group flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-white text-black hover:bg-neutral-200 transition-colors duration-150 font-medium text-sm"
             >
               <Play className="w-4 h-4" />
-              Commencer le cours
+              Start the course
               <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>
@@ -742,7 +758,6 @@ function CourseFace({ course }) {
     </div>
   );
 }
-
 /* ================= HOME PAGE ================= */
 function Home() {
   const scrollToSection = (sectionId) => {
