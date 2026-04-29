@@ -563,28 +563,28 @@ function FlippingCourseCard() {
   }, [isAnimating]);
 
   const telegramCurriculum = [
-    { id: '01', title: 'Setup & Premier Bot', desc: "Créer son bot, récupérer le token & chat ID" },
-    { id: '02', title: 'Envoyer des Messages', desc: "Construire une fonction d'envoi propre" },
-    { id: '03', title: 'Envoyer des Photos', desc: "PNG, JPG, ..." },
-    { id: '04', title: 'Envoyer des Vidéos', desc: "MP4, MKV, ..." },
-    { id: '05', title: 'Envoyer des Documents', desc: "PDF, DOCX, CSV, ..." },
-    { id: '06', title: 'Formatage HTML', desc: "Blocs de citation ou de code, gras, ..." },
-    { id: '07', title: 'Créer son Channel', desc: "Création + récupération de l'ID via bot" },
-    { id: '08', title: 'Automatiser son Channel', desc: "Envoi automatique de contenus" },
+    { id: '01', title: 'Setup & First Bot', desc: "Create your bot, retrieve the token & chat ID" },
+    { id: '02', title: 'Sending Messages', desc: "Build a clean sending function" },
+    { id: '03', title: 'Sending Photos', desc: "PNG, JPG, ..." },
+    { id: '04', title: 'Sending Videos', desc: "MP4, MKV, ..." },
+    { id: '05', title: 'Sending Documents', desc: "PDF, DOCX, CSV, ..." },
+    { id: '06', title: 'HTML Formatting', desc: "Quote & code blocks, bold, ..." },
+    { id: '07', title: 'Creating a Channel', desc: "Setup + retrieve the channel ID via bot" },
+    { id: '08', title: 'Automating your Channel', desc: "Scheduled & automatic content delivery" },
   ];
-
+  
   const catboostCurriculum = [
-    { id: '00', title: 'Préambule', desc: 'Présentation Cours & Dataset' },
-    { id: '01', title: 'Encodage Catégoriel', desc: 'Fonctionnement interne de CatBoost' },
-    { id: '02', title: 'CatBoost VS XGB / LGBM / RF', desc: 'Comparatifs sur datasets réels' },
-    { id: '03', title: 'Pipeline Fiable', desc: 'De la préparation à la prédiction' },
-    { id: '04', title: 'Évaluation', desc: 'Métriques adaptées au contexte' },
-    { id: '05', title: 'Calibration', desc: 'Probabilités interprétables' },
+    { id: '00', title: 'Preamble', desc: 'Course overview & dataset presentation' },
+    { id: '01', title: 'Categorical Encoding', desc: 'How CatBoost handles categories internally' },
+    { id: '02', title: 'CatBoost vs XGB / LGBM / RF', desc: 'Benchmarks on real-world datasets' },
+    { id: '03', title: 'Reliable Pipeline', desc: 'From data preparation to prediction' },
+    { id: '04', title: 'Evaluation', desc: 'Metrics adapted to your context' },
+    { id: '05', title: 'Calibration', desc: 'Interpretable probabilities' },
   ];
 
   const currentCourse = flipped
-    ? { title: 'Maîtriser CatBoost', playlist: 'PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1', episodes: 5, curriculum: catboostCurriculum, emoji: '🎓' }
-    : { title: 'Piloter Telegram depuis Python', playlist: 'PLpcu21l3JC8aTG9z5eGXV3Z1TSJpcwDHh', episodes: 9, curriculum: telegramCurriculum, emoji: '✈️' };
+    ? { title: 'Master CatBoost', playlist: 'PLpcu21l3JC8Y8i0htvQplfREYF0m5V3H1', episodes: 5, curriculum: catboostCurriculum, emoji: '🎓' }
+    : { title: 'Control Telegram from Python', playlist: 'PLpcu21l3JC8aTG9z5eGXV3Z1TSJpcwDHh', episodes: 9, curriculum: telegramCurriculum, emoji: '✈️' };
 
   return (
     <motion.div
