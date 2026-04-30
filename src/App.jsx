@@ -684,8 +684,9 @@ function FraudGrid() {
         </div>
 
         {/* ── Q4 lower-left — Output ── */}
+        {/* ── Q4 lower-left — Output ── */}
         <div
-          className="bg-[#0a0a0a] p-7 flex flex-col justify-start min-h-[300px]"
+          className="bg-[#0a0a0a] p-7 flex flex-col min-h-[300px]"
           style={{
             borderTop: step >= 3
               ? '1px solid rgba(168,85,247,0.2)'
@@ -693,8 +694,11 @@ function FraudGrid() {
             transition: 'border-color 1s ease',
           }}
         >
-          {/* Arrow left from Q3 */}
-          <div className="flex justify-end mb-4">
+          {/* Label + arrow sur la même ligne */}
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600">
+              Isotonic Calibration → Risk Score
+            </p>
             <div
               className="flex items-center gap-1"
               style={{ opacity: step >= 3 ? 1 : 0.15, transition: 'opacity 1s ease' }}
@@ -706,14 +710,10 @@ function FraudGrid() {
               <div className="h-px w-8 bg-gradient-to-l from-purple-500/60 to-blue-500/30" />
             </div>
           </div>
-
-          <div>
-            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600 mb-4">
-              Isotonic Calibration → Risk Score
-            </p>
-
-            {/* Raw → Calibrated */}
-            <div className="flex items-center gap-3">
+        
+          {/* Diagramme centré verticalement */}
+          <div className="flex-1 flex items-center">
+            <div className="flex items-center gap-3 w-full">
               <div
                 className="flex flex-col items-center px-4 py-3 rounded-xl border"
                 style={{
@@ -733,7 +733,7 @@ function FraudGrid() {
                   {rawProba.toFixed(2)}
                 </span>
               </div>
-
+        
               <div className="flex flex-col items-center gap-1">
                 <span
                   className="text-xs font-mono"
@@ -755,10 +755,9 @@ function FraudGrid() {
                 />
                 <span style={{ color: step >= 3 ? 'rgba(168,85,247,0.4)' : 'rgba(255,255,255,0.06)', transition: 'color 1s ease', fontSize: 14 }}>→</span>
               </div>
-
-              {/* Risk score output */}
+        
               <div
-                className="flex-1 flex flex-col items-center justify-center py-4 rounded-xl border"
+                className="flex-1 flex flex-col items-center justify-center py-6 rounded-xl border"
                 style={{
                   borderColor: step >= 3 ? riskColor + '50' : 'rgba(255,255,255,0.07)',
                   background:  step >= 3 ? riskColor + '10' : 'rgba(255,255,255,0.02)',
@@ -796,6 +795,7 @@ function FraudGrid() {
             </div>
           </div>
         </div>
+        
 
         {/* ── Q3 lower-right — CatBoost tree ── */}
         <div
