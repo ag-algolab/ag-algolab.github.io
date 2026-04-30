@@ -685,7 +685,7 @@ function FraudGrid() {
 
         {/* ── Q4 lower-left — Output ── */}
         <div
-          className="bg-[#0a0a0a] p-7 flex flex-col justify-between min-h-[300px]"
+          className="bg-[#0a0a0a] p-7 flex flex-col justify-start min-h-[300px]"
           style={{
             borderTop: step >= 3
               ? '1px solid rgba(168,85,247,0.2)'
@@ -713,7 +713,7 @@ function FraudGrid() {
             </p>
 
             {/* Raw → Calibrated */}
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3">
               <div
                 className="flex flex-col items-center px-4 py-3 rounded-xl border"
                 style={{
