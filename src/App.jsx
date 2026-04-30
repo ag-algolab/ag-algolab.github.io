@@ -184,13 +184,6 @@ function ServicesSection() {
                 <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
                   Fraud & Anomaly Detection
                 </h3>
-                <p className="text-neutral-400 text-sm leading-relaxed max-w-2xl">
-                  Each incoming claim scored by fraud probability —
-                  so your team focuses time and money{' '}
-                  <span className="text-white font-semibold">
-                    where it actually counts.
-                  </span>
-                </p>
               </div>
               <FraudGrid />
             </div>
@@ -465,7 +458,7 @@ function FraudGrid() {
   const [treeValues, setTreeValues] = useState({
     feature1: "claim_amount", threshold1: "5000",
     feature2: "policy_age",   threshold2: "2",
-    leaves: ["0.15", "0.42", "0.58", "0.87"],
+    leaves: ["0.15", "0.22", "0.58", "0.87"],
   });
 
   const featurePool = [
@@ -545,18 +538,28 @@ function FraudGrid() {
 
         {/* ── Q1 upper-left — Service text ── */}
         <div className="bg-[#0a0a0a] p-7 flex flex-col justify-between gap-6 min-h-[300px]">
-          <div>
-            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600 mb-3">
+          <div className="space-y-4 text-sm leading-relaxed">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600">
               How it works
             </p>
-            <p className="text-white font-medium text-base leading-relaxed mb-3">
-              Know exactly where to look.
+            <p className="text-neutral-400">
+              Each incoming claim scored by fraud probability, so your team focuses
+              time and money <span className="text-white font-medium">where it actually counts.</span>
             </p>
-            <p className="text-neutral-400 text-sm leading-relaxed">
-              Every claim enters the pipeline as raw features.
-              A CatBoost ensemble scores it, isotonic calibration
-              converts the raw score into a real probability —
-              and your team gets a ranked list, not guesswork.
+            <p className="text-neutral-400">
+              Every claim enters the pipeline as raw features. A{' '}
+              <span className="text-white font-medium">CatBoost ensemble</span> scores it,{' '}
+              <span className="text-white font-medium">isotonic calibration</span> converts
+              the raw score into a real probability — and your team gets a ranked list,
+              not guesswork.
+            </p>
+            <p className="text-neutral-400">
+              The real craft is upstream —{' '}
+              <span className="text-white font-medium">feature engineering</span>,{' '}
+              <span className="text-white font-medium">model tuning</span> via modern
+              optimization methods,{' '}
+              <span className="text-white font-medium">variable importance</span> analysis,
+              and much more. Every pipeline is built around your data, not a generic template.
             </p>
           </div>
           <div className="flex flex-col gap-2">
