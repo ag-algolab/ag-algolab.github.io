@@ -171,55 +171,32 @@ function ServicesSection() {
           </div>
         </motion.div>
 
-        {/* SERVICES 2 & 3 */}
-        <div className="grid md:grid-cols-2 gap-3">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="bg-[#0a0a0a] rounded-xl border border-white/10 hover:border-white/20 transition-colors duration-200"
-          >
-            <div className="p-8 flex flex-col h-full">
-              <h3 className="text-xl font-semibold text-white mb-2 tracking-tight">
-                Fraud & Anomaly Detection
-              </h3>
-              <p className="text-neutral-400 text-sm leading-relaxed mb-6 flex-1">
-                Know exactly where to look. Calibrated risk scores
-                so your team focuses time and money where it actually counts.
-              </p>
-              <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
-                <span className="text-neutral-500 text-[11px] font-mono">CatBoost + Calibration</span>
-                <button
-                  onClick={() => setFraudOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/[0.06] border border-white/15 text-[11px] font-mono text-white/70 hover:text-white hover:bg-white/10 hover:border-white/25 transition-all duration-150"
-                >
-                  See example
-                  <ArrowRight className="w-3 h-3" />
-                </button>
+        {/* SERVICE 2 — FRAUD pleine largeur */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true }}
+        >
+          <div className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden">
+            <div className="p-8 pb-6">
+              <div className="mb-6">
+                <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+                  Fraud & Anomaly Detection
+                </h3>
+                <p className="text-neutral-400 text-sm leading-relaxed max-w-2xl">
+                  Each incoming claim scored by fraud probability —
+                  so your team focuses time and money{' '}
+                  <span className="text-white font-semibold">
+                    where it actually counts.
+                  </span>
+                </p>
               </div>
+              <FraudGrid />
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            viewport={{ once: true }}
-            className="bg-[#0a0a0a] rounded-xl border border-white/10 hover:border-white/20 transition-colors duration-200"
-          >
-            <div className="p-8 flex flex-col h-full">
-              <h3 className="text-xl font-semibold text-white mb-2 tracking-tight">
-                Custom Scoping
-              </h3>
-              <p className="text-neutral-400 text-sm leading-relaxed flex-1">
-                You bring the problem, we design the approach. <br />
-                Fixed-price diagnostic in 48h.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-
+          </div>
+        </motion.div>
+        
         {/* CTA */}
         <div className="flex justify-center mt-12">
           <button
