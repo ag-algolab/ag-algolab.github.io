@@ -814,7 +814,7 @@ function PerformanceSection() {
           </div>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-3">
             <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-              Current Performances
+              Current Performances | 2025 Season
             </span>
           </h2>
           <p className="text-white/35 text-base max-w-md mx-auto">
