@@ -795,14 +795,6 @@ function FraudGrid() {
               </div>
             </div>
           </div>
-
-          <p
-            className="text-xs text-neutral-600 leading-relaxed"
-            style={{ opacity: step >= 3 ? 1 : 0.3, transition: 'opacity 1.5s ease' }}
-          >
-            Calibration converts raw model output into interpretable probabilities —
-            a 73% score means 73% real fraud likelihood, not just a ranking.
-          </p>
         </div>
 
         {/* ── Q3 lower-right — CatBoost tree ── */}
