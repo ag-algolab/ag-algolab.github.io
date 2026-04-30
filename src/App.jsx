@@ -103,7 +103,7 @@ function ServicesSection() {
           viewport={{ once: true }}
           className="mb-6"
         >
-          <div className="bg-[#0a0a0a] rounded-xl border border-blue-500/20 overflow-hidden">
+          <div className="bg-[#0a0a0a] rounded-xl border border-blue-500/35 overflow-hidden">
             <div className="p-8 pb-6">
               <div className="mb-8">
                 <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
@@ -178,7 +178,7 @@ function ServicesSection() {
           transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true }}
         >
-          <div className="bg-[#0a0a0a] rounded-xl border border-blue-500/20 overflow-hidden">
+          <div className="bg-[#0a0a0a] rounded-xl border border-blue-500/35 overflow-hidden">
             <div className="p-8 pb-6">
               <div className="mb-6">
                 <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
