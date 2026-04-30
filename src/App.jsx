@@ -440,6 +440,7 @@ function ServicesSection() {
         </div>
       )}
 
+       
       {/* FRAUD MODAL */}
       {fraudOpen && (
         <div
@@ -451,7 +452,7 @@ function ServicesSection() {
             initial={{ opacity: 0, scale: 0.97, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.2 }}
-            className="relative bg-[#0a0a0a] rounded-xl border border-white/10 w-full max-w-2xl max-h-[92vh] overflow-y-auto z-10"
+            className="relative bg-[#0a0a0a] rounded-xl border border-white/10 w-full max-w-3xl max-h-[92vh] overflow-y-auto z-10"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur-md flex items-center justify-between px-6 py-4 border-b border-white/[0.08]">
@@ -466,16 +467,349 @@ function ServicesSection() {
                 &#x2715;
               </button>
             </div>
-            <div className="p-6">
-              {isMobile ? <PipelineMobile /> : <AnimatedPipelineDesktop />}
+            <div className="p-5">
+              <FraudGrid />
             </div>
           </motion.div>
         </div>
       )}
+ 
     </section>
   );
 }
-
+function FraudGrid() {
+  const [step, setStep] = useState(0);
+  const [rawProba, setRawProba] = useState(0.73);
+  const [calibratedProba, setCalibratedProba] = useState(0.18);
+  const [treeValues, setTreeValues] = useState({
+    feature1: "claim_amount", threshold1: "5000",
+    feature2: "policy_age",   threshold2: "2",
+    leaves: ["0.15", "0.42", "0.58", "0.87"],
+  });
+ 
+  const featurePool = [
+    { name: "claim_amount",  thresholds: ["3000","5000","7500","10000"] },
+    { name: "policy_age",    thresholds: ["1","2","3","5"] },
+    { name: "vehicle_age",   thresholds: ["3","5","7","10"] },
+    { name: "num_claims",    thresholds: ["0","1","2","3"] },
+  ];
+ 
+  useEffect(() => {
+    const run = () => {
+      const nr = +(Math.random() * 0.5 + 0.35).toFixed(2);
+      const nc = +(nr * (0.25 + Math.random() * 0.25)).toFixed(3);
+      const f1 = featurePool[Math.floor(Math.random() * featurePool.length)];
+      const f2 = featurePool[Math.floor(Math.random() * featurePool.length)];
+      setTreeValues({
+        feature1: f1.name,
+        threshold1: f1.thresholds[Math.floor(Math.random() * f1.thresholds.length)],
+        feature2: f2.name,
+        threshold2: f2.thresholds[Math.floor(Math.random() * f2.thresholds.length)],
+        leaves: [
+          (Math.random() * 0.3 + 0.05).toFixed(2),
+          (Math.random() * 0.3 + 0.25).toFixed(2),
+          (Math.random() * 0.3 + 0.45).toFixed(2),
+          (Math.random() * 0.25 + 0.70).toFixed(2),
+        ],
+      });
+      setStep(0);
+      setTimeout(() => setStep(1), 400);
+      setTimeout(() => { setStep(2); setRawProba(nr); }, 2200);
+      setTimeout(() => { setStep(3); setCalibratedProba(nc); }, 4400);
+    };
+    run();
+    const id = setInterval(run, 7000);
+    return () => clearInterval(id);
+  }, []);
+ 
+  const riskColor =
+    calibratedProba > 0.40 ? "#ef4444" :
+    calibratedProba > 0.20 ? "#f97316" :
+    calibratedProba > 0.08 ? "#eab308" : "#22c55e";
+  const riskLabel =
+    calibratedProba > 0.40 ? "HIGH" :
+    calibratedProba > 0.20 ? "MEDIUM" :
+    calibratedProba > 0.08 ? "LOW" : "SAFE";
+ 
+  const inputTags = [
+    { label: "Claim Amount",  color: "#60a5fa" },
+    { label: "Policy Age",    color: "#4ade80" },
+    { label: "Vehicle Price", color: "#a78bfa" },
+    { label: "Nb. Claims",    color: "#4ade80" },
+    { label: "Accident Area", color: "#f87171" },
+    { label: "Vehicle Type",  color: "#a78bfa" },
+    { label: "Witness",       color: "#f87171" },
+    { label: "Police Report", color: "#f87171" },
+  ];
+ 
+  const cell = "rounded-lg border bg-black/40 p-4 flex flex-col gap-3";
+  const label = "text-[9px] font-mono uppercase tracking-[0.18em] text-neutral-600";
+ 
+  return (
+    <div className="w-full">
+ 
+      {/* ── DESKTOP 2×2 ── */}
+      <div className="hidden md:grid grid-cols-2 gap-px bg-white/[0.06] rounded-xl overflow-hidden border border-white/[0.06]">
+ 
+        {/* Q1 — upper left — Service text */}
+        <div className="bg-[#0a0a0a] p-5 flex flex-col justify-between gap-4">
+          <div>
+            <p className={label}>Fraud & Anomaly Detection</p>
+            <p className="text-white font-medium text-sm mt-2 leading-relaxed">
+              Know exactly where to look.
+            </p>
+            <p className="text-neutral-500 text-xs leading-relaxed mt-2">
+              Each incoming claim is scored by fraud probability using a
+              calibrated CatBoost pipeline — so your team focuses time
+              and money where it actually counts.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono">AUC 0.83+</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono">&gt;50% auto-cleared</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/10 text-neutral-500 font-mono">0.2% miss rate</span>
+          </div>
+        </div>
+ 
+        {/* Q2 — upper right — Inputs */}
+        <div className={`bg-[#0a0a0a] p-5 transition-all duration-500 ${step >= 1 ? 'border-l border-blue-500/20' : 'border-l border-white/[0.06]'}`}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${step >= 1 ? 'bg-blue-400 animate-pulse' : 'bg-white/15'}`} />
+            <p className={label}>Claim Features</p>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {inputTags.map((t, i) => (
+              <span
+                key={i}
+                className="text-[10px] px-2 py-0.5 rounded-full border font-mono transition-all duration-500"
+                style={{
+                  borderColor: step >= 1 ? t.color + "40" : "rgba(255,255,255,0.08)",
+                  color:       step >= 1 ? t.color + "cc" : "rgba(255,255,255,0.2)",
+                  background:  step >= 1 ? t.color + "10" : "transparent",
+                }}
+              >
+                {t.label}
+              </span>
+            ))}
+          </div>
+          {/* Arrow down toward Q3 */}
+          <div className="flex justify-center mt-4">
+            <div className={`flex flex-col items-center gap-0.5 transition-all duration-500 ${step >= 2 ? 'opacity-100' : 'opacity-20'}`}>
+              <div className={`w-px h-5 transition-all duration-500 ${step >= 2 ? 'bg-gradient-to-b from-blue-500/60 to-purple-500/60' : 'bg-white/15'}`} />
+              <div className="w-0 h-0 border-l-4 border-r-4 border-l-transparent border-r-transparent border-t-4"
+                style={{ borderTopColor: step >= 2 ? 'rgba(168,85,247,0.6)' : 'rgba(255,255,255,0.15)' }} />
+            </div>
+          </div>
+        </div>
+ 
+        {/* Q4 — lower left — Output */}
+        <div className={`bg-[#0a0a0a] p-5 transition-all duration-500 ${step >= 3 ? 'border-t border-purple-500/20' : 'border-t border-white/[0.06]'}`}>
+          {/* Arrow left from Q3 */}
+          <div className="flex justify-end mb-3">
+            <div className={`flex items-center gap-0.5 transition-all duration-500 ${step >= 3 ? 'opacity-100' : 'opacity-20'}`}>
+              <div className="w-0 h-0 border-t-4 border-b-4 border-r-4 border-t-transparent border-b-transparent"
+                style={{ borderRightColor: step >= 3 ? 'rgba(168,85,247,0.6)' : 'rgba(255,255,255,0.15)' }} />
+              <div className={`h-px w-5 transition-all duration-500 ${step >= 3 ? 'bg-gradient-to-l from-purple-500/60 to-blue-500/60' : 'bg-white/15'}`} />
+            </div>
+          </div>
+          <div className="flex items-center gap-2 mb-3">
+            <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${step >= 3 ? 'animate-pulse' : 'bg-white/15'}`}
+              style={{ background: step >= 3 ? riskColor : undefined }} />
+            <p className={label}>Isotonic Calibration → Risk Score</p>
+          </div>
+          <div className="flex items-center gap-3 mt-2">
+            <div className="flex flex-col items-center px-3 py-2 rounded-lg border border-white/[0.08] bg-white/[0.03]">
+              <span className="text-[10px] text-neutral-600 font-mono">raw</span>
+              <span className={`font-mono text-sm font-semibold transition-colors duration-500 ${step >= 3 ? 'text-white/50' : 'text-white/15'}`}>
+                {rawProba.toFixed(2)}
+              </span>
+            </div>
+            <span className={`text-xs transition-colors duration-500 ${step >= 3 ? 'text-purple-400/50' : 'text-white/15'}`}>→ f(x) →</span>
+            <div
+              className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-700"
+              style={step >= 3
+                ? { borderColor: riskColor + "50", background: riskColor + "12" }
+                : { borderColor: "rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.02)" }}
+            >
+              <div className="w-2 h-2 rounded-full flex-shrink-0 transition-all duration-500"
+                style={{ background: step >= 3 ? riskColor : "rgba(255,255,255,0.15)" }} />
+              <span className="font-mono text-base font-bold transition-all duration-500"
+                style={{ color: step >= 3 ? riskColor : "rgba(255,255,255,0.15)" }}>
+                {Math.round(calibratedProba * 100)}%
+              </span>
+              <span className="text-[10px] font-semibold tracking-wider transition-all duration-500"
+                style={{ color: step >= 3 ? riskColor + "cc" : "rgba(255,255,255,0.1)" }}>
+                {riskLabel}
+              </span>
+            </div>
+          </div>
+        </div>
+ 
+        {/* Q3 — lower right — CatBoost tree */}
+        <div className={`bg-[#0a0a0a] p-5 transition-all duration-500 ${step >= 2 ? 'border-t border-l border-blue-500/20' : 'border-t border-l border-white/[0.06]'}`}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${step >= 2 ? 'bg-emerald-400 animate-pulse' : 'bg-white/15'}`} />
+            <p className={label}>CatBoost · Decision Tree</p>
+          </div>
+          <svg viewBox="0 0 200 130" className="w-full" style={{ maxHeight: 130 }}>
+            {/* Root node */}
+            <rect x="65" y="4" width="70" height="26" rx="5"
+              fill={step >= 2 ? "rgba(59,130,246,0.15)" : "rgba(255,255,255,0.04)"}
+              stroke={step >= 2 ? "rgba(59,130,246,0.4)" : "rgba(255,255,255,0.1)"} strokeWidth="1" />
+            <text x="100" y="14" textAnchor="middle" fill={step >= 2 ? "#93c5fd" : "rgba(255,255,255,0.2)"}
+              fontSize="6.5" fontFamily="monospace">{treeValues.feature1}</text>
+            <text x="100" y="25" textAnchor="middle" fill={step >= 2 ? "#60a5fa" : "rgba(255,255,255,0.15)"}
+              fontSize="6" fontFamily="monospace">≤ {treeValues.threshold1}</text>
+ 
+            {/* Lines root → mid */}
+            <line x1="85" y1="30" x2="55" y2="58" stroke={step >= 2 ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.07)"} strokeWidth="1" />
+            <line x1="115" y1="30" x2="145" y2="58" stroke={step >= 2 ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.07)"} strokeWidth="1" />
+ 
+            {/* Mid nodes */}
+            {[{ x: 20, label: treeValues.feature2, thresh: treeValues.threshold2 },
+              { x: 110, label: treeValues.feature2, thresh: treeValues.threshold2 }].map((n, i) => (
+              <g key={i}>
+                <rect x={n.x} y="58" width="70" height="26" rx="5"
+                  fill={step >= 2 ? "rgba(59,130,246,0.1)" : "rgba(255,255,255,0.03)"}
+                  stroke={step >= 2 ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.07)"} strokeWidth="1" />
+                <text x={n.x + 35} y="68" textAnchor="middle" fill={step >= 2 ? "#93c5fd" : "rgba(255,255,255,0.15)"}
+                  fontSize="6" fontFamily="monospace">{n.label}</text>
+                <text x={n.x + 35} y="78" textAnchor="middle" fill={step >= 2 ? "#60a5fa" : "rgba(255,255,255,0.1)"}
+                  fontSize="5.5" fontFamily="monospace">≤ {n.thresh}</text>
+              </g>
+            ))}
+ 
+            {/* Lines mid → leaves */}
+            {[
+              [55, 84, 18, 112], [55, 84, 72, 112],
+              [145, 84, 108, 112], [145, 84, 162, 112],
+            ].map(([x1, y1, x2, y2], i) => (
+              <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+                stroke={step >= 2 ? "rgba(59,130,246,0.2)" : "rgba(255,255,255,0.05)"} strokeWidth="1" />
+            ))}
+ 
+            {/* Leaf nodes */}
+            {treeValues.leaves.map((v, i) => {
+              const xs = [4, 58, 94, 148];
+              const col = parseFloat(v) > 0.5 ? "#ef4444" : parseFloat(v) > 0.25 ? "#eab308" : "#22c55e";
+              return (
+                <g key={i}>
+                  <rect x={xs[i]} y="112" width="44" height="16" rx="4"
+                    fill={step >= 2 ? col + "18" : "rgba(255,255,255,0.03)"}
+                    stroke={step >= 2 ? col + "50" : "rgba(255,255,255,0.07)"} strokeWidth="1" />
+                  <text x={xs[i] + 22} y="123" textAnchor="middle"
+                    fill={step >= 2 ? col : "rgba(255,255,255,0.15)"}
+                    fontSize="7" fontFamily="monospace" fontWeight="600">{v}</text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+ 
+      </div>
+ 
+      {/* ── MOBILE — stack vertical ── */}
+      <div className="md:hidden flex flex-col gap-3">
+ 
+        {/* M1 — text */}
+        <div className="bg-[#0a0a0a] rounded-xl border border-white/10 p-4">
+          <p className="text-white font-medium text-sm mb-2">Fraud & Anomaly Detection</p>
+          <p className="text-neutral-500 text-xs leading-relaxed">
+            Each claim scored by fraud probability via a calibrated CatBoost pipeline.
+            Focus investigation where it matters.
+          </p>
+          <div className="flex flex-wrap gap-1.5 mt-3">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono">AUC 0.83+</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono">&gt;50% auto-cleared</span>
+          </div>
+        </div>
+ 
+        {/* M2 — inputs */}
+        <div className={`bg-[#0a0a0a] rounded-xl border p-4 transition-all duration-500 ${step >= 1 ? 'border-blue-500/25' : 'border-white/10'}`}>
+          <p className={label + " mb-2"}>Claim Features</p>
+          <div className="flex flex-wrap gap-1.5">
+            {inputTags.map((t, i) => (
+              <span key={i} className="text-[10px] px-2 py-0.5 rounded-full border font-mono transition-all duration-500"
+                style={{
+                  borderColor: step >= 1 ? t.color + "40" : "rgba(255,255,255,0.08)",
+                  color:       step >= 1 ? t.color + "cc" : "rgba(255,255,255,0.2)",
+                  background:  step >= 1 ? t.color + "10" : "transparent",
+                }}>
+                {t.label}
+              </span>
+            ))}
+          </div>
+        </div>
+ 
+        {/* M3 — tree */}
+        <div className={`bg-[#0a0a0a] rounded-xl border p-4 transition-all duration-500 ${step >= 2 ? 'border-blue-500/25' : 'border-white/10'}`}>
+          <p className={label + " mb-2"}>CatBoost · Decision Tree</p>
+          <svg viewBox="0 0 200 130" className="w-full" style={{ maxHeight: 110 }}>
+            <rect x="65" y="4" width="70" height="26" rx="5"
+              fill={step >= 2 ? "rgba(59,130,246,0.15)" : "rgba(255,255,255,0.04)"}
+              stroke={step >= 2 ? "rgba(59,130,246,0.4)" : "rgba(255,255,255,0.1)"} strokeWidth="1" />
+            <text x="100" y="14" textAnchor="middle" fill={step >= 2 ? "#93c5fd" : "rgba(255,255,255,0.2)"}
+              fontSize="6.5" fontFamily="monospace">{treeValues.feature1}</text>
+            <text x="100" y="25" textAnchor="middle" fill={step >= 2 ? "#60a5fa" : "rgba(255,255,255,0.15)"}
+              fontSize="6" fontFamily="monospace">≤ {treeValues.threshold1}</text>
+            <line x1="85" y1="30" x2="55" y2="58" stroke={step >= 2 ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.07)"} strokeWidth="1" />
+            <line x1="115" y1="30" x2="145" y2="58" stroke={step >= 2 ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.07)"} strokeWidth="1" />
+            {[{ x: 20 }, { x: 110 }].map((n, i) => (
+              <g key={i}>
+                <rect x={n.x} y="58" width="70" height="26" rx="5"
+                  fill={step >= 2 ? "rgba(59,130,246,0.1)" : "rgba(255,255,255,0.03)"}
+                  stroke={step >= 2 ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.07)"} strokeWidth="1" />
+                <text x={n.x + 35} y="71" textAnchor="middle" fill={step >= 2 ? "#93c5fd" : "rgba(255,255,255,0.15)"}
+                  fontSize="6" fontFamily="monospace">{treeValues.feature2} ≤ {treeValues.threshold2}</text>
+              </g>
+            ))}
+            {[[55,84,18,112],[55,84,72,112],[145,84,108,112],[145,84,162,112]].map(([x1,y1,x2,y2],i) => (
+              <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+                stroke={step >= 2 ? "rgba(59,130,246,0.2)" : "rgba(255,255,255,0.05)"} strokeWidth="1" />
+            ))}
+            {treeValues.leaves.map((v, i) => {
+              const xs = [4,58,94,148];
+              const col = parseFloat(v) > 0.5 ? "#ef4444" : parseFloat(v) > 0.25 ? "#eab308" : "#22c55e";
+              return (
+                <g key={i}>
+                  <rect x={xs[i]} y="112" width="44" height="16" rx="4"
+                    fill={step >= 2 ? col + "18" : "rgba(255,255,255,0.03)"}
+                    stroke={step >= 2 ? col + "50" : "rgba(255,255,255,0.07)"} strokeWidth="1" />
+                  <text x={xs[i]+22} y="123" textAnchor="middle"
+                    fill={step >= 2 ? col : "rgba(255,255,255,0.15)"}
+                    fontSize="7" fontFamily="monospace" fontWeight="600">{v}</text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+ 
+        {/* M4 — output */}
+        <div className={`bg-[#0a0a0a] rounded-xl border p-4 transition-all duration-500 ${step >= 3 ? 'border-purple-500/25' : 'border-white/10'}`}>
+          <p className={label + " mb-3"}>Calibration → Risk Score</p>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-sm text-white/40">{rawProba.toFixed(2)}</span>
+            <span className="text-xs text-purple-400/50">→ f(x) →</span>
+            <div className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-700"
+              style={step >= 3
+                ? { borderColor: riskColor + "50", background: riskColor + "12" }
+                : { borderColor: "rgba(255,255,255,0.07)", background: "transparent" }}>
+              <div className="w-2 h-2 rounded-full" style={{ background: step >= 3 ? riskColor : "rgba(255,255,255,0.15)" }} />
+              <span className="font-mono font-bold text-base" style={{ color: step >= 3 ? riskColor : "rgba(255,255,255,0.15)" }}>
+                {Math.round(calibratedProba * 100)}%
+              </span>
+              <span className="text-[10px] font-semibold tracking-wider" style={{ color: step >= 3 ? riskColor + "cc" : "rgba(255,255,255,0.1)" }}>
+                {riskLabel}
+              </span>
+            </div>
+          </div>
+        </div>
+ 
+      </div>
+    </div>
+  );
+}
+ 
 /* ================= TECH ORBIT ================= */
 function TechOrbit() {
   const techs = [
