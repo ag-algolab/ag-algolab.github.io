@@ -562,18 +562,6 @@ function FraudGrid() {
               and much more. Every pipeline is built around your data, not a generic template.
             </p>
           </div>
-          <div className="flex flex-col gap-2">
-            {[
-              { label: "AUC", value: "0.83+", color: "#4ade80" },
-              { label: "Auto-cleared", value: ">50% of claims", color: "#60a5fa" },
-              { label: "Miss rate", value: "0.2%", color: "#a78bfa" },
-            ].map((s) => (
-              <div key={s.label} className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                <span className="text-neutral-500 text-xs font-mono">{s.label}</span>
-                <span className="text-xs font-semibold font-mono" style={{ color: s.color }}>{s.value}</span>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* ── Q2 upper-right — Orbit inputs ── */}
