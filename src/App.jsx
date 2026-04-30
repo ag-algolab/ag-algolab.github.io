@@ -1376,10 +1376,10 @@ function Home() {
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </button>
                   <button
-                    onClick={() => scrollToSection('projects')}
+                    onClick={() => scrollToSection('services')}
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-colors duration-150 text-sm font-medium"
                   >
-                    View projects
+                    See our services
                   </button>
                 </div>
               </motion.div>
