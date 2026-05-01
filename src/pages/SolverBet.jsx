@@ -1008,6 +1008,7 @@ function PerformanceSection() {
 /* ========== MAIN PAGE ========== */
 export default function SolverBet() {
   const [pulseStep, setPulseStep] = useState(0);
+  const [showBackModal, setShowBackModal] = useState(false);
 
   useEffect(() => {
     const t = setInterval(() => setPulseStep(p => (p + 1) % 5), 900);
@@ -1035,9 +1036,12 @@ export default function SolverBet() {
             <div className="absolute left-1/2 -translate-x-1/2">
               <img src="/solverbet_eagle.png" alt="SolverBet" className="w-9 h-9 object-contain opacity-80" />
             </div>
-            <Link to="/" className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/60 hover:bg-white/5 hover:text-white transition-colors">
+            <button
+              onClick={() => setShowBackModal(true)}
+              className="text-sm px-4 py-2 rounded-lg border border-white/15 text-white/60 hover:bg-white/5 hover:text-white transition-colors"
+            >
               ← Back
-            </Link>
+            </button>
           </div>
         </div>
       </nav>
@@ -1355,11 +1359,88 @@ export default function SolverBet() {
             <img src="/logo.jpg" alt="Logo" className="w-7 h-7 object-contain rounded-md" />
             <span className="text-sm text-neutral-400">AG Algo Lab — SolverBet is a research tool.</span>
           </div>
-          <Link to="/" className="text-sm text-neutral-500 hover:text-white transition-colors font-mono">
+          <button
+            onClick={() => setShowBackModal(true)}
+            className="text-sm text-neutral-500 hover:text-white transition-colors font-mono"
+          >
             ← Back to home
-          </Link>
+          </button>
         </div>
       </footer>
+      {/* ======== HIDDEN PAGE WARNING MODAL ======== */}
+      <AnimatePresence>
+        {showBackModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center px-6 bg-black/70 backdrop-blur-md"
+            onClick={() => setShowBackModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md rounded-3xl border border-violet-500/20 bg-[#0a0a0a] p-7 shadow-2xl shadow-violet-500/10"
+            >
+              {/* Glow accent */}
+              <div className="absolute -top-px left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-violet-400/60 to-transparent" />
+      
+              {/* Icon + Tag */}
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="w-9 h-9 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                  <span className="text-base">🔒</span>
+                </div>
+                <span className="text-violet-400/80 text-[10px] font-bold uppercase tracking-widest">
+                  Hidden Page
+                </span>
+              </div>
+      
+              {/* Title */}
+              <h3 className="text-xl font-black text-white mb-2 leading-snug">
+                You're about to leave a hidden corner of AG Algo Lab
+              </h3>
+      
+              {/* Body */}
+              <p className="text-white/45 text-sm leading-relaxed mb-2">
+                This page isn't listed anywhere on the public site — it's only accessible
+                through a direct link.
+              </p>
+              <p className="text-white/45 text-sm leading-relaxed mb-6">
+                Once you go back home, <span className="text-violet-300/90 font-medium">there will be no button or menu to return here</span>.
+                Make sure to bookmark this URL if you'd like to come back.
+              </p>
+      
+              {/* URL helper */}
+              <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 mb-6 flex items-center gap-2">
+                <span className="text-white/25 text-[10px] font-mono uppercase tracking-wider flex-shrink-0">URL</span>
+                <code className="text-white/60 text-xs font-mono truncate">
+                  {typeof window !== 'undefined' ? window.location.href : ''}
+                </code>
+              </div>
+      
+              {/* Buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowBackModal(false)}
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 text-white/60 text-sm font-medium hover:bg-white/5 hover:text-white transition-colors"
+                >
+                  Stay here
+                </button>
+                <Link
+                  to="/"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-violet-500/15 border border-violet-500/30 text-violet-300 text-sm font-semibold hover:bg-violet-500/25 hover:text-violet-200 transition-colors text-center"
+                >
+                  Go home →
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
