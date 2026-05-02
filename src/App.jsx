@@ -2,6 +2,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import ShahMat from "./pages/ShahMat"; 
 import FraudRiskScoring from "./pages/FraudRiskScoring";
 import SolverBet from "./pages/SolverBet";
+import MLbet from "./pages/MLbet";
 import ReversalEngine from "./pages/ReversalEngine";
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
@@ -1775,6 +1776,7 @@ export default function App() {
       <Route path="/shahmat" element={<ShahMat />} />
       <Route path="/fraud-risk-scoring" element={<FraudRiskScoring />} />
       <Route path="/solverbet" element={<SolverBet />} />
+      <Route path="/mlbet" element={<MLbet />} />
       <Route path="/reversal-engine" element={<ReversalEngine />} />
       <Route path="*" element={<Home />} />
     </Routes>
