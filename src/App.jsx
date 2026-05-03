@@ -392,13 +392,14 @@ forecast = sf.predict(h=6, level=[80, 95])`;
 
   return (
     <div className="grid md:grid-cols-12 gap-3 mb-2">
+      
       {/* ───── EXCEL ───── */}
-      <div className="md:col-span-5">
+      <div className="md:col-span-5 flex">
         <ExcelSheet pulse={dataPulse} />
       </div>
-
+      
       {/* ───── PYTHON ───── */}
-      <div className="md:col-span-5 relative">
+      <div className="md:col-span-5 relative flex">
         <PythonEditor
           tokens={visibleTokens}
           showCaret={phase === 'typing' || phase === 'typed'}
@@ -454,7 +455,7 @@ function ExcelSheet({ pulse }) {
 
   return (
     <div
-      className="bg-white rounded-md overflow-hidden shadow-2xl border border-black/20 transition-all duration-500"
+      className="bg-white rounded-md overflow-hidden shadow-2xl border border-black/20 transition-all duration-500 flex-1 flex flex-col"
       style={{
         boxShadow: pulse
           ? '0 0 0 1px rgba(59,130,246,0.4), 0 20px 50px -10px rgba(59,130,246,0.25)'
@@ -485,7 +486,7 @@ function ExcelSheet({ pulse }) {
       </div>
 
       {/* Sheet with bottom fade */}
-      <div className="relative bg-white">
+      <div className="relative bg-white flex-1">
         <div className="overflow-x-auto bg-white">
           <table className="w-full border-collapse text-[11px] font-mono">
             <thead>
@@ -555,7 +556,7 @@ function PythonEditor({ tokens, showCaret, runActive, showOutput }) {
   const lines = renderLines(tokens);
 
   return (
-    <div className="bg-[#1e1e1e] rounded-md overflow-hidden border border-white/10 shadow-2xl">
+    <div className="bg-[#1e1e1e] rounded-md overflow-hidden border border-white/10 shadow-2xl flex-1 flex flex-col">
       {/* VS Code title bar */}
       <div className="bg-[#323233] px-3 py-1.5 flex items-center justify-between border-b border-black/40">
         <div className="flex items-center gap-2">
