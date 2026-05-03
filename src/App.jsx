@@ -450,10 +450,6 @@ function ExcelSheet({ pulse }) {
     ['2024-04-01', '175', '€10,500'],
     ['2024-05-01', '189', '€11,340'],
     ['2024-06-01', '203', '€12,180'],
-    ['2024-07-01', '218', '€13,080'],
-    ['2024-08-01', '195', '€11,700'],
-    ['2024-09-01', '224', '€13,440'],
-    ['2024-10-01', '241', '€14,460'],
   ];
 
   return (
@@ -488,46 +484,63 @@ function ExcelSheet({ pulse }) {
         <div className="flex-1 px-1.5 py-0.5 bg-white border border-[#d4d4d4] rounded text-[#444] font-mono">Date</div>
       </div>
 
-      {/* Sheet */}
-      <div className="overflow-x-auto bg-white">
-        <table className="w-full border-collapse text-[11px] font-mono">
-          <thead>
-            <tr>
-              <th className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] font-normal w-7 h-5"></th>
-              {['A', 'B', 'C'].map((c) => (
-                <th key={c} className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] font-normal text-center min-w-[110px] h-5">
-                  {c}
-                </th>
-              ))}
-            </tr>
-            <tr>
-              <td className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] text-center text-[10px] font-normal">1</td>
-              <td className="bg-[#f3f2f1] border border-[#d4d4d4] px-2 py-1 font-semibold text-[#222]">Date</td>
-              <td className="bg-[#f3f2f1] border border-[#d4d4d4] px-2 py-1 font-semibold text-[#222]">Units Sold</td>
-              <td className="bg-[#f3f2f1] border border-[#d4d4d4] px-2 py-1 font-semibold text-[#222]">Sales</td>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, i) => (
-              <tr key={i}>
-                <td className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] text-center text-[10px]">{i + 2}</td>
-                {row.map((cell, j) => (
-                  <td
-                    key={j}
-                    className="border border-[#d4d4d4] px-2 py-1 text-[#222] transition-colors duration-300"
-                    style={{
-                      background: pulse && j === 0 ? '#dbeafe' : 'white',
-                    }}
-                  >
-                    {cell}
-                  </td>
+      {/* Sheet with bottom fade */}
+      <div className="relative bg-white">
+        <div className="overflow-x-auto bg-white">
+          <table className="w-full border-collapse text-[11px] font-mono">
+            <thead>
+              <tr>
+                <th className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] font-normal w-7 h-5"></th>
+                {['A', 'B', 'C'].map((c) => (
+                  <th key={c} className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] font-normal text-center min-w-[110px] h-5">
+                    {c}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+              <tr>
+                <td className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] text-center text-[10px] font-normal">1</td>
+                <td className="bg-[#f3f2f1] border border-[#d4d4d4] px-2 py-1 font-semibold text-[#222]">Date</td>
+                <td className="bg-[#f3f2f1] border border-[#d4d4d4] px-2 py-1 font-semibold text-[#222]">Units Sold</td>
+                <td className="bg-[#f3f2f1] border border-[#d4d4d4] px-2 py-1 font-semibold text-[#222]">Sales</td>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, i) => (
+                <tr key={i}>
+                  <td className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] text-center text-[10px]">{i + 2}</td>
+                  {row.map((cell, j) => (
+                    <td
+                      key={j}
+                      className="border border-[#d4d4d4] px-2 py-1 text-[#222] transition-colors duration-300"
+                      style={{
+                        background: pulse && j === 0 ? '#dbeafe' : 'white',
+                      }}
+                    >
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+              {/* Empty rows hint that there is more data below */}
+              {[0, 1, 2].map((i) => (
+                <tr key={`empty-${i}`}>
+                  <td className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] text-center text-[10px]">{rows.length + i + 2}</td>
+                  <td className="border border-[#d4d4d4] px-2 py-1 h-[22px]"></td>
+                  <td className="border border-[#d4d4d4] px-2 py-1 h-[22px]"></td>
+                  <td className="border border-[#d4d4d4] px-2 py-1 h-[22px]"></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {/* Fade overlay at bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-12 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 80%, white 100%)',
+          }}
+        />
       </div>
-
       {/* Sheet tabs */}
       <div className="bg-[#f3f2f1] border-t border-[#d4d4d4] px-2 py-1 flex items-center gap-1 text-[10px] text-[#444]">
         <div className="px-2 py-0.5 bg-white border border-[#d4d4d4] border-b-white rounded-t font-medium">Sheet1</div>
@@ -623,21 +636,22 @@ function ForecastChart({ active }) {
   const xStep = (W - PAD * 2) / (all.length - 1);
   const scaleY = (v) => H - PAD - ((v - minV) / (maxV - minV)) * (H - PAD * 2);
   const histPoints = historical.map((v, i) => `${PAD + i * xStep},${scaleY(v)}`).join(' ');
-  const fcPoints = forecast.map((v, i) =>
-    `${PAD + (historical.length - 1 + i) * xStep},${scaleY(v)}`
-  ).join(' ');
-  const bridge = `${PAD + (historical.length - 1) * xStep},${scaleY(historical[historical.length - 1])} ${PAD + historical.length * xStep},${scaleY(forecast[0])}`;
+  const fcPoints = [
+    `${PAD + (historical.length - 1) * xStep},${scaleY(historical[historical.length - 1])}`,
+    ...forecast.map((v, i) => `${PAD + (historical.length + i) * xStep},${scaleY(v)}`)
+  ].join(' ');
 
   // 95% CI shaded area
   const ciLower = forecast.map((v) => v * 0.88);
   const ciUpper = forecast.map((v) => v * 1.12);
+
   const ciPath = (() => {
-    const upper = ciUpper.map((v, i) =>
-      `${PAD + (historical.length - 1 + i) * xStep},${scaleY(v)}`
-    );
-    const lower = ciLower.map((v, i) =>
-      `${PAD + (historical.length - 1 + i) * xStep},${scaleY(v)}`
-    ).reverse();
+    const anchor = `${PAD + (historical.length - 1) * xStep},${scaleY(historical[historical.length - 1])}`;
+    const upper = [
+      anchor,
+      ...ciUpper.map((v, i) => `${PAD + (historical.length + i) * xStep},${scaleY(v)}`)
+    ];
+    const lower = ciLower.map((v, i) => `${PAD + (historical.length + i) * xStep},${scaleY(v)}`).reverse();
     return `M ${upper.join(' L ')} L ${lower.join(' L ')} Z`;
   })();
 
@@ -686,18 +700,6 @@ function ForecastChart({ active }) {
           }}
         />
 
-        {/* Bridge */}
-        <polyline
-          points={bridge}
-          fill="none"
-          stroke="#4ade80"
-          strokeWidth="1.5"
-          strokeDasharray="3,2"
-          style={{
-            opacity: active ? 0.6 : 0,
-            transition: 'opacity 0.6s ease 1s',
-          }}
-        />
 
         {/* Forecast line */}
         <polyline
@@ -719,7 +721,7 @@ function ForecastChart({ active }) {
         {forecast.map((v, i) => (
           <circle
             key={i}
-            cx={PAD + (historical.length - 1 + i) * xStep}
+            cx={PAD + (historical.length + i) * xStep}
             cy={scaleY(v)}
             r="2"
             fill="#4ade80"
@@ -909,7 +911,7 @@ function PricingModal({ onClose }) {
           <div className="grid md:grid-cols-2 gap-4">
 
             {/* ── STATISTICAL ── */}
-            <div className="bg-black rounded-xl border border-white/10 p-6 flex flex-col">
+            <div className="bg-black rounded-xl border border-green-500/30 p-6 flex flex-col">
               <div className="mb-5">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[10px] font-mono font-medium tracking-wide">
@@ -973,14 +975,12 @@ function PricingModal({ onClose }) {
             {/* ── MACHINE LEARNING ── */}
             <div className="bg-black rounded-xl border border-blue-500/30 p-6 flex flex-col relative overflow-hidden">
               {/* Subtle gradient corner */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-3xl pointer-events-none" />
 
               <div className="mb-5 relative">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/25 text-blue-400 text-[10px] font-mono font-medium tracking-wide">
                     Custom scope
                   </span>
-                  <span className="text-[10px] font-mono text-blue-400/70 tracking-wider">CORE</span>
                 </div>
                 <h3 className="text-xl font-semibold text-white tracking-tight mb-1">Machine Learning</h3>
                 <p className="text-neutral-500 text-xs leading-relaxed">
