@@ -522,7 +522,7 @@ function ExcelSheet({ pulse }) {
                 </tr>
               ))}
               {/* Empty rows hint that there is more data below */}
-              {[0, 1, 2].map((i) => (
+              {[0].map((i) => (
                 <tr key={`empty-${i}`}>
                   <td className="bg-[#f3f2f1] border border-[#d4d4d4] text-[#666] text-center text-[10px]">{rows.length + i + 2}</td>
                   <td className="border border-[#d4d4d4] px-2 py-1 h-[22px]"></td>
