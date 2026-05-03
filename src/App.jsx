@@ -391,15 +391,15 @@ forecast = sf.predict(h=6, level=[80, 95])`;
   const dataPulse = phase === 'output' || phase === 'clicking';
 
   return (
-    <div className="grid md:grid-cols-12 gap-3 mb-2">
+    <div className="grid md:grid-cols-12 gap-3 mb-2 max-w-full overflow-hidden">
       
       {/* ───── EXCEL ───── */}
-      <div className="md:col-span-5 flex">
+      <div className="md:col-span-5 flex min-w-0">
         <ExcelSheet pulse={dataPulse} />
       </div>
       
       {/* ───── PYTHON ───── */}
-      <div className="md:col-span-5 relative flex">
+      <div className="md:col-span-5 relative flex min-w-0">
         <PythonEditor
           tokens={visibleTokens}
           showCaret={phase === 'typing' || phase === 'typed'}
@@ -1537,34 +1537,41 @@ function FraudGrid() {
 
       </div>
 
-      {/* ── MOBILE — stack vertical ── */}
-      <div className="md:hidden flex flex-col gap-4">
-
+      {/* ── MOBILE — vertical pipeline ── */}
+      <div className="md:hidden flex flex-col gap-3">
+      
+        {/* Intro card */}
         <div className="bg-[#0a0a0a] rounded-xl border border-white/10 p-5">
-          <p className="text-white font-medium text-sm mb-2">Fraud & Anomaly Detection</p>
-          <p className="text-neutral-400 text-sm leading-relaxed">
-            Each claim scored by fraud probability via a calibrated CatBoost pipeline.
+          <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600 mb-3">
+            How it works
           </p>
-          <div className="flex flex-col gap-2 mt-4">
-            {[
-              { label: "AUC", value: "0.83+", color: "#4ade80" },
-              { label: "Auto-cleared", value: ">50%", color: "#60a5fa" },
-              { label: "Miss rate", value: "0.2%", color: "#a78bfa" },
-            ].map((s) => (
-              <div key={s.label} className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                <span className="text-neutral-500 text-xs font-mono">{s.label}</span>
-                <span className="text-xs font-semibold font-mono" style={{ color: s.color }}>{s.value}</span>
-              </div>
-            ))}
-          </div>
+          <p className="text-neutral-400 text-sm leading-relaxed">
+            Each incoming claim is scored by fraud probability via a{' '}
+            <span className="text-white font-medium">CatBoost ensemble</span>{' '}
+            with{' '}
+            <span className="text-white font-medium">isotonic calibration</span>.
+            Your team focuses on what actually counts.
+          </p>
         </div>
-
+      
+        {/* Step 1 — Claim features */}
         <div className="bg-[#0a0a0a] rounded-xl border p-5"
-          style={{ borderColor: step >= 1 ? 'rgba(96,165,250,0.25)' : 'rgba(255,255,255,0.1)', transition: 'border-color 1s ease' }}>
-          <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600 mb-3">Claim Features</p>
-          <div className="flex flex-wrap gap-2">
+          style={{
+            borderColor: step >= 1 ? 'rgba(96,165,250,0.25)' : 'rgba(255,255,255,0.1)',
+            transition: 'border-color 1s ease',
+          }}>
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600">
+              1. Claim Features
+            </p>
+            <div className="w-1.5 h-1.5 rounded-full" style={{
+              background: step >= 1 ? '#60a5fa' : 'rgba(255,255,255,0.15)',
+              transition: 'background 1s ease',
+            }} />
+          </div>
+          <div className="flex flex-wrap gap-1.5">
             {orbitTags.map((t, i) => (
-              <span key={i} className="text-[11px] px-2.5 py-1 rounded-full border font-mono"
+              <span key={i} className="text-[10px] px-2 py-0.5 rounded-full border font-mono"
                 style={{
                   borderColor: step >= 1 ? t.color + '40' : 'rgba(255,255,255,0.08)',
                   color:       step >= 1 ? t.color + 'cc' : 'rgba(255,255,255,0.2)',
@@ -1576,11 +1583,31 @@ function FraudGrid() {
             ))}
           </div>
         </div>
-
+      
+        {/* Connector */}
+        <div className="flex justify-center -my-1">
+          <div className="w-px h-4" style={{
+            background: step >= 2 ? 'rgba(96,165,250,0.4)' : 'rgba(255,255,255,0.1)',
+            transition: 'background 1s ease',
+          }} />
+        </div>
+      
+        {/* Step 2 — Decision tree */}
         <div className="bg-[#0a0a0a] rounded-xl border p-5"
-          style={{ borderColor: step >= 2 ? 'rgba(96,165,250,0.25)' : 'rgba(255,255,255,0.1)', transition: 'border-color 1s ease' }}>
-          <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600 mb-3">CatBoost · Decision Tree</p>
-          <svg viewBox="0 0 220 160" className="w-full" style={{ maxHeight: 140 }}>
+          style={{
+            borderColor: step >= 2 ? 'rgba(96,165,250,0.25)' : 'rgba(255,255,255,0.1)',
+            transition: 'border-color 1s ease',
+          }}>
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600">
+              2. CatBoost Decision Tree
+            </p>
+            <div className="w-1.5 h-1.5 rounded-full" style={{
+              background: step >= 2 ? '#60a5fa' : 'rgba(255,255,255,0.15)',
+              transition: 'background 1s ease',
+            }} />
+          </div>
+          <svg viewBox="0 0 220 160" className="w-full" style={{ maxHeight: 130 }}>
             <rect x="65" y="6" width="90" height="34" rx="7"
               style={{ fill: step >= 2 ? 'rgba(59,130,246,0.12)' : 'rgba(255,255,255,0.04)', stroke: step >= 2 ? 'rgba(59,130,246,0.45)' : 'rgba(255,255,255,0.1)', transition: 'all 1s ease' }} strokeWidth="1" />
             <text x="110" y="19" textAnchor="middle" style={{ fill: step >= 2 ? '#93c5fd' : 'rgba(255,255,255,0.2)', transition: 'fill 1s ease' }} fontSize="8" fontFamily="monospace">{treeValues.feature1}</text>
@@ -1590,7 +1617,8 @@ function FraudGrid() {
             {[{ cx: 20 }, { cx: 130 }].map((n, i) => (
               <g key={i}>
                 <rect x={n.cx} y="74" width="90" height="34" rx="7" style={{ fill: step >= 2 ? 'rgba(59,130,246,0.08)' : 'rgba(255,255,255,0.03)', stroke: step >= 2 ? 'rgba(59,130,246,0.3)' : 'rgba(255,255,255,0.07)', transition: 'all 1s ease' }} strokeWidth="1" />
-                <text x={n.cx + 45} y="94" textAnchor="middle" style={{ fill: step >= 2 ? '#93c5fd' : 'rgba(255,255,255,0.15)', transition: 'fill 1s ease' }} fontSize="7.5" fontFamily="monospace">{treeValues.feature2} ≤ {treeValues.threshold2}</text>
+                <text x={n.cx + 45} y="88" textAnchor="middle" style={{ fill: step >= 2 ? '#93c5fd' : 'rgba(255,255,255,0.15)', transition: 'fill 1s ease' }} fontSize="7" fontFamily="monospace">{treeValues.feature2}</text>
+                <text x={n.cx + 45} y="100" textAnchor="middle" style={{ fill: step >= 2 ? '#60a5fa' : 'rgba(255,255,255,0.1)', transition: 'fill 1s ease' }} fontSize="7" fontFamily="monospace">≤ {treeValues.threshold2}</text>
               </g>
             ))}
             {[[65,108,28,136],[65,108,82,136],[175,108,138,136],[175,108,192,136]].map(([x1,y1,x2,y2],i) => (
@@ -1608,25 +1636,94 @@ function FraudGrid() {
             })}
           </svg>
         </div>
-
+      
+        {/* Connector */}
+        <div className="flex justify-center -my-1">
+          <div className="w-px h-4" style={{
+            background: step >= 3 ? 'rgba(168,85,247,0.4)' : 'rgba(255,255,255,0.1)',
+            transition: 'background 1s ease',
+          }} />
+        </div>
+      
+        {/* Step 3 — Risk score */}
         <div className="bg-[#0a0a0a] rounded-xl border p-5"
-          style={{ borderColor: step >= 3 ? 'rgba(168,85,247,0.25)' : 'rgba(255,255,255,0.1)', transition: 'border-color 1s ease' }}>
-          <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600 mb-4">Calibration → Risk Score</p>
-          <div className="flex items-center gap-3">
-            <div className="flex flex-col items-center px-3 py-2 rounded-lg border border-white/[0.08] bg-white/[0.03]">
-              <span className="text-[10px] text-neutral-600 font-mono">raw</span>
-              <span className="font-mono text-base font-semibold" style={{ color: step >= 3 ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.1)', transition: 'color 1s ease' }}>{rawProba.toFixed(2)}</span>
+          style={{
+            borderColor: step >= 3 ? riskColor + '40' : 'rgba(255,255,255,0.1)',
+            transition: 'border-color 1s ease',
+          }}>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-600">
+              3. Calibrated Risk Score
+            </p>
+            <div className="w-1.5 h-1.5 rounded-full" style={{
+              background: step >= 3 ? riskColor : 'rgba(255,255,255,0.15)',
+              boxShadow: step >= 3 ? `0 0 6px ${riskColor}` : 'none',
+              transition: 'all 1s ease',
+            }} />
+          </div>
+      
+          <div className="flex flex-col items-center gap-3">
+            {/* Raw → Calibrated transformation */}
+            <div className="flex items-center gap-3 w-full">
+              <div className="flex flex-col items-center px-3 py-2 rounded-lg border border-white/[0.08] bg-white/[0.03] flex-1">
+                <span className="text-[9px] text-neutral-600 font-mono">raw score</span>
+                <span className="font-mono text-base font-semibold mt-0.5"
+                  style={{
+                    color: step >= 3 ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.1)',
+                    transition: 'color 1s ease',
+                  }}>
+                  {rawProba.toFixed(2)}
+                </span>
+              </div>
+              <span className="text-xs font-mono"
+                style={{
+                  color: step >= 3 ? 'rgba(168,85,247,0.6)' : 'rgba(255,255,255,0.1)',
+                  transition: 'color 1s ease',
+                }}>
+                → f(x) →
+              </span>
+              <div className="flex flex-col items-center px-3 py-2 rounded-lg border flex-1"
+                style={{
+                  borderColor: step >= 3 ? riskColor + '50' : 'rgba(255,255,255,0.07)',
+                  background: step >= 3 ? riskColor + '10' : 'rgba(255,255,255,0.02)',
+                  transition: 'all 1.2s ease',
+                }}>
+                <span className="text-[9px] text-neutral-600 font-mono">calibrated</span>
+                <span className="font-mono text-base font-semibold mt-0.5"
+                  style={{
+                    color: step >= 3 ? riskColor : 'rgba(255,255,255,0.1)',
+                    transition: 'color 1.2s ease',
+                  }}>
+                  {calibratedProba.toFixed(2)}
+                </span>
+              </div>
             </div>
-            <span style={{ color: step >= 3 ? 'rgba(168,85,247,0.5)' : 'rgba(255,255,255,0.1)', transition: 'color 1s ease' }} className="text-sm">→ f(x) →</span>
-            <div className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border"
-              style={{ borderColor: step >= 3 ? riskColor+'50' : 'rgba(255,255,255,0.07)', background: step >= 3 ? riskColor+'10' : 'rgba(255,255,255,0.02)', transition: 'all 1.2s ease' }}>
-              <div className="w-2 h-2 rounded-full" style={{ background: step >= 3 ? riskColor : 'rgba(255,255,255,0.15)', transition: 'background 1s ease' }} />
-              <span className="font-mono text-2xl font-bold" style={{ color: step >= 3 ? riskColor : 'rgba(255,255,255,0.1)', transition: 'color 1.2s ease' }}>{Math.round(calibratedProba * 100)}%</span>
-              <span className="text-[10px] font-semibold tracking-widest" style={{ color: step >= 3 ? riskColor+'cc' : 'rgba(255,255,255,0.08)', transition: 'color 1.2s ease' }}>{riskLabel}</span>
+      
+            {/* Big risk badge */}
+            <div className="w-full flex flex-col items-center justify-center py-4 rounded-xl border"
+              style={{
+                borderColor: step >= 3 ? riskColor + '50' : 'rgba(255,255,255,0.07)',
+                background: step >= 3 ? riskColor + '10' : 'rgba(255,255,255,0.02)',
+                transition: 'all 1.2s ease',
+              }}>
+              <span className="font-mono text-3xl font-bold leading-none mb-1"
+                style={{
+                  color: step >= 3 ? riskColor : 'rgba(255,255,255,0.1)',
+                  transition: 'color 1.2s ease',
+                }}>
+                {Math.round(calibratedProba * 100)}%
+              </span>
+              <span className="text-[10px] font-semibold tracking-widest"
+                style={{
+                  color: step >= 3 ? riskColor + 'cc' : 'rgba(255,255,255,0.08)',
+                  transition: 'color 1.2s ease',
+                }}>
+                {riskLabel} RISK
+              </span>
             </div>
           </div>
         </div>
-
+      
       </div>
     </>
   );
