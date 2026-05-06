@@ -2,6 +2,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import ShahMat from "./pages/ShahMat"; 
 import FraudRiskScoring from "./pages/FraudRiskScoring";
 import SolverBet from "./pages/SolverBet";
+import Faconde from "./pages/Faconde";
 import MLbet from "./pages/MLbet";
 import ReversalEngine from "./pages/ReversalEngine";
 import React, { useState, useEffect, useRef } from 'react';
@@ -2358,6 +2359,46 @@ function Home() {
                 </motion.div>
               </Link>
 
+              {/* FACONDE */}
+              <Link to="/faconde" className="block group">
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="relative bg-[#0a0a0a] rounded-xl p-6 border border-white/10 hover:border-amber-500/25 transition-colors duration-200"
+                >
+                  <div className="flex flex-col md:flex-row md:items-center gap-6">
+                    <div className="flex-shrink-0 flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-xl bg-amber-500/[0.06] border border-amber-500/15 flex items-center justify-center">
+                        <span className="text-2xl">✒</span>
+                      </div>
+                      <div className="flex flex-col gap-1.5 md:hidden">
+                        <BuildingBadge />
+                        <NeutralBadge>Mobile App</NeutralBadge>
+                        <NeutralBadge>Education</NeutralBadge>
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="hidden md:flex items-center gap-2 mb-2">
+                        <BuildingBadge />
+                        <NeutralBadge>Mobile App</NeutralBadge>
+                        <NeutralBadge>Education</NeutralBadge>
+                      </div>
+                      <h3 className="text-xl font-semibold text-white mb-1.5 tracking-tight">Faconde</h3>
+                      <p className="text-neutral-400 text-sm leading-relaxed max-w-2xl">
+                        Mobile app teaching elevated French expressions and Latin locutions —{' '}
+                        <span className="italic text-neutral-500">stricto sensu</span>,{' '}
+                        <span className="italic text-neutral-500">mutatis mutandis</span>,{' '}
+                        <span className="italic text-neutral-500">partant</span>{' '}
+                        — through daily micro-lessons anchored in classical literature, legal writing and philosophy.
+                      </p>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-neutral-600 group-hover:text-amber-400/70 transition-colors flex-shrink-0" />
+                  </div>
+                </motion.div>
+              </Link>
+
               {/* SHAHMAT */}
               <Link to="/shahmat" className="block group">
                 <motion.div
@@ -2511,6 +2552,7 @@ export default function App() {
       <Route path="/shahmat" element={<ShahMat />} />
       <Route path="/fraud-risk-scoring" element={<FraudRiskScoring />} />
       <Route path="/solverbet" element={<SolverBet />} />
+      <Route path="/faconde" element={<Faconde />} />
       <Route path="/mlbet" element={<MLbet />} />
       <Route path="/reversal-engine" element={<ReversalEngine />} />
       <Route path="*" element={<Home />} />
