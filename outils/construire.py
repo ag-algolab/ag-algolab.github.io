@@ -143,6 +143,7 @@ def jsonld(meta, lang, slug):
         "sameAs": ["https://www.linkedin.com/in/anthony-gocmen",
                    "https://github.com/ag-algolab"],
         "worksFor": {"@id": DOMAINE + "/#org"},
+        "image": DOMAINE + "/assets/img/anthony.jpg",
     }
     org = {
         "@type": "ProfessionalService",
@@ -152,6 +153,8 @@ def jsonld(meta, lang, slug):
         "url": DOMAINE + "/",
         "email": COURRIEL,
         "founder": {"@id": DOMAINE + "/#anthony"},
+        "logo": DOMAINE + "/assets/img/icone-512.png",
+        "image": DOMAINE + "/assets/img/og-agalgolab.png",
         "vatID": "FR77935081703",
         "identifier": {"@type": "PropertyValue", "propertyID": "SIREN", "value": "935081703"},
         "address": {"@type": "PostalAddress", "streetAddress": "6 rue de la Norée",
@@ -182,12 +185,7 @@ def jsonld(meta, lang, slug):
         "primaryImageOfPage": DOMAINE + meta.get("image", "/assets/img/og-agalgolab.png"),
     }
     graphe = [org, personne, site, page]
-    if meta["type"] in ("cas", "projet"):
-        page["@type"] = "Article"
-        page["headline"] = page["name"]
-        page["author"] = {"@id": DOMAINE + "/#anthony"}
-        page["publisher"] = {"@id": DOMAINE + "/#org"}
-        page["image"] = page["primaryImageOfPage"]
+    if slug != "index":
         graphe.append({
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -197,6 +195,12 @@ def jsonld(meta, lang, slug):
                 {"@type": "ListItem", "position": 2, "name": page["name"], "item": url},
             ],
         })
+    if meta["type"] in ("cas", "projet"):
+        page["@type"] = "Article"
+        page["headline"] = page["name"]
+        page["author"] = {"@id": DOMAINE + "/#anthony"}
+        page["publisher"] = {"@id": DOMAINE + "/#org"}
+        page["image"] = page["primaryImageOfPage"]
     return json.dumps({"@context": "https://schema.org", "@graph": graphe},
                       ensure_ascii=False, indent=1)
 

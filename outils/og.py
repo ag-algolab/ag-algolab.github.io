@@ -34,12 +34,12 @@ h1{font:800 %(taille)spx/1.08 "Plus Jakarta Sans",Arial,sans-serif;letter-spacin
 h1 em{font-style:normal;color:#047857}
 .bas{display:flex;justify-content:space-between;align-items:flex-end;font:500 22px/1.4 "Plus Jakarta Sans",Arial,sans-serif;color:#3F5F50}
 .bas b{font:800 30px/1 "Plus Jakarta Sans",Arial,sans-serif;color:#0B2E1F;display:flex;align-items:center;gap:12px;letter-spacing:-.03em}
-.bas b::before{content:"";width:14px;height:14px;background:#047857;transform:rotate(45deg)}
+.bas b img{height:36px;width:auto}
 .tag{position:absolute;background:#0B2E1F;color:#fff;font:600 18px/1.3 "JetBrains Mono",monospace;padding:12px 16px;border-radius:8px;white-space:nowrap}
 .tag b{color:#6EE7B7;font-size:24px;margin-right:8px}
 </style></head><body><div class="scene"><div class="sol"></div></div><div class="in">
 <p class="etq">%(etq)s</p><h1>%(titre)s</h1>
-<div class="bas"><b>AG Algo Lab</b><span>%(bas)s</span></div></div>
+<div class="bas"><b><img src="%(logo)s" alt="">AG Algo Lab</b><span>%(bas)s</span></div></div>
 <div class="tag" style="left:900px;top:150px">%(tag1)s</div><div class="tag" style="left:840px;top:330px">%(tag2)s</div>
 </body></html>"""
 
@@ -85,7 +85,8 @@ def main():
     for nom, taille, etq, titre, bas, tag1, tag2 in IMAGES:
         page = os.path.join(travail, nom + ".html")
         page_html = GABARIT
-        for cle, val in (("taille", str(taille)), ("etq", etq), ("titre", titre), ("bas", bas), ("tag1", tag1), ("tag2", tag2)):
+        logo = "file:///" + os.path.join(RACINE, "src", "assets", "img", "logo-ag.png").replace(os.sep, "/")
+        for cle, val in (("taille", str(taille)), ("etq", etq), ("titre", titre), ("bas", bas), ("tag1", tag1), ("tag2", tag2), ("logo", logo)):
             page_html = page_html.replace("%(" + cle + ")s", val)
         with open(page, "w", encoding="utf-8") as f:
             f.write(page_html)

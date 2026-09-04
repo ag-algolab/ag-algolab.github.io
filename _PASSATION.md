@@ -27,7 +27,7 @@
 | Le nom de domaine | Porkbun ; enregistrements A vers les quatre adresses de GitHub Pages (185.199.108–111.153) ; `public/CNAME` porte `agalgolab.com` |
 | Les sources | `src/` — le gabarit, les pages, les faits, les assets |
 | Ce qui est servi | `public/` — **généré**, jamais modifié à la main |
-| Les outils | `outils/` — construire, vérifier, capturer, images de partage |
+| Les outils | `outils/` — construire, vérifier, capturer (Edge headless), capturer_cdp (Edge piloté : clic, défilement, téléphone), images de partage |
 | Les anciennes versions | `_archives/` — V1 React (clone fidèle en un fichier), V2 « instrument vivant » du 4 août 2026, et trois images d'origine (photo, logos) |
 
 Aucune base, aucun serveur, aucune clé : le site est entièrement statique.
@@ -320,3 +320,29 @@ Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
   journée : 630 questions, 28 pages, 16 fonctions, 42 sous-tests au vert) —
   `faits.json` mis à jour, les textes « cinq blancs » remplacés par le
   chiffre `p600.blancs_payants`, `og.py` lit désormais `faits.json`.
+- **04/09/2026 (nuit)** — Deuxième lot après la mise en ligne, sur les
+  retours d'Anthony : **le logo AG** (récupéré transparent dans l'historique
+  git de la V1, `src/assets/img/logo-ag.png`, icônes et image de partage
+  refaites avec) ; **sa photo pro** (« Photo de profil pro.jpg » de ses
+  Téléchargements) ; **héros statiques** — les cadres ne changent plus de
+  page (« ça fait cheap, ce n'est qu'un aperçu »), plus d'étiquettes de
+  chiffres dans la scène, et **le téléphone posé sur le coin avant de chaque
+  cadre** (`.iso-tel-sur`, coin bas-gauche de la dalle : c'est lui qui est
+  devant une fois le sol tourné de −45°). Les trois cadres montrent l'accueil
+  Molière, l'accueil Prépa 600 et le **tableau de bord de l'espace élève**
+  (capture d'écran d'Anthony, `moliere-eleve.webp`) ; les téléphones montrent
+  le **formulaire d'inscription Molière après le choix « première fois »**
+  et les **trois fuites de points** de Prépa 600 — deux captures prises
+  avec `outils/capturer_cdp.py`, un nouvel outil qui pilote Edge par son
+  protocole de débogage (clic, défilement, émulation téléphone). **Reversal
+  Engine refait** : un moteur animé sur canvas (`src/assets/reversal.js`,
+  bougies de 15 min qui se forment, extremum confirmé, score, seuil, flux de
+  signaux), première image dessinée sans animation, simulation clairement
+  annoncée. SEO : `robots`, `og:image:alt`, `rel="me"`, logo et portrait
+  dans les données structurées, fil d'Ariane sur toutes les pages.
+  Fluidité : courbes d'accélération, lévitation à 9 s, cartes qui se
+  soulèvent au survol ; téléphone : boutons pleine largeur, chiffres sur deux
+  colonnes. `verifier.py` compte désormais les balises ouvertes et fermées —
+  c'est un `</div>` manquant qui avait fait disparaître la scène des pages de
+  cas. Les chiffres Prépa 600 ont encore bougé dans la journée (810
+  questions, 9 blancs, 54 sous-tests au vert) : `faits.json` suit.

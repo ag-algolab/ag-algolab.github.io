@@ -125,6 +125,7 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 @supports (backdrop-filter: blur(8px)) { .entete { backdrop-filter: blur(8px); } }
 .entete-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 66px; position: relative; }
 .marque { display: inline-flex; align-items: center; gap: 10px; font: 800 1.15rem/1 var(--sans); letter-spacing: -.03em; color: var(--encre); text-decoration: none; min-height: 44px; }
+.marque img { height: 32px; width: auto; flex: none; }
 .marque-carre { width: 12px; height: 12px; background: var(--accent); transform: rotate(45deg); flex: none; }
 .nav { display: flex; align-items: center; gap: 4px 22px; }
 .nav a { color: var(--encre); text-decoration: none; font-size: .96rem; font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
@@ -167,8 +168,8 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
    Une scène de 760 × 640 dessinée à l'échelle 1, puis réduite par --k selon
    la largeur. Le sol est tourné en 3D ; les dalles (ordinateurs) reposent
    dessus, les téléphones et les étiquettes se redressent face au visiteur. */
-.iso { --k: .9; position: relative; width: calc(760px * var(--k)); height: calc(640px * var(--k)); margin: 0 auto; max-width: 100%; }
-.iso-scene { position: absolute; left: 0; top: 0; width: 760px; height: 640px; transform: scale(var(--k)); transform-origin: 0 0; perspective: 1800px; }
+.iso { --k: .9; position: relative; width: 100%; height: calc(640px * var(--k)); margin: 0 auto; }
+.iso-scene { position: absolute; left: 50%; top: 0; width: 760px; height: 640px; margin-left: -380px; transform: scale(var(--k)); transform-origin: 50% 0; perspective: 1800px; }
 .iso-sol {
   position: absolute; left: 50%; top: 50%; width: 760px; height: 760px;
   transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-45deg); transform-style: preserve-3d;
@@ -176,8 +177,14 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
   background-size: 60px 60px; border: 1px solid rgba(4, 120, 87, .3);
 }
 .iso-dalle { position: absolute; width: 300px; transform-style: preserve-3d; }
-.iso-dalle .flotte { transform: translateZ(var(--z, 40px)); transform-style: preserve-3d; }
+.iso-dalle .flotte { position: relative; transform: translateZ(var(--z, 40px)); transform-style: preserve-3d; will-change: transform; }
 .iso-dalle .ordi { box-shadow: -30px 30px 40px -20px rgba(11, 46, 31, .45); }
+/* le téléphone posé sur le coin du cadre : il se redresse face au visiteur */
+/* le coin avant d'une dalle est son coin bas-gauche (le sol tourne de −45°) :
+   c'est là que le téléphone pose son pied, devant l'écran de l'ordinateur */
+.iso-tel-sur { position: absolute; left: -10px; bottom: -22px; width: 100px; transform: rotateZ(45deg) rotateX(-58deg); transform-origin: 50% 100%; }
+.iso-tel-sur .tel { width: 104px; padding: 5px; border-radius: 18px; box-shadow: -24px 24px 36px -18px rgba(11, 46, 31, .55); }
+.iso-tel-sur .tel-ecran { border-radius: 13px; }
 .iso-tel { position: absolute; width: 120px; transform: rotateZ(45deg) rotateX(-58deg); }
 .iso-tel .tel { width: 120px; padding: 6px; border-radius: 20px; box-shadow: -30px 30px 40px -20px rgba(11, 46, 31, .45); }
 .iso-tel .tel-ecran { border-radius: 14px; }
@@ -185,9 +192,9 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .iso-tag b { color: var(--menthe); font-size: .95rem; margin-right: 4px; }
 .iso-leg { margin: 6px 0 0; text-align: center; font: 600 .64rem/1.5 var(--mono); color: var(--encre-2); letter-spacing: .08em; text-transform: uppercase; }
 @media (max-width: 1199px) { .iso { --k: .76; } }
-@media (max-width: 959px) { .iso { --k: .74; } }
-@media (max-width: 640px) { .iso { --k: .55; } }
-@media (max-width: 440px) { .iso { --k: .43; } }
+@media (max-width: 959px) { .iso { --k: .8; } }
+@media (max-width: 640px) { .iso { --k: .62; } }
+@media (max-width: 440px) { .iso { --k: .5; } }
 
 /* ------------------------------------------------------------ chiffres */
 .stats {
@@ -366,16 +373,45 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
    uniquement sur ce chemin, puis retirées après la révélation.
    ------------------------------------------------------------------------ */
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .btn, .carte, .langue { transition: transform .25s ease, box-shadow .25s ease, background-color .2s ease, color .2s ease, border-color .2s ease; }
-  .btn:hover { transform: translateY(-1px); }
+  .btn, .carte, .langue, .espace, .auto-item { transition: transform .35s cubic-bezier(.2, .7, .2, 1), box-shadow .35s cubic-bezier(.2, .7, .2, 1), background-color .2s ease, color .2s ease, border-color .2s ease; }
+  .btn:hover { transform: translateY(-2px); }
+  .carte:hover, .espace:hover, .auto-item:hover { transform: translateY(-3px); box-shadow: 0 28px 50px -30px rgba(11, 46, 31, .45); }
   .planche-duo .ordi-ecran img, .planche-duo .tel-ecran img, .planches .ordi-ecran img, .planche-tel .tel-ecran img { transition: transform 6s linear, opacity .9s ease; }
   .ecran-rot .img-suivant { transition: opacity .9s ease; }
-  .rv { opacity: .55; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
+  .rv { opacity: .55; transform: translateY(14px); transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); }
   .rv.in { opacity: 1; transform: none; }
-  .graph .balayage { display: block; animation: balayage 5s linear infinite; }
-  @keyframes balayage { from { transform: translateX(0); } to { transform: translateX(760px); } }
-  .iso-dalle .flotte { animation: flotte 7s ease-in-out infinite alternate; }
-  .iso-dalle:nth-child(2) .flotte { animation-delay: -2.4s; }
-  .iso-dalle:nth-child(3) .flotte { animation-delay: -4.8s; }
-  @keyframes flotte { from { transform: translateZ(var(--z, 40px)); } to { transform: translateZ(calc(var(--z, 40px) + 34px)); } }
+  .iso-dalle .flotte { animation: flotte 9s cubic-bezier(.45, 0, .55, 1) infinite alternate; }
+  .iso-dalle:nth-child(2) .flotte { animation-delay: -3.1s; }
+  .iso-dalle:nth-child(3) .flotte { animation-delay: -6.2s; }
+  @keyframes flotte { from { transform: translateZ(var(--z, 40px)); } to { transform: translateZ(calc(var(--z, 40px) + 30px)); } }
 }
+
+/* ------------------------------------------------------ téléphone */
+@media (max-width: 480px) {
+  .hero { padding-top: 28px; }
+  .actions .btn { flex: 1 1 100%; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat { padding: 14px 14px 12px; }
+  .stat b { font-size: 1.7rem; }
+  .chiffres { gap: 6px 16px; }
+}
+
+/* -------------------------------------------- le moteur du Reversal Engine */
+.moteur { position: relative; background: #06130D; color: var(--nuit-txt); border-radius: var(--rayon); overflow: hidden; box-shadow: var(--ombre); display: grid; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .moteur { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
+.moteur-graph { position: relative; min-height: 340px; }
+.moteur canvas { display: block; width: 100%; height: 100%; }
+.moteur-tete { position: absolute; left: 16px; top: 14px; right: 16px; display: flex; justify-content: space-between; gap: 10px; font: 600 .64rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #8FC7A9; pointer-events: none; }
+.moteur-tete b { color: var(--menthe); }
+.flux { border-top: 1px solid #12352A; padding: 16px; }
+@media (min-width: 900px) { .flux { border-top: 0; border-left: 1px solid #12352A; } }
+.flux h3 { font: 600 .64rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #8FC7A9; margin: 0 0 12px; }
+.signal { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; background: #0B1F17; border: 1px solid #12352A; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; font: 500 .76rem/1.5 var(--mono); }
+.signal i { font-style: normal; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: #12352A; color: var(--menthe); }
+.signal.haut i { color: var(--ambre); }
+.signal.muet i { color: #8FC7A9; }
+.signal b { display: block; color: var(--nuit-txt); font-weight: 600; }
+.signal span { color: #8FC7A9; }
+.signal.neuf { animation: signal-entre .6s cubic-bezier(.2, .7, .2, 1); }
+@keyframes signal-entre { from { transform: translateY(-10px); } to { transform: none; } }
+.moteur-note { margin: 4px 0 0; font: 500 .64rem/1.5 var(--mono); color: #8FC7A9; }

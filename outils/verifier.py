@@ -142,6 +142,11 @@ def verifier_page(chemin):
             erreur("%s : mot interdit « %s »" % (rel, mot))
     if "http://" in texte.replace("http://www.w3.org", "").replace("http://schema.org", ""):
         erreur("%s : lien en http:// non chiffré" % rel)
+    for balise in ("div", "section", "article", "ul", "main"):
+        ouverts = len(re.findall(r"<%s[\s>]" % balise, texte))
+        fermes = texte.count("</%s>" % balise)
+        if ouverts != fermes:
+            erreur("%s : %d <%s> ouverts pour %d fermés" % (rel, ouverts, balise, fermes))
     if rel == "404.html":
         return
     p = Analyse()
