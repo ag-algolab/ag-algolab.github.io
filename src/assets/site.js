@@ -1,11 +1,13 @@
 /* AG Algo Lab — script du site.
    Le HTML est déjà dans son état final : ce script n'ajoute que des
-   commodités (menu, copie de l'adresse), le changement de page des écrans
-   (par simple remplacement partout, en fondu sur grand écran avec souris)
-   et, sur ce même chemin riche, un peu de mouvement. Sans lui, rien ne manque. */
+   commodités (menu, copie de l'adresse, onglets, carrousels), le déroulé
+   des pages dans les vitrines (au survol avec une souris, tout seul sans),
+   et, sur grand écran avec souris, un peu de mouvement. Sans lui, rien ne
+   manque : chaque vitrine montre le haut de sa page. */
 (function () {
   'use strict';
   var doc = document;
+  var chaque = function (sel, fn, racine) { Array.prototype.forEach.call((racine || doc).querySelectorAll(sel), fn); };
 
   /* ------------------------------------------------------------- menu */
   var burger = doc.querySelector('.burger');
@@ -24,7 +26,7 @@
   }
 
   /* ------------------------------------------------ copier l'adresse */
-  Array.prototype.forEach.call(doc.querySelectorAll('[data-copier]'), function (b) {
+  chaque('[data-copier]', function (b) {
     var texte = b.textContent;
     b.addEventListener('click', function () {
       var valeur = b.getAttribute('data-copier');
@@ -40,82 +42,116 @@
     });
   });
 
+  /* ------------------------------------------------------------ onglets */
+  chaque('[data-onglets]', function (bloc) {
+    var onglets = bloc.querySelectorAll('.onglet');
+    var panneaux = bloc.querySelectorAll('.panneau');
+    var choisir = function (i) {
+      Array.prototype.forEach.call(onglets, function (o, j) { o.setAttribute('aria-selected', i === j ? 'true' : 'false'); });
+      Array.prototype.forEach.call(panneaux, function (p, j) { p.classList.toggle('actif', i === j); });
+    };
+    Array.prototype.forEach.call(onglets, function (o, i) { o.addEventListener('click', function () { choisir(i); }); });
+  });
+
+  /* --------------------------------------------------------- carrousels */
+  chaque('[data-carrousel]', function (bloc) {
+    var piste = bloc.querySelector('.carrousel');
+    var av = bloc.querySelector('[data-avant]'), ap = bloc.querySelector('[data-apres]');
+    if (!piste) return;
+    var pas = function () { var c = piste.firstElementChild; return c ? c.getBoundingClientRect().width + 18 : 300; };
+    if (av) av.addEventListener('click', function () { piste.scrollBy({ left: -pas(), behavior: 'smooth' }); });
+    if (ap) ap.addEventListener('click', function () { piste.scrollBy({ left: pas(), behavior: 'smooth' }); });
+  });
+
   /* --------------------------------------------------- chemin riche ? */
-  var riche = false;
+  var riche = false, souris = false, reduit = false;
   try {
-    riche = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    souris = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    riche = window.matchMedia('(min-width: 1024px)').matches && souris && !reduit;
   } catch (e) { riche = false; }
 
-  /* --------------------------------------- les écrans changent de page
-     data-pages="a.webp,b.webp,…" sur le conteneur ; l'image de base reste
-     toujours affichée. Sur le chemin riche, la suivante se pose par-dessus
-     en fondu puis devient la base ; ailleurs, la base change simplement de
-     fichier. Un écran figé ne peut donc jamais être vide. */
-  var rotations = doc.querySelectorAll('.ecran-rot[data-pages]');
-  Array.prototype.forEach.call(rotations, function (boite, index) {
-    var pages = boite.getAttribute('data-pages').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
-    var base = boite.querySelector('img');
-    if (!base || pages.length < 2) return;
-    var i = 0;
-    var occupe = false;
-    var suivante = function () {
-      if (occupe || doc.hidden) return;
-      i = (i + 1) % pages.length;
-      var src = pages[i];
-      var pre = new Image();
-      occupe = true;
-      var poser = function () {
-        if (!riche) { base.src = src; occupe = false; return; }
-        var calque = doc.createElement('img');
-        calque.className = 'img-suivant';
-        calque.alt = '';
-        calque.width = base.width;
-        calque.height = base.height;
-        calque.src = src;
-        calque.style.transform = base.style.transform;
-        boite.appendChild(calque);
-        /* deux images posées, puis le fondu */
-        setTimeout(function () { calque.classList.add('in'); }, 30);
-        setTimeout(function () {
-          base.src = src;
-          if (calque.parentNode) calque.parentNode.removeChild(calque);
-          occupe = false;
-        }, 1100);
-      };
-      pre.onload = poser;
-      pre.onerror = function () { occupe = false; };
-      pre.src = src;
+  /* ------------------------------------------- les vitrines qui déroulent
+     Avec une souris : la page défile quand on est dessus, revient en haut
+     quand on part. Sans souris : elle défile toute seule, doucement, tant
+     qu'elle est à l'écran. L'état statique est le haut de la page. */
+  var distance = function (boite) {
+    var img = boite.querySelector('img');
+    if (!img) return 0;
+    return Math.max(0, img.getBoundingClientRect().height - boite.getBoundingClientRect().height);
+  };
+  chaque('.defile', function (boite) {
+    var img = boite.querySelector('img');
+    if (!img) return;
+    if (souris && !reduit) {
+      var cadre = boite.closest('.ordi, .tel') || boite;
+      cadre.addEventListener('mouseenter', function () {
+        var d = distance(boite);
+        if (d <= 0) return;
+        img.style.transition = 'transform ' + Math.min(40, Math.max(4, d / 220)) + 's linear';
+        img.style.transform = 'translateY(' + (-d) + 'px)';
+      });
+      cadre.addEventListener('mouseleave', function () {
+        img.style.transition = 'transform 1.2s cubic-bezier(.2,.7,.2,1)';
+        img.style.transform = 'translateY(0)';
+      });
+    } else if (!reduit && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entrees) {
+        entrees.forEach(function (en) {
+          if (en.isIntersecting) {
+            var d = distance(boite);
+            if (d <= 0) return;
+            boite.style.setProperty('--d', (-d) + 'px');
+            boite.style.setProperty('--duree', Math.min(60, Math.max(8, d / 110)) + 's');
+            boite.classList.add('auto');
+          } else {
+            boite.classList.remove('auto');
+          }
+        });
+      }, { threshold: 0.2 });
+      io.observe(boite);
+    }
+  });
+  /* l'ordinateur passe devant le téléphone quand la souris est dessus */
+  chaque('.vitrine', function (v) {
+    var ordi = v.querySelector('.vitrine-ordi');
+    if (!ordi || !souris) return;
+    ordi.addEventListener('mouseenter', function () { v.classList.add('ordi-devant'); });
+    ordi.addEventListener('mouseleave', function () { v.classList.remove('ordi-devant'); });
+  });
+
+  /* ------------------------------------------- la méthode, pas à pas
+     Un clic choisit l'étape ; avec une souris, les étapes s'enchaînent
+     toutes seules et s'arrêtent quand la souris est sur le bloc. */
+  chaque('[data-etapes]', function (bloc) {
+    var etapes = bloc.querySelectorAll('.etape');
+    var visuels = bloc.querySelectorAll('.visuel');
+    var i = 0, minuterie = null, tempo = 5200;
+    var choisir = function (n) {
+      i = n;
+      Array.prototype.forEach.call(etapes, function (e, j) {
+        e.setAttribute('aria-selected', j === n ? 'true' : 'false');
+        var barre = e.querySelector('.barre');
+        if (barre) { barre.style.transition = 'none'; barre.style.width = '0'; }
+      });
+      Array.prototype.forEach.call(visuels, function (v, j) { v.classList.toggle('actif', j === n); });
+      if (riche) {
+        var b = etapes[n].querySelector('.barre');
+        if (b) setTimeout(function () { b.style.transition = 'width ' + tempo + 'ms linear'; b.style.width = '100%'; }, 30);
+      }
     };
-    setTimeout(function () {
-      suivante();
-      setInterval(suivante, 5200);
-    }, 2600 + (index % 5) * 900);
+    var suivant = function () { choisir((i + 1) % etapes.length); };
+    var lancer = function () { if (!riche) return; clearInterval(minuterie); minuterie = setInterval(suivant, tempo); };
+    Array.prototype.forEach.call(etapes, function (e, n) {
+      e.addEventListener('click', function () { choisir(n); lancer(); });
+    });
+    bloc.addEventListener('mouseenter', function () { clearInterval(minuterie); });
+    bloc.addEventListener('mouseleave', lancer);
+    choisir(0);
+    lancer();
   });
 
   if (!riche) return;
-
-  /* ------------------------------------------ planches qui défilent */
-  var ecrans = doc.querySelectorAll('.planche-duo .ordi-ecran, .planche-duo .tel-ecran, .planches .ordi-ecran, .planche-tel .tel-ecran');
-  Array.prototype.forEach.call(ecrans, function (boite) {
-    var cadre = boite.closest('.ordi, .tel') || boite;
-    cadre.addEventListener('mouseenter', function () {
-      var imgs = boite.querySelectorAll('img');
-      if (!imgs.length) return;
-      var d = imgs[0].getBoundingClientRect().height - boite.getBoundingClientRect().height;
-      if (d <= 0) return;
-      Array.prototype.forEach.call(imgs, function (img) {
-        img.style.transitionDuration = Math.min(16, Math.max(3, d / 110)) + 's';
-        img.style.transform = 'translateY(' + (-d) + 'px)';
-      });
-    });
-    cadre.addEventListener('mouseleave', function () {
-      Array.prototype.forEach.call(boite.querySelectorAll('img'), function (img) {
-        img.style.transitionDuration = '1.2s';
-        img.style.transform = 'translateY(0)';
-      });
-    });
-  });
 
   /* --------------------------------------------------- révélations */
   if ('IntersectionObserver' in window) {
@@ -128,19 +164,19 @@
     var nettoyer = function (el) {
       setTimeout(function () { el.classList.remove('rv'); el.classList.remove('in'); }, 900);
     };
-    var io = new IntersectionObserver(function (entrees) {
+    var io2 = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); nettoyer(en.target); }
+        if (en.isIntersecting) { en.target.classList.add('in'); io2.unobserve(en.target); nettoyer(en.target); }
       });
     }, { rootMargin: '0px 0px -6% 0px' });
-    observes.forEach(function (el) { io.observe(el); });
+    observes.forEach(function (el) { io2.observe(el); });
     setTimeout(function () {
-      Array.prototype.forEach.call(doc.querySelectorAll('.rv'), function (el) { el.classList.remove('rv'); el.classList.remove('in'); });
+      chaque('.rv', function (el) { el.classList.remove('rv'); el.classList.remove('in'); });
     }, 6000);
   }
 
   /* ---------------------------------------------------- compteurs */
-  Array.prototype.forEach.call(doc.querySelectorAll('[data-compte]'), function (el) {
+  chaque('[data-compte]', function (el) {
     var origine = el.textContent;
     var chiffres = origine.replace(/[^0-9]/g, '');
     if (!chiffres) return;

@@ -168,15 +168,15 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
    Une scène de 760 × 640 dessinée à l'échelle 1, puis réduite par --k selon
    la largeur. Le sol est tourné en 3D ; les dalles (ordinateurs) reposent
    dessus, les téléphones et les étiquettes se redressent face au visiteur. */
-.iso { --k: .9; position: relative; width: 100%; height: calc(640px * var(--k)); margin: 0 auto; }
+.iso { --k: .84; position: relative; width: 100%; height: calc(640px * var(--k)); margin: 0 auto; }
 .iso-scene { position: absolute; left: 50%; top: 0; width: 760px; height: 640px; margin-left: -380px; transform: scale(var(--k)); transform-origin: 50% 0; perspective: 1800px; }
 .iso-sol {
-  position: absolute; left: 50%; top: 50%; width: 760px; height: 760px;
+  position: absolute; left: 50%; top: 50%; width: 1100px; height: 1100px;
   transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-45deg); transform-style: preserve-3d;
   background-image: linear-gradient(var(--grille) 1px, transparent 1px), linear-gradient(90deg, var(--grille) 1px, transparent 1px);
   background-size: 60px 60px; border: 1px solid rgba(4, 120, 87, .3);
 }
-.iso-dalle { position: absolute; width: 300px; transform-style: preserve-3d; }
+.iso-dalle { position: absolute; width: 280px; transform-style: preserve-3d; }
 .iso-dalle .flotte { position: relative; transform: translateZ(var(--z, 40px)); transform-style: preserve-3d; will-change: transform; }
 .iso-dalle .ordi { box-shadow: -30px 30px 40px -20px rgba(11, 46, 31, .45); }
 /* le téléphone posé sur le coin du cadre : il se redresse face au visiteur */
@@ -395,6 +395,88 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
   .stat b { font-size: 1.7rem; }
   .chiffres { gap: 6px 16px; }
 }
+
+/* ------------------------------------------------------------- vitrines
+   Un ordinateur qui déroule la page ENTIÈRE au survol (ou tout seul sur
+   téléphone), un téléphone posé à côté, toujours devant — sauf quand la
+   souris est sur l'ordinateur, où l'ordinateur passe devant. */
+.vitrine { position: relative; padding-right: 96px; padding-bottom: 36px; }
+.vitrine-ordi { position: relative; z-index: 1; }
+.vitrine-tel { position: absolute; right: 0; bottom: 0; width: 176px; z-index: 2; }
+.vitrine-tel .tel { width: 176px; }
+.vitrine.ordi-devant .vitrine-ordi { z-index: 3; }
+.vitrine-leg { margin: 10px 0 0; font: 500 .74rem/1.5 var(--mono); color: var(--encre-2); }
+.defile.auto img { animation: defile var(--duree, 24s) linear infinite alternate; }
+@keyframes defile { from { transform: translateY(0); } to { transform: translateY(var(--d, 0px)); } }
+@media (max-width: 640px) {
+  .vitrine { padding-right: 62px; padding-bottom: 28px; }
+  .vitrine-tel { width: 124px; }
+  .vitrine-tel .tel { width: 124px; padding: 6px; border-radius: 22px; }
+  .vitrine-tel .tel-ecran { border-radius: 16px; }
+}
+
+/* ------------------------------------------------------------ carrousel */
+.carrousel-tete { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 14px; }
+.carrousel-nav { display: flex; gap: 8px; flex: none; }
+.carrousel-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--filet); background: var(--carte); cursor: pointer; font-size: 1.1rem; color: var(--encre); }
+.carrousel-nav button:hover { border-color: var(--encre); }
+.carrousel { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 18px; scrollbar-width: thin; scrollbar-color: var(--filet) transparent; }
+.carrousel > * { flex: 0 0 min(82%, 440px); scroll-snap-align: start; min-width: 0; }
+.carrousel > .carte-tel { flex-basis: min(64%, 240px); }
+.carte-ecran { background: var(--carte); border: 1px solid var(--filet); border-radius: var(--rayon); padding: 14px; }
+.carte-ecran .ordi-ecran { aspect-ratio: 16 / 11; }
+.carte-ecran .tel { width: 100%; }
+.carte-ecran .leg { margin: 12px 0 0; font-size: .92rem; line-height: 1.45; }
+.carte-ecran .leg b { display: block; font-weight: 700; }
+.carte-ecran .leg span { color: var(--encre-2); font-size: .86rem; }
+.carte-ecran .leg .etq { margin: 0 0 6px; }
+
+/* -------------------------------------------------------------- onglets */
+.onglets { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.onglet { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--filet); background: var(--carte); font: 600 .92rem var(--sans); color: var(--encre); cursor: pointer; }
+.onglet[aria-selected="true"] { background: var(--nuit); color: #fff; border-color: var(--nuit); }
+.panneau { display: none; }
+.panneau.actif { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (min-width: 860px) { .panneau.actif { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } }
+.panneau .liste { margin: 0; }
+.panneau .ordi-ecran { aspect-ratio: 16 / 11; }
+
+/* --------------------------------------------------- méthode interactive */
+.etapes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+@media (min-width: 900px) { .etapes { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); align-items: start; } }
+.etape-liste { display: grid; gap: 8px; }
+.etape { text-align: left; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 16px 16px; border-radius: 14px; border: 1px solid var(--filet); background: var(--carte); cursor: pointer; font: inherit; color: inherit; position: relative; overflow: hidden; }
+.etape .num { font: 600 .7rem/1.6 var(--mono); color: var(--accent-txt); }
+.etape b { display: block; font-weight: 700; }
+.etape span { display: block; color: var(--encre-2); font-size: .92rem; }
+.etape[aria-selected="true"] { border-color: var(--nuit); box-shadow: 0 16px 34px -24px rgba(11, 46, 31, .5); }
+.etape .barre { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--accent-vif); }
+.etape[aria-selected="true"] .barre { width: 100%; transition: width var(--tempo, 5s) linear; }
+.etape-visuel { position: relative; }
+.visuel { display: none; }
+.visuel.actif { display: block; }
+.v-carte { background: var(--carte); border: 1px solid var(--filet); border-radius: var(--rayon); padding: 22px; box-shadow: var(--ombre); }
+.v-nuit { background: #06130D; color: var(--nuit-txt); border-color: #06130D; font: 500 .82rem/1.8 var(--mono); }
+.v-nuit .p { color: var(--menthe); }
+.v-nuit .c { color: #8FC7A9; }
+.v-nuit .curseur { display: inline-block; width: 8px; height: 14px; background: var(--menthe); vertical-align: -2px; }
+.bulle { max-width: 86%; padding: 12px 14px; border-radius: 16px; background: var(--papier-2); margin: 0 0 10px; font-size: .95rem; }
+.bulle.moi { margin-left: auto; background: var(--nuit); color: #fff; border-bottom-right-radius: 4px; }
+.bulle.lui { border-bottom-left-radius: 4px; }
+.bulle small { display: block; font: 500 .64rem var(--mono); letter-spacing: .06em; text-transform: uppercase; opacity: .7; margin-bottom: 4px; }
+.frise-deploy { display: grid; gap: 10px; }
+.frise-deploy div { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 12px; align-items: center; font-size: .92rem; }
+.frise-deploy time { font: 600 .7rem var(--mono); color: var(--accent-txt); letter-spacing: .06em; }
+.frise-deploy i { display: block; height: 10px; border-radius: 5px; background: var(--vert-pale); position: relative; overflow: hidden; }
+.frise-deploy i::after { content: ""; position: absolute; inset: 0; width: var(--w, 40%); background: var(--accent); border-radius: 5px; }
+.frise-deploy b { font: 600 .74rem var(--mono); color: var(--encre-2); }
+.coche { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.coche li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; align-items: center; font-size: .95rem; }
+.coche li i { width: 26px; height: 26px; border-radius: 50%; background: var(--vert-pale); color: var(--vert); display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: .8rem; }
+.coche li b { font: 600 .74rem var(--mono); color: var(--vert); }
+.doc { font: 500 .84rem/1.9 var(--mono); color: var(--encre-2); }
+.doc b { color: var(--encre); font-weight: 700; display: block; }
+.doc .t { color: var(--accent-txt); }
 
 /* -------------------------------------------- le moteur du Reversal Engine */
 .moteur { position: relative; background: #06130D; color: var(--nuit-txt); border-radius: var(--rayon); overflow: hidden; box-shadow: var(--ombre); display: grid; grid-template-columns: minmax(0, 1fr); }

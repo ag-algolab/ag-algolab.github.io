@@ -27,7 +27,7 @@
 | Le nom de domaine | Porkbun ; enregistrements A vers les quatre adresses de GitHub Pages (185.199.108–111.153) ; `public/CNAME` porte `agalgolab.com` |
 | Les sources | `src/` — le gabarit, les pages, les faits, les assets |
 | Ce qui est servi | `public/` — **généré**, jamais modifié à la main |
-| Les outils | `outils/` — construire, vérifier, capturer (Edge headless), capturer_cdp (Edge piloté : clic, défilement, téléphone), images de partage |
+| Les outils | `outils/` — construire, vérifier, capturer (Edge headless), capturer_cdp (Edge piloté : clic, défilement, téléphone), rafraichir (toutes les captures des deux sites, CHAQUE SEMAINE), images de partage |
 | Les anciennes versions | `_archives/` — V1 React (clone fidèle en un fichier), V2 « instrument vivant » du 4 août 2026, et trois images d'origine (photo, logos) |
 
 Aucune base, aucun serveur, aucune clé : le site est entièrement statique.
@@ -206,14 +206,27 @@ fait 1 075 px de large) : **`.hero { overflow: hidden }` est obligatoire**,
 c'est lui qui empêche le défilement horizontal sur téléphone. Les positions
 sont écrites en `style=""` dans le HTML de chaque page, pas dans le CSS.
 
-**Les écrans qui changent de page** (`.ecran-rot[data-pages]`, script
-`site.js`) : l'image de base reste toujours affichée ; toutes les 5,2 s
-(décalées d'un cadre à l'autre) la suivante est préchargée puis, sur le
-chemin riche, posée par-dessus en fondu avant de devenir la base ; sur le
-chemin sobre, la base change simplement de fichier, sans transition. Un
-écran figé ne peut donc jamais être vide. Les listes de pages sont dans
-`data-pages`, images dans `src/assets/img/` (ordinateur 960 × 1500,
-téléphone 390 × 1702, WebP).
+**Le héros ne bouge pas** (décision d'Anthony, 04/09 au soir : « ça fait
+cheap, ce n'est qu'un aperçu ») : trois ordinateurs et deux téléphones,
+**aucun élément sur un autre** — les positions sont dans le HTML de
+l'accueil, et se vérifient par mesure dans le navigateur (rectangles des
+`.iso .ordi, .iso .tel`, aucune intersection). Les téléphones sont posés
+à côté des cadres, jamais sur un écran.
+
+**Les vitrines qui déroulent** (`.vitrine`, `.defile`, script `site.js`) :
+un ordinateur montre la page ENTIÈRE (`<nom>-full.webp`, 800 px de large) ;
+avec une souris, la page défile de haut en bas tant qu'on est dessus et
+revient en haut quand on part ; sans souris, elle défile toute seule,
+doucement, tant qu'elle est à l'écran. Un téléphone est posé à côté, **devant
+le bord de l'ordinateur, toujours au-dessus** — sauf quand la souris est
+sur l'ordinateur, où celui-ci passe devant (`.ordi-devant`). L'état
+statique est le haut de la page. Le téléphone montre une AUTRE page que
+l'ordinateur (le test de niveau pour Molière, le test pour Prépa 600).
+
+**Les captures se rafraîchissent CHAQUE SEMAINE** (`python outils/rafraichir.py`
+depuis PowerShell) : les deux sites évoluent, et la vitrine doit montrer
+leur état réel. `construire.py` relit la taille de chaque image à la
+construction, donc une capture plus longue ne casse rien.
 
 **Les règles de production, non négociables** (héritées de Molière et de
 Prépa 600) :
@@ -267,6 +280,10 @@ Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
 ---
 
 ## 6. Ce qui reste à Anthony
+
+0. **Chaque semaine** : `python outils/rafraichir.py` (PowerShell), puis
+   `construire.py`, `verifier.py`, commit, push — les captures des deux
+   sites doivent montrer leur état réel.
 
 1. **Search Console** : ajouter la propriété `agalgolab.com` (validation
    DNS chez Porkbun) et soumettre `https://agalgolab.com/sitemap.xml`.
@@ -346,3 +363,17 @@ Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
   c'est un `</div>` manquant qui avait fait disparaître la scène des pages de
   cas. Les chiffres Prépa 600 ont encore bougé dans la journée (810
   questions, 9 blancs, 54 sous-tests au vert) : `faits.json` suit.
+- **05/09/2026 (nuit)** — Troisième lot, sur les retours d'Anthony du soir :
+  « développeur full-stack indépendant » supprimé partout (c'est
+  rabaissant : il fait bien plus) → **fondateur d'AG Algo Lab** ; le
+  Master Dauphine sans dates ; **le héros ne bouge plus**, trois ordinateurs
+  et deux téléphones sans aucun chevauchement (mesuré) ; les cas montrent
+  d'abord le visuel : **vitrine pleine largeur** avec la page ENTIÈRE qui
+  déroule au survol et le téléphone posé à côté, devant le bord ; **carrousel
+  d'écrans** (test de niveau en premier, inscription après « première fois »,
+  tableau de bord élève…), **onglets** pour les quatre espaces, texte réduit
+  de moitié ; **méthode interactive** en cinq étapes cliquables avec un
+  visuel par étape ; `outils/rafraichir.py` photographie les deux sites en
+  entier, ordinateur et téléphone, et `construire.py` relit les dimensions
+  des images. La banque Prépa 600 a atteint 900 questions dans la nuit
+  (10 blancs, 60 sous-tests au vert) : suivie.

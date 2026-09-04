@@ -109,22 +109,22 @@
       "releve": "2026-09-04"
     },
     "questions": {
-      "valeur": 810,
-      "source": "donnees/items.json : 9 blancs × 90 items",
+      "valeur": 900,
+      "source": "donnees/items.json : 10 blancs × 90 items",
       "releve": "2026-09-04"
     },
     "blancs": {
-      "valeur": 9,
+      "valeur": 10,
       "source": "donnees/items.json",
       "releve": "2026-09-04"
     },
     "sous_tests": {
-      "valeur": 54,
-      "source": "verifier_lot.py --tous : 54 sous-tests sur 54 au vert",
+      "valeur": 60,
+      "source": "verifier_lot.py --tous : 60 sous-tests sur 60 au vert",
       "releve": "2026-09-04"
     },
     "commits": {
-      "valeur": 188,
+      "valeur": 189,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-04"
     },
@@ -179,15 +179,15 @@
       "releve": "2026-09-04"
     },
     "blancs_payants": {
-      "valeur": 8,
+      "valeur": 9,
       "source": "tous les blancs sauf le premier, qui est gratuit",
       "releve": "2026-09-04"
     }
   },
   "total": {
     "commits": {
-      "valeur": 712,
-      "source": "524 + 188",
+      "valeur": 713,
+      "source": "524 + 189",
       "releve": "2026-09-04"
     },
     "produits": {

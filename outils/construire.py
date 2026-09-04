@@ -109,7 +109,24 @@ def resoudre(texte, lang, slug):
     reste = re.findall(r"\[\[|\{\{[a-z]+:", texte)
     if reste:
         raise ValueError("macro non résolue dans %s (%s) : %s" % (slug, lang, reste[:3]))
-    return texte
+    return dimensions_images(texte)
+
+
+def dimensions_images(texte):
+    """Pose width et height sur chaque <img> locale d'après le fichier réel :
+    les captures sont rafraîchies chaque semaine et changent de hauteur."""
+    from PIL import Image
+
+    def poser(m):
+        balise = m.group(0)
+        src = re.search(r'src="/assets/img/([^"]+)"', balise).group(1)
+        chemin = os.path.join(SRC, "assets", "img", src)
+        if not os.path.exists(chemin):
+            return balise
+        w, h = Image.open(chemin).size
+        balise = re.sub(r'\s(width|height)="[^"]*"', "", balise)
+        return balise.replace("<img ", '<img width="%d" height="%d" ' % (w, h), 1)
+    return re.sub(r'<img [^>]*src="/assets/img/[^"]+"[^>]*>', poser, texte)
 
 
 def lire_page(chemin):
@@ -139,7 +156,7 @@ def jsonld(meta, lang, slug):
         "name": "Anthony Gocmen",
         "url": DOMAINE + "/",
         "email": COURRIEL,
-        "jobTitle": "Développeur full-stack indépendant" if lang == "fr" else "Independent full-stack developer",
+        "jobTitle": "Fondateur d'AG Algo Lab" if lang == "fr" else "Founder of AG Algo Lab",
         "sameAs": ["https://www.linkedin.com/in/anthony-gocmen",
                    "https://github.com/ag-algolab"],
         "worksFor": {"@id": DOMAINE + "/#org"},
@@ -284,7 +301,7 @@ def construire():
 
     # llms.txt — le résumé lisible par les assistants conversationnels
     llm = ["# AG Algo Lab — Anthony Gocmen", "",
-           "> Développeur full-stack indépendant. Plateformes web complètes construites seul, "
+           "> Anthony Gocmen, fondateur d'AG Algo Lab. Plateformes web complètes construites seul, "
            "de l'idée à la mise en ligne : site public, espaces membres, paiement, "
            "automatisations, référencement. Construit avec Claude Code.", "",
            "Contact : %s" % COURRIEL, "", "## Pages"]

@@ -61,7 +61,7 @@ def fr(n):
 
 
 IMAGES = [
-    ("og-agalgolab", 74, "Anthony Gocmen · développeur full-stack indépendant",
+    ("og-agalgolab", 74, "Anthony Gocmen · fondateur d'AG Algo Lab",
      "Des plateformes web complètes, <em>construites seul</em>, posées sur une seule base.",
      "agalgolab.com", "<b>%s</b>produits en production" % fait("total.produits"),
      "<b>%s</b>commits · %s jours" % (fr(fait("total.commits")), fait("moliere.jours"))),
