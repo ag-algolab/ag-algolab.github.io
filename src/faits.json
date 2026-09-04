@@ -1,0 +1,206 @@
+{
+  "_commentaire": "Chaque chiffre affiché sur le site vient d'ici, avec sa source et la date du relevé. `python outils/verifier.py` recompte ceux qui se recomptent (dépôts locaux) et refuse la construction si un chiffre a dérivé.",
+  "moliere": {
+    "ecrans": {
+      "valeur": 72,
+      "source": "nombre de fichiers page.tsx dans src/app du dépôt ag-algolab/moliere-plateforme",
+      "releve": "2026-09-04"
+    },
+    "routes_api": {
+      "valeur": 13,
+      "source": "nombre de fichiers route.ts dans src/app/api",
+      "releve": "2026-09-04"
+    },
+    "migrations": {
+      "valeur": 67,
+      "source": "fichiers db/NN_*.sql numérotés",
+      "releve": "2026-09-04"
+    },
+    "lignes_ts": {
+      "valeur": 70795,
+      "source": "wc -l sur src/**/*.ts et *.tsx",
+      "releve": "2026-09-04"
+    },
+    "commits": {
+      "valeur": 523,
+      "source": "git rev-list --count HEAD",
+      "releve": "2026-09-04"
+    },
+    "jours": {
+      "valeur": 20,
+      "source": "du 16 août au 4 septembre 2026, bornes comprises",
+      "releve": "2026-09-04"
+    },
+    "premier_commit": {
+      "valeur": "2026-08-16",
+      "source": "git log --reverse",
+      "releve": "2026-09-04"
+    },
+    "en_ligne": {
+      "valeur": "2026-08-25",
+      "source": "commit « Le site est en ligne : institut-moliere.com » du 25/08/2026",
+      "releve": "2026-09-04"
+    },
+    "centres": {
+      "valeur": 7,
+      "source": "src/lib/institut.ts, CENTRES",
+      "releve": "2026-09-04"
+    },
+    "espaces": {
+      "valeur": 4,
+      "source": "site public, élève, professeur, administration — _PASSATION.md §1",
+      "releve": "2026-09-04"
+    },
+    "matieres": {
+      "valeur": 5,
+      "source": "français, anglais, mathématiques, SVT, informatique — src/lib/institut.ts",
+      "releve": "2026-09-04"
+    },
+    "paliers_test": {
+      "valeur": 7,
+      "source": "A1.1, A1, A2, B1, B2, C1 + niveau nul — niveaux : 7+7 langues",
+      "releve": "2026-09-04"
+    },
+    "evenements_mesure": {
+      "valeur": 7,
+      "source": "lib/mesure.ts, liste fermée",
+      "releve": "2026-09-04"
+    },
+    "ecrans_site": {
+      "valeur": 15,
+      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
+      "releve": "2026-09-04"
+    },
+    "ecrans_eleve": {
+      "valeur": 20,
+      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
+      "releve": "2026-09-04"
+    },
+    "ecrans_prof": {
+      "valeur": 9,
+      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
+      "releve": "2026-09-04"
+    },
+    "ecrans_admin": {
+      "valeur": 21,
+      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
+      "releve": "2026-09-04"
+    },
+    "ecrans_communs": {
+      "valeur": 7,
+      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
+      "releve": "2026-09-04"
+    },
+    "crons": {
+      "valeur": 3,
+      "source": "vercel.json : coach (quotidien), rappel-cours (toutes les 5 min), banque-dictees (4 h et 15 h)",
+      "releve": "2026-09-04"
+    }
+  },
+  "p600": {
+    "pages": {
+      "valeur": 27,
+      "source": "fichiers public/*.html du dépôt ag-algolab/prepa600",
+      "releve": "2026-09-04"
+    },
+    "endpoints": {
+      "valeur": 15,
+      "source": "fichiers api/*.js hors _*.js",
+      "releve": "2026-09-04"
+    },
+    "questions": {
+      "valeur": 540,
+      "source": "donnees/items.json : 6 blancs × 90 items",
+      "releve": "2026-09-04"
+    },
+    "blancs": {
+      "valeur": 6,
+      "source": "donnees/items.json",
+      "releve": "2026-09-04"
+    },
+    "sous_tests": {
+      "valeur": 36,
+      "source": "verifier_lot.py --tous : 36 sous-tests sur 36 au vert",
+      "releve": "2026-09-03"
+    },
+    "commits": {
+      "valeur": 172,
+      "source": "git rev-list --count HEAD",
+      "releve": "2026-09-04"
+    },
+    "premier_commit": {
+      "valeur": "2026-08-25",
+      "source": "git log --reverse",
+      "releve": "2026-09-04"
+    },
+    "ouverture": {
+      "valeur": "2026-08-31",
+      "source": "_PASSATION.md : plateforme ouverte le 31/08",
+      "releve": "2026-09-04"
+    },
+    "jours": {
+      "valeur": 6,
+      "source": "du 25 au 31 août 2026",
+      "releve": "2026-09-04"
+    },
+    "prix": {
+      "valeur": 49,
+      "source": "public/tarifs.html — 49 € TTC pour quatre mois",
+      "releve": "2026-09-04"
+    },
+    "mois": {
+      "valeur": 4,
+      "source": "public/tarifs.html",
+      "releve": "2026-09-04"
+    },
+    "lignes_js": {
+      "valeur": 5080,
+      "source": "wc -l sur public/assets/js/*.js et api/*.js",
+      "releve": "2026-09-04"
+    },
+    "seuil_comparaison": {
+      "valeur": 30,
+      "source": "EFFECTIF_MIN_COMPARAISON dans api/_commun.js",
+      "releve": "2026-09-04"
+    },
+    "controles_banc": {
+      "valeur": 65,
+      "source": "api/_banc_essai.js — 65 contrôles",
+      "releve": "2026-09-03"
+    },
+    "fiches": {
+      "valeur": 6,
+      "source": "public/index.html : « 6 fiches gratuites »",
+      "releve": "2026-09-04"
+    },
+    "prix_boursier": {
+      "valeur": 20,
+      "source": "public/index.html : « Boursiers : 20 € »",
+      "releve": "2026-09-04"
+    }
+  },
+  "total": {
+    "commits": {
+      "valeur": 695,
+      "source": "523 + 172",
+      "releve": "2026-09-04"
+    },
+    "produits": {
+      "valeur": 2,
+      "source": "institut-moliere.com et prepa600.com",
+      "releve": "2026-09-04"
+    }
+  },
+  "entreprise": {
+    "siren": {
+      "valeur": "935 081 703",
+      "source": "mentions légales",
+      "releve": "2026-09-04"
+    },
+    "tva": {
+      "valeur": "FR 77 935 081 703",
+      "source": "mentions légales",
+      "releve": "2026-09-04"
+    }
+  }
+}

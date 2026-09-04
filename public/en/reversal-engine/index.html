@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reversal Engine: detecting price reversals in real time</title>
+<meta name="description" content="A personal research system that detects price reversals on SOL and BTC on 15-minute candles, sends the signal to Telegram and places the order.">
+<link rel="canonical" href="https://agalgolab.com/en/reversal-engine/">
+<link rel="alternate" hreflang="fr" href="https://agalgolab.com/reversal-engine/">
+<link rel="alternate" hreflang="en" href="https://agalgolab.com/en/reversal-engine/">
+<link rel="alternate" hreflang="x-default" href="https://agalgolab.com/reversal-engine/">
+<meta name="theme-color" content="#F6F2E8">
+<meta name="author" content="Anthony Gocmen">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AG Algo Lab">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Reversal Engine: detecting price reversals in real time">
+<meta property="og:description" content="A personal research system that detects price reversals on SOL and BTC on 15-minute candles, sends the signal to Telegram and places the order.">
+<meta property="og:url" content="https://agalgolab.com/en/reversal-engine/">
+<meta property="og:image" content="https://agalgolab.com/assets/img/og-agalgolab.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Reversal Engine: detecting price reversals in real time">
+<meta name="twitter:description" content="A personal research system that detects price reversals on SOL and BTC on 15-minute candles, sends the signal to Telegram and places the order.">
+<meta name="twitter:image" content="https://agalgolab.com/assets/img/og-agalgolab.png">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/icone-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/icone-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=1">
+<script type="application/ld+json">{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "ProfessionalService",
+   "@id": "https://agalgolab.com/#org",
+   "name": "AG Algo Lab",
+   "legalName": "Anthony Gocmen — entreprise individuelle (AG Algo Lab)",
+   "url": "https://agalgolab.com/",
+   "email": "anthony@agalgolab.com",
+   "founder": {
+    "@id": "https://agalgolab.com/#anthony"
+   },
+   "vatID": "FR77935081703",
+   "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "SIREN",
+    "value": "935081703"
+   },
+   "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "6 rue de la Norée",
+    "postalCode": "27630",
+    "addressLocality": "Vexin-sur-Epte",
+    "addressCountry": "FR"
+   },
+   "areaServed": [
+    "FR"
+   ],
+   "description": "A personal research system that detects price reversals on SOL and BTC on 15-minute candles, sends the signal to Telegram and places the order.",
+   "knowsAbout": [
+    "Next.js",
+    "TypeScript",
+    "Supabase",
+    "PostgreSQL",
+    "Vercel",
+    "Stripe",
+    "SEO",
+    "Claude Code"
+   ]
+  },
+  {
+   "@type": "Person",
+   "@id": "https://agalgolab.com/#anthony",
+   "name": "Anthony Gocmen",
+   "url": "https://agalgolab.com/",
+   "email": "anthony@agalgolab.com",
+   "jobTitle": "Independent full-stack developer",
+   "sameAs": [
+    "https://www.linkedin.com/in/anthony-gocmen",
+    "https://github.com/ag-algolab"
+   ],
+   "worksFor": {
+    "@id": "https://agalgolab.com/#org"
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://agalgolab.com/#site",
+   "url": "https://agalgolab.com/",
+   "name": "AG Algo Lab",
+   "inLanguage": [
+    "fr",
+    "en"
+   ],
+   "publisher": {
+    "@id": "https://agalgolab.com/#org"
+   }
+  },
+  {
+   "@type": "Article",
+   "@id": "https://agalgolab.com/en/reversal-engine/",
+   "url": "https://agalgolab.com/en/reversal-engine/",
+   "name": "Reversal Engine: detecting price reversals in real time",
+   "description": "A personal research system that detects price reversals on SOL and BTC on 15-minute candles, sends the signal to Telegram and places the order.",
+   "inLanguage": "en",
+   "isPartOf": {
+    "@id": "https://agalgolab.com/#site"
+   },
+   "dateModified": "2026-09-04",
+   "primaryImageOfPage": "https://agalgolab.com/assets/img/og-agalgolab.png",
+   "headline": "Reversal Engine: detecting price reversals in real time",
+   "author": {
+    "@id": "https://agalgolab.com/#anthony"
+   },
+   "publisher": {
+    "@id": "https://agalgolab.com/#org"
+   },
+   "image": "https://agalgolab.com/assets/img/og-agalgolab.png"
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Home",
+     "item": "https://agalgolab.com/en/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Reversal Engine: detecting price reversals in real time",
+     "item": "https://agalgolab.com/en/reversal-engine/"
+    }
+   ]
+  }
+ ]
+}</script>
+</head>
+<body class="page-reversal-engine type-projet">
+<a class="saut" href="#contenu">Skip to content</a>
+
+<header class="entete">
+  <div class="wrap entete-in">
+    <a class="marque" href="/en/" aria-label="AG Algo Lab — home"><span class="marque-carre" aria-hidden="true"></span><span>AG Algo Lab</span></a>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <a href="/en/#realisations">Work</a>
+      <a href="/en/institut-moliere/">Institut Molière</a>
+      <a href="/en/prepa-600/">Prépa 600</a>
+      <a href="/en/#offres">Services</a>
+      <a href="/en/#methode">Method</a>
+      <a class="btn btn-p btn-nav" href="mailto:anthony@agalgolab.com?subject=Project%20%E2%80%94%20AG%20Algo%20Lab">Contact me</a>
+    </nav>
+    <div class="entete-outils">
+      <a class="langue" href="/reversal-engine/" hreflang="fr" lang="fr" title="Lire cette page en français"><span class="langue-actuelle">EN</span><span class="langue-sep" aria-hidden="true">/</span><span>FR</span></a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open the menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+<section class="hero">
+  <div class="wrap">
+    <p class="etq">Personal research · crypto · SOL and BTC</p>
+    <h1 class="h1">Reversal Engine: seeing the reversal <em>before it shows</em>.</h1>
+    <p class="chapo">A system that watches SOL and BTC on 15-minute candles, recognises reversal signatures in price action, computes a confidence score and, beyond a threshold, sends the signal to Telegram then places the order with the broker. No manual step.</p>
+    <div class="stats" aria-label="Parameters">
+      <div class="stat"><b>2</b><span>assets tracked</span><small>SOL / USDC · BTC / USDT</small></div>
+      <div class="stat"><b>15 min</b><span>time frame</span><small>one decision per candle</small></div>
+      <div class="stat"><b>Auto</b><span>execution</span><small>Telegram signal, order at the broker</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="graph" data-rv>
+      <div class="graph-tete"><span>SOL / USDC · 15 min</span><span>illustrative diagram, not real data</span></div>
+      <svg viewBox="0 0 760 260" role="img" aria-label="Schematic price curve with a high reversal and a low reversal">
+        <g stroke="#1F2430" stroke-width="1">
+          <line x1="0" y1="40" x2="760" y2="40"/><line x1="0" y1="100" x2="760" y2="100"/><line x1="0" y1="160" x2="760" y2="160"/><line x1="0" y1="220" x2="760" y2="220"/>
+        </g>
+        <polyline fill="none" stroke="#F0B27A" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="0,150 40,140 80,160 120,120 160,130 200,90 240,100 270,66 290,52 310,64 340,84 380,112 420,142 455,172 485,200 515,182 550,150 590,130 630,142 670,112 720,96 760,82"/>
+        <g>
+          <line x1="290" y1="52" x2="290" y2="230" stroke="#E4491C" stroke-dasharray="3 5" stroke-width="1"/>
+          <circle cx="290" cy="52" r="6" fill="#E4491C"/>
+          <text x="300" y="46" fill="#F0B27A" font-family="JetBrains Mono, monospace" font-size="11">HIGH REVERSAL</text>
+        </g>
+        <g>
+          <line x1="485" y1="30" x2="485" y2="200" stroke="#7FD1A0" stroke-dasharray="3 5" stroke-width="1"/>
+          <circle cx="485" cy="200" r="6" fill="#7FD1A0"/>
+          <text x="495" y="222" fill="#7FD1A0" font-family="JetBrains Mono, monospace" font-size="11">LOW REVERSAL</text>
+        </g>
+        <rect class="balayage" x="0" y="0" width="2" height="260" fill="#E4491C" opacity=".7"/>
+      </svg>
+      <ul class="signaux">
+        <li><span class="tag-haut">▲ HIGH</span><span>signature recognised on the closing candle · confidence score computed · threshold crossed · signal sent · order placed</span></li>
+        <li><span class="tag-bas">▼ LOW</span><span>signature recognised · score below threshold · no signal, no order</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">How it works</p>
+      <h2 class="h2">From the data to the order, in three automatic steps.</h2>
+    </div>
+    <div class="g3 methode">
+      <article class="carte" data-rv><h3 class="h4">Real-time ingestion</h3><p>Price and order flow received continuously on SOL and BTC, over websocket, on 15-minute candles.</p><ul class="badges"><li>WEBSOCKET</li><li>OHLCV</li><li>ORDER FLOW</li></ul></article>
+      <article class="carte" data-rv><h3 class="h4">Pattern recognition</h3><p>A proprietary model recognises structural reversal signatures, invisible to classic analysis, and computes a confidence score per signal before anything is sent.</p><ul class="badges"><li>CONFIDENTIAL ARCHITECTURE</li><li>CONFIDENCE SCORE</li></ul></article>
+      <article class="carte" data-rv><h3 class="h4">Automatic execution</h3><p>When the threshold is crossed, the signal goes to Telegram with the entry price and the score, and the order is sent to the broker by API.</p><ul class="badges"><li>TELEGRAM</li><li>BROKER API</li><li>NO MANUAL STEP</li></ul></article>
+    </div>
+    <p class="note" style="margin-top:22px">Personal research project. It is neither a service, nor an offer, nor investment advice. Performance is not published and the model's architecture remains confidential.</p>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="carte carte-accent">
+      <p class="etq">What this project says about my work</p>
+      <h2 class="h2">Systems that run on their own, from signal to action.</h2>
+      <p class="chapo">The same mechanics serve the platforms I build: data that comes in, a rule that decides, an action that leaves with nobody behind the screen.</p>
+      <div class="actions">
+        <a class="btn btn-p" href="/en/institut-moliere/">Read the Institut Molière case</a>
+        <a class="btn btn-s" href="/en/#offres">See the services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied">
+  <div class="wrap">
+    <div class="pied-grille">
+      <div class="pied-col">
+        <a class="marque" href="/en/"><span class="marque-carre" aria-hidden="true"></span><span>AG Algo Lab</span></a>
+        <p>Independent full-stack developer. Complete web platforms, built solo, from idea to launch.</p>
+        <p><a href="mailto:anthony@agalgolab.com">anthony@agalgolab.com</a></p>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Pages</p>
+        <ul class="pied-liste">
+          <li><a href="/en/institut-moliere/">Institut Molière</a></li>
+          <li><a href="/en/prepa-600/">Prépa 600</a></li>
+          <li><a href="/en/reversal-engine/">Reversal Engine</a></li>
+          <li><a href="/en/#offres">Services and prices</a></li>
+          <li><a href="/en/#methode">Method</a></li>
+          <li><a href="/en/#a-propos">Who builds</a></li>
+        </ul>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Elsewhere</p>
+        <ul class="pied-liste">
+          <li><a href="https://www.linkedin.com/in/anthony-gocmen" rel="noopener" target="_blank">LinkedIn</a></li>
+          <li><a href="https://github.com/ag-algolab" rel="noopener" target="_blank">GitHub</a></li>
+          <li><a href="https://www.youtube.com/@ag_algolab_fr" rel="noopener" target="_blank">YouTube</a></li>
+          <li><a href="https://pypi.org/project/shahmat/" rel="noopener" target="_blank">ShahMat on PyPI</a></li>
+        </ul>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Legal</p>
+        <ul class="pied-liste">
+          <li>Anthony Gocmen, sole proprietorship</li>
+          <li>SIREN 935 081 703</li>
+          <li>VAT FR 77 935 081 703</li>
+          <li><a href="/en/mentions-legales/">Legal notice</a></li>
+          <li><a href="/reversal-engine/" hreflang="fr" lang="fr">Ce site en français</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pied-bas">© 2026 AG Algo Lab · Built with Claude Code. Every number on this site has a source and a date, recounted by script: repository <a href="https://github.com/ag-algolab/ag-algolab.github.io" rel="noopener" target="_blank">ag-algolab.github.io</a>.</p>
+  </div>
+</footer>
+
+<noscript><style>.nav{display:flex}</style></noscript>
+<script src="/assets/site.js?v=1" defer></script>
+</body>
+</html>

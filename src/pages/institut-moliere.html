@@ -1,0 +1,268 @@
+---
+slug: institut-moliere
+titre: [[Institut Molière : le site et la plateforme, construits seul||Institut Molière: the site and the platform, built solo]]
+description: [[Le site public, la plateforme, l'espace professeur et l'administration d'un institut de langues, construits seul : {{f:moliere.ecrans}} écrans, {{f:moliere.commits}} commits en {{f:moliere.jours}} jours.||The public site, platform, teacher area and administration of a language institute, built solo: {{f:moliere.ecrans}} screens, {{f:moliere.commits}} commits in {{f:moliere.jours}} days.]]
+type: cas
+image: /assets/img/og-institut-moliere.png
+modifie: 2026-09-04
+---
+<section class="hero">
+  <div class="wrap">
+    <p class="etq">[[Cas client · institut-moliere.com · en ligne depuis le {{d:moliere.en_ligne}}||Client case · institut-moliere.com · live since {{d:moliere.en_ligne}}]]</p>
+    <h1 class="h1">[[Institut Molière : tout le site et toute la plateforme, <em>construits seul</em>.||Institut Molière: the whole site and the whole platform, <em>built solo</em>.]]</h1>
+    <p class="chapo">[[L'Institut Molière enseigne les langues et le soutien scolaire : {{f:moliere.centres}} sites dans une même agglomération et des classes en ligne, de la primaire au baccalauréat, et des adultes le soir. J'ai conçu, construit et je fais tourner l'ensemble de son outil numérique : le site public, la plateforme d'apprentissage, l'espace des professeurs, l'administration, les automatisations et la mécanique commerciale.||Institut Molière teaches languages and tutoring: {{f:moliere.centres}} sites across one city plus online classes, from primary school to the baccalauréat, and adults in the evening. I designed, built and run the whole of its digital tool: the public site, the learning platform, the teachers' area, the administration, the automation and the commercial mechanics.]]</p>
+    <div class="actions">
+      <a class="btn btn-p" href="https://institut-moliere.com" rel="noopener" target="_blank">[[Ouvrir le site en ligne||Open the live site]] ↗</a>
+      <a class="btn btn-s" href="mailto:{{courriel}}?subject=[[Plateforme%20%E2%80%94%20AG%20Algo%20Lab||Platform%20%E2%80%94%20AG%20Algo%20Lab]]">[[Le même socle pour mon activité||The same foundation for my activity]]</a>
+    </div>
+    <div class="stats" aria-label="[[Chiffres du projet||Project figures]]">
+      <div class="stat"><b data-compte>{{f:moliere.ecrans}}</b><span>[[écrans||screens]]</span><small>[[fichiers page.tsx, comptés le 4 sept. 2026||page.tsx files, counted on 4 Sep 2026]]</small></div>
+      <div class="stat"><b data-compte>{{f:moliere.routes_api}}</b><span>[[routes d'API||API routes]]</span><small>[[fichiers route.ts||route.ts files]]</small></div>
+      <div class="stat"><b data-compte>{{f:moliere.migrations}}</b><span>[[migrations SQL||SQL migrations]]</span><small>[[fichiers numérotés dans db/||numbered files in db/]]</small></div>
+      <div class="stat"><b data-compte>{{f:moliere.lignes_ts}}</b><span>[[lignes de TypeScript||lines of TypeScript]]</span><small>[[src/, .ts et .tsx||src/, .ts and .tsx]]</small></div>
+      <div class="stat"><b data-compte>{{f:moliere.commits}}</b><span>[[commits en {{f:moliere.jours}} jours||commits in {{f:moliere.jours}} days]]</span><small>[[du {{d:moliere.premier_commit}} au 4 septembre 2026||from {{d:moliere.premier_commit}} to 4 September 2026]]</small></div>
+      <div class="stat"><b>{{f:moliere.espaces}}</b><span>[[espaces, un seul projet||areas, one project]]</span><small>[[site, élève, professeur, administration||site, student, teacher, administration]]</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">[[Le point de départ||The starting point]]</p>
+      <h2 class="h2">[[Mi-août 2026, l'institut n'a plus la main sur son propre site.||In mid-August 2026, the institute no longer controls its own website.]]</h2>
+      <p class="chapo">[[Le prestataire précédent refuse de rendre les accès au site et à la base. La rentrée est dans trois semaines. Tout est reconstruit de zéro, sur un socle documenté que l'institut peut reprendre.||The previous provider refuses to hand back access to the site and the database. The new school year is three weeks away. Everything is rebuilt from scratch, on a documented foundation the institute can take over.]]</p>
+    </div>
+    <ol class="frise">
+      <li><time datetime="2026-08-13">[[13 août 2026||13 August 2026]]</time><b>[[Le rendez-vous||The meeting]]</b><p>[[La reconstruction complète est décidée, pas un simple audit.||A full rebuild is decided, not a mere audit.]]</p></li>
+      <li><time datetime="{{f:moliere.premier_commit}}">{{d:moliere.premier_commit}}</time><b>[[Premier commit||First commit]]</b><p>[[Next.js, Supabase, les premiers écrans et la première migration.||Next.js, Supabase, the first screens and the first migration.]]</p></li>
+      <li><time datetime="2026-08-19">[[19 août 2026||19 August 2026]]</time><b>[[La direction artistique en production||The art direction in production]]</b><p>[[Les quatre couleurs du client, deux polices, la bande à quatre univers et la carte des {{f:moliere.centres}} sites.||The client's four colours, two typefaces, the four-world band and the map of the {{f:moliere.centres}} sites.]]</p></li>
+      <li><time datetime="{{f:moliere.en_ligne}}">{{d:moliere.en_ligne}}</time><b>[[En ligne sur institut-moliere.com||Live on institut-moliere.com]]</b><p>[[Neuf jours après le premier commit. Inscription, essai gratuit, test de niveau et alertes tournent.||Nine days after the first commit. Registration, free trial, level test and alerts are running.]]</p></li>
+      <li><time datetime="2026-09-04">[[4 septembre 2026||4 September 2026]]</time><b>[[{{f:moliere.commits}}e commit||{{f:moliere.commits}}th commit]]</b><p>[[La plateforme complète tourne, les élèves y sont, l'administration pilote la rentrée dedans.||The complete platform runs, the pupils are on it, the administration steers the school year from it.]]</p></li>
+    </ol>
+    <p class="note">[[Les dates viennent du journal git du dépôt. Rien ici n'est arrondi.||The dates come from the repository's git log. Nothing here is rounded.]]</p>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">[[L'architecture||The architecture]]</p>
+      <h2 class="h2">[[Quatre espaces, un seul projet.||Four areas, one project.]]</h2>
+      <p class="chapo">[[Pas de site d'un côté et d'application de l'autre : ce que le visiteur voit et ce que l'élève utilise vivent au même endroit. Le rôle du compte décide de l'espace qui s'ouvre.||No website on one side and an app on the other: what the visitor sees and what the pupil uses live in the same place. The account's role decides which area opens.]]</p>
+    </div>
+    <div class="schema">
+      <div class="schema-ligne">
+        <div class="schema-boite"><b>[[Site public||Public site]]</b><span>{{f:moliere.ecrans_site}} [[pages||pages]]</span></div>
+        <div class="schema-boite"><b>[[Élève||Student]]</b><span>{{f:moliere.ecrans_eleve}} [[écrans||screens]]</span></div>
+        <div class="schema-boite"><b>[[Professeur||Teacher]]</b><span>{{f:moliere.ecrans_prof}} [[écrans||screens]]</span></div>
+        <div class="schema-boite"><b>[[Administration||Administration]]</b><span>{{f:moliere.ecrans_admin}} [[écrans||screens]]</span></div>
+      </div>
+      <p class="schema-lien">[[un seul projet Next.js · {{f:moliere.routes_api}} routes d'API · {{f:moliere.ecrans_communs}} écrans communs (connexion, mot de passe, compte rendu public)||one Next.js project · {{f:moliere.routes_api}} API routes · {{f:moliere.ecrans_communs}} shared screens (login, password, public report)]]</p>
+      <div class="schema-ligne">
+        <div class="schema-boite schema-base"><b>Supabase · PostgreSQL</b><span>[[les droits d'accès sont appliqués par la base (Row Level Security) · {{f:moliere.migrations}} migrations||access rights enforced by the database (Row Level Security) · {{f:moliere.migrations}} migrations]]</span></div>
+      </div>
+      <p class="schema-lien">[[ce qui sort du serveur, sans personne||what leaves the server, with nobody involved]]</p>
+      <div class="schema-ligne">
+        <div class="schema-boite"><b>Telegram</b><span>[[alertes, groupes de classe||alerts, class groups]]</span></div>
+        <div class="schema-boite"><b>[[E-mail||Email]]</b><span>[[bilans, campagnes||reports, campaigns]]</span></div>
+        <div class="schema-boite"><b>[[Tâches planifiées||Scheduled jobs]]</b><span>{{f:moliere.crons}} [[crons Vercel||Vercel crons]]</span></div>
+        <div class="schema-boite"><b>[[IA||AI]]</b><span>[[Coach, reçus, voix||Coach, receipts, voice]]</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">[[Ce qu'il y a dedans||What is inside]]</p>
+      <h2 class="h2">[[Chaque espace, écran par écran.||Each area, screen by screen.]]</h2>
+    </div>
+    <div class="espaces">
+      <article class="espace" data-rv>
+        <p class="etq">[[Site public||Public site]]</p>
+        <h3 class="h3">[[Ce que voit un parent, un adulte, une école||What a parent, an adult or a school sees]]</h3>
+        <p class="route">/ · {{f:moliere.ecrans_site}} [[pages||pages]]</p>
+        <ul class="liste">
+          <li><span>[[Présentation par public : enfants, adultes, écoles françaises ; programmes et matières||Presentation by audience: children, adults, French schools; programmes and subjects]]</span></li>
+          <li><span>[[Carte des {{f:moliere.centres}} sites de l'institut||Map of the institute's {{f:moliere.centres}} sites]]</span></li>
+          <li><span>[[Inscription en ligne en 6 à 8 étapes, avec règlement déclaré (virement, mandat, espèces) et lecture automatique du reçu||Online registration in 6 to 8 steps, with declared payment (transfer, money order, cash) and automatic reading of the receipt]]</span></li>
+          <li><span>[[Essai gratuit de 3 jours, sans carte bancaire||3-day free trial, no bank card]]</span></li>
+          <li><span>[[Test de niveau en français et en anglais, du grand débutant au C1, avec tirage aléatoire des questions||Level test in French and English, from absolute beginner to C1, with random question draw]]</span></li>
+          <li><span>[[Test indicatif dys, fondé sur la littérature scientifique citée sous le test||Indicative dyslexia test, based on the scientific literature cited under the test]]</span></li>
+          <li><span>[[Candidature de professeur, vérification d'un certificat en ligne||Teacher application, online certificate verification]]</span></li>
+          <li><span>[[Le Coach Molière essayable sans compte, sur la page de la plateforme||The Molière Coach, tryable without an account, on the platform page]]</span></li>
+        </ul>
+      </article>
+      <article class="espace" data-rv>
+        <p class="etq">[[Espace élève||Student area]]</p>
+        <h3 class="h3">[[Ce que l'élève fait chaque jour||What the pupil does every day]]</h3>
+        <p class="route">/eleve · {{f:moliere.ecrans_eleve}} [[écrans||screens]]</p>
+        <ul class="liste">
+          <li><span>[[Bibliothèque ouverte à son niveau (un cran en dessous, un cran au-dessus), lecteur intégré sans téléchargement||Library open at their level (one step below, one step above), built-in reader without download]]</span></li>
+          <li><span>[[Dictées audio corrigées à la seconde, faute par faute, avec un profil de fautes cumulé||Audio dictations corrected instantly, mistake by mistake, with a cumulative error profile]]</span></li>
+          <li><span>[[Calcul mental chronométré||Timed mental arithmetic]]</span></li>
+          <li><span>[[Échecs : parties, puzzles, règles||Chess: games, puzzles, rules]]</span></li>
+          <li><span>[[Coach Molière, à toute heure, à l'écrit et à la voix||Molière Coach, at any hour, in writing and by voice]]</span></li>
+          <li><span>[[Progression, séries de jours, palmes ; concours mensuel avec certificat vérifiable||Progress, day streaks, awards; monthly contest with a verifiable certificate]]</span></li>
+          <li><span>[[Calendrier, lien visio, compte rendu de chaque cours, documents de classe||Calendar, video link, report of each lesson, class documents]]</span></li>
+          <li><span>[[Paiements et profil||Payments and profile]]</span></li>
+        </ul>
+      </article>
+      <article class="espace" data-rv>
+        <p class="etq">[[Espace professeur||Teacher area]]</p>
+        <h3 class="h3">[[Ce que le professeur tient à jour||What the teacher keeps up to date]]</h3>
+        <p class="route">/prof · {{f:moliere.ecrans_prof}} [[écrans||screens]]</p>
+        <ul class="liste">
+          <li><span>[[L'appel de chaque séance||Attendance for each session]]</span></li>
+          <li><span>[[Ses séances et ses comptes rendus, publiés dans l'espace de l'élève et annoncés dans le groupe Telegram de la classe||Their sessions and reports, published in the pupil's area and announced in the class's Telegram group]]</span></li>
+          <li><span>[[Ses dictées||Their dictations]]</span></li>
+          <li><span>[[Ses publications et son profil||Their posts and profile]]</span></li>
+        </ul>
+      </article>
+      <article class="espace" data-rv>
+        <p class="etq">[[Administration||Administration]]</p>
+        <h3 class="h3">[[Ce que l'institut pilote||What the institute steers]]</h3>
+        <p class="route">/admin · {{f:moliere.ecrans_admin}} [[écrans||screens]]</p>
+        <ul class="liste">
+          <li><span>[[Prospects, relances, envois ciblés||Prospects, follow-ups, targeted mailings]]</span></li>
+          <li><span>[[Dossiers d'inscription, demandes, encaissements||Registration files, requests, payments received]]</span></li>
+          <li><span>[[Classes, horaires, membres, essais gratuits (qui a accroché, qui non)||Classes, timetables, members, free trials (who engaged, who did not)]]</span></li>
+          <li><span>[[Dictées rendues et l'activité de chaque élève, jour par jour||Submitted dictations and each pupil's activity, day by day]]</span></li>
+          <li><span>[[Bibliothèque, ressources, documents de classe||Library, resources, class documents]]</span></li>
+          <li><span>[[Candidatures, certificats, écoles partenaires, état du Coach||Applications, certificates, partner schools, Coach status]]</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">[[Les automatismes||Automation]]</p>
+      <h2 class="h2">[[Ce qui tourne sans personne.||What runs with nobody involved.]]</h2>
+      <p class="chapo">[[Ce n'est pas une application : c'est un système qui se fait tourner lui-même. Chaque ligne ci-dessous existe dans le code et part du serveur.||This is not an app: it is a system that runs itself. Every line below exists in the code and leaves from the server.]]</p>
+    </div>
+    <div class="auto">
+      <div class="auto-item" data-rv><span class="tag">Telegram</span><p><b>[[Alertes instantanées à l'équipe||Instant alerts to the team]]</b>[[Inscription, candidature de professeur, test de niveau, paiement déclaré, panne du Coach. Envoyées à l'instant où le dossier entre en base, jamais depuis le navigateur.||Registration, teacher application, level test, declared payment, Coach outage. Sent the instant the record enters the database, never from the browser.]]</p></div>
+      <div class="auto-item" data-rv><span class="tag">Telegram</span><p><b>[[Un groupe par classe en ligne||One group per online class]]</b>[[Le bot y annonce le cours avant chaque séance et le compte rendu après.||The bot posts the reminder before each session and the write-up after.]]</p></div>
+      <div class="auto-item" data-rv><span class="tag">[[E-mail||Email]]</span><p><b>[[Le bilan hebdomadaire des familles||The families' weekly report]]</b>[[Part tout seul, nominatif, aux parents et aux adultes pour eux-mêmes, y compris pendant l'essai gratuit. Le jour d'envoi est propre à chaque famille : les envois s'étalent sur la semaine.||Sent on its own, by name, to parents and to adults for themselves, including during the free trial. The sending day is specific to each family: mailings are spread over the week.]]</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>[[Relance des élèves silencieux||Follow-up on quiet pupils]]</b>[[Après trois jours sans venue, un message part par e-mail ; sans adresse, il attend dans une file que l'équipe envoie sur WhatsApp d'un clic.||After three days without a visit, a message goes out by email; without an address, it waits in a queue the team sends via WhatsApp in one click.]]</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>[[Le rappel avant chaque cours||The reminder before each lesson]]</b>[[Dix minutes avant, dans le groupe de la classe. La tâche passe toutes les cinq minutes.||Ten minutes before, in the class group. The job runs every five minutes.]]</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>[[La voix des dictées||The dictations' voice]]</b>[[La banque de dictées est sonorisée deux fois par jour, par lots, pour rester dans le quota de l'API de synthèse vocale.||The dictation bank is voiced twice a day, in batches, to stay within the speech API's quota.]]</p></div>
+      <div class="auto-item" data-rv><span class="tag">[[IA||AI]]</span><p><b>[[La lecture des reçus||Reading the receipts]]</b>[[Une preuve de paiement envoyée à l'inscription est lue par IA ; le bénéficiaire est comparé au compte de l'institut.||A proof of payment sent at registration is read by AI; the payee is compared with the institute's account.]]</p></div>
+      <div class="auto-item" data-rv><span class="tag">[[IA||AI]]</span><p><b>[[Le signal dys||The dyslexia signal]]</b>[[Au dépôt d'une dictée, les signaux (miroirs, inversions, sourdes et sonores) sont comptés. Au-delà de seuils prudents, l'administration est alertée une seule fois par élève. Jamais la famille.||When a dictation is submitted, the signals (mirrors, inversions, voiced and unvoiced consonants) are counted. Beyond cautious thresholds, the administration is alerted once per pupil. Never the family.]]</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="cas">
+      <div class="cas-txt">
+        <p class="etq">[[Le Coach Molière||The Molière Coach]]</p>
+        <h2 class="h2">[[Un coach qui répond à toute heure, à l'écrit comme à la voix.||A coach that answers at any hour, in writing and by voice.]]</h2>
+        <ul class="liste">
+          <li><span>[[Une conversation en français ou en anglais, à toute heure||A conversation in French or English, at any hour]]</span></li>
+          <li><span>[[Il répond à voix haute, avec le bon accent, et on lui répond au micro||It answers out loud, with the right accent, and you reply into the microphone]]</span></li>
+          <li><span>[[Un exercice qui bloque se prend en photo : il l'explique||A stuck exercise gets photographed: it explains it]]</span></li>
+          <li><span>[[Dictionnaire et traduction, grammaire et conjugaison||Dictionary and translation, grammar and conjugation]]</span></li>
+          <li><span>[[« Préparer ma réunion en français ou en anglais » : l'angle des adultes||“Prepare my meeting in French or English”: the adults' angle]]</span></li>
+          <li><span>[[Cinq matières : français, anglais, mathématiques, SVT, informatique||Five subjects: French, English, mathematics, biology, computer science]]</span></li>
+          <li><span>[[Une alerte part à l'équipe si le service d'IA tombe||An alert goes to the team if the AI service goes down]]</span></li>
+        </ul>
+        <p><a href="https://institut-moliere.com/la-plateforme" rel="noopener" target="_blank">[[L'essayer sans compte sur la page publique||Try it without an account on the public page]] ↗</a></p>
+      </div>
+      <div class="cas-vis planche-tel">
+        <div class="tel tel-grand"><div class="tel-ecran"><span class="tel-encoche" aria-hidden="true"></span><img src="/assets/img/moliere-plateforme-m.webp" width="390" height="1702" alt="[[La page « La plateforme » avec le Coach Molière, sur téléphone||The “Platform” page with the Molière Coach, on a phone]]" loading="lazy"></div></div>
+        <p class="planche-leg">[[institut-moliere.com/la-plateforme, capture du 4 sept. 2026||institut-moliere.com/la-plateforme, captured 4 Sep 2026]]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">[[Les décisions||The decisions]]</p>
+      <h2 class="h2">[[Six décisions qui tiennent le système.||Six decisions that hold the system together.]]</h2>
+    </div>
+    <div class="g2">
+      <article class="carte" data-rv><h3 class="h4">[[La sécurité vit dans la base, pas dans l'écran.||Security lives in the database, not the screen.]]</h3><p>[[Les droits d'accès, par module, par niveau et par classe, sont appliqués par le moteur de la base (Row Level Security). Un écran ne protège rien ; une règle en base ne se contourne pas.||Access rights, by module, level and class, are enforced by the database engine (Row Level Security). A screen protects nothing; a rule in the database cannot be bypassed.]]</p></article>
+      <article class="carte" data-rv><h3 class="h4">[[Le niveau ouvre la bibliothèque.||The level opens the library.]]</h3><p>[[Un élève voit les livres de son niveau, un cran en dessous et un cran au-dessus. Le droit explicite n'est plus qu'une exception. Prouvé sur un élève jetable et trois livres, pas déduit d'une lecture de code.||A pupil sees the books at their level, one step below and one step above. The explicit entitlement is only an exception. Proven on a throwaway pupil and three books, not deduced from reading the code.]]</p></article>
+      <article class="carte" data-rv><h3 class="h4">[[Le modèle commercial est instrumenté de bout en bout.||The commercial model is instrumented end to end.]]</h3><p>[[Essai gratuit plafonné à sept jours, une seule prolongation par période de cinq mois, comptes actifs distingués des essais, garde-fous contre les accès non facturés.||Free trial capped at seven days, a single extension per five-month period, active accounts told apart from trials, safeguards against unbilled access.]]</p></article>
+      <article class="carte" data-rv><h3 class="h4">[[Une notification part du serveur, jamais du navigateur.||A notification leaves from the server, never from the browser.]]</h3><p>[[L'alerte d'une inscription est envoyée au moment où le dossier est écrit en base. Un filet posé dans le navigateur se tait dès que la connexion lâche.||The alert for a registration is sent when the record is written to the database. A safety net placed in the browser goes silent as soon as the connection drops.]]</p></article>
+      <article class="carte" data-rv><h3 class="h4">[[Une mesure d'audience sans cookie.||Cookie-free analytics.]]</h3><p>[[{{f:moliere.evenements_mesure}} événements, liste fermée, deux entonnoirs (test commencé → terminé, essai ouvert → créé). Aucun bandeau tant qu'aucun pixel publicitaire n'est posé ; jamais de mesure dans les espaces connectés.||{{f:moliere.evenements_mesure}} events, closed list, two funnels (test started → finished, trial opened → created). No banner as long as no ad pixel is set; never any tracking inside the logged-in areas.]]</p></article>
+      <article class="carte" data-rv><h3 class="h4">[[Le nom interne d'une classe ne sort jamais.||A class's internal name never leaks.]]</h3><p>[[« Français A2 | Amal L » est un identifiant d'administration. L'élève lit « Français adultes A2 », et c'est le typage du code qui l'empêche de voir autre chose : un affichage du nom interne ne compile pas.||“Français A2 | Amal L” is an administrative identifier. The pupil reads “Français adultes A2”, and it is the code's typing that prevents them from seeing anything else: displaying the internal name does not compile.]]</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">[[Le marketing, aussi||Marketing, too]]</p>
+      <h2 class="h2">[[Un produit ne suffit pas s'il ne se vend pas.||A product is not enough if it does not sell.]]</h2>
+      <p class="chapo">[[J'ai aussi conçu l'offre et la mécanique d'acquisition, et les outils que l'équipe commerciale utilise chaque jour.||I also designed the offer and the acquisition mechanics, and the tools the sales team uses every day.]]</p>
+    </div>
+    <ul class="liste liste-vert max-70">
+      <li><span>[[L'offre par public et la grille tarifaire, écrites à un seul endroit du code : un prix ne peut pas différer d'une page à l'autre||The offer by audience and the price list, written in one place in the code: a price cannot differ from one page to another]]</span></li>
+      <li><span>[[Le programme de parrainage, proposé et construit : un code par famille, tracé jusqu'au dossier d'inscription||The referral programme, proposed and built: one code per family, tracked to the registration file]]</span></li>
+      <li><span>[[Le site public, son référencement, ses données structurées et ses images de partage||The public site, its SEO, its structured data and its share images]]</span></li>
+      <li><span>[[Le tuyau pour recevoir les prospects des publicités Meta directement dans l'administration||The pipe that brings prospects from Meta ads straight into the administration]]</span></li>
+      <li><span>[[Un outil de prospection et de relance : import de contacts, qualification, envois ciblés avec registre anti-doublon, file de relances WhatsApp||A prospecting and follow-up tool: contact import, qualification, targeted mailings with an anti-duplicate register, WhatsApp follow-up queue]]</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">[[Comment c'est construit||How it is built]]</p>
+      <h2 class="h2">[[La pile, et la façon de travailler.||The stack, and the way of working.]]</h2>
+    </div>
+    <ul class="pile">
+      <li><b>Next.js · TypeScript</b>[[un seul projet, App Router||one project, App Router]]</li>
+      <li><b>Supabase · PostgreSQL</b>[[droits en base (RLS), {{f:moliere.migrations}} migrations||rights in the database (RLS), {{f:moliere.migrations}} migrations]]</li>
+      <li><b>Vercel</b>[[déploiement à chaque push, {{f:moliere.crons}} tâches planifiées||deployment on every push, {{f:moliere.crons}} scheduled jobs]]</li>
+      <li><b>Telegram</b>[[alertes, groupes de classe, bot||alerts, class groups, bot]]</li>
+      <li><b>Resend</b>[[bilans, résultats, campagnes||reports, results, campaigns]]</li>
+      <li><b>Gemini</b>[[lecture des reçus, voix des dictées||receipt reading, dictation voice]]</li>
+      <li><b>Leaflet · OpenStreetMap</b>[[la carte des {{f:moliere.centres}} sites||the map of the {{f:moliere.centres}} sites]]</li>
+      <li><b>Claude Code</b>[[toujours sur les modèles les plus performants du marché||always on the most capable models on the market]]</li>
+    </ul>
+    <p class="max-70" style="margin-top:22px">[[Tout est écrit : cinq carnets de passation (où tout se trouve, la carte de l'architecture, le commercial, les contenus pédagogiques, l'hébergement), des sauvegardes de la base relues après chaque export, et un banc d'essai pour chaque règle qui compte.||Everything is written down: five hand-over notebooks (where everything lives, the architecture map, the commercial side, the teaching content, the hosting), database backups re-read after every export, and a test bench for every rule that matters.]]</p>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">[[Ce qu'on peut voir sans compte||What can be seen without an account]]</p>
+      <h2 class="h2">[[Les pages publiques, telles qu'elles sont en ligne.||The public pages, as they are online.]]</h2>
+      <p class="chapo">[[Les espaces connectés ne sont pas photographiés : ils contiennent des données d'élèves.||The logged-in areas are not shown: they contain pupils' data.]]</p>
+    </div>
+    <div class="planches">
+      <div><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com</span></div><div class="ordi-ecran"><img src="/assets/img/moliere-accueil.webp" width="960" height="1500" alt="[[L'accueil du site||The site's home page]]" loading="lazy"></div></div><p class="planche-leg">[[L'accueil : les quatre univers, le test de niveau et l'essai||Home: the four worlds, the level test and the trial]]</p></div>
+      <div><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/la-plateforme</span></div><div class="ordi-ecran"><img src="/assets/img/moliere-plateforme.webp" width="960" height="1500" alt="[[La page de la plateforme||The platform page]]" loading="lazy"></div></div><p class="planche-leg">[[La plateforme : chaque fonction dessinée, le Coach essayable||The platform: every function drawn, the Coach tryable]]</p></div>
+      <div><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/test-de-niveau</span></div><div class="ordi-ecran"><img src="/assets/img/moliere-test.webp" width="960" height="1500" alt="[[Le test de niveau||The level test]]" loading="lazy"></div></div><p class="planche-leg">[[Le test de niveau : trois minutes, sans inscription||The level test: three minutes, no sign-up]]</p></div>
+      <div><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/inscription-cours</span></div><div class="ordi-ecran"><img src="/assets/img/moliere-inscription.webp" width="960" height="1500" alt="[[Le formulaire d'inscription||The registration form]]" loading="lazy"></div></div><p class="planche-leg">[[L'inscription : la première question décide du chemin||Registration: the first question decides the path]]</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="carte carte-accent">
+      <p class="etq">[[Et pour vous||And for you]]</p>
+      <h2 class="h2">[[Une école, un centre, une activité avec des membres ?||A school, a centre, an activity with members?]]</h2>
+      <p class="chapo">[[Le même socle s'adapte : site, inscriptions, espaces, automatisations. Prix selon l'activité : un montant fixe par élève ou par membre actif, ou un forfait, fixé après un premier échange.||The same foundation adapts: site, registrations, areas, automation. Price depends on the activity: a fixed amount per pupil or per active member, or a package, set after a first conversation.]]</p>
+      <div class="actions">
+        <a class="btn btn-p" href="mailto:{{courriel}}?subject=[[Plateforme%20%E2%80%94%20AG%20Algo%20Lab||Platform%20%E2%80%94%20AG%20Algo%20Lab]]">[[Décrire mon activité||Describe my activity]]</a>
+        <a class="btn btn-s" href="{{accueil}}#offres">[[Voir les deux offres||See both services]]</a>
+      </div>
+    </div>
+  </div>
+</section>

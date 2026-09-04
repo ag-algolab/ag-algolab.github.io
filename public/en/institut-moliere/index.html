@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Institut Molière: the site and the platform, built solo</title>
+<meta name="description" content="The public site, platform, teacher area and administration of a language institute, built solo: 72 screens, 523 commits in 20 days.">
+<link rel="canonical" href="https://agalgolab.com/en/institut-moliere/">
+<link rel="alternate" hreflang="fr" href="https://agalgolab.com/institut-moliere/">
+<link rel="alternate" hreflang="en" href="https://agalgolab.com/en/institut-moliere/">
+<link rel="alternate" hreflang="x-default" href="https://agalgolab.com/institut-moliere/">
+<meta name="theme-color" content="#F6F2E8">
+<meta name="author" content="Anthony Gocmen">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AG Algo Lab">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Institut Molière: the site and the platform, built solo">
+<meta property="og:description" content="The public site, platform, teacher area and administration of a language institute, built solo: 72 screens, 523 commits in 20 days.">
+<meta property="og:url" content="https://agalgolab.com/en/institut-moliere/">
+<meta property="og:image" content="https://agalgolab.com/assets/img/og-institut-moliere.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Institut Molière: the site and the platform, built solo">
+<meta name="twitter:description" content="The public site, platform, teacher area and administration of a language institute, built solo: 72 screens, 523 commits in 20 days.">
+<meta name="twitter:image" content="https://agalgolab.com/assets/img/og-institut-moliere.png">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/icone-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/icone-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=1">
+<script type="application/ld+json">{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "ProfessionalService",
+   "@id": "https://agalgolab.com/#org",
+   "name": "AG Algo Lab",
+   "legalName": "Anthony Gocmen — entreprise individuelle (AG Algo Lab)",
+   "url": "https://agalgolab.com/",
+   "email": "anthony@agalgolab.com",
+   "founder": {
+    "@id": "https://agalgolab.com/#anthony"
+   },
+   "vatID": "FR77935081703",
+   "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "SIREN",
+    "value": "935081703"
+   },
+   "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "6 rue de la Norée",
+    "postalCode": "27630",
+    "addressLocality": "Vexin-sur-Epte",
+    "addressCountry": "FR"
+   },
+   "areaServed": [
+    "FR"
+   ],
+   "description": "The public site, platform, teacher area and administration of a language institute, built solo: 72 screens, 523 commits in 20 days.",
+   "knowsAbout": [
+    "Next.js",
+    "TypeScript",
+    "Supabase",
+    "PostgreSQL",
+    "Vercel",
+    "Stripe",
+    "SEO",
+    "Claude Code"
+   ]
+  },
+  {
+   "@type": "Person",
+   "@id": "https://agalgolab.com/#anthony",
+   "name": "Anthony Gocmen",
+   "url": "https://agalgolab.com/",
+   "email": "anthony@agalgolab.com",
+   "jobTitle": "Independent full-stack developer",
+   "sameAs": [
+    "https://www.linkedin.com/in/anthony-gocmen",
+    "https://github.com/ag-algolab"
+   ],
+   "worksFor": {
+    "@id": "https://agalgolab.com/#org"
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://agalgolab.com/#site",
+   "url": "https://agalgolab.com/",
+   "name": "AG Algo Lab",
+   "inLanguage": [
+    "fr",
+    "en"
+   ],
+   "publisher": {
+    "@id": "https://agalgolab.com/#org"
+   }
+  },
+  {
+   "@type": "Article",
+   "@id": "https://agalgolab.com/en/institut-moliere/",
+   "url": "https://agalgolab.com/en/institut-moliere/",
+   "name": "Institut Molière: the site and the platform, built solo",
+   "description": "The public site, platform, teacher area and administration of a language institute, built solo: 72 screens, 523 commits in 20 days.",
+   "inLanguage": "en",
+   "isPartOf": {
+    "@id": "https://agalgolab.com/#site"
+   },
+   "dateModified": "2026-09-04",
+   "primaryImageOfPage": "https://agalgolab.com/assets/img/og-institut-moliere.png",
+   "headline": "Institut Molière: the site and the platform, built solo",
+   "author": {
+    "@id": "https://agalgolab.com/#anthony"
+   },
+   "publisher": {
+    "@id": "https://agalgolab.com/#org"
+   },
+   "image": "https://agalgolab.com/assets/img/og-institut-moliere.png"
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Home",
+     "item": "https://agalgolab.com/en/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Institut Molière: the site and the platform, built solo",
+     "item": "https://agalgolab.com/en/institut-moliere/"
+    }
+   ]
+  }
+ ]
+}</script>
+</head>
+<body class="page-institut-moliere type-cas">
+<a class="saut" href="#contenu">Skip to content</a>
+
+<header class="entete">
+  <div class="wrap entete-in">
+    <a class="marque" href="/en/" aria-label="AG Algo Lab — home"><span class="marque-carre" aria-hidden="true"></span><span>AG Algo Lab</span></a>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <a href="/en/#realisations">Work</a>
+      <a href="/en/institut-moliere/">Institut Molière</a>
+      <a href="/en/prepa-600/">Prépa 600</a>
+      <a href="/en/#offres">Services</a>
+      <a href="/en/#methode">Method</a>
+      <a class="btn btn-p btn-nav" href="mailto:anthony@agalgolab.com?subject=Project%20%E2%80%94%20AG%20Algo%20Lab">Contact me</a>
+    </nav>
+    <div class="entete-outils">
+      <a class="langue" href="/institut-moliere/" hreflang="fr" lang="fr" title="Lire cette page en français"><span class="langue-actuelle">EN</span><span class="langue-sep" aria-hidden="true">/</span><span>FR</span></a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open the menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+<section class="hero">
+  <div class="wrap">
+    <p class="etq">Client case · institut-moliere.com · live since 25 August 2026</p>
+    <h1 class="h1">Institut Molière: the whole site and the whole platform, <em>built solo</em>.</h1>
+    <p class="chapo">Institut Molière teaches languages and tutoring: 7 sites across one city plus online classes, from primary school to the baccalauréat, and adults in the evening. I designed, built and run the whole of its digital tool: the public site, the learning platform, the teachers' area, the administration, the automation and the commercial mechanics.</p>
+    <div class="actions">
+      <a class="btn btn-p" href="https://institut-moliere.com" rel="noopener" target="_blank">Open the live site ↗</a>
+      <a class="btn btn-s" href="mailto:anthony@agalgolab.com?subject=Platform%20%E2%80%94%20AG%20Algo%20Lab">The same foundation for my activity</a>
+    </div>
+    <div class="stats" aria-label="Project figures">
+      <div class="stat"><b data-compte>72</b><span>screens</span><small>page.tsx files, counted on 4 Sep 2026</small></div>
+      <div class="stat"><b data-compte>13</b><span>API routes</span><small>route.ts files</small></div>
+      <div class="stat"><b data-compte>67</b><span>SQL migrations</span><small>numbered files in db/</small></div>
+      <div class="stat"><b data-compte>70,795</b><span>lines of TypeScript</span><small>src/, .ts and .tsx</small></div>
+      <div class="stat"><b data-compte>523</b><span>commits in 20 days</span><small>from 16 August 2026 to 4 September 2026</small></div>
+      <div class="stat"><b>4</b><span>areas, one project</span><small>site, student, teacher, administration</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">The starting point</p>
+      <h2 class="h2">In mid-August 2026, the institute no longer controls its own website.</h2>
+      <p class="chapo">The previous provider refuses to hand back access to the site and the database. The new school year is three weeks away. Everything is rebuilt from scratch, on a documented foundation the institute can take over.</p>
+    </div>
+    <ol class="frise">
+      <li><time datetime="2026-08-13">13 August 2026</time><b>The meeting</b><p>A full rebuild is decided, not a mere audit.</p></li>
+      <li><time datetime="2026-08-16">16 August 2026</time><b>First commit</b><p>Next.js, Supabase, the first screens and the first migration.</p></li>
+      <li><time datetime="2026-08-19">19 August 2026</time><b>The art direction in production</b><p>The client's four colours, two typefaces, the four-world band and the map of the 7 sites.</p></li>
+      <li><time datetime="2026-08-25">25 August 2026</time><b>Live on institut-moliere.com</b><p>Nine days after the first commit. Registration, free trial, level test and alerts are running.</p></li>
+      <li><time datetime="2026-09-04">4 September 2026</time><b>523th commit</b><p>The complete platform runs, the pupils are on it, the administration steers the school year from it.</p></li>
+    </ol>
+    <p class="note">The dates come from the repository's git log. Nothing here is rounded.</p>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">The architecture</p>
+      <h2 class="h2">Four areas, one project.</h2>
+      <p class="chapo">No website on one side and an app on the other: what the visitor sees and what the pupil uses live in the same place. The account's role decides which area opens.</p>
+    </div>
+    <div class="schema">
+      <div class="schema-ligne">
+        <div class="schema-boite"><b>Public site</b><span>15 pages</span></div>
+        <div class="schema-boite"><b>Student</b><span>20 screens</span></div>
+        <div class="schema-boite"><b>Teacher</b><span>9 screens</span></div>
+        <div class="schema-boite"><b>Administration</b><span>21 screens</span></div>
+      </div>
+      <p class="schema-lien">one Next.js project · 13 API routes · 7 shared screens (login, password, public report)</p>
+      <div class="schema-ligne">
+        <div class="schema-boite schema-base"><b>Supabase · PostgreSQL</b><span>access rights enforced by the database (Row Level Security) · 67 migrations</span></div>
+      </div>
+      <p class="schema-lien">what leaves the server, with nobody involved</p>
+      <div class="schema-ligne">
+        <div class="schema-boite"><b>Telegram</b><span>alerts, class groups</span></div>
+        <div class="schema-boite"><b>Email</b><span>reports, campaigns</span></div>
+        <div class="schema-boite"><b>Scheduled jobs</b><span>3 Vercel crons</span></div>
+        <div class="schema-boite"><b>AI</b><span>Coach, receipts, voice</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">What is inside</p>
+      <h2 class="h2">Each area, screen by screen.</h2>
+    </div>
+    <div class="espaces">
+      <article class="espace" data-rv>
+        <p class="etq">Public site</p>
+        <h3 class="h3">What a parent, an adult or a school sees</h3>
+        <p class="route">/ · 15 pages</p>
+        <ul class="liste">
+          <li><span>Presentation by audience: children, adults, French schools; programmes and subjects</span></li>
+          <li><span>Map of the institute's 7 sites</span></li>
+          <li><span>Online registration in 6 to 8 steps, with declared payment (transfer, money order, cash) and automatic reading of the receipt</span></li>
+          <li><span>3-day free trial, no bank card</span></li>
+          <li><span>Level test in French and English, from absolute beginner to C1, with random question draw</span></li>
+          <li><span>Indicative dyslexia test, based on the scientific literature cited under the test</span></li>
+          <li><span>Teacher application, online certificate verification</span></li>
+          <li><span>The Molière Coach, tryable without an account, on the platform page</span></li>
+        </ul>
+      </article>
+      <article class="espace" data-rv>
+        <p class="etq">Student area</p>
+        <h3 class="h3">What the pupil does every day</h3>
+        <p class="route">/eleve · 20 screens</p>
+        <ul class="liste">
+          <li><span>Library open at their level (one step below, one step above), built-in reader without download</span></li>
+          <li><span>Audio dictations corrected instantly, mistake by mistake, with a cumulative error profile</span></li>
+          <li><span>Timed mental arithmetic</span></li>
+          <li><span>Chess: games, puzzles, rules</span></li>
+          <li><span>Molière Coach, at any hour, in writing and by voice</span></li>
+          <li><span>Progress, day streaks, awards; monthly contest with a verifiable certificate</span></li>
+          <li><span>Calendar, video link, report of each lesson, class documents</span></li>
+          <li><span>Payments and profile</span></li>
+        </ul>
+      </article>
+      <article class="espace" data-rv>
+        <p class="etq">Teacher area</p>
+        <h3 class="h3">What the teacher keeps up to date</h3>
+        <p class="route">/prof · 9 screens</p>
+        <ul class="liste">
+          <li><span>Attendance for each session</span></li>
+          <li><span>Their sessions and reports, published in the pupil's area and announced in the class's Telegram group</span></li>
+          <li><span>Their dictations</span></li>
+          <li><span>Their posts and profile</span></li>
+        </ul>
+      </article>
+      <article class="espace" data-rv>
+        <p class="etq">Administration</p>
+        <h3 class="h3">What the institute steers</h3>
+        <p class="route">/admin · 21 screens</p>
+        <ul class="liste">
+          <li><span>Prospects, follow-ups, targeted mailings</span></li>
+          <li><span>Registration files, requests, payments received</span></li>
+          <li><span>Classes, timetables, members, free trials (who engaged, who did not)</span></li>
+          <li><span>Submitted dictations and each pupil's activity, day by day</span></li>
+          <li><span>Library, resources, class documents</span></li>
+          <li><span>Applications, certificates, partner schools, Coach status</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">Automation</p>
+      <h2 class="h2">What runs with nobody involved.</h2>
+      <p class="chapo">This is not an app: it is a system that runs itself. Every line below exists in the code and leaves from the server.</p>
+    </div>
+    <div class="auto">
+      <div class="auto-item" data-rv><span class="tag">Telegram</span><p><b>Instant alerts to the team</b>Registration, teacher application, level test, declared payment, Coach outage. Sent the instant the record enters the database, never from the browser.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Telegram</span><p><b>One group per online class</b>The bot posts the reminder before each session and the write-up after.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Email</span><p><b>The families' weekly report</b>Sent on its own, by name, to parents and to adults for themselves, including during the free trial. The sending day is specific to each family: mailings are spread over the week.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>Follow-up on quiet pupils</b>After three days without a visit, a message goes out by email; without an address, it waits in a queue the team sends via WhatsApp in one click.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>The reminder before each lesson</b>Ten minutes before, in the class group. The job runs every five minutes.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>The dictations' voice</b>The dictation bank is voiced twice a day, in batches, to stay within the speech API's quota.</p></div>
+      <div class="auto-item" data-rv><span class="tag">AI</span><p><b>Reading the receipts</b>A proof of payment sent at registration is read by AI; the payee is compared with the institute's account.</p></div>
+      <div class="auto-item" data-rv><span class="tag">AI</span><p><b>The dyslexia signal</b>When a dictation is submitted, the signals (mirrors, inversions, voiced and unvoiced consonants) are counted. Beyond cautious thresholds, the administration is alerted once per pupil. Never the family.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="cas">
+      <div class="cas-txt">
+        <p class="etq">The Molière Coach</p>
+        <h2 class="h2">A coach that answers at any hour, in writing and by voice.</h2>
+        <ul class="liste">
+          <li><span>A conversation in French or English, at any hour</span></li>
+          <li><span>It answers out loud, with the right accent, and you reply into the microphone</span></li>
+          <li><span>A stuck exercise gets photographed: it explains it</span></li>
+          <li><span>Dictionary and translation, grammar and conjugation</span></li>
+          <li><span>“Prepare my meeting in French or English”: the adults' angle</span></li>
+          <li><span>Five subjects: French, English, mathematics, biology, computer science</span></li>
+          <li><span>An alert goes to the team if the AI service goes down</span></li>
+        </ul>
+        <p><a href="https://institut-moliere.com/la-plateforme" rel="noopener" target="_blank">Try it without an account on the public page ↗</a></p>
+      </div>
+      <div class="cas-vis planche-tel">
+        <div class="tel tel-grand"><div class="tel-ecran"><span class="tel-encoche" aria-hidden="true"></span><img src="/assets/img/moliere-plateforme-m.webp" width="390" height="1702" alt="The “Platform” page with the Molière Coach, on a phone" loading="lazy"></div></div>
+        <p class="planche-leg">institut-moliere.com/la-plateforme, captured 4 Sep 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">The decisions</p>
+      <h2 class="h2">Six decisions that hold the system together.</h2>
+    </div>
+    <div class="g2">
+      <article class="carte" data-rv><h3 class="h4">Security lives in the database, not the screen.</h3><p>Access rights, by module, level and class, are enforced by the database engine (Row Level Security). A screen protects nothing; a rule in the database cannot be bypassed.</p></article>
+      <article class="carte" data-rv><h3 class="h4">The level opens the library.</h3><p>A pupil sees the books at their level, one step below and one step above. The explicit entitlement is only an exception. Proven on a throwaway pupil and three books, not deduced from reading the code.</p></article>
+      <article class="carte" data-rv><h3 class="h4">The commercial model is instrumented end to end.</h3><p>Free trial capped at seven days, a single extension per five-month period, active accounts told apart from trials, safeguards against unbilled access.</p></article>
+      <article class="carte" data-rv><h3 class="h4">A notification leaves from the server, never from the browser.</h3><p>The alert for a registration is sent when the record is written to the database. A safety net placed in the browser goes silent as soon as the connection drops.</p></article>
+      <article class="carte" data-rv><h3 class="h4">Cookie-free analytics.</h3><p>7 events, closed list, two funnels (test started → finished, trial opened → created). No banner as long as no ad pixel is set; never any tracking inside the logged-in areas.</p></article>
+      <article class="carte" data-rv><h3 class="h4">A class's internal name never leaks.</h3><p>“Français A2 | Amal L” is an administrative identifier. The pupil reads “Français adultes A2”, and it is the code's typing that prevents them from seeing anything else: displaying the internal name does not compile.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">Marketing, too</p>
+      <h2 class="h2">A product is not enough if it does not sell.</h2>
+      <p class="chapo">I also designed the offer and the acquisition mechanics, and the tools the sales team uses every day.</p>
+    </div>
+    <ul class="liste liste-vert max-70">
+      <li><span>The offer by audience and the price list, written in one place in the code: a price cannot differ from one page to another</span></li>
+      <li><span>The referral programme, proposed and built: one code per family, tracked to the registration file</span></li>
+      <li><span>The public site, its SEO, its structured data and its share images</span></li>
+      <li><span>The pipe that brings prospects from Meta ads straight into the administration</span></li>
+      <li><span>A prospecting and follow-up tool: contact import, qualification, targeted mailings with an anti-duplicate register, WhatsApp follow-up queue</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">How it is built</p>
+      <h2 class="h2">The stack, and the way of working.</h2>
+    </div>
+    <ul class="pile">
+      <li><b>Next.js · TypeScript</b>one project, App Router</li>
+      <li><b>Supabase · PostgreSQL</b>rights in the database (RLS), 67 migrations</li>
+      <li><b>Vercel</b>deployment on every push, 3 scheduled jobs</li>
+      <li><b>Telegram</b>alerts, class groups, bot</li>
+      <li><b>Resend</b>reports, results, campaigns</li>
+      <li><b>Gemini</b>receipt reading, dictation voice</li>
+      <li><b>Leaflet · OpenStreetMap</b>the map of the 7 sites</li>
+      <li><b>Claude Code</b>always on the most capable models on the market</li>
+    </ul>
+    <p class="max-70" style="margin-top:22px">Everything is written down: five hand-over notebooks (where everything lives, the architecture map, the commercial side, the teaching content, the hosting), database backups re-read after every export, and a test bench for every rule that matters.</p>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">What can be seen without an account</p>
+      <h2 class="h2">The public pages, as they are online.</h2>
+      <p class="chapo">The logged-in areas are not shown: they contain pupils' data.</p>
+    </div>
+    <div class="planches">
+      <div><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com</span></div><div class="ordi-ecran"><img src="/assets/img/moliere-accueil.webp" width="960" height="1500" alt="The site's home page" loading="lazy"></div></div><p class="planche-leg">Home: the four worlds, the level test and the trial</p></div>
+      <div><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/la-plateforme</span></div><div class="ordi-ecran"><img src="/assets/img/moliere-plateforme.webp" width="960" height="1500" alt="The platform page" loading="lazy"></div></div><p class="planche-leg">The platform: every function drawn, the Coach tryable</p></div>
+      <div><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/test-de-niveau</span></div><div class="ordi-ecran"><img src="/assets/img/moliere-test.webp" width="960" height="1500" alt="The level test" loading="lazy"></div></div><p class="planche-leg">The level test: three minutes, no sign-up</p></div>
+      <div><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/inscription-cours</span></div><div class="ordi-ecran"><img src="/assets/img/moliere-inscription.webp" width="960" height="1500" alt="The registration form" loading="lazy"></div></div><p class="planche-leg">Registration: the first question decides the path</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="carte carte-accent">
+      <p class="etq">And for you</p>
+      <h2 class="h2">A school, a centre, an activity with members?</h2>
+      <p class="chapo">The same foundation adapts: site, registrations, areas, automation. Price depends on the activity: a fixed amount per pupil or per active member, or a package, set after a first conversation.</p>
+      <div class="actions">
+        <a class="btn btn-p" href="mailto:anthony@agalgolab.com?subject=Platform%20%E2%80%94%20AG%20Algo%20Lab">Describe my activity</a>
+        <a class="btn btn-s" href="/en/#offres">See both services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied">
+  <div class="wrap">
+    <div class="pied-grille">
+      <div class="pied-col">
+        <a class="marque" href="/en/"><span class="marque-carre" aria-hidden="true"></span><span>AG Algo Lab</span></a>
+        <p>Independent full-stack developer. Complete web platforms, built solo, from idea to launch.</p>
+        <p><a href="mailto:anthony@agalgolab.com">anthony@agalgolab.com</a></p>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Pages</p>
+        <ul class="pied-liste">
+          <li><a href="/en/institut-moliere/">Institut Molière</a></li>
+          <li><a href="/en/prepa-600/">Prépa 600</a></li>
+          <li><a href="/en/reversal-engine/">Reversal Engine</a></li>
+          <li><a href="/en/#offres">Services and prices</a></li>
+          <li><a href="/en/#methode">Method</a></li>
+          <li><a href="/en/#a-propos">Who builds</a></li>
+        </ul>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Elsewhere</p>
+        <ul class="pied-liste">
+          <li><a href="https://www.linkedin.com/in/anthony-gocmen" rel="noopener" target="_blank">LinkedIn</a></li>
+          <li><a href="https://github.com/ag-algolab" rel="noopener" target="_blank">GitHub</a></li>
+          <li><a href="https://www.youtube.com/@ag_algolab_fr" rel="noopener" target="_blank">YouTube</a></li>
+          <li><a href="https://pypi.org/project/shahmat/" rel="noopener" target="_blank">ShahMat on PyPI</a></li>
+        </ul>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Legal</p>
+        <ul class="pied-liste">
+          <li>Anthony Gocmen, sole proprietorship</li>
+          <li>SIREN 935 081 703</li>
+          <li>VAT FR 77 935 081 703</li>
+          <li><a href="/en/mentions-legales/">Legal notice</a></li>
+          <li><a href="/institut-moliere/" hreflang="fr" lang="fr">Ce site en français</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pied-bas">© 2026 AG Algo Lab · Built with Claude Code. Every number on this site has a source and a date, recounted by script: repository <a href="https://github.com/ag-algolab/ag-algolab.github.io" rel="noopener" target="_blank">ag-algolab.github.io</a>.</p>
+  </div>
+</footer>
+
+<noscript><style>.nav{display:flex}</style></noscript>
+<script src="/assets/site.js?v=1" defer></script>
+</body>
+</html>

@@ -1,4 +1,8 @@
-name: Deploy Vite site to GitHub Pages
+name: Publier le site (GitHub Pages)
+
+# Le site est statique et déjà construit : `public/` est versionné tel qu'il
+# est servi. Aucune étape de compilation ici — `python outils/construire.py`
+# se lance sur le poste de travail, avant le commit.
 
 on:
   push:
@@ -15,25 +19,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20   # <- plus de cache ici
-      - run: npm install --no-audit --no-fund
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
   deploy:
-    needs: build
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
       - id: deployment
         uses: actions/deploy-pages@v4
