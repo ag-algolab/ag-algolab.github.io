@@ -22,7 +22,7 @@
       "releve": "2026-09-04"
     },
     "commits": {
-      "valeur": 523,
+      "valeur": 524,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-04"
     },
@@ -99,32 +99,32 @@
   },
   "p600": {
     "pages": {
-      "valeur": 27,
+      "valeur": 28,
       "source": "fichiers public/*.html du dépôt ag-algolab/prepa600",
       "releve": "2026-09-04"
     },
     "endpoints": {
-      "valeur": 15,
+      "valeur": 16,
       "source": "fichiers api/*.js hors _*.js",
       "releve": "2026-09-04"
     },
     "questions": {
-      "valeur": 540,
-      "source": "donnees/items.json : 6 blancs × 90 items",
+      "valeur": 630,
+      "source": "donnees/items.json : 7 blancs × 90 items",
       "releve": "2026-09-04"
     },
     "blancs": {
-      "valeur": 6,
+      "valeur": 7,
       "source": "donnees/items.json",
       "releve": "2026-09-04"
     },
     "sous_tests": {
-      "valeur": 36,
-      "source": "verifier_lot.py --tous : 36 sous-tests sur 36 au vert",
-      "releve": "2026-09-03"
+      "valeur": 42,
+      "source": "verifier_lot.py --tous : 42 sous-tests sur 42 au vert",
+      "releve": "2026-09-04"
     },
     "commits": {
-      "valeur": 172,
+      "valeur": 186,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-04"
     },
@@ -154,7 +154,7 @@
       "releve": "2026-09-04"
     },
     "lignes_js": {
-      "valeur": 5080,
+      "valeur": 5564,
       "source": "wc -l sur public/assets/js/*.js et api/*.js",
       "releve": "2026-09-04"
     },
@@ -177,12 +177,17 @@
       "valeur": 20,
       "source": "public/index.html : « Boursiers : 20 € »",
       "releve": "2026-09-04"
+    },
+    "blancs_payants": {
+      "valeur": 6,
+      "source": "tous les blancs sauf le premier, qui est gratuit",
+      "releve": "2026-09-04"
     }
   },
   "total": {
     "commits": {
-      "valeur": 695,
-      "source": "523 + 172",
+      "valeur": 710,
+      "source": "524 + 186",
       "releve": "2026-09-04"
     },
     "produits": {

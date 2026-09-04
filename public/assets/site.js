@@ -1,7 +1,8 @@
 /* AG Algo Lab — script du site.
    Le HTML est déjà dans son état final : ce script n'ajoute que des
-   commodités (menu, copie de l'adresse) et, sur grand écran avec une souris,
-   un peu de mouvement. Sans lui, rien ne manque. */
+   commodités (menu, copie de l'adresse), le changement de page des écrans
+   (par simple remplacement partout, en fondu sur grand écran avec souris)
+   et, sur ce même chemin riche, un peu de mouvement. Sans lui, rien ne manque. */
 (function () {
   'use strict';
   var doc = document;
@@ -23,8 +24,7 @@
   }
 
   /* ------------------------------------------------ copier l'adresse */
-  var boutons = doc.querySelectorAll('[data-copier]');
-  Array.prototype.forEach.call(boutons, function (b) {
+  Array.prototype.forEach.call(doc.querySelectorAll('[data-copier]'), function (b) {
     var texte = b.textContent;
     b.addEventListener('click', function () {
       var valeur = b.getAttribute('data-copier');
@@ -46,30 +46,78 @@
     riche = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch (e) { riche = false; }
+
+  /* --------------------------------------- les écrans changent de page
+     data-pages="a.webp,b.webp,…" sur le conteneur ; l'image de base reste
+     toujours affichée. Sur le chemin riche, la suivante se pose par-dessus
+     en fondu puis devient la base ; ailleurs, la base change simplement de
+     fichier. Un écran figé ne peut donc jamais être vide. */
+  var rotations = doc.querySelectorAll('.ecran-rot[data-pages]');
+  Array.prototype.forEach.call(rotations, function (boite, index) {
+    var pages = boite.getAttribute('data-pages').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+    var base = boite.querySelector('img');
+    if (!base || pages.length < 2) return;
+    var i = 0;
+    var occupe = false;
+    var suivante = function () {
+      if (occupe || doc.hidden) return;
+      i = (i + 1) % pages.length;
+      var src = pages[i];
+      var pre = new Image();
+      occupe = true;
+      var poser = function () {
+        if (!riche) { base.src = src; occupe = false; return; }
+        var calque = doc.createElement('img');
+        calque.className = 'img-suivant';
+        calque.alt = '';
+        calque.width = base.width;
+        calque.height = base.height;
+        calque.src = src;
+        calque.style.transform = base.style.transform;
+        boite.appendChild(calque);
+        /* deux images posées, puis le fondu */
+        setTimeout(function () { calque.classList.add('in'); }, 30);
+        setTimeout(function () {
+          base.src = src;
+          if (calque.parentNode) calque.parentNode.removeChild(calque);
+          occupe = false;
+        }, 1100);
+      };
+      pre.onload = poser;
+      pre.onerror = function () { occupe = false; };
+      pre.src = src;
+    };
+    setTimeout(function () {
+      suivante();
+      setInterval(suivante, 5200);
+    }, 2600 + (index % 5) * 900);
+  });
+
   if (!riche) return;
 
   /* ------------------------------------------ planches qui défilent */
-  var ecrans = doc.querySelectorAll('.ordi-ecran, .tel-ecran');
+  var ecrans = doc.querySelectorAll('.planche-duo .ordi-ecran, .planche-duo .tel-ecran, .planches .ordi-ecran, .planche-tel .tel-ecran');
   Array.prototype.forEach.call(ecrans, function (boite) {
-    var img = boite.querySelector('img');
-    if (!img) return;
     var cadre = boite.closest('.ordi, .tel') || boite;
     cadre.addEventListener('mouseenter', function () {
-      var d = img.getBoundingClientRect().height - boite.getBoundingClientRect().height;
+      var imgs = boite.querySelectorAll('img');
+      if (!imgs.length) return;
+      var d = imgs[0].getBoundingClientRect().height - boite.getBoundingClientRect().height;
       if (d <= 0) return;
-      img.style.transitionDuration = Math.min(16, Math.max(3, d / 110)) + 's';
-      img.style.transform = 'translateY(' + (-d) + 'px)';
+      Array.prototype.forEach.call(imgs, function (img) {
+        img.style.transitionDuration = Math.min(16, Math.max(3, d / 110)) + 's';
+        img.style.transform = 'translateY(' + (-d) + 'px)';
+      });
     });
     cadre.addEventListener('mouseleave', function () {
-      img.style.transitionDuration = '1.2s';
-      img.style.transform = 'translateY(0)';
+      Array.prototype.forEach.call(boite.querySelectorAll('img'), function (img) {
+        img.style.transitionDuration = '1.2s';
+        img.style.transform = 'translateY(0)';
+      });
     });
   });
 
-  /* --------------------------------------------------- révélations
-     Seuls les blocs encore sous la ligne de flottaison reçoivent .rv ; la
-     classe est retirée 900 ms après la révélation, et un balayage global
-     retire tout ce qui resterait au bout de 6 s. */
+  /* --------------------------------------------------- révélations */
   if ('IntersectionObserver' in window) {
     var cibles = doc.querySelectorAll('[data-rv]');
     var h = window.innerHeight || 800;
@@ -91,12 +139,8 @@
     }, 6000);
   }
 
-  /* ---------------------------------------------------- compteurs
-     Le chiffre final est déjà écrit dans le HTML ; on le remet à zéro juste
-     avant d'animer, en setInterval (les minuteries tournent même quand rien
-     ne s'affiche), et on restitue le texte d'origine à la fin. */
-  var compteurs = doc.querySelectorAll('[data-compte]');
-  Array.prototype.forEach.call(compteurs, function (el) {
+  /* ---------------------------------------------------- compteurs */
+  Array.prototype.forEach.call(doc.querySelectorAll('[data-compte]'), function (el) {
     var origine = el.textContent;
     var chiffres = origine.replace(/[^0-9]/g, '');
     if (!chiffres) return;
@@ -106,7 +150,7 @@
     var format = function (n) {
       var s = String(n);
       var out = '';
-      while (s.length > 3) { out = (lang === 'fr' ? ' ' : ',') + s.slice(-3) + out; s = s.slice(0, -3); }
+      while (s.length > 3) { out = (lang === 'fr' ? ' ' : ',') + s.slice(-3) + out; s = s.slice(0, -3); }
       return s + out;
     };
     var lance = false;

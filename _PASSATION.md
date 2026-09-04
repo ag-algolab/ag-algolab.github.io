@@ -169,52 +169,74 @@ recompte.
 
 ---
 
-## 4. La direction artistique — « Carnet de labo »
+## 4. La direction artistique — « Isométrique »
 
-Fond papier, encre, un accent orange, un vert réservé aux chiffres vérifiés.
-Rien de sombre en dehors du bloc « nuit » du Reversal Engine. Elle ne
-ressemble ni à Molière (bleu, Bricolage Grotesque + Outfit) ni à Prépa 600
-(clair électrique).
+Choisie par Anthony le 4 septembre 2026 **parmi seize compositions** (trois
+habillages, puis dix habillages, puis six compositions, puis dix
+compositions : les maquettes sont dans `_travail/da*`, ignoré par git). Ce
+qu'il a écarté en chemin : le papier et le serif (« ça fait Claude », l'orange
+aussi), les habillages qui ne changent que les couleurs, les compositions
+« un texte, une barre de chiffres et voilà ». Ce qu'il a retenu : **le double
+panneau ordinateur + téléphone**, à condition que les deux cadres montrent des
+pages différentes et **changent de page**, et du mouvement.
+
+Fond menthe, encre vert profond, un accent vert, chiffres en bandes vert nuit.
+**Plus Jakarta Sans** partout (titres en 800, très serrés), **JetBrains Mono**
+pour les étiquettes et les sources. Le héros de l'accueil et des deux cas pose
+les écrans en **dalles flottantes sur un sol quadrillé en 3D**, les téléphones
+et les étiquettes se redressent face au visiteur.
 
 | Jeton | Valeur | Emploi |
 |---|---|---|
-| `--papier` / `--papier-2` / `--carte` | `#F6F2E8` / `#EEE7D6` / `#FFFCF5` | fonds |
-| `--encre` / `--encre-2` | `#171410` / `#57503F` | texte / texte secondaire |
-| `--accent` | `#C8401A` | boutons (blanc dessus : 5,0:1), mot italique des titres |
-| `--accent-txt` | `#B53A16` | petit texte orange (5,2:1 sur papier) |
-| `--accent-vif` | `#E4491C` | décor seulement (carrés, puces) — 3,6:1, jamais du texte |
-| `--vert` | `#1E6F3D` | étiquettes des automatismes |
-| `--nuit` … | `#15181F` | le bloc du graphique |
+| `--papier` / `--papier-2` / `--carte` | `#EAF7F1` / `#DDF0E6` / `#FFFFFF` | fonds |
+| `--encre` / `--encre-2` | `#0B2E1F` / `#3F5F50` | texte / texte secondaire (6,4:1 sur menthe) |
+| `--accent` | `#047857` | boutons au survol, mot fort des titres (4,9:1 sur menthe, gros texte) |
+| `--accent-txt` | `#046C4E` | petit texte vert (5,9:1) |
+| `--accent-vif` | `#10B981` | décor seulement : losanges des étiquettes et des puces |
+| `--nuit` / `--nuit-2` | `#0B2E1F` / `#124A33` | bandes de chiffres, étiquettes de la scène, bloc du graphique |
+| `--menthe` / `--ambre` | `#6EE7B7` / `#FCD34D` | chiffres et lignes sur les blocs nuit |
 
-Polices : **Instrument Serif** (titres, l'accent en italique orange),
-**Instrument Sans** (texte), **JetBrains Mono** (étiquettes, sources des
-chiffres). Google Fonts, `display=swap`, avec repli système.
+**La scène isométrique** (`.iso`) : un bloc de 760 × 640 dessiné à l'échelle 1
+puis réduit par `--k` selon la largeur (0,9 → 0,76 → 0,74 → 0,55 → 0,43). Le
+sol `.iso-sol` est un carré de 760 tourné `rotateX(58deg) rotateZ(-45deg)` ; les
+dalles `.iso-dalle` (ordinateurs) y reposent avec une hauteur `--z` ; les
+téléphones `.iso-tel` et les étiquettes `.iso-tag` reçoivent la rotation
+inverse, donc se redressent. Le sol déborde du bloc (un carré tourné de 45°
+fait 1 075 px de large) : **`.hero { overflow: hidden }` est obligatoire**,
+c'est lui qui empêche le défilement horizontal sur téléphone. Les positions
+sont écrites en `style=""` dans le HTML de chaque page, pas dans le CSS.
 
-Composants : `.stats` (chiffre + libellé + **source en mono**), `.ordi` et
-`.tel` (planches de captures, l'image défile au survol sur ordinateur),
-`.frise` (dates), `.espaces`, `.auto` (automatismes avec étiquette verte),
-`.schema` (architecture), `.graph` (bloc nuit + SVG), `.offre`, `.methode`
-(numérotée), `.pile`, `.tbl` (chaque `<td>` doit porter `data-label` pour
-la vue téléphone).
+**Les écrans qui changent de page** (`.ecran-rot[data-pages]`, script
+`site.js`) : l'image de base reste toujours affichée ; toutes les 5,2 s
+(décalées d'un cadre à l'autre) la suivante est préchargée puis, sur le
+chemin riche, posée par-dessus en fondu avant de devenir la base ; sur le
+chemin sobre, la base change simplement de fichier, sans transition. Un
+écran figé ne peut donc jamais être vide. Les listes de pages sont dans
+`data-pages`, images dans `src/assets/img/` (ordinateur 960 × 1500,
+téléphone 390 × 1702, WebP).
 
-**Les règles de production, non négociables** (héritées de
-[Molière et Prépa 600]) :
+**Les règles de production, non négociables** (héritées de Molière et de
+Prépa 600) :
 
 - **l'état statique du HTML est l'état final** : aucun contenu ne dépend
   d'une transition ni d'une animation ; les compteurs portent leur valeur
   finale dans le HTML et le script la restitue à la fin ;
 - **le chemin riche n'existe qu'à partir de 1024 px, avec une souris, sans
-  `prefers-reduced-motion`** — en dessous, rien ne bouge : ni révélation,
-  ni défilement des planches, ni balayage du graphique ;
+  `prefers-reduced-motion`** : lévitation des dalles, fondus, révélations,
+  défilement des planches au survol. En dessous : rien ne bouge, sauf le
+  changement de page des écrans, par remplacement instantané ;
 - les classes `.rv` / `.in` de révélation sont posées par le script, sur ce
   chemin seulement, et **retirées 900 ms après** ; un balayage global retire
   tout ce qui resterait à 6 s ;
 - grilles en `minmax(0, …)` ou `minmax(min(100%, Npx), 1fr)` ;
-  `line-height ≥ 1.15` sur la police display ; `padding-top` /
-  `padding-bottom` séparés sur tout ce qui porte `.wrap` ;
+  `padding-top` / `padding-bottom` séparés sur tout ce qui porte `.wrap` ;
 - menu téléphone en `display:none` ↔ `display:flex`, jamais en opacité ;
   `<noscript>` le rend visible sans script ;
 - jamais de `&nbsp;` dans un très gros titre.
+
+Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
+3D à droite, deux étiquettes vert nuit dont les chiffres viennent de
+`faits.json`. Les icônes sont un losange vert sur menthe.
 
 ---
 
@@ -285,8 +307,16 @@ la vue téléphone).
 
 - **04/09/2026** — Refonte complète (V3). Décisions ci-dessus. Le dossier
   `projets\agalgolab\` devient le clone du dépôt Pages ; la V1 et la V2 sont
-  archivées. Générateur bilingue, gabarit, DA « Carnet de labo », cinq pages,
+  archivées. Générateur bilingue, gabarit, DA « Carnet de labo » (remplacée le jour même par « Isométrique », voir §4), cinq pages,
   faits chiffrés avec sources, outils de vérification et de capture, images
   de partage. Captures des deux plateformes prises le jour même (Edge
   headless, 1280 et 504 px, converties en WebP à 960 et 390 px de large
   avec Pillow, qualité 82). Mise en ligne par `main`.
+- **04/09/2026 (soir)** — La DA « Carnet de labo » est rejetée (orange « comme
+  Claude », serif). Seize maquettes plus tard, Anthony choisit la composition
+  **isométrique** : elle est appliquée à tout le site, avec les écrans qui
+  changent de page. Au passage, la vérification a attrapé la dérive des
+  chiffres de Prépa 600 (l'autre session y a ajouté un septième blanc dans la
+  journée : 630 questions, 28 pages, 16 fonctions, 42 sous-tests au vert) —
+  `faits.json` mis à jour, les textes « cinq blancs » remplacés par le
+  chiffre `p600.blancs_payants`, `og.py` lit désormais `faits.json`.
