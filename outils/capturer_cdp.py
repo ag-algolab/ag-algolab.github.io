@@ -157,6 +157,19 @@ def main():
         if a.clic:
             print("clic :", c.evaluer(JS_CLIC % json.dumps(a.clic)))
             time.sleep(2.5)
+        # les images chargées à la demande n'apparaissent qu'une fois vues :
+        # on parcourt toute la page par paliers, on laisse charger, on remonte
+        hauteur_page = int(c.evaluer("Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)") or 0)
+        y_parcours = 0
+        while y_parcours < hauteur_page:
+            c.evaluer("window.scrollTo(0, %d)" % y_parcours)
+            time.sleep(0.35)
+            y_parcours += max(300, hauteur // 2)
+            hauteur_page = int(c.evaluer("Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)") or hauteur_page)
+        c.evaluer("window.scrollTo(0, 0)")
+        time.sleep(1.5)
+        c.evaluer("Promise.all(Array.from(document.images).filter(i => !i.complete).map(i => new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 4000); })))")
+        time.sleep(0.8)
         y = 0
         if a.depuis:
             y = c.evaluer(JS_DEPUIS % json.dumps(a.depuis))

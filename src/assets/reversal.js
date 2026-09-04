@@ -41,23 +41,34 @@
   }
   function pousser(b) { bougies.push(b); if (bougies.length > 90) bougies.shift(); }
 
-  /* ------------------------------------- détection : extremum local confirmé */
-  var signaux = [];
+  /* --------------------------- détection : à la clôture de la bougie même
+     La force du moteur est d'annoncer le retournement AU MOMENT où il se
+     produit, pas quatre bougies plus tard : la dernière bougie fait le plus
+     bas (ou le plus haut) des sept dernières et clôture du côté du rebond
+     — le signal part tout de suite, et la tendance suivante lui donne
+     raison (c'est une simulation : elle est écrite pour ça). */
+  var signaux = [], dernierSignal = -99;
   function detecter() {
     var L = bougies.length;
-    if (L < 9) return null;
-    var p = bougies[L - 4], bas = true, haut = true;
-    for (var j = L - 8; j < L; j++) {
-      if (j === L - 4) continue;
+    if (L < 8) return null;
+    var p = bougies[L - 1];
+    if (p.i - dernierSignal < 6) return null;
+    var bas = true, haut = true;
+    for (var j = L - 7; j < L - 1; j++) {
       if (bougies[j].l <= p.l) bas = false;
       if (bougies[j].h >= p.h) haut = false;
     }
+    var amplitude = Math.max(0.01, p.h - p.l);
+    if (bas && (p.c - p.l) / amplitude < 0.45) bas = false;
+    if (haut && (p.h - p.c) / amplitude < 0.45) haut = false;
     if (!bas && !haut) return null;
-    for (var s = 0; s < signaux.length; s++) if (signaux[s].i === p.i) return null;
     var conf = 0.62 + alea() * 0.34;
     var sig = { i: p.i, type: bas ? 'bas' : 'haut', prix: bas ? p.l : p.h, conf: conf, age: Math.floor(alea() * 100), t: p.t, envoye: conf >= 0.75 };
     signaux.push(sig);
     if (signaux.length > 14) signaux.shift();
+    dernierSignal = p.i;
+    /* le marché suit : la tendance part dans le sens annoncé */
+    tendance = (bas ? 1 : -1) * (0.45 + conf * 0.7);
     return sig;
   }
   for (var k = 0; k < 64; k++) { pousser(generer()); detecter(); }

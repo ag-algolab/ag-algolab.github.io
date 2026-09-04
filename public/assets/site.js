@@ -120,35 +120,69 @@
     ordi.addEventListener('mouseleave', function () { v.classList.remove('ordi-devant'); });
   });
 
-  /* ------------------------------------------- la méthode, pas à pas
-     Un clic choisit l'étape ; avec une souris, les étapes s'enchaînent
-     toutes seules et s'arrêtent quand la souris est sur le bloc. */
-  chaque('[data-etapes]', function (bloc) {
-    var etapes = bloc.querySelectorAll('.etape');
-    var visuels = bloc.querySelectorAll('.visuel');
-    var i = 0, minuterie = null, tempo = 5200;
-    var choisir = function (n) {
-      i = n;
-      Array.prototype.forEach.call(etapes, function (e, j) {
-        e.setAttribute('aria-selected', j === n ? 'true' : 'false');
-        var barre = e.querySelector('.barre');
-        if (barre) { barre.style.transition = 'none'; barre.style.width = '0'; }
+  /* ------------------------------------------- la méthode, en serpentin
+     Le chemin passe par le nœud de chaque étape ; il est calculé d'après
+     les positions réelles. Sur grand écran avec souris il se dessine au
+     défilement et allume les nœuds au passage ; ailleurs il est dessiné
+     d'un bloc et tous les nœuds sont allumés. */
+  chaque('[data-serpentin]', function (bloc) {
+    var svg = bloc.querySelector('.serpentin-trace');
+    var fond = svg && svg.querySelector('.fond');
+    var trait = svg && svg.querySelector('.trait');
+    var etapes = bloc.querySelectorAll('.serp-etape');
+    if (!svg || !fond || !trait || !etapes.length) return;
+    var noeuds = [], longueur = 0;
+    var tracer = function () {
+      var r = bloc.getBoundingClientRect();
+      var W = Math.round(r.width), H = Math.round(r.height);
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      svg.setAttribute('width', W); svg.setAttribute('height', H);
+      var etroit = window.innerWidth < 900;
+      noeuds = Array.prototype.map.call(etapes, function (e) {
+        var t = e.querySelector('.serp-titre');
+        var b = t.getBoundingClientRect();
+        var cx = etroit ? (b.left - r.left + 22) : (b.left - r.left + b.width / 2);
+        var cy = etroit ? (b.top - r.top + 15) : (b.top - r.top + 9);
+        return { x: cx, y: cy };
       });
-      Array.prototype.forEach.call(visuels, function (v, j) { v.classList.toggle('actif', j === n); });
-      if (riche) {
-        var b = etapes[n].querySelector('.barre');
-        if (b) setTimeout(function () { b.style.transition = 'width ' + tempo + 'ms linear'; b.style.width = '100%'; }, 30);
+      var d = 'M ' + noeuds[0].x + ' 0 L ' + noeuds[0].x + ' ' + noeuds[0].y;
+      var swing = etroit ? 10 : 80;
+      for (var i = 1; i < noeuds.length; i++) {
+        var a = noeuds[i - 1], b2 = noeuds[i];
+        var s = (i % 2 ? 1 : -1) * swing * Math.min(1, (b2.y - a.y) / 640);
+        var y1 = a.y + (b2.y - a.y) * 0.38, y2 = a.y + (b2.y - a.y) * 0.62;
+        d += ' C ' + (a.x + s) + ' ' + y1 + ', ' + (b2.x - s) + ' ' + y2 + ', ' + b2.x + ' ' + b2.y;
       }
+      d += ' L ' + noeuds[noeuds.length - 1].x + ' ' + H;
+      fond.setAttribute('d', d); trait.setAttribute('d', d);
+      longueur = trait.getTotalLength ? trait.getTotalLength() : 0;
+      trait.style.strokeDasharray = longueur ? longueur + ' ' + longueur : 'none';
+      peindre();
     };
-    var suivant = function () { choisir((i + 1) % etapes.length); };
-    var lancer = function () { if (!riche) return; clearInterval(minuterie); minuterie = setInterval(suivant, tempo); };
-    Array.prototype.forEach.call(etapes, function (e, n) {
-      e.addEventListener('click', function () { choisir(n); lancer(); });
-    });
-    bloc.addEventListener('mouseenter', function () { clearInterval(minuterie); });
-    bloc.addEventListener('mouseleave', lancer);
-    choisir(0);
-    lancer();
+    var progression = 1;
+    var peindre = function () {
+      if (!longueur) return;
+      trait.style.strokeDashoffset = String(longueur * (1 - progression));
+      var r = bloc.getBoundingClientRect();
+      Array.prototype.forEach.call(etapes, function (e, i) {
+        var part = noeuds[i] ? noeuds[i].y / (r.height || 1) : 0;
+        e.classList.toggle('passe', progression >= part - 0.02);
+      });
+    };
+    var defiler = function () {
+      var r = bloc.getBoundingClientRect();
+      var ligne = window.innerHeight * 0.72;
+      progression = Math.max(0, Math.min(1, (ligne - r.top) / (r.height || 1)));
+      peindre();
+    };
+    tracer();
+    if (riche) {
+      progression = 0; peindre(); defiler();
+      window.addEventListener('scroll', defiler, { passive: true });
+    }
+    var minuterieT = null;
+    window.addEventListener('resize', function () { clearTimeout(minuterieT); minuterieT = setTimeout(tracer, 120); });
+    setTimeout(tracer, 800);
   });
 
   if (!riche) return;

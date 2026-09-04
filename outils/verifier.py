@@ -313,6 +313,8 @@ def main():
         print("public/ absent : lancer d'abord python outils/construire.py")
         sys.exit(1)
     pages = sorted(glob.glob(os.path.join(PUB, "**", "*.html"), recursive=True))
+    # les redirections /en/ ne sont pas des pages : elles ne portent qu'un canonique
+    pages = [p for p in pages if not os.path.relpath(p, PUB).replace(os.sep, "/").startswith("en/")]
     versions = set()
     for page in pages:
         assets = verifier_page(page) or []

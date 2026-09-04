@@ -20,7 +20,7 @@
 
 | Quoi | Où |
 |---|---|
-| Le site en ligne | https://agalgolab.com (et https://agalgolab.com/en/) |
+| Le site en ligne | https://agalgolab.com (anglais, langue principale) et https://agalgolab.com/fr/ (français) |
 | Le dépôt | GitHub `ag-algolab/ag-algolab.github.io`, branche `main`, **public** |
 | Le code en local | `C:\Users\antho\projets\agalgolab\` |
 | L'hébergement | **GitHub Pages**, déployé par `.github/workflows/deploy.yml` à chaque push sur `main` |
@@ -50,7 +50,7 @@ modifier src/  →  python outils/construire.py  →  python outils/verifier.py
 ### Construire
 
 `python outils/construire.py` régénère `public/` **entièrement** : les
-dix pages (cinq en français à la racine, cinq en anglais sous `/en/`), le
+dix pages (cinq en anglais à la racine, cinq en français sous `/fr/`), le
 sitemap avec les alternates de langue, `robots.txt`, `llms.txt`, `CNAME`,
 `404.html`, et copie `src/assets/` vers `public/assets/`.
 
@@ -100,7 +100,7 @@ python -m http.server 8873 --directory public
 ```
 
 (ou, dans Claude Code, la configuration `agalgolab` de `.claude/launch.json`).
-Les pages se lisent à `http://localhost:8873/`, `/en/`, `/institut-moliere/`…
+Les pages se lisent à `http://localhost:8873/`, `/fr/`, `/institut-moliere/`…
 
 ### Capturer
 
@@ -196,8 +196,8 @@ et les étiquettes se redressent face au visiteur.
 | `--nuit` / `--nuit-2` | `#0B2E1F` / `#124A33` | bandes de chiffres, étiquettes de la scène, bloc du graphique |
 | `--menthe` / `--ambre` | `#6EE7B7` / `#FCD34D` | chiffres et lignes sur les blocs nuit |
 
-**La scène isométrique** (`.iso`) : un bloc de 760 × 640 dessiné à l'échelle 1
-puis réduit par `--k` selon la largeur (0,9 → 0,76 → 0,74 → 0,55 → 0,43). Le
+**La scène isométrique** (`.iso`) : un bloc de 760 × 760 dessiné à l'échelle 1
+puis réduit par `--k` selon la largeur (0,84 → 0,76 → 0,8 → 0,62 → 0,5 → 0,42 sous 360 px). Le
 sol `.iso-sol` est un carré de 760 tourné `rotateX(58deg) rotateZ(-45deg)` ; les
 dalles `.iso-dalle` (ordinateurs) y reposent avec une hauteur `--z` ; les
 téléphones `.iso-tel` et les étiquettes `.iso-tag` reçoivent la rotation
@@ -206,12 +206,23 @@ fait 1 075 px de large) : **`.hero { overflow: hidden }` est obligatoire**,
 c'est lui qui empêche le défilement horizontal sur téléphone. Les positions
 sont écrites en `style=""` dans le HTML de chaque page, pas dans le CSS.
 
-**Le héros ne bouge pas** (décision d'Anthony, 04/09 au soir : « ça fait
-cheap, ce n'est qu'un aperçu ») : trois ordinateurs et deux téléphones,
-**aucun élément sur un autre** — les positions sont dans le HTML de
-l'accueil, et se vérifient par mesure dans le navigateur (rectangles des
-`.iso .ordi, .iso .tel`, aucune intersection). Les téléphones sont posés
-à côté des cadres, jamais sur un écran.
+**Le héros : six écrans face au visiteur, aucun téléphone** (décisions
+d'Anthony du 04/09 au soir — « ça fait cheap, ce n'est qu'un aperçu », rien
+ne change de page — et du 05/09 — « les téléphones, pas dingue », « tourne les
+écrans dans notre sens pour qu'on puisse voir »). Les cartes `.iso-carte` sont
+des sœurs du sol, pas ses enfants : elles ne sont donc pas tournées, et
+reçoivent seulement une profondeur par l'échelle (`.loin` 0,86 au fond, `.mi`
+0,93 au milieu, 1 devant), trois rangs de deux. Du fond vers l'avant :
+l'administration Molière (**capture d'Anthony, noms et chiffres floutés par
+`ImageFilter.GaussianBlur` avant de sortir de sa machine — « c'est un peu
+sensible », donc la plus loin et la plus petite**), le simulateur Prépa 600,
+le tableau de bord élève, l'accueil Prépa 600, l'accueil Molière, le test de
+niveau. Les positions sont écrites dans le HTML de l'accueil et se vérifient
+par mesure dans le navigateur : rectangles des `.iso-carte .ordi`, aucune
+intersection, et un vide d'au moins 16 px avec la colonne de texte à 1 280 px.
+Sur le chemin riche seulement, les cartes lévitent de 12 px (`flotte-plat`) ;
+les anciennes dalles 3D `.iso-dalle` et les téléphones `.iso-tel` restent dans
+le CSS mais ne sont plus posés nulle part.
 
 **Les vitrines qui déroulent** (`.vitrine`, `.defile`, script `site.js`) :
 un ordinateur montre la page ENTIÈRE (`<nom>-full.webp`, 800 px de large) ;
@@ -220,13 +231,30 @@ revient en haut quand on part ; sans souris, elle défile toute seule,
 doucement, tant qu'elle est à l'écran. Un téléphone est posé à côté, **devant
 le bord de l'ordinateur, toujours au-dessus** — sauf quand la souris est
 sur l'ordinateur, où celui-ci passe devant (`.ordi-devant`). L'état
-statique est le haut de la page. Le téléphone montre une AUTRE page que
-l'ordinateur (le test de niveau pour Molière, le test pour Prépa 600).
+statique est le haut de la page. **Le téléphone montre LA MÊME page d'accueil
+que l'ordinateur** (Anthony, 05/09 : « il faut que ce soit la même, pour voir
+comment ça s'adapte au téléphone ») ; `capturer_cdp.py` fait défiler toute la
+page avant de photographier, sinon les images chargées à la demande
+manquent dans le bas (c'était le cas à partir d'« Écoles françaises »).
 
 **Les captures se rafraîchissent CHAQUE SEMAINE** (`python outils/rafraichir.py`
 depuis PowerShell) : les deux sites évoluent, et la vitrine doit montrer
 leur état réel. `construire.py` relit la taille de chaque image à la
 construction, donc une capture plus longue ne casse rien.
+
+**La méthode en serpentin** (`.serpentin`, `[data-serpentin]` dans `site.js`) :
+un chemin en S descend au centre, les cinq titres sont posés dessus, les
+contenus alternent à gauche et à droite (`.serp-etape.droite`). Le chemin est
+un `<path>` SVG calculé d'après les positions réelles des nœuds (courbes de
+Bézier, amplitude ±80 px proportionnelle à la longueur du segment, ±10 px
+sur téléphone où il devient une ligne à 22 px du bord). **État statique :
+tout est dessiné et tous les nœuds sont allumés** (classe `passe` dans le
+HTML). Sur le chemin riche seulement, le script cache le trait
+(`stroke-dasharray` = longueur) et le dessine au défilement : la progression
+est la position d'une ligne à 72 % de la hauteur de l'écran dans le bloc, et
+chaque nœud s'allume quand elle le dépasse. Le texte de l'étape 1, « La
+vision », porte le positionnement d'Anthony : il ne code pas ce qu'on lui
+dicte, il revient avec le produit que le client n'avait pas dessiné.
 
 **Les règles de production, non négociables** (héritées de Molière et de
 Prépa 600) :
@@ -245,11 +273,15 @@ Prépa 600) :
   `padding-top` / `padding-bottom` séparés sur tout ce qui porte `.wrap` ;
 - menu téléphone en `display:none` ↔ `display:flex`, jamais en opacité ;
   `<noscript>` le rend visible sans script ;
-- jamais de `&nbsp;` dans un très gros titre.
+- jamais de `&nbsp;` dans un très gros titre — une seule exception, mesurée à
+  320 px : « plateformes&nbsp;web » dans le H1 français, pour que les deux
+  mots restent sur la même ligne (demande d'Anthony du 05/09).
 
-Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
-3D à droite, deux étiquettes vert nuit dont les chiffres viennent de
-`faits.json`. Les icônes sont un losange vert sur menthe.
+Les images de partage (`outils/og.py`) existent **par page et par langue**
+(`og-<nom>-fr.png` et `og-<nom>-en.png`, six fichiers ; `image_partage()` dans
+`construire.py` choisit la bonne) : le logo AG, le slogan « La vision, le
+produit, la mise en ligne » / « The vision, the product, the launch », deux
+étiquettes vert nuit dont les chiffres viennent de `faits.json`.
 
 ---
 
@@ -277,6 +309,25 @@ Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
 8. **Référencement soigné**, il déclare le site lui-même dans la Search
    Console.
 
+Ajouté le 5 septembre 2026 (ses retours du soir et de la nuit) :
+
+9. **L'anglais est la langue principale, à la racine** ; le français sous
+   `/fr/`. Les anciennes adresses `/en/…` (indexables une journée) renvoient
+   vers la racine par une page `noindex` + `canonical` + `meta refresh`.
+10. **Un slogan à la place de son nom** en étiquette du héros — « Anthony
+    Gocmen · fondateur d'AG Algo Lab » lui paraissait « ultra narcissique » :
+    « La vision, le produit, la mise en ligne. »
+11. **La méthode doit montrer sa vision et sa créativité**, pas « un
+    développeur qui développe ce qu'on lui dit mot pour mot » : le titre de
+    la section et l'étape 1 le disent, le dialogue de l'étape 1 le montre.
+12. **Jamais la Tunisie**, nulle part (`grep -ri tunis src/` doit rendre
+    zéro) ; « développeur full-stack indépendant » interdit ; Master
+    Dauphine sans dates ; jamais le mot « CTO ».
+13. **Reversal Engine : le score apparaît sur la bougie du retournement
+    même**, pas trois bougies plus tard (« toute la force de l'engin c'est de
+    prédire ») ; la simulation fait ensuite partir la tendance dans le sens
+    annoncé, et le dit.
+
 ---
 
 ## 6. Ce qui reste à Anthony
@@ -294,11 +345,12 @@ Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
 3. **LinkedIn** : mettre `https://agalgolab.com/institut-moliere/` en
    « Sélection », avec titre et description écrasés (voir la session
    Molière du 04/09).
-4. Relire la version anglaise sur téléphone.
-5. Les captures des deux sites datent du **4 septembre 2026** : les
-   reprendre quand leurs accueils changent (`outils/capturer.py`, puis les
-   convertir comme dans `_archives/` — la recette est dans le journal
-   ci-dessous).
+4. Relire les deux versions sur téléphone : l'anglaise (la racine,
+   désormais) et la française (`/fr/`).
+5. Les captures des deux sites datent du **5 septembre 2026 (nuit)** ; le
+   point 0 les tient à jour. La capture de l'administration Molière
+   (`moliere-admin.webp`) ne vient pas de `rafraichir.py` : c'est sa capture
+   d'écran floutée, à refaire à la main si l'administration change.
 
 ---
 
@@ -317,6 +369,20 @@ Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
   `innerWidth = 0` : tout `matchMedia("(min-width: …)")` y échoue, donc le
   chemin riche y paraît désactivé à tort — c'est le banc d'essai idéal du
   chemin sobre, pas du riche.
+- **L'onglet caché du panneau ne défile pas et ne rend pas** : `scrollTo`
+  n'y bouge rien, ni `scroll` ni `requestAnimationFrame` n'y sont délivrés,
+  et les captures d'écran expirent. Pour tester une mécanique au défilement,
+  remplacer `getBoundingClientRect` du bloc par une fonction qui renvoie la
+  position voulue et envoyer `new Event('scroll')` (c'est ainsi que le
+  serpentin a été validé), ou photographier en Edge headless avec
+  `capturer_cdp.py --depuis "un texte"`.
+- **Les chiffres Prépa 600 bougent plusieurs fois par jour** (la banque de
+  questions grossit pendant qu'on travaille ici) : quand `verifier.py`
+  refuse, relancer les deux scripts de mise à jour (§3) et reconstruire,
+  sans discuter.
+- **Le serveur local** est déclaré dans le `launch.json` de la session
+  Claude Code du dossier `PycharmProjects\Youtube`, pas dans ce dépôt :
+  `python -m http.server 8873 --directory C:/Users/antho/projets/agalgolab/public`.
 
 ---
 
@@ -377,3 +443,26 @@ Les images de partage (`outils/og.py`) reprennent la scène : sol quadrillé en
   entier, ordinateur et téléphone, et `construire.py` relit les dimensions
   des images. La banque Prépa 600 a atteint 900 questions dans la nuit
   (10 blancs, 60 sous-tests au vert) : suivie.
+- **05/09/2026 (matin)** — Quatrième lot, sur ses retours de la nuit.
+  **L'anglais devient la langue de la racine** et le français passe sous
+  `/fr/` (`LANGUES = ("en", "fr")`, `image_partage()`, `x-default` vers
+  l'anglais, 404 en anglais, redirections `/en/…` → racine). **Slogan** à la
+  place de son nom dans le héros. **Héros refait** : six écrans face au
+  visiteur en trois rangs de profondeur, sans téléphone, dont sa capture de
+  l'administration Molière **floutée** (noms, pastilles, tuiles, liste des
+  élèves, axe du graphique) et placée le plus loin ; aucun chevauchement
+  mesuré à 1 280, 499, 375 et 320 px. **Vitrines** : le téléphone montre la
+  même page d'accueil que l'ordinateur, et `capturer_cdp.py` fait défiler
+  toute la page avant la photo (les images paresseuses manquaient sous
+  « Écoles françaises »). **Méthode en serpentin** : chemin SVG en S calculé
+  sur les positions réelles, dessiné au défilement sur le chemin riche,
+  complet et allumé partout ailleurs ; contenus réécrits autour de la vision
+  (étape 1 « La vision »). **Reversal Engine** : le signal part à la clôture
+  de la bougie du retournement (plus bas / plus haut des sept dernières et
+  clôture du côté du rebond), la tendance simulée suit. H1 français :
+  « plateformes&nbsp;web » insécable, corps réduit. `og.py` produit six
+  images (trois pages × deux langues). Pied : cibles tactiles des liens à
+  30 px. `rafraichir.py` relancé : toutes les captures des deux sites datent
+  de cette nuit. Prépa 600 a encore grossi pendant le lot (990 puis 1 080
+  questions, 12 blancs, 72 sous-tests au vert) : `faits.json` suit, le
+  vérificateur a refusé deux fois avant. Assets en `?v=5`.

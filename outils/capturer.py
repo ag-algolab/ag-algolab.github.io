@@ -22,7 +22,7 @@ import time
 sys.stdout.reconfigure(encoding="utf-8")
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = ["/", "/institut-moliere/", "/prepa-600/", "/reversal-engine/", "/mentions-legales/",
-         "/en/", "/en/institut-moliere/", "/en/prepa-600/", "/en/reversal-engine/", "/en/mentions-legales/"]
+         "/fr/", "/fr/institut-moliere/", "/fr/prepa-600/", "/fr/reversal-engine/", "/fr/mentions-legales/"]
 
 
 def trouver_edge():

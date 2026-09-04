@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Institut Molière : le site et la plateforme, construits seul</title>
+<meta name="description" content="Le site public, la plateforme, l&#x27;espace professeur et l&#x27;administration d&#x27;un institut de langues, construits seul : 72 écrans, 524 commits en 20 jours.">
+<link rel="canonical" href="https://agalgolab.com/fr/institut-moliere/">
+<link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/institut-moliere/">
+<link rel="alternate" hreflang="en" href="https://agalgolab.com/institut-moliere/">
+<link rel="alternate" hreflang="x-default" href="https://agalgolab.com/institut-moliere/">
+<meta name="theme-color" content="#EAF7F1">
+<meta name="author" content="Anthony Gocmen">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AG Algo Lab">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Institut Molière : le site et la plateforme, construits seul">
+<meta property="og:description" content="Le site public, la plateforme, l&#x27;espace professeur et l&#x27;administration d&#x27;un institut de langues, construits seul : 72 écrans, 524 commits en 20 jours.">
+<meta property="og:url" content="https://agalgolab.com/fr/institut-moliere/">
+<meta property="og:image" content="https://agalgolab.com/assets/img/og-institut-moliere-fr.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Institut Molière : le site et la plateforme, construits seul">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Institut Molière : le site et la plateforme, construits seul">
+<meta name="twitter:description" content="Le site public, la plateforme, l&#x27;espace professeur et l&#x27;administration d&#x27;un institut de langues, construits seul : 72 écrans, 524 commits en 20 jours.">
+<meta name="twitter:image" content="https://agalgolab.com/assets/img/og-institut-moliere-fr.png">
+<link rel="icon" href="/assets/img/icone-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/img/icone-512.png" sizes="512x512" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/icone-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=5">
+<script type="application/ld+json">{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "ProfessionalService",
+   "@id": "https://agalgolab.com/#org",
+   "name": "AG Algo Lab",
+   "legalName": "Anthony Gocmen — entreprise individuelle (AG Algo Lab)",
+   "url": "https://agalgolab.com/",
+   "email": "anthony@agalgolab.com",
+   "founder": {
+    "@id": "https://agalgolab.com/#anthony"
+   },
+   "logo": "https://agalgolab.com/assets/img/icone-512.png",
+   "image": "https://agalgolab.com/assets/img/og-agalgolab.png",
+   "vatID": "FR77935081703",
+   "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "SIREN",
+    "value": "935081703"
+   },
+   "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "6 rue de la Norée",
+    "postalCode": "27630",
+    "addressLocality": "Vexin-sur-Epte",
+    "addressCountry": "FR"
+   },
+   "areaServed": [
+    "FR"
+   ],
+   "description": "Le site public, la plateforme, l'espace professeur et l'administration d'un institut de langues, construits seul : 72 écrans, 524 commits en 20 jours.",
+   "knowsAbout": [
+    "Next.js",
+    "TypeScript",
+    "Supabase",
+    "PostgreSQL",
+    "Vercel",
+    "Stripe",
+    "SEO",
+    "Claude Code"
+   ]
+  },
+  {
+   "@type": "Person",
+   "@id": "https://agalgolab.com/#anthony",
+   "name": "Anthony Gocmen",
+   "url": "https://agalgolab.com/",
+   "email": "anthony@agalgolab.com",
+   "jobTitle": "Fondateur d'AG Algo Lab",
+   "sameAs": [
+    "https://www.linkedin.com/in/anthony-gocmen",
+    "https://github.com/ag-algolab"
+   ],
+   "worksFor": {
+    "@id": "https://agalgolab.com/#org"
+   },
+   "image": "https://agalgolab.com/assets/img/anthony.jpg"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://agalgolab.com/#site",
+   "url": "https://agalgolab.com/",
+   "name": "AG Algo Lab",
+   "inLanguage": [
+    "fr",
+    "en"
+   ],
+   "publisher": {
+    "@id": "https://agalgolab.com/#org"
+   }
+  },
+  {
+   "@type": "Article",
+   "@id": "https://agalgolab.com/fr/institut-moliere/",
+   "url": "https://agalgolab.com/fr/institut-moliere/",
+   "name": "Institut Molière : le site et la plateforme, construits seul",
+   "description": "Le site public, la plateforme, l'espace professeur et l'administration d'un institut de langues, construits seul : 72 écrans, 524 commits en 20 jours.",
+   "inLanguage": "fr",
+   "isPartOf": {
+    "@id": "https://agalgolab.com/#site"
+   },
+   "dateModified": "2026-09-05",
+   "primaryImageOfPage": "https://agalgolab.com/assets/img/og-institut-moliere-fr.png",
+   "headline": "Institut Molière : le site et la plateforme, construits seul",
+   "author": {
+    "@id": "https://agalgolab.com/#anthony"
+   },
+   "publisher": {
+    "@id": "https://agalgolab.com/#org"
+   },
+   "image": "https://agalgolab.com/assets/img/og-institut-moliere-fr.png"
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Accueil",
+     "item": "https://agalgolab.com/fr/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Institut Molière : le site et la plateforme, construits seul",
+     "item": "https://agalgolab.com/fr/institut-moliere/"
+    }
+   ]
+  }
+ ]
+}</script>
+</head>
+<body class="page-institut-moliere type-cas">
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<header class="entete">
+  <div class="wrap entete-in">
+    <a class="marque" href="/fr/" aria-label="AG Algo Lab — accueil"><img width="281" height="180" src="/assets/img/logo-ag.png" alt="AG Algo Lab"><span>AG Algo Lab</span></a>
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <a href="/fr/#realisations">Réalisations</a>
+      <a href="/fr/institut-moliere/">Institut Molière</a>
+      <a href="/fr/prepa-600/">Prépa 600</a>
+      <a href="/fr/#offres">Offres</a>
+      <a href="/fr/#methode">Méthode</a>
+      <a class="btn btn-p btn-nav" href="mailto:anthony@agalgolab.com?subject=Projet%20%E2%80%94%20AG%20Algo%20Lab">Me contacter</a>
+    </nav>
+    <div class="entete-outils">
+      <a class="langue" href="/institut-moliere/" hreflang="en" lang="en" title="Read this page in English"><span class="langue-actuelle">FR</span><span class="langue-sep" aria-hidden="true">/</span><span>EN</span></a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+<section class="hero">
+  <div class="wrap">
+    <p class="etq">Cas client · institut-moliere.com · en ligne depuis le 25 août 2026</p>
+    <h1 class="h1">Institut Molière : tout le site et toute la plateforme, <em>construits seul</em>.</h1>
+    <p class="chapo">Un institut de langues et de soutien scolaire, 7 sites et des classes en ligne, de la primaire au baccalauréat et des adultes. Site public, plateforme d'apprentissage, espace professeur, administration, automatisations : un seul projet, 20 jours.</p>
+    <div class="actions">
+      <a class="btn btn-p" href="https://institut-moliere.com" rel="noopener" target="_blank">Ouvrir le site en ligne ↗</a>
+      <a class="btn btn-s" href="mailto:anthony@agalgolab.com?subject=Plateforme%20%E2%80%94%20AG%20Algo%20Lab">Le même socle pour mon activité</a>
+    </div>
+    <div class="vitrine" style="margin-top:34px">
+      <div class="vitrine-ordi"><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com</span></div><div class="ordi-ecran defile"><img width="800" height="5937" src="/assets/img/moliere-accueil-full.webp" alt="La page d'accueil complète de l'Institut Molière" fetchpriority="high"></div></div></div>
+      <div class="vitrine-tel"><div class="tel"><div class="tel-ecran defile"><span class="tel-encoche" aria-hidden="true"></span><img width="360" height="14753" src="/assets/img/moliere-accueil-m-full.webp" alt="La même page d'accueil sur téléphone" loading="lazy"></div></div></div>
+    </div>
+    <p class="vitrine-leg">La même page d'accueil sur ordinateur et sur téléphone, telle qu'elle s'adapte. Passez la souris : elle défile en entier. Captures rafraîchies chaque semaine.</p>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap" data-carrousel>
+    <div class="carrousel-tete">
+      <div class="sec-tete" style="margin-bottom:0">
+        <p class="etq">À voir en premier</p>
+        <h2 class="h2">Ce qu'un visiteur peut faire sans compte.</h2>
+      </div>
+      <div class="carrousel-nav"><button type="button" data-avant aria-label="Précédent">←</button><button type="button" data-apres aria-label="Suivant">→</button></div>
+    </div>
+    <div class="carrousel">
+      <div class="carte-ecran"><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/test-de-niveau</span></div><div class="ordi-ecran defile"><img width="800" height="2255" src="/assets/img/moliere-test-full.webp" alt="Le test de niveau" loading="lazy"></div></div><p class="leg"><b>Le test de niveau, en trois minutes</b><span>Sans inscription. Français ou anglais, du grand débutant au C1, questions tirées au hasard. Le résultat ouvre la bibliothèque au bon niveau.</span></p></div>
+      <div class="carte-ecran carte-tel"><div class="tel"><div class="tel-ecran defile"><span class="tel-encoche" aria-hidden="true"></span><img width="360" height="8664" src="/assets/img/moliere-inscription-m-full.webp" alt="Le parcours d'inscription sur téléphone" loading="lazy"></div></div><p class="leg"><b>L'inscription, en huit étapes</b><span>Après « c'est la première fois » : pour qui, quelle matière, la formule, l'élève, le compte, le règlement déclaré et sa preuve, lue automatiquement.</span></p></div>
+      <div class="carte-ecran"><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/eleve</span></div><div class="ordi-ecran"><img width="960" height="600" src="/assets/img/moliere-eleve.webp" alt="Le tableau de bord de l'élève" loading="lazy"></div></div><p class="leg"><b>Le tableau de bord de l'élève</b><span>Mot du jour, série de jours, palmes, missions, huit minutes de lecture, le Coach à portée de clic.</span></p></div>
+      <div class="carte-ecran"><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/la-plateforme</span></div><div class="ordi-ecran defile"><img width="800" height="3128" src="/assets/img/moliere-plateforme-full.webp" alt="La page qui présente la plateforme" loading="lazy"></div></div><p class="leg"><b>La plateforme, et le Coach essayable</b><span>Chaque fonction dessinée, et le Coach Molière qu'on peut interroger sans compte, à la voix comme à l'écrit.</span></p></div>
+      <div class="carte-ecran carte-tel"><div class="tel"><div class="tel-ecran defile"><span class="tel-encoche" aria-hidden="true"></span><img width="360" height="14753" src="/assets/img/moliere-accueil-m-full.webp" alt="L'accueil sur téléphone" loading="lazy"></div></div><p class="leg"><b>L'accueil sur téléphone</b><span>Là d'où viennent la plupart des visiteurs : Instagram et Facebook, dans leur navigateur intégré.</span></p></div>
+    </div>
+    <div class="stats" aria-label="Chiffres du projet">
+      <div class="stat"><b data-compte>72</b><span>écrans</span><small>fichiers page.tsx, comptés le 4 sept. 2026</small></div>
+      <div class="stat"><b data-compte>13</b><span>routes d'API</span><small>fichiers route.ts</small></div>
+      <div class="stat"><b data-compte>67</b><span>migrations SQL</span><small>fichiers numérotés dans db/</small></div>
+      <div class="stat"><b data-compte>70 795</b><span>lignes de TypeScript</span><small>src/, .ts et .tsx</small></div>
+      <div class="stat"><b data-compte>524</b><span>commits en 20 jours</span><small>du 16 août 2026 au 4 septembre 2026</small></div>
+      <div class="stat"><b>4</b><span>espaces, un seul projet</span><small>site, élève, professeur, administration</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">Le point de départ</p>
+      <h2 class="h2">Mi-août, l'institut n'a plus la main sur son site. Neuf jours plus tard, il est en ligne.</h2>
+    </div>
+    <ol class="frise">
+      <li><time datetime="2026-08-13">13 août 2026</time><b>Le rendez-vous</b><p>Le prestataire précédent refuse de rendre les accès. Reconstruction complète décidée.</p></li>
+      <li><time datetime="2026-08-16">16 août 2026</time><b>Premier commit</b><p>Next.js, Supabase, les premiers écrans, la première migration.</p></li>
+      <li><time datetime="2026-08-25">25 août 2026</time><b>En ligne sur institut-moliere.com</b><p>Inscription, essai gratuit, test de niveau et alertes tournent.</p></li>
+      <li><time datetime="2026-09-04">4 septembre 2026</time><b>524e commit</b><p>La plateforme complète tourne, l'administration pilote la rentrée dedans.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap" data-onglets>
+    <div class="sec-tete">
+      <p class="etq">Quatre espaces, un seul projet</p>
+      <h2 class="h2">Le rôle du compte décide de ce qui s'ouvre.</h2>
+    </div>
+    <div class="onglets" role="tablist">
+      <button class="onglet" type="button" role="tab" aria-selected="true">Site public · 15</button>
+      <button class="onglet" type="button" role="tab" aria-selected="false">Élève · 20</button>
+      <button class="onglet" type="button" role="tab" aria-selected="false">Professeur · 9</button>
+      <button class="onglet" type="button" role="tab" aria-selected="false">Administration · 21</button>
+    </div>
+    <div class="panneau actif">
+      <ul class="liste">
+        <li><span>Présentation par public, programmes, carte des 7 sites</span></li>
+        <li><span>Inscription en ligne avec règlement déclaré et lecture automatique du reçu</span></li>
+        <li><span>Essai gratuit de 3 jours, sans carte bancaire</span></li>
+        <li><span>Test de niveau français et anglais, test indicatif dys</span></li>
+        <li><span>Candidature de professeur, vérification de certificat en ligne</span></li>
+      </ul>
+      <div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com</span></div><div class="ordi-ecran defile"><img width="800" height="5937" src="/assets/img/moliere-accueil-full.webp" alt="Le site public" loading="lazy"></div></div>
+    </div>
+    <div class="panneau">
+      <ul class="liste">
+        <li><span>Bibliothèque ouverte à son niveau, lecteur intégré sans téléchargement</span></li>
+        <li><span>Dictées audio corrigées à la seconde, faute par faute</span></li>
+        <li><span>Calcul mental chronométré, échecs, concours mensuel</span></li>
+        <li><span>Coach Molière à toute heure, à la voix comme à l'écrit, photo d'un exercice comprise</span></li>
+        <li><span>Progression, séries, calendrier, comptes rendus de chaque cours</span></li>
+      </ul>
+      <div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/eleve</span></div><div class="ordi-ecran"><img width="960" height="600" src="/assets/img/moliere-eleve.webp" alt="L'espace élève" loading="lazy"></div></div>
+    </div>
+    <div class="panneau">
+      <ul class="liste">
+        <li><span>L'appel de chaque séance</span></li>
+        <li><span>Ses séances et ses comptes rendus, publiés chez l'élève et annoncés dans le groupe Telegram de la classe</span></li>
+        <li><span>Ses dictées, ses publications, son profil</span></li>
+      </ul>
+      <div class="v-carte v-nuit"><span class="p">/prof</span><br><span class="c">appel · séances · comptes rendus · dictées · publications</span><br><span class="c">9 écrans · pas de capture : l'espace contient des données d'élèves</span></div>
+    </div>
+    <div class="panneau">
+      <ul class="liste">
+        <li><span>Prospects, relances, envois ciblés</span></li>
+        <li><span>Dossiers d'inscription, encaissements, classes, horaires, membres</span></li>
+        <li><span>Essais gratuits : qui a accroché, qui non ; l'activité de chaque élève</span></li>
+        <li><span>Bibliothèque, ressources, candidatures, certificats, état du Coach</span></li>
+      </ul>
+      <div class="v-carte v-nuit"><span class="p">/admin</span><br><span class="c">prospects · dossiers · paiements · classes · élèves · essais · envois · ressources</span><br><span class="c">21 écrans · pas de capture : l'espace contient des données de familles</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">Les automatismes</p>
+      <h2 class="h2">Ce qui tourne sans personne.</h2>
+    </div>
+    <div class="auto">
+      <div class="auto-item" data-rv><span class="tag">Telegram</span><p><b>Alertes à l'équipe</b>Inscription, candidature, test de niveau, paiement, panne du Coach.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Telegram</span><p><b>Un groupe par classe</b>Le bot annonce le cours avant, le compte rendu après.</p></div>
+      <div class="auto-item" data-rv><span class="tag">E-mail</span><p><b>Le bilan hebdomadaire</b>Aux familles, nominatif, sans que personne l'écrive.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>Relance des élèves silencieux</b>Après trois jours sans venue.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>Rappel avant chaque cours</b>Dix minutes avant, dans le groupe.</p></div>
+      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>La voix des dictées</b>Sonorisées deux fois par jour, par lots.</p></div>
+      <div class="auto-item" data-rv><span class="tag">IA</span><p><b>Lecture des reçus</b>Preuve de paiement lue, bénéficiaire vérifié.</p></div>
+      <div class="auto-item" data-rv><span class="tag">IA</span><p><b>Le signal dys</b>Compté sur chaque dictée ; l'administration est alertée, jamais la famille.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-filet">
+  <div class="wrap">
+    <div class="sec-tete">
+      <p class="etq">Les décisions</p>
+      <h2 class="h2">Trois décisions qui tiennent le système.</h2>
+    </div>
+    <div class="g3">
+      <article class="carte" data-rv><h3 class="h4">La sécurité vit dans la base.</h3><p>Droits par module, par niveau et par classe, appliqués par le moteur de la base. Un écran ne protège rien.</p></article>
+      <article class="carte" data-rv><h3 class="h4">Le niveau ouvre la bibliothèque.</h3><p>Son niveau, un cran en dessous, un cran au-dessus. Prouvé sur un élève jetable, pas déduit du code.</p></article>
+      <article class="carte" data-rv><h3 class="h4">Une notification part du serveur.</h3><p>Envoyée quand le dossier est écrit en base. Un filet posé dans le navigateur se tait dès que la connexion lâche.</p></article>
+    </div>
+    <ul class="pile" style="margin-top:22px">
+      <li><b>Next.js · TypeScript</b>un seul projet</li>
+      <li><b>Supabase · PostgreSQL</b>droits en base, 67 migrations</li>
+      <li><b>Vercel</b>déploiement à chaque push, 3 crons</li>
+      <li><b>Telegram · Resend · Gemini</b>alertes, e-mails, lecture des reçus, voix</li>
+      <li><b>Claude Code</b>toujours sur les modèles les plus performants du marché</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec sec-filet sec-papier">
+  <div class="wrap">
+    <div class="carte carte-accent">
+      <p class="etq">Et pour vous</p>
+      <h2 class="h2">Une école, un centre, une activité avec des membres ?</h2>
+      <p class="chapo">Le même socle s'adapte : site, inscriptions, espaces, automatisations. Prix selon l'activité : un montant fixe par élève ou par membre actif, ou un forfait, fixé après un premier échange.</p>
+      <div class="actions">
+        <a class="btn btn-p" href="mailto:anthony@agalgolab.com?subject=Plateforme%20%E2%80%94%20AG%20Algo%20Lab">Décrire mon activité</a>
+        <a class="btn btn-s" href="/fr/#offres">Voir les deux offres</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied">
+  <div class="wrap">
+    <div class="pied-grille">
+      <div class="pied-col">
+        <a class="marque" href="/fr/"><img width="281" height="180" src="/assets/img/logo-ag.png" alt="AG Algo Lab"><span>AG Algo Lab</span></a>
+        <p>Des plateformes web complètes, construites seul, de l'idée à la mise en ligne : site, espaces membres, paiement, automatisations, données.</p>
+        <p><a href="mailto:anthony@agalgolab.com">anthony@agalgolab.com</a></p>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Pages</p>
+        <ul class="pied-liste">
+          <li><a href="/fr/institut-moliere/">Institut Molière</a></li>
+          <li><a href="/fr/prepa-600/">Prépa 600</a></li>
+          <li><a href="/fr/reversal-engine/">Reversal Engine</a></li>
+          <li><a href="/fr/#offres">Offres et prix</a></li>
+          <li><a href="/fr/#methode">Méthode</a></li>
+          <li><a href="/fr/#a-propos">Qui construit</a></li>
+        </ul>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Ailleurs</p>
+        <ul class="pied-liste">
+          <li><a href="https://www.linkedin.com/in/anthony-gocmen" rel="me noopener" target="_blank">LinkedIn</a></li>
+          <li><a href="https://github.com/ag-algolab" rel="me noopener" target="_blank">GitHub</a></li>
+          <li><a href="https://www.youtube.com/@ag_algolab_fr" rel="noopener" target="_blank">YouTube</a></li>
+          <li><a href="https://pypi.org/project/shahmat/" rel="noopener" target="_blank">ShahMat sur PyPI</a></li>
+        </ul>
+      </div>
+      <div class="pied-col">
+        <p class="pied-titre">Légal</p>
+        <ul class="pied-liste">
+          <li>Anthony Gocmen, entreprise individuelle</li>
+          <li>SIREN 935 081 703</li>
+          <li>TVA FR 77 935 081 703</li>
+          <li><a href="/fr/mentions-legales/">Mentions légales</a></li>
+          <li><a href="/institut-moliere/" hreflang="en" lang="en">This site in English</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pied-bas">© 2026 AG Algo Lab · Construit avec Claude Code. Les chiffres de ce site ont une source et une date, recomptées par script : dépôt <a href="https://github.com/ag-algolab/ag-algolab.github.io" rel="noopener" target="_blank">ag-algolab.github.io</a>.</p>
+  </div>
+</footer>
+
+<noscript><style>.nav{display:flex}</style></noscript>
+<script src="/assets/site.js?v=5" defer></script>
+</body>
+</html>

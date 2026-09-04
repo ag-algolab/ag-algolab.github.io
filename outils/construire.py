@@ -6,8 +6,8 @@ Construit `public/` à partir de `src/` : deux langues, un seul gabarit.
 
 Ce que ça fait, dans l'ordre :
   1. lit `src/faits.json` — les chiffres du site, avec leur source et leur date ;
-  2. pour chaque page de `src/pages/*.html`, produit une version française
-     (à la racine) et une version anglaise (sous `/en/`) ;
+  2. pour chaque page de `src/pages/*.html`, produit une version anglaise
+     (à la racine) et une version française (sous `/fr/`) ;
   3. enveloppe chaque page dans `src/gabarit.html` (en-tête, navigation,
      pied, balises de référencement, données structurées) ;
   4. copie `src/assets/` vers `public/assets/` ;
@@ -44,7 +44,7 @@ RACINE = os.path.dirname(ICI)
 SRC = os.path.join(RACINE, "src")
 PUB = os.path.join(RACINE, "public")
 DOMAINE = "https://agalgolab.com"
-LANGUES = ("fr", "en")
+LANGUES = ("en", "fr")   # l'anglais est la langue principale du site (racine), le français sous /fr/
 COURRIEL = "anthony@agalgolab.com"
 
 MOIS_FR = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet",
@@ -88,8 +88,17 @@ def date_lettres(iso, lang):
 
 
 def chemin_page(slug, lang):
-    base = "/" if lang == "fr" else "/en/"
+    base = "/" if lang == "en" else "/fr/"
     return base if slug == "index" else base + slug + "/"
+
+
+def image_partage(meta, lang):
+    """og-agalgolab.png → og-agalgolab-en.png si cette version existe."""
+    img = meta.get("image", "/assets/img/og-agalgolab.png")
+    cand = img[:-4] + "-" + lang + ".png"
+    if os.path.exists(os.path.join(SRC, cand.lstrip("/").replace("/", os.sep))):
+        return cand
+    return img
 
 
 def resoudre(texte, lang, slug):
@@ -199,7 +208,7 @@ def jsonld(meta, lang, slug):
         "inLanguage": lang,
         "isPartOf": {"@id": DOMAINE + "/#site"},
         "dateModified": meta["modifie"],
-        "primaryImageOfPage": DOMAINE + meta.get("image", "/assets/img/og-agalgolab.png"),
+        "primaryImageOfPage": DOMAINE + image_partage(meta, lang),
     }
     graphe = [org, personne, site, page]
     if slug != "index":
@@ -255,12 +264,13 @@ def construire():
                 "{{canonical}}": DOMAINE + chemin,
                 "{{alt_fr}}": DOMAINE + chemin_page(slug, "fr"),
                 "{{alt_en}}": DOMAINE + chemin_page(slug, "en"),
+                "{{alt_defaut}}": DOMAINE + chemin_page(slug, "en"),
                 "{{switch_href}}": chemin_page(slug, autre),
                 "{{switch_lang}}": autre,
                 "{{switch_label}}": "EN" if lang == "fr" else "FR",
                 "{{switch_title}}": ("Read this page in English" if lang == "fr"
                                      else "Lire cette page en français"),
-                "{{og_image}}": DOMAINE + meta.get("image", "/assets/img/og-agalgolab.png"),
+                "{{og_image}}": DOMAINE + image_partage(meta, lang),
                 "{{og_locale}}": "fr_FR" if lang == "fr" else "en_GB",
                 "{{jsonld}}": jsonld(meta, lang, slug),
                 "{{type}}": meta["type"],
@@ -287,7 +297,7 @@ def construire():
             lignes.append('    <xhtml:link rel="alternate" hreflang="%s" href="%s%s"/>'
                           % (l2, DOMAINE, chemin_page(slug, l2)))
         lignes.append('    <xhtml:link rel="alternate" hreflang="x-default" href="%s%s"/>'
-                      % (DOMAINE, chemin_page(slug, "fr")))
+                      % (DOMAINE, chemin_page(slug, "en")))
         lignes.append("  </url>")
     lignes.append("</urlset>")
     with open(os.path.join(PUB, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
@@ -301,10 +311,10 @@ def construire():
 
     # llms.txt — le résumé lisible par les assistants conversationnels
     llm = ["# AG Algo Lab — Anthony Gocmen", "",
-           "> Anthony Gocmen, fondateur d'AG Algo Lab. Plateformes web complètes construites seul, "
-           "de l'idée à la mise en ligne : site public, espaces membres, paiement, "
-           "automatisations, référencement. Construit avec Claude Code.", "",
-           "Contact : %s" % COURRIEL, "", "## Pages"]
+           "> Anthony Gocmen, founder of AG Algo Lab. Complete web platforms built solo, "
+           "from the idea to launch: public site, member areas, payments, automation, SEO, data. "
+           "Two products in production. Built with Claude Code. English at the root, French under /fr/.", "",
+           "Contact: %s" % COURRIEL, "", "## Pages"]
     for slug, lang, chemin, _, titre, description in urls:
         llm.append("- [%s](%s%s) (%s) : %s" % (titre, DOMAINE, chemin, lang, description))
     with open(os.path.join(PUB, "llms.txt"), "w", encoding="utf-8", newline="\n") as f:
@@ -315,11 +325,27 @@ def construire():
         src = os.path.join(SRC, fichier)
         if os.path.exists(src):
             with open(src, encoding="utf-8") as f:
-                contenu = resoudre(f.read(), "fr", "404")
+                contenu = resoudre(f.read(), "en", "404")
             with open(os.path.join(PUB, fichier), "w", encoding="utf-8", newline="\n") as f:
                 f.write(contenu)
 
-    print("construit : %d pages (%d par langue), sitemap, robots, llms, CNAME"
+    # redirections : le 4 septembre 2026 l'anglais vivait sous /en/ ; ces adresses
+    # ont pu être indexées, elles renvoient vers la racine (noindex, canonique)
+    for slug, lang, chemin, _, _, _ in urls:
+        if lang != "en":
+            continue
+        ancien = "/en/" if slug == "index" else "/en/" + slug + "/"
+        cible = DOMAINE + chemin
+        dossier = os.path.join(PUB, *[m for m in ancien.strip("/").split("/") if m])
+        os.makedirs(dossier, exist_ok=True)
+        with open(os.path.join(dossier, "index.html"), "w", encoding="utf-8", newline="\n") as f:
+            f.write('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Moved</title>'
+                    '<meta name="robots" content="noindex"><link rel="canonical" href="%s">'
+                    '<meta http-equiv="refresh" content="0; url=%s"></head>'
+                    '<body><p>This page has moved to <a href="%s">%s</a>.</p></body></html>\n'
+                    % (cible, cible, cible, cible))
+
+    print("construit : %d pages (%d par langue), sitemap, robots, llms, CNAME, redirections /en/"
           % (len(urls), len(urls) // len(LANGUES)))
     return urls
 

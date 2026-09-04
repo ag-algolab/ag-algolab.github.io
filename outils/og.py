@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-Fabrique les images de partage (Open Graph, 1200 × 630) dans la DA du site.
+Fabrique les images de partage (Open Graph, 1200 × 630) dans la DA du site,
+en anglais ET en français.
 
     python outils/og.py
 
-Écrit trois pages HTML temporaires dans _travail/og/, les photographie avec
+Écrit les pages HTML temporaires dans _travail/og/, les photographie avec
 Edge headless (une à la fois) et dépose les PNG dans src/assets/img/ :
-og-agalgolab.png, og-institut-moliere.png, og-prepa-600.png.
-Relancer ensuite `python outils/construire.py` pour les copier dans public/.
+og-agalgolab-en.png, og-agalgolab-fr.png, og-institut-moliere-en.png, …
+`construire.py` choisit la version de la langue de la page.
+Relancer ensuite `python outils/construire.py`.
 
 ⚠️ À lancer depuis PowerShell (Edge lancé depuis Bash n'écrit rien).
 """
+import json
 import os
 import sys
 
@@ -20,7 +23,25 @@ RACINE = os.path.dirname(ICI)
 sys.path.insert(0, ICI)
 from capturer import capturer, trouver_edge  # noqa: E402
 
-GABARIT = """<!doctype html><html lang="fr"><head><meta charset="utf-8">
+with open(os.path.join(RACINE, "src", "faits.json"), encoding="utf-8") as _f:
+    _F = json.load(_f)
+
+
+def fait(chemin):
+    n = _F
+    for m in chemin.split("."):
+        n = n[m]
+    return n["valeur"] if isinstance(n, dict) else n
+
+
+def nb(n, lang):
+    if not isinstance(n, int):
+        return str(n)
+    s = "{:,}".format(n)
+    return s.replace(",", " ") if lang == "fr" else s
+
+
+GABARIT = """<!doctype html><html lang="%(lang)s"><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
@@ -43,55 +64,62 @@ h1 em{font-style:normal;color:#047857}
 <div class="tag" style="left:900px;top:150px">%(tag1)s</div><div class="tag" style="left:840px;top:330px">%(tag2)s</div>
 </body></html>"""
 
-import json
-
-with open(os.path.join(RACINE, "src", "faits.json"), encoding="utf-8") as _f:
-    _F = json.load(_f)
-
-
-def fait(chemin):
-    n = _F
-    for m in chemin.split("."):
-        n = n[m]
-    return n["valeur"] if isinstance(n, dict) else n
-
-
-def fr(n):
-    return "{:,}".format(n).replace(",", " ") if isinstance(n, int) else str(n)
-
-
-IMAGES = [
-    ("og-agalgolab", 74, "Anthony Gocmen · fondateur d'AG Algo Lab",
-     "Des plateformes web complètes, <em>construites seul</em>, posées sur une seule base.",
-     "agalgolab.com", "<b>%s</b>produits en production" % fait("total.produits"),
-     "<b>%s</b>commits · %s jours" % (fr(fait("total.commits")), fait("moliere.jours"))),
-    ("og-institut-moliere", 66, "Cas client · en ligne depuis le 25 août 2026",
-     "Institut Molière : tout le site et toute la plateforme, <em>construits seul</em>.",
-     "%s écrans · %s routes d'API · %s commits" % (fait("moliere.ecrans"), fait("moliere.routes_api"), fait("moliere.commits")),
-     "<b>%s</b>écrans" % fait("moliere.ecrans"),
-     "<b>%s</b>commits · %s jours" % (fait("moliere.commits"), fait("moliere.jours"))),
-    ("og-prepa-600", 66, "Produit propre · prepa600.com · ouvert le 31 août 2026",
-     "Prépa 600 : un produit <em>conçu, écrit et ouvert</em> en six jours.",
-     "%s questions · %s pages · %s fonctions serveur" % (fait("p600.questions"), fait("p600.pages"), fait("p600.endpoints")),
-     "<b>%s</b>questions" % fait("p600.questions"),
-     "<b>%s</b>jours jusqu'à l'ouverture" % fait("p600.jours")),
-]
+TEXTES = {
+    "fr": {
+        "og-agalgolab": (74, "La vision, le produit, la mise en ligne",
+                         "Des plateformes web complètes, <em>construites seul</em>, posées sur une seule base.",
+                         "agalgolab.com", "<b>%s</b>produits en production" % fait("total.produits"),
+                         "<b>%s</b>commits · %s jours" % (nb(fait("total.commits"), "fr"), fait("moliere.jours"))),
+        "og-institut-moliere": (66, "Cas client · en ligne depuis le 25 août 2026",
+                                "Institut Molière : tout le site et toute la plateforme, <em>construits seul</em>.",
+                                "%s écrans · %s routes d'API · %s commits" % (fait("moliere.ecrans"), fait("moliere.routes_api"), fait("moliere.commits")),
+                                "<b>%s</b>écrans" % fait("moliere.ecrans"),
+                                "<b>%s</b>commits · %s jours" % (fait("moliere.commits"), fait("moliere.jours"))),
+        "og-prepa-600": (66, "Produit propre · prepa600.com · ouvert le 31 août 2026",
+                         "Prépa 600 : un produit <em>conçu, écrit et ouvert</em> en six jours.",
+                         "%s questions · %s pages · %s fonctions serveur" % (fait("p600.questions"), fait("p600.pages"), fait("p600.endpoints")),
+                         "<b>%s</b>questions" % fait("p600.questions"),
+                         "<b>%s</b>jours jusqu'à l'ouverture" % fait("p600.jours")),
+    },
+    "en": {
+        "og-agalgolab": (74, "The vision, the product, the launch",
+                         "Complete web platforms, <em>built solo</em>, resting on a single foundation.",
+                         "agalgolab.com", "<b>%s</b>products in production" % fait("total.produits"),
+                         "<b>%s</b>commits · %s days" % (nb(fait("total.commits"), "en"), fait("moliere.jours"))),
+        "og-institut-moliere": (66, "Client case · live since 25 August 2026",
+                                "Institut Molière: the whole site and the whole platform, <em>built solo</em>.",
+                                "%s screens · %s API routes · %s commits" % (fait("moliere.ecrans"), fait("moliere.routes_api"), fait("moliere.commits")),
+                                "<b>%s</b>screens" % fait("moliere.ecrans"),
+                                "<b>%s</b>commits · %s days" % (fait("moliere.commits"), fait("moliere.jours"))),
+        "og-prepa-600": (66, "Own product · prepa600.com · opened 31 August 2026",
+                         "Prépa 600: a product <em>designed, written and launched</em> in six days.",
+                         "%s questions · %s pages · %s server functions" % (fait("p600.questions"), fait("p600.pages"), fait("p600.endpoints")),
+                         "<b>%s</b>questions" % fait("p600.questions"),
+                         "<b>%s</b>days to opening" % fait("p600.jours")),
+    },
+}
 
 
 def main():
     edge = trouver_edge()
     travail = os.path.join(RACINE, "_travail", "og")
     os.makedirs(travail, exist_ok=True)
-    for nom, taille, etq, titre, bas, tag1, tag2 in IMAGES:
-        page = os.path.join(travail, nom + ".html")
-        page_html = GABARIT
-        logo = "file:///" + os.path.join(RACINE, "src", "assets", "img", "logo-ag.png").replace(os.sep, "/")
-        for cle, val in (("taille", str(taille)), ("etq", etq), ("titre", titre), ("bas", bas), ("tag1", tag1), ("tag2", tag2), ("logo", logo)):
-            page_html = page_html.replace("%(" + cle + ")s", val)
-        with open(page, "w", encoding="utf-8") as f:
-            f.write(page_html)
-        sortie = os.path.join(RACINE, "src", "assets", "img", nom + ".png")
-        capturer(edge, "file:///" + page.replace(os.sep, "/"), sortie, 1200, 630, budget=20000)
+    logo = "file:///" + os.path.join(RACINE, "src", "assets", "img", "logo-ag.png").replace(os.sep, "/")
+    for lang, images in TEXTES.items():
+        for nom, (taille, etq, titre, bas, tag1, tag2) in images.items():
+            page = os.path.join(travail, "%s-%s.html" % (nom, lang))
+            page_html = GABARIT
+            for cle, val in (("lang", lang), ("taille", str(taille)), ("etq", etq), ("titre", titre), ("bas", bas), ("tag1", tag1), ("tag2", tag2), ("logo", logo)):
+                page_html = page_html.replace("%(" + cle + ")s", val)
+            with open(page, "w", encoding="utf-8") as f:
+                f.write(page_html)
+            sortie = os.path.join(RACINE, "src", "assets", "img", "%s-%s.png" % (nom, lang))
+            capturer(edge, "file:///" + page.replace(os.sep, "/"), sortie, 1200, 630, budget=20000)
+    # les anciennes images sans langue ne servent plus
+    for nom in ("og-agalgolab.png", "og-institut-moliere.png", "og-prepa-600.png"):
+        p = os.path.join(RACINE, "src", "assets", "img", nom)
+        if os.path.exists(p):
+            os.remove(p)
 
 
 if __name__ == "__main__":
