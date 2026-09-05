@@ -94,7 +94,7 @@ ZONES = [
     ("moliere-enseigner", MOLIERE + "/enseigner",
      ["--largeur", "1280", "--hauteur", "1000", "--clic", "Professeur en fonction", "--clic", "Français",
       "--clic", "Anglais", "--clic", "Des enfants et des adolescents",
-      "--depuis", "pas une de plus", "--decalage", "-150", "--long", "30000", "--attente", "5"], 1100),
+      "--long", "30000", "--attente", "5"], 1100),  # depuis le HAUT de la page (06/09 : « on ne voit pas le haut »)
     ("p600-fuites-m", P600 + "/", ["--mobile", "--depuis", "FUITE 01", "--decalage", "-90", "--long", "1140", "--attente", "7"], 390),
 ]
 

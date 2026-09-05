@@ -768,9 +768,10 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
    puis .actif ; sans script, seule la première page (.actif) est visible.
    Les captures viennent de l'écran d'Anthony (compte d'essai), pas de
    rafraichir.py : l'espace demande une connexion. */
-.enchaine img { transform: translateX(100%); z-index: 0; }
-.enchaine img.actif { transform: none; z-index: 1; }
-.enchaine img.entrant { transform: none; z-index: 2; }
+.enchaine img { opacity: 0; z-index: 0; }
+.enchaine img.actif { opacity: 1; z-index: 1; }
+.enchaine img.entrant { opacity: 1; z-index: 2; }
 @media (prefers-reduced-motion: no-preference) {
-  .enchaine img { transition: transform .65s cubic-bezier(.2, .7, .2, 1); }
+  /* en fondu, pas en glissement (Anthony, 06/09 : « fais un dégradé pour passer de l'un à l'autre ») */
+  .enchaine img { transition: opacity .8s ease; }
 }

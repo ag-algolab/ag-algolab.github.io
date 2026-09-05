@@ -432,6 +432,11 @@ gauche** puis dessert chaque nœud. Sur chaque fil circule une impulsion
 mise en pause hors écran (`pauseAnimations`). Sans mouvement réduit, le cœur
 respire (`::after`). Sans script : le cœur et huit cartes, sans fils.
 
+**Netteté du manège, suite** (06/09) : même à l'échelle 1, un `translate`
+fractionnaire floute une couche composée — `poser()` arrondit donc au pixel
+physique et force `scale(1)` devant. Et les captures de l'espace élève sont
+en 1 400 px, pas 1 100 : un écran à 1,5× les réduisait déjà.
+
 **Netteté du manège** (Anthony, même soir : « institut-moliere.com sur le
 grand écran, c'est un petit peu flou, pareil pour le test »). Un texte ou
 une image agrandis par `scale()` sont flous ; réduits, ils restent nets. Les
@@ -850,3 +855,12 @@ Ajouté le 5 septembre 2026 (nuit) :
   ombre fixe, `will-change`. Rôles raccourcis (« the application », « always
   on the most capable models on the market » sans « the workshop: »).
   Assets en `?v=13`.
+- **06/09/2026 (matin, suite)** — Lot 13. Le manège était encore flou devant :
+  un `translate` FRACTIONNAIRE sur une couche composée floute le texte même à
+  l'échelle 1 → positions arrondies au pixel physique (`devicePixelRatio`),
+  échelle forcée à 1 sous 0,2 % d'écart. Captures de l'espace élève en
+  1 400 × 875 (elles étaient réduites de 1 100 vers ~820 px physiques sur un
+  écran à 1,5×). L'espace élève passe d'une page à l'autre **en fondu**
+  (opacité, 0,8 s), plus en glissement. La candidature `/enseigner` est
+  photographiée **depuis le haut de la page** (plus de `--depuis`), les
+  clics restent. Assets en `?v=14`.

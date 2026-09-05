@@ -272,7 +272,13 @@
       var iDevant = 0, zMax = -Infinity;
       pieces.forEach(function (p, i) {
         var q = proj((base + i * pas) * Math.PI / 180, R), s = q[2], Z = q[3];
-        p.style.transform = 'translate(' + (q[0] - W / 2 - dims[i].w / 2).toFixed(1) + 'px,' + (q[1] - dims[i].h).toFixed(1) + 'px) scale(' + (s / sMax).toFixed(4) + ')';
+        // arrondi au pixel PHYSIQUE : un translate fractionnaire sur une couche
+        // composée rend le texte flou, même à l'échelle 1 (Anthony, 06/09)
+        var dpr = window.devicePixelRatio || 1;
+        var tx = Math.round((q[0] - W / 2 - dims[i].w / 2) * dpr) / dpr, ty = Math.round((q[1] - dims[i].h) * dpr) / dpr;
+        var ech = s / sMax;
+        if (Math.abs(ech - 1) < .002) ech = 1;
+        p.style.transform = 'translate(' + tx.toFixed(3) + 'px,' + ty.toFixed(3) + 'px) scale(' + ech.toFixed(4) + ')';
         p.style.zIndex = String(Math.round(1000 + Z));
         var prof = 1 - (Z / R + 1) / 2;
         p.style.setProperty('--voile', (prof * .34).toFixed(3));
