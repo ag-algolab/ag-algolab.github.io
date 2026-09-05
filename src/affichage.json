@@ -1,0 +1,138 @@
+{
+  "_lisez_moi": "Mesuré par verifier_rendu.py : css = plus grande largeur d'affichage en px CSS ; besoin = largeur à stocker (css × 2 pour l'ordinateur, × 3 pour le téléphone). rafraichir.py lit « besoin ».",
+  "_releve": "2026-09-05",
+  "images": {
+    "anthony": {
+      "css": 344,
+      "besoin": 1032
+    },
+    "eleve-01-tableau-de-bord": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-02-coach": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-03-mes-cours": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-04-calendrier": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-05-bibliotheque": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-06-dictees": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-07-calcul-mental": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-08-echecs": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-09-concours": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-10-progression": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "eleve-11-mon-niveau": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "logo-ag": {
+      "css": 50,
+      "besoin": 150
+    },
+    "moliere-accueil": {
+      "css": 530,
+      "besoin": 1059
+    },
+    "moliere-accueil-full": {
+      "css": 1038,
+      "besoin": 2076
+    },
+    "moliere-accueil-m-full": {
+      "css": 160,
+      "besoin": 330
+    },
+    "moliere-admin": {
+      "css": 234,
+      "besoin": 702
+    },
+    "moliere-eleve": {
+      "css": 260,
+      "besoin": 780
+    },
+    "moliere-enseigner": {
+      "css": 543,
+      "besoin": 1086
+    },
+    "moliere-inscription-tab": {
+      "css": 266,
+      "besoin": 532
+    },
+    "moliere-plateforme": {
+      "css": 334,
+      "besoin": 669
+    },
+    "moliere-test-tel": {
+      "css": 188,
+      "besoin": 376
+    },
+    "p600-accueil": {
+      "css": 439,
+      "besoin": 879
+    },
+    "p600-accueil-full": {
+      "css": 404,
+      "besoin": 809
+    },
+    "p600-accueil-m-full": {
+      "css": 160,
+      "besoin": 330
+    },
+    "p600-accueil-tel": {
+      "css": 284,
+      "besoin": 642
+    },
+    "p600-calcul-tel": {
+      "css": 284,
+      "besoin": 642
+    },
+    "p600-diagnostic-tel": {
+      "css": 284,
+      "besoin": 642
+    },
+    "p600-methode-tel": {
+      "css": 284,
+      "besoin": 642
+    },
+    "p600-modules": {
+      "css": 196,
+      "besoin": 582
+    },
+    "p600-questions-tel": {
+      "css": 284,
+      "besoin": 642
+    },
+    "p600-tarifs": {
+      "css": 267,
+      "besoin": 588
+    },
+    "p600-tarifs-tel": {
+      "css": 284,
+      "besoin": 642
+    }
+  }
+}

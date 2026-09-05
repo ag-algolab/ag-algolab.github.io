@@ -100,21 +100,35 @@ seul, il donne un avertissement à mettre à jour avec sa date.
 
 ```
 python outils/verifier_rendu.py            # depuis PowerShell, ~1 min
+python outils/verifier_rendu.py --nettete  # + le tableau image par image
 ```
 
 Sert `public/` sur un port libre, ouvre chaque page en ordinateur (1 280 ×
 900) puis en téléphone (390 × 844, échelle 2) et refuse si : une image n'est
 pas chargée et décodée **sans défiler** en moins de 8 s, une image est cassée,
 déclarée `loading="lazy"`, plus large ou plus haute que 16 383 px ou plus
-lourde que 4,2 Mpx ; un débordement horizontal (en haut et tout en bas) ;
+lourde que 4,2 Mpx ; **une image est agrandie** — moins de deux pixels de
+source par pixel CSS affiché (§4 « Les images ne sont plus agrandies ») ;
+un débordement horizontal (en haut et tout en bas) ;
 une **cible tactile sous 44 × 44 px** à 390 px (boutons, liens-boutons,
 onglets, badges, champs, liens de menu et de pied — un lien dans une phrase
 ne compte pas) ; une exception JavaScript ou une ressource en erreur. Puis il
 écrit dans `faits.json` ce que la méthode de l'accueil affiche :
 `site.images_cassees`, `site.debordement_px`, `site.cible_min_px`,
-`site.releve_rendu` (`verifier.py` avertit quand ce relevé a plus de huit
-jours). **À lancer dès qu'on touche une image, une vitrine, un cadre ou le
-CSS** — c'est la règle du 06/09, voir §4 « Les images se chargent d'un coup ».
+`site.nettete_min`, `site.releve_rendu` (`verifier.py` avertit quand ce relevé
+a plus de huit jours). **À lancer dès qu'on touche une image, une vitrine, un
+cadre ou le CSS** — c'est la règle du 06/09, voir §4 « Les images se chargent
+d'un coup ».
+
+Il écrit aussi **`src/affichage.json`** : pour chaque image, la plus grande
+largeur à laquelle le site l'affiche (px CSS) et la largeur qu'il faut donc
+stocker — × 2 sur ordinateur, × 3 sur téléphone. `rafraichir.py` y lit ses
+largeurs : **la mise en page décide, la capture suit**. Élargir un cadre dans
+le CSS suffit donc ; le contrôle refuse tant que l'image n'a pas été refaite
+(`python outils/rafraichir.py --reconvertir`). La largeur mesurée est celle de
+la **mise en page** (`offsetWidth`), pas celle du rectangle à l'écran : dans
+le manège, une pièce est rapetissée par un `scale()` tant qu'elle est en
+arrière, mais c'est sa taille de devant qui doit être nette.
 
 ### Regarder en local
 
@@ -127,15 +141,15 @@ Les pages se lisent à `http://localhost:8873/`, `/fr/`, `/institut-moliere/`…
 
 ### Capturer
 
-> ⚠️ **Toutes les fenêtres d'ordinateur sont photographiées à `--echelle 2`
-> et stockées en 1 600 px** (pages entières) / 1 440 px (hauts de page)
-> depuis le 06/09 : sur un écran à 1,5× — un portable Windows —
-> l'ordinateur de la page de cas occupe ~1 560 px physiques, et les
-> anciennes images de 1 100 étaient agrandies, donc floues « partout sur le
-> site quand il s'agit de fenêtre ordi » (Anthony). `Image.MAX_IMAGE_PIXELS
-> = None` dans `rafraichir.py` : l'accueil Molière à l'échelle 2 fait 195
-> mégapixels, au-delà de la garde de Pillow. Les pages entières plafonnent à
-> 16 000 px de haut (limite WebP : 16 383). Le dossier d'images pèse 8,6 Mo.
+> ⚠️ **Les largeurs de stockage ne se choisissent plus à la main** (lot 20).
+> Elles viennent de `src/affichage.json`, que `verifier_rendu.py` mesure dans
+> le navigateur : largeur affichée × 2 sur ordinateur, × 3 sur téléphone, plus
+> 2 % de marge, arrondi à 10 px. Les captures partent toujours à `--echelle 2`
+> (2 560 px pour 1 280 CSS) : il vaut mieux réduire une grande image que
+> d'avoir à en agrandir une petite. `Image.MAX_IMAGE_PIXELS = None` dans
+> `rafraichir.py` : l'accueil Molière à l'échelle 2 fait 195 mégapixels,
+> au-delà de la garde de Pillow. Les pages entières plafonnent à 16 000 px de
+> haut (limite WebP : 16 383). Le dossier d'images pèse 4,1 Mo.
 
 ```
 python outils/capturer.py --site http://localhost:8873      # depuis PowerShell
@@ -164,11 +178,24 @@ avoir changé une largeur ou une qualité d'image.
 **Depuis le lot 19, `rafraichir.py` ne capture que ce que le site affiche**
 (`CAPTURES` : accueil et plateforme Molière, accueil et tarifs Prépa 600, les
 deux accueils en téléphone ; `PLEINES` dit lesquelles gardent une page
-entière) et **découpe en tuiles** (`sauver()`) toute image au-delà de 3,6 Mpx :
-`nom-1.webp`, `nom-2.webp`… — un nom n'existe que sous une seule forme, la
-précédente est effacée. Les six écrans du récit Prépa 600 sont rognés à
-1 400 px (ils ne déroulent pas). Le dossier d'images est passé de 8,6 à
-5,4 Mo.
+entière, `HAUTS` lesquelles gardent un haut de page) et **découpe en tuiles**
+(`sauver()`) toute image au-delà de 3,6 Mpx : `nom-1.webp`, `nom-2.webp`… — un
+nom n'existe que sous une seule forme, la précédente est effacée. Les six
+écrans du récit Prépa 600 sont rognés (la hauteur suit la largeur retenue :
+ils ne déroulent pas).
+
+Le lot 20 y a ajouté deux étapes, lancées avec le reste :
+
+- **`manuelles()`** refabrique les captures prises sur l'écran d'Anthony
+  (les onze `eleve-NN-*.webp` de l'espace élève, `p600-modules.webp`) depuis
+  les originaux de `_travail/` — hors git : si le dossier n'est pas là, rien
+  n'est touché, et c'est dit. Recadrage 16:10, largeur mesurée.
+- **`degraisser()`** réduit sur place les deux images dont l'original s'est
+  perdu (`moliere-eleve`, `moliere-admin`) quand elles dépassent d'un quart la
+  largeur mesurée. Réduire n'invente rien : ça efface même les artefacts.
+
+Le dossier d'images est passé de 8,6 à 5,4 puis **4,1 Mo**, et aucune image
+n'est plus agrandie à l'écran.
 
 ### Les images de partage
 
@@ -636,6 +663,36 @@ touches »). Deux causes, deux remèdes :
 `verifier_rendu.py` (§2) prouve tout ça dans Edge à chaque lot, et
 `verifier.py` refuse statiquement tout WebP au-delà de 4,2 Mpx.
 
+**Les images ne sont plus agrandies** (lot 20, 06/09 : « c'est re devenu flou
+les images dans les fenêtres, fix une bonne fois pour toute »). En rentrant
+les images sous le plafond de 4 Mpx, la vitrine de la page Molière était
+tombée à **1 600 px de source pour 1 038 px affichés** : sur un écran à ×1,5
+ou ×2, le navigateur l'agrandissait. Vérifié d'abord que la couche animée
+n'y était pour rien — deux captures de la même vitrine, piste animée puis
+piste figée, **identiques au pixel près** — donc c'était bien la résolution.
+
+Le remède n'est pas un chiffre écrit dans un script, c'est une **boucle
+mesurée** :
+
+1. `verifier_rendu.py` relève dans le navigateur, pour chaque `<img>`, sa
+   largeur de source et sa largeur de mise en page, et **refuse la mise en
+   ligne sous 2 pixels de source par pixel affiché** ;
+2. il écrit le besoin de chaque image dans `src/affichage.json` (× 2 sur
+   ordinateur, × 3 sur téléphone) ;
+3. `rafraichir.py` y lit ses largeurs et refabrique les WebP à cette taille,
+   ni plus ni moins — ce qui dépasse d'un quart est signalé comme du poids
+   pour rien.
+
+Résultat : la vitrine Molière passe à 2 120 px (2,04×, dix tuiles), les six
+écrans du récit Prépa 600 à 660 px, la tablette d'inscription à 550 px au
+lieu de 1 500 (elle était affichée sur 266), les onze écrans de l'espace
+élève à 1 110 px au lieu de 1 400. **La page Molière perd 636 Ko et
+l'accueil 459 Ko** tout en devenant nette partout ; le plus petit rapport du
+site est de **2,04** et s'affiche dans la méthode de l'accueil
+(`site.nettete_min`). Seule limite connue : le portrait d'Anthony n'existe
+qu'en 720 px et serait un peu doux sur un téléphone à ×3 — il faudrait un
+original d'au moins 1 032 px.
+
 **Le point de départ, refait** (page Molière, lot 19 : « fais quelque chose de
 plus dynamique, là ça ne donne pas envie de lire »). La frise à quatre
 colonnes devient un **double panneau** (`.depart`, Anthony aime le double
@@ -920,6 +977,11 @@ Ajouté le 6 septembre 2026 :
     laisse la valeur et prévient, jamais il n'invente.
 44. **Sur téléphone, rien de collé qui cache le texte** : le récit Prépa 600
     éclate, un écran par étape.
+45. **Aucune image agrandie, et c'est le navigateur qui donne la taille** :
+    au moins 2 pixels de source par pixel affiché, la largeur à stocker est
+    mesurée dans la page (`src/affichage.json`) et non choisie à la main.
+    « Fix une bonne fois pour toute » : la mise en page décide, la capture
+    suit, le contrôle refuse.
 
 ---
 
@@ -998,6 +1060,13 @@ Ajouté le 6 septembre 2026 :
 - **Le serveur local** est déclaré dans le `launch.json` de la session
   Claude Code du dossier `PycharmProjects\Youtube`, pas dans ce dépôt :
   `python -m http.server 8873 --directory C:/Users/antho/projets/agalgolab/public`.
+- **Une image nette n'est pas une image assez grande** : le poids en Ko et le
+  code HTTP ne disent rien, et l'œil se trompe sur une capture d'écran à ×1.
+  La seule mesure qui vaut est le rapport **largeur de source ÷ largeur
+  affichée**, relevé dans le navigateur — sous 2, c'est flou sur la moitié des
+  écrans vendus aujourd'hui. Et prendre la largeur de **mise en page**
+  (`offsetWidth`), pas le rectangle à l'écran : dans le manège, une pièce
+  rapetissée par un `scale()` mentait d'un facteur 1,8 sur son besoin réel.
 
 ---
 
@@ -1215,3 +1284,23 @@ Ajouté le 6 septembre 2026 :
   départ » refait en double panneau animé au défilement (site verrouillé /
   site en ligne, douze jours, quatre dates). (4) Récit Prépa 600 éclaté sur
   téléphone, un écran par étape. Cibles tactiles à 44 px. Assets en `?v=19`.
+
+- **06/09/2026 (tard)** — Lot 20. « C'est re devenu flou les images dans les
+  fenêtres, fix une bonne fois pour toute. » Le flou n'était pas l'animation
+  (deux captures de la même vitrine, piste animée puis figée, identiques au
+  pixel près) mais la résolution : en rentrant sous le plafond de 4 Mpx du
+  lot 19, la vitrine Molière était tombée à 1 600 px de source pour 1 038 px
+  affichés. La taille des images ne se choisit plus à la main :
+  `verifier_rendu.py` mesure dans le navigateur, pour chaque image, sa
+  largeur de source contre sa largeur de **mise en page** (le manège
+  rapetissait ses pièces par `scale()` et mentait d'un facteur 1,8),
+  **refuse la mise en ligne sous 2 pixels de source par pixel affiché**, et
+  écrit le besoin de chacune dans `src/affichage.json` (× 2 ordinateur, × 3
+  téléphone) ; `rafraichir.py` y lit ses largeurs et refabrique tout —
+  `manuelles()` pour les captures de l'écran d'Anthony, `degraisser()` pour
+  les deux images sans original. Trente-trois images refaites : vitrine
+  Molière à 2 120 px, écrans du récit Prépa 600 à 660, tablette
+  d'inscription à 550 au lieu de 1 500. Page Molière −636 Ko, accueil
+  −459 Ko, dossier d'images 5,4 → 4,1 Mo, deux fichiers morts retirés,
+  logo à 170 px. Netteté minimale du site : **2,04**, affichée dans la
+  méthode de l'accueil (`site.nettete_min`).

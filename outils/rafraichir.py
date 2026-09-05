@@ -11,10 +11,17 @@ est photographiée EN ENTIER (ordinateur 1280 px et téléphone 390 px) avec
 Edge piloté par son protocole de débogage (`capturer_cdp.py`), puis convertie
 en WebP dans `src/assets/img/` :
 
-  <nom>.webp           ordinateur, 1 440 px de large, le haut de la page (2 250 px) → dalles du héros
-  <nom>-full-N.webp    ordinateur, 1 600 px de large, la page entière EN TUILES     → vitrines qui déroulent
-  <nom>-m.webp         téléphone, 390 px de large, le haut (1 702 px)
-  <nom>-m-full-N.webp  téléphone, 360 px de large, la page entière en tuiles
+  <nom>.webp           le haut de la page          → dalles du héros
+  <nom>-full-N.webp    la page entière EN TUILES   → vitrines qui déroulent
+
+⚠️ LA LARGEUR N'EST PAS CHOISIE ICI (06/09). Elle vient de `src/affichage.json`,
+que `verifier_rendu.py` écrit après avoir mesuré dans Edge la largeur réelle
+de chaque image sur la page : largeur affichée × 2 sur ordinateur, × 3 sur
+téléphone. Une image stockée plus petite que ça est AGRANDIE par le
+navigateur, donc floue — « c'est re devenu flou les images dans les
+fenêtres » (Anthony, 06/09) ; stockée beaucoup plus grande, c'est du poids
+pour rien. La mise en page décide, la capture suit, et `verifier_rendu.py`
+refuse de passer si une image est agrandie.
 
 ⚠️ AUCUNE IMAGE STOCKÉE AU-DELÀ DE 4 MÉGAPIXELS (06/09). Une page entière de
 1 600 × 12 000 px (19 Mpx, 75 Mo décodés) se téléchargeait bien, mais le
@@ -30,6 +37,8 @@ Puis `python outils/construire.py` et `python outils/verifier.py`, puis push.
 ⚠️ Depuis PowerShell, une seule instance d'Edge à la fois (le script est séquentiel).
 """
 import glob
+import io
+import json
 import math
 import os
 import re
@@ -51,6 +60,29 @@ MOLIERE = "https://institut-moliere.com"
 P600 = "https://prepa600.com"
 
 PLAFOND_PX = 3_600_000   # pixels par fichier stocké (≈ 14 Mo décodés) — verifier.py tolère 4,2 Mpx
+MARGE = 1.02             # 2 % de marge sur la largeur mesurée, arrondis à 10 px près
+
+AFFICHAGE = os.path.join(RACINE, "src", "affichage.json")
+
+
+def besoins():
+    """{nom: largeur à stocker}, mesuré dans le navigateur par verifier_rendu.py."""
+    if not os.path.exists(AFFICHAGE):
+        print("⚠ src/affichage.json absent : largeurs de repli (lancer verifier_rendu.py)")
+        return {}
+    return {n: v["besoin"] for n, v in json.load(io.open(AFFICHAGE, encoding="utf-8"))["images"].items()}
+
+
+BESOIN = besoins()
+
+
+def largeur(nom, defaut):
+    """La largeur mesurée pour cette image, à défaut celle écrite ici."""
+    b = BESOIN.get(nom)
+    if b is None:
+        print("  ⚠ %s : pas encore mesurée, largeur de repli %d px" % (nom, defaut))
+        return defaut
+    return int(math.ceil(b * MARGE / 10) * 10)
 
 
 def sauver(nom, im, qualite):
@@ -86,9 +118,28 @@ CAPTURES = {
         ("p600-accueil-m", P600 + "/", ["--mobile", "--long", "30000", "--attente", "7"]),
     ],
 }
-# seules ces pages entières servent (les vitrines qui déroulent) ; les autres
-# captures ne gardent que leur haut de page (dalles du héros)
+# seules ces pages entières servent (les vitrines qui déroulent)…
 PLEINES = {"moliere-accueil", "moliere-accueil-m", "p600-accueil", "p600-accueil-m"}
+# …et seuls ces hauts de page servent (dalles du héros). Le haut des deux
+# captures téléphone n'était affiché nulle part : 113 Ko de fichiers morts (06/09).
+HAUTS = {"moliere-accueil", "moliere-plateforme", "p600-accueil", "p600-tarifs"}
+# prises à la main sur l'écran d'Anthony (il faut être connecté), recadrées
+# en 16:10 ; originaux hors git, dans _travail/
+MANUELLES = {
+    "eleve-01-tableau-de-bord": "_travail/eleve/01-tableau-de-bord.png",
+    "eleve-02-coach": "_travail/eleve/02-coach.png",
+    "eleve-03-mes-cours": "_travail/eleve/03-mes-cours.png",
+    "eleve-04-calendrier": "_travail/eleve/04-calendrier.png",
+    "eleve-05-bibliotheque": "_travail/eleve/05-bibliotheque.png",
+    "eleve-06-dictees": "_travail/eleve/06-dictees.png",
+    "eleve-07-calcul-mental": "_travail/eleve/07-calcul-mental.png",
+    "eleve-08-echecs": "_travail/eleve/08-echecs.png",
+    "eleve-09-concours": "_travail/eleve/09-concours.png",
+    "eleve-10-progression": "_travail/eleve/10-progression.png",
+    "eleve-11-mon-niveau": "_travail/eleve/11-mon-niveau.png",
+    "p600-modules": "_travail/p600-modules.png",
+}
+DEGRAISSER = ["moliere-eleve", "moliere-admin"]
 # ⚠️ Ne se rafraîchissent PAS ici (il faut être connecté) : moliere-admin.webp,
 # moliere-eleve.webp et les onze eleve-NN-*.webp de l'espace élève. Elles
 # viennent de l'écran d'Anthony ; les originaux sont dans _travail/eleve/
@@ -146,48 +197,82 @@ def capturer(nom, url, options):
     return ok
 
 
+def reduire(im, large, haut_max=None):
+    petite = im.resize((large, round(im.height * large / im.width)), Image.LANCZOS)
+    if haut_max:
+        petite = petite.crop((0, 0, large, min(petite.height, haut_max)))
+    return petite
+
+
 def convertir(nom, mobile):
     src = os.path.join(BRUT, nom + ".png")
     if not os.path.exists(src):
         return
     im = Image.open(src).convert("RGB")
-    if mobile:
-        haut = im.resize((390, round(im.height * 390 / im.width)), Image.LANCZOS)
-        haut = haut.crop((0, 0, 390, min(haut.height, 1702)))
-        pleine, q = (360, round(im.height * 360 / im.width)), 78
-    else:
-        # ⚠️ Les écrans d'ordinateur sont photographiés à --echelle 2 (2 560 px
-        # pour 1 280 CSS) et stockés en 1 600 px : un écran à 1,5× (portable
-        # Windows) affiche l'ordinateur de la page de cas sur ~1 560 px
-        # physiques, et 1 100 étaient agrandis, donc flous — « partout sur le
-        # site quand il s'agit de fenêtre ordi » (Anthony, 06/09).
-        haut = im.resize((1440, round(im.height * 1440 / im.width)), Image.LANCZOS)
-        haut = haut.crop((0, 0, 1440, min(haut.height, 2250)))
-        pleine, q = (1600, round(im.height * 1600 / im.width)), 70
-    sorties = sauver(nom, haut, 80)
+    # le haut de page garde la même part de la page qu'avant : une dalle de
+    # héros fait 1,5625 fois sa largeur sur ordinateur, 4,364 fois sur téléphone
+    part, q = (4.3641, 78) if mobile else (1.5625, 70)
+    sorties = []
+    if nom in HAUTS:
+        large = largeur(nom, 390 if mobile else 1440)
+        sorties += sauver(nom, reduire(im, large, round(large * part)), 80)
     if nom in PLEINES:
-        full = im.resize(pleine, Image.LANCZOS)
-        sorties += sauver(nom + "-full", full, q)
+        large = largeur(nom + "-full", 360 if mobile else 1600)
+        sorties += sauver(nom + "-full", reduire(im, large), q)
     poids = sum(os.path.getsize(os.path.join(IMG, f)) for f in sorties) // 1024
     print("  → %s : %d fichier(s), %d Ko" % (nom, len(sorties), poids))
 
 
-def convertir_zone(nom, largeur, haut_max=None):
+def convertir_zone(nom, large_defaut, haut_max=None):
+    """`haut_max` est donné pour `large_defaut` : il suit la largeur retenue."""
     src = os.path.join(BRUT, nom + ".png")
     if not os.path.exists(src):
         return
     im = Image.open(src).convert("RGB")
-    im = im.resize((largeur, round(im.height * largeur / im.width)), Image.LANCZOS)
-    if haut_max:
-        im = im.crop((0, 0, largeur, min(im.height, haut_max)))
-    sorties = sauver(nom, im, 80)
+    large = largeur(nom, large_defaut)
+    petite = reduire(im, large, round(haut_max * large / large_defaut) if haut_max else None)
+    sorties = sauver(nom, petite, 80)
     poids = sum(os.path.getsize(os.path.join(IMG, f)) for f in sorties) // 1024
-    print("  → %s : %s, %d fichier(s), %d Ko" % (nom, im.size, len(sorties), poids))
+    print("  → %s : %s, %d fichier(s), %d Ko" % (nom, petite.size, len(sorties), poids))
 
 
-def zone(nom, url, options, largeur=390, haut_max=None):
+def zone(nom, url, options, large=390, haut_max=None):
     if capturer(nom, url, options):
-        convertir_zone(nom, largeur, haut_max)
+        convertir_zone(nom, large, haut_max)
+
+
+def manuelles():
+    """Les captures prises à la main sur l'écran d'Anthony (espace élève,
+    modules Prépa 600) : originaux dans _travail/, hors git. Recadrées en
+    16:10, à la largeur mesurée. Absents = on ne touche à rien."""
+    for nom, chemin in MANUELLES.items():
+        src = os.path.join(RACINE, chemin)
+        if not os.path.exists(src):
+            print("  · %s : original absent (%s), inchangé" % (nom, chemin))
+            continue
+        im = Image.open(src).convert("RGB")
+        im = im.crop((0, 0, im.width, min(im.height, round(im.width * 0.625))))
+        large = largeur(nom, 900)
+        sorties = sauver(nom, reduire(im, large), 80)
+        print("  → %s : %s, %d Ko" % (nom, (large, round(large * 0.625)),
+                                      sum(os.path.getsize(os.path.join(IMG, f)) for f in sorties) // 1024))
+
+
+def degraisser():
+    """Deux images dont l'original s'est perdu : on réduit le WebP en place
+    quand il dépasse d'un quart la largeur mesurée (réduire ne crée pas
+    d'artefact, il en efface)."""
+    for nom in DEGRAISSER:
+        chemin = os.path.join(IMG, nom + ".webp")
+        if not os.path.exists(chemin) or nom not in BESOIN:
+            continue
+        im = Image.open(chemin).convert("RGB")
+        large = largeur(nom, im.width)
+        if im.width <= large * 1.25:
+            continue
+        avant = os.path.getsize(chemin) // 1024
+        reduire(im, large).save(chemin, quality=82, method=6)
+        print("  → %s : %d → %d px, %d → %d Ko" % (nom, im.width, large, avant, os.path.getsize(chemin) // 1024))
 
 
 def reconvertir():
@@ -197,6 +282,9 @@ def reconvertir():
             convertir(nom, "--mobile" in options)
     for z in ZONES:
         convertir_zone(z[0], z[3], z[4] if len(z) > 4 else None)
+    print("== prises à la main")
+    manuelles()
+    degraisser()
 
 
 def main():
@@ -214,7 +302,11 @@ def main():
         print("== zones du héros")
         for z in ZONES:
             zone(*z)
-    print("Fini. Relancer : python outils/construire.py && python outils/verifier.py")
+        print("== prises à la main")
+        manuelles()
+        degraisser()
+    print("Fini. Relancer : python outils/construire.py && python outils/verifier.py"
+          " && python outils/verifier_rendu.py")
 
 
 if __name__ == "__main__":

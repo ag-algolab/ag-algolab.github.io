@@ -8,6 +8,15 @@ ordinateur (1280 × 900) puis en téléphone (390 × 844, échelle 2) :
     aucune n'est déclarée `loading="lazy"` ; aucune ne dépasse 16 383 px
     (plafond des textures : au-delà, blanc) ni 4,2 mégapixels (au-delà, des
     secondes de décodage au moment de peindre : l'écran blanc du 06/09) ;
+  - aucune image AGRANDIE : au moins deux pixels de source par pixel CSS
+    affiché (une image de 1 600 px étalée sur 1 038 px est floue dès qu'un
+    écran est en ×1,5 ou ×2 — « c'est re devenu flou les images dans les
+    fenêtres », Anthony, 06/09). La mesure sert aussi dans l'autre sens :
+    `src/affichage.json` reçoit, pour chaque image, la largeur qu'il faut
+    stocker (px CSS × 2 sur ordinateur, × 3 sur téléphone), et
+    `rafraichir.py` fabrique les WebP à cette taille — la mise en page
+    décide, la capture suit. Ce qui dépasse d'un quart est signalé comme du
+    poids pour rien ;
   - aucun débordement horizontal (`scrollWidth` ≤ largeur de la fenêtre),
     en haut de page et une fois descendu tout en bas ;
   - en téléphone, chaque cible tactile visible (bouton, lien-bouton, onglet,
@@ -17,9 +26,11 @@ ordinateur (1280 × 900) puis en téléphone (390 × 844, échelle 2) :
 
 Puis écrit dans src/faits.json, famille `site`, ce que la méthode de
 l'accueil affiche : `images_cassees`, `debordement_px`, `cible_min_px`,
-`releve_rendu`. `verifier.py` avertit quand ce relevé a plus de huit jours.
+`nettete_min`, `releve_rendu`. `verifier.py` avertit quand ce relevé a plus
+de huit jours.
 
     python outils/verifier_rendu.py                      # tout, depuis PowerShell
+    python outils/verifier_rendu.py --nettete            # + le tableau image par image
     python outils/verifier_rendu.py --lire               # n'écrit pas faits.json
     python outils/verifier_rendu.py --pages /fr/prepa-600/ /fr/   # certaines pages
 
@@ -41,6 +52,7 @@ import glob
 import http.server
 import io
 import json
+import math
 import os
 import subprocess
 import sys
@@ -64,6 +76,9 @@ DELAI_IMAGES = 8.0      # secondes, en local
 CIBLE_MIN = 44          # px, dans les deux dimensions
 TEXTURE_MAX = 16383     # px, plafond d'une image décodée
 PIXELS_MAX = 4_200_000  # pixels par image : au-delà, des secondes de décodage à la peinture
+NETTETE_MIN = 2.0       # px source par px CSS : en deçà, l'image est AGRANDIE sur un écran ×2 → flou
+NETTETE_EXCES = 1.25    # au-delà de 1,25 fois le besoin : du poids pour rien (avertissement)
+DENSITE = {"ordi": 2, "tel": 3}  # densité d'écran visée par fenêtre, pour calculer la largeur à stocker
 
 FENETRES = [
     ("ordi", {"width": 1280, "height": 900, "deviceScaleFactor": 1, "mobile": False}),
@@ -151,8 +166,22 @@ JS_ETAT = r"""
       if (m < %d) cibles.push(nom(e) + ' « ' + lire(e) + ' » ' + Math.round(r.width) + '×' + Math.round(r.height));
     });
   }
+  var mesurees = [];
+  imgs.forEach(function (i) {
+    var r = i.getBoundingClientRect();
+    if (!i.naturalWidth || (r.width < 1 && !i.offsetWidth)) return;
+    // ⚠️ la largeur de MISE EN PAGE, pas celle du rectangle : une carte du
+    // manège est rapetissée par un scale() tant qu'elle est en arrière ;
+    // quand elle passe devant elle reprend sa taille, et c'est là qu'elle
+    // doit être nette (06/09). On garde la plus grande des deux.
+    var w = Math.max(i.offsetWidth || 0, r.width);
+    var f = (i.currentSrc || i.getAttribute('src') || '').split('/').pop().split('?')[0].replace(/\.[a-z]+$/, '');
+    mesurees.push({nom: f.replace(/-\d+$/, ''), fichier: f, nw: i.naturalWidth,
+                   w: Math.round(w * 10) / 10});
+  });
   return {
     total: imgs.length,
+    mesurees: mesurees,
     attente: imgs.filter(function (i) { return !i.complete; }).length,
     cassees: imgs.filter(function (i) { return i.complete && i.naturalWidth === 0; }).map(function (i) { return i.getAttribute('src'); }),
     lazy: imgs.filter(function (i) { return i.getAttribute('loading') === 'lazy'; }).length,
@@ -235,8 +264,10 @@ def fermer_edge(proc, prof):
         time.sleep(1)
 
 
-def examiner(c, base, chemin, nom, fenetre, erreurs):
-    """Une page dans une fenêtre : renvoie (cassées, débordement, cible min)."""
+def examiner(c, base, chemin, nom, fenetre, erreurs, mesures=None):
+    """Une page dans une fenêtre : renvoie (cassées, débordement, cible min).
+    `mesures` accumule, par image, la largeur source, la plus grande largeur
+    d'affichage et la largeur qu'il faudrait stocker (px CSS × densité)."""
     c.evenements = []
     c.erreurs = []
     c.envoyer("Emulation.setDeviceMetricsOverride", fenetre)
@@ -271,6 +302,18 @@ def examiner(c, base, chemin, nom, fenetre, erreurs):
         erreurs.append("%s : %d image(s) loading=\"lazy\"" % (ou, etat["lazy"]))
     for t in etat.get("trop", []):
         erreurs.append("%s : image au-delà de %d px ou de %.1f Mpx — %s" % (ou, TEXTURE_MAX, PIXELS_MAX / 1e6, t))
+    densite = DENSITE.get(nom, 2)
+    for im in etat.get("mesurees", []):
+        ratio = im["nw"] / im["w"]
+        if ratio < NETTETE_MIN:
+            erreurs.append("%s : flou — %s : %d px de source pour %.0f px affichés (%.2f×, il en faut %d)"
+                           % (ou, im["fichier"], im["nw"], im["w"], ratio, math.ceil(im["w"] * NETTETE_MIN)))
+        if mesures is not None:
+            m = mesures.setdefault(im["nom"], {"source": im["nw"], "css": 0, "besoin": 0, "ratio": ratio})
+            m["source"] = min(m["source"], im["nw"])
+            m["css"] = max(m["css"], im["w"])
+            m["besoin"] = max(m["besoin"], math.ceil(im["w"] * densite))
+            m["ratio"] = min(m["ratio"], ratio)
     if debord > 0:
         erreurs.append("%s : débordement horizontal de %d px" % (ou, debord))
     for cb in etat.get("cibles", []):
@@ -283,7 +326,21 @@ def examiner(c, base, chemin, nom, fenetre, erreurs):
     return len(etat.get("cassees", [])), debord, etat.get("cibleMin")
 
 
-def ecrire_faits(cassees, debord, cible_min):
+def ecrire_affichage(mesures):
+    """src/affichage.json : pour chaque image, la plus grande largeur à
+    laquelle le site l'affiche, et la largeur qu'il faut donc stocker.
+    C'est `rafraichir.py` qui s'en sert pour fabriquer les WebP à la bonne
+    taille : la mise en page décide, la capture suit."""
+    contenu = {"_lisez_moi": "Mesuré par verifier_rendu.py : css = plus grande largeur d'affichage en px CSS ; "
+                             "besoin = largeur à stocker (css × %s pour l'ordinateur, × %s pour le téléphone). "
+                             "rafraichir.py lit « besoin »." % (DENSITE["ordi"], DENSITE["tel"]),
+               "_releve": datetime.date.today().isoformat(),
+               "images": {n: {"css": round(m["css"]), "besoin": m["besoin"]} for n, m in sorted(mesures.items())}}
+    io.open(os.path.join(RACINE, "src", "affichage.json"), "w", encoding="utf-8", newline="\n").write(
+        json.dumps(contenu, ensure_ascii=False, indent=2) + "\n")
+
+
+def ecrire_faits(cassees, debord, cible_min, nettete_min=None):
     faits = json.load(io.open(FAITS, encoding="utf-8"))
     aujourd = datetime.date.today().isoformat()
     site = faits.setdefault("site", {})
@@ -291,7 +348,10 @@ def ecrire_faits(cassees, debord, cible_min):
             ("images_cassees", cassees, "verifier_rendu.py : images sans pixel décodé, toutes pages, ordinateur et téléphone"),
             ("debordement_px", debord, "verifier_rendu.py : scrollWidth − largeur de fenêtre, le pire de toutes les pages, à 1 280 et 390 px"),
             ("cible_min_px", cible_min, "verifier_rendu.py : la plus petite cible tactile visible à 390 px (boutons, onglets, badges, menu), min(largeur, hauteur)"),
+            ("nettete_min", nettete_min, "verifier_rendu.py : le plus petit rapport largeur de l'image ÷ largeur affichée, toutes images, toutes pages, les deux fenêtres"),
             ("releve_rendu", aujourd, "date du dernier passage de verifier_rendu.py")):
+        if valeur is None:
+            continue
         n = site.setdefault(cle, {})
         n["valeur"] = valeur
         n["source"] = source
@@ -301,7 +361,8 @@ def ecrire_faits(cassees, debord, cible_min):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--lire", action="store_true", help="n'écrit pas src/faits.json")
+    ap.add_argument("--lire", action="store_true", help="n'écrit ni src/faits.json ni src/affichage.json")
+    ap.add_argument("--nettete", action="store_true", help="affiche le tableau image par image (source, affiché, besoin)")
     ap.add_argument("--pages", nargs="*", help="chemins à contrôler (défaut : toutes les pages de public/)")
     a = ap.parse_args()
     if not os.path.isdir(PUB):
@@ -311,6 +372,7 @@ def main():
     edge = trouver_edge()
     proc, prof, ws = lancer_edge(edge, 9334)
     erreurs = []
+    mesures = {}
     cassees, debord, cible_min = 0, 0, None
     try:
         c = Cdp(ws)
@@ -320,7 +382,7 @@ def main():
         c.envoyer("Network.setCacheDisabled", {"cacheDisabled": True})
         for chemin in pages:
             for nom, fenetre in FENETRES:
-                k, d, m = examiner(c, base, chemin, nom, dict(fenetre), erreurs)
+                k, d, m = examiner(c, base, chemin, nom, dict(fenetre), erreurs, mesures)
                 cassees += k
                 debord = max(debord, d)
                 if m is not None:
@@ -330,12 +392,26 @@ def main():
         fermer_edge(proc, prof)
         serveur.shutdown()
     print("%d page(s) × %d fenêtres" % (len(pages), len(FENETRES)))
+    nettete_min = round(min([m["ratio"] for m in mesures.values()] or [0]), 2)
+    if a.nettete or a.pages:
+        print("\n%-32s %7s %8s %8s %7s" % ("image", "source", "affiché", "besoin", "netteté"))
+        for n, m in sorted(mesures.items(), key=lambda kv: kv[1]["ratio"]):
+            print("%-32s %7d %8.0f %8d %6.2f× %s" % (n, m["source"], m["css"], m["besoin"], m["ratio"],
+                                                     "FLOU" if m["ratio"] < NETTETE_MIN else
+                                                     "poids inutile" if m["source"] > m["besoin"] * NETTETE_EXCES else ""))
+    else:
+        for n, m in sorted(mesures.items()):
+            if m["ratio"] >= NETTETE_MIN and m["source"] > m["besoin"] * NETTETE_EXCES:
+                print("  poids inutile : %s — %d px stockés, %d px suffisent (affiché sur %.0f px au plus)"
+                      % (n, m["source"], m["besoin"], m["css"]))
     for e in erreurs:
         print("  ERREUR : " + e)
     if not a.lire and not a.pages:
-        ecrire_faits(cassees, debord, cible_min if cible_min is not None else 0)
-        print("faits.json : site.images_cassees=%d, site.debordement_px=%d, site.cible_min_px=%s, site.releve_rendu=%s"
-              % (cassees, debord, cible_min, datetime.date.today().isoformat()))
+        ecrire_faits(cassees, debord, cible_min if cible_min is not None else 0, nettete_min)
+        ecrire_affichage(mesures)
+        print("faits.json : site.images_cassees=%d, site.debordement_px=%d, site.cible_min_px=%s, site.nettete_min=%s, site.releve_rendu=%s"
+              % (cassees, debord, cible_min, nettete_min, datetime.date.today().isoformat()))
+        print("affichage.json : %d images mesurées (rafraichir.py y lit la largeur à stocker)" % len(mesures))
     if erreurs:
         print("ÉCHEC : %d erreur(s)" % len(erreurs))
         sys.exit(1)

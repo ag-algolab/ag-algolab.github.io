@@ -159,22 +159,22 @@
       "releve": "2026-09-05"
     },
     "questions": {
-      "valeur": 2340,
+      "valeur": 2520,
       "source": "donnees/items.json : les blancs complets, 90 items chacun",
       "releve": "2026-09-05"
     },
     "blancs": {
-      "valeur": 26,
+      "valeur": 28,
       "source": "donnees/items.json : blancs de 90 items (les blancs en cours d'écriture ne comptent pas)",
       "releve": "2026-09-05"
     },
     "sous_tests": {
-      "valeur": 156,
+      "valeur": 168,
       "source": "6 sous-tests par blanc complet, tous passés par marketing/verifier_lot.py --tous",
       "releve": "2026-09-05"
     },
     "commits": {
-      "valeur": 215,
+      "valeur": 216,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-05"
     },
@@ -229,7 +229,7 @@
       "releve": "2026-09-05"
     },
     "blancs_payants": {
-      "valeur": 25,
+      "valeur": 27,
       "source": "tous les blancs complets sauf le premier, qui est gratuit",
       "releve": "2026-09-05"
     },
@@ -246,7 +246,7 @@
   },
   "total": {
     "commits": {
-      "valeur": 748,
+      "valeur": 749,
       "source": "524 + 192",
       "releve": "2026-09-05"
     },
@@ -297,6 +297,11 @@
     "releve_rendu": {
       "valeur": "2026-09-05",
       "source": "date du dernier passage de verifier_rendu.py",
+      "releve": "2026-09-05"
+    },
+    "nettete_min": {
+      "valeur": 2.04,
+      "source": "verifier_rendu.py : le plus petit rapport largeur de l'image ÷ largeur affichée, toutes images, toutes pages, les deux fenêtres",
       "releve": "2026-09-05"
     }
   }
