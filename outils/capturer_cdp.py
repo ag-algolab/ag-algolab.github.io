@@ -37,6 +37,8 @@ ICI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ICI)
 from capturer import trouver_edge, autre_travail_lourd  # noqa: E402
 
+SURFACE_MAX = 80_000_000   # pixels demandés à Chrome en une fois : au-delà, il rend du vide
+
 UA_MOBILE = ("Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 "
              "(KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36")
 
@@ -240,12 +242,46 @@ def main():
         # la page peut être plus courte que la zone demandée
         hauteur_page = c.evaluer("Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)") or long_
         long_ = min(long_, max(1, int(hauteur_page) - y))
+        # ⚠️ PLAFOND DE SURFACE (06/09). Au-delà, Chrome rend des bandes vides
+        # sans rien dire : l'accueil Molière demandé en 5 120 × 37 996
+        # (194 Mpx) revenait crème sur toute sa moitié basse. On réduit alors
+        # la densité plutôt que de rendre une capture trouée.
+        dsf = a.echelle or (2 if a.mobile else 1)
+        while dsf > 1 and largeur * dsf * long_ * dsf > SURFACE_MAX:
+            dsf -= 1
+            print("⚠ surface trop grande : densité ramenée à %d (plafond %d Mpx)" % (dsf, SURFACE_MAX // 10**6))
+            c.envoyer("Emulation.setDeviceMetricsOverride", {
+                "width": largeur, "height": hauteur, "deviceScaleFactor": dsf, "mobile": bool(a.mobile)})
+            time.sleep(1.0)
+        if largeur * dsf * long_ * dsf > SURFACE_MAX:
+            long_ = int(SURFACE_MAX / (largeur * dsf * dsf))
+            print("⚠ capture écourtée à %d px CSS pour rester sous le plafond" % long_)
+        # ⚠️ `scale` vaut 1 : la densité est DÉJÀ posée par deviceScaleFactor
+        # (06/09). Les deux se multipliaient — `--echelle 2` sur 1 280 px
+        # donnait 5 120 px de large, soit 194 mégapixels pour l'accueil
+        # Molière. Au-delà d'une certaine surface, Chrome rend des BANDES
+        # VIDES : la moitié basse des deux vitrines d'accueil était crème,
+        # et c'est ce qu'Anthony voyait défiler.
         r = c.envoyer("Page.captureScreenshot", {
             "format": "png", "captureBeyondViewport": True,
-            "clip": {"x": 0, "y": y, "width": largeur, "height": long_, "scale": a.echelle or (2 if a.mobile else 1)}})
+            "clip": {"x": 0, "y": y, "width": largeur, "height": long_, "scale": 1}})
         with open(a.sortie, "wb") as f:
             f.write(base64.b64decode(r["data"]))
         print("%s : %d octets (%d × %d px CSS)" % (os.path.basename(a.sortie), os.path.getsize(a.sortie), largeur, long_))
+        # une capture trouée ne se voit pas au poids : on mesure des bandes
+        # uniformes (une section qui n'a pas été peinte, une fin vide)
+        try:
+            from PIL import Image, ImageStat
+            Image.MAX_IMAGE_PIXELS = None
+            im = Image.open(a.sortie).convert("L")
+            n, pas = 40, max(1, im.height // 40)
+            vides = [k for k in range(n)
+                     if ImageStat.Stat(im.crop((0, k * pas, im.width, min(im.height, (k + 1) * pas)))).stddev[0] < 8]
+            if vides:
+                print("⚠ %d bande(s) uniforme(s) sur %d — la capture a des trous : %s"
+                      % (len(vides), n, ", ".join("%d %%" % (100 * k / n) for k in vides)))
+        except Exception as e:
+            print("mesure des trous impossible :", e)
         c.ws.close()
     finally:
         # tout l'arbre de processus, pas seulement le parent — puis ce qui

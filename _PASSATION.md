@@ -1087,6 +1087,19 @@ Ajouté le 6 septembre 2026 :
 - **Le serveur local** est déclaré dans le `launch.json` de la session
   Claude Code du dossier `PycharmProjects\Youtube`, pas dans ce dépôt :
   `python -m http.server 8873 --directory C:/Users/antho/projets/agalgolab/public`.
+- **Une capture trop grande revient TROUÉE, sans erreur.** `capturer_cdp.py`
+  appliquait la densité deux fois (`deviceScaleFactor` ET `scale` du clip) :
+  `--echelle 2` sur 1 280 px donnait 5 120 px de large, soit 194 mégapixels
+  pour l'accueil Molière. Au-delà d'une certaine surface, Chrome rend des
+  BANDES VIDES et ne dit rien : la moitié basse des deux vitrines d'accueil
+  était crème, et c'est ce qu'Anthony voyait défiler le 06/09 au soir — sur
+  l'accueil Prépa 600, 23 bandes vides sur 40. Le poids du fichier ne le
+  disait pas (une tuile vide pèse 6 Ko au lieu de 100), le contrôle de rendu
+  non plus (l'image était bien chargée : elle était vide). Depuis :
+  `scale` vaut 1, un **plafond de 80 Mpx** ramène la densité d'un cran plutôt
+  que de rendre du vide, la capture mesure ses propres bandes uniformes, et
+  `verifier.py` refuse toute image entièrement unie (la tuile fautive
+  mesurait 0,1 d'écart-type ; une vraie page n'est jamais unie).
 - **Supprimer une image casse les pages déjà servies.** GitHub Pages envoie le
   HTML avec `max-age=600` : pendant dix minutes, des visiteurs gardent la page
   précédente, qui réclame l'ancienne liste de tuiles. Le 06/09 au soir, sept
@@ -1322,6 +1335,19 @@ Ajouté le 6 septembre 2026 :
   site en ligne, douze jours, quatre dates). (4) Récit Prépa 600 éclaté sur
   téléphone, un écran par étape. Cibles tactiles à 44 px. Assets en `?v=19`.
 
+- **07/09/2026** — Lot 21, en réponse à « j'ai re le bug ». Deux causes
+  distinctes, trouvées par la mesure. (1) Les tuiles supprimées le jour même :
+  le site servi était complet (30 images sur 30 en 200), mais GitHub Pages
+  garde le HTML dix minutes, et l'ancienne page réclamait des fichiers
+  disparus. `rafraichir` ne supprime plus, `verifier.py --nettoyer` retire au
+  bout d'un jour. (2) La vraie : **les captures étaient trouées** — la densité
+  était appliquée deux fois (194 Mpx demandés à Chrome), et au-delà d'une
+  certaine surface Chrome rend des bandes vides sans le dire. 23 bandes sur 40
+  vides pour l'accueil Prépa 600, 12 sur 40 pour Molière, toutes dans la
+  moitié basse. Corrigé (`scale: 1`, plafond de 80 Mpx, mesure des bandes à la
+  capture, refus d'une image unie au contrôle), toutes les captures refaites :
+  0 bande vide sur les deux vitrines. Reproduction et preuve : script de
+  survol sur le site EN LIGNE, connexion bridée à 5 Mbit/s.
 - **06/09/2026 (tard)** — Lot 20. « C'est re devenu flou les images dans les
   fenêtres, fix une bonne fois pour toute. » Le flou n'était pas l'animation
   (deux captures de la même vitrine, piste animée puis figée, identiques au

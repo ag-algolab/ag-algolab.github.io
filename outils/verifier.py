@@ -330,12 +330,23 @@ def main():
     # règle du 06/09 : aucune image stockée au-delà de 4,2 Mpx — une image de
     # 19 Mpx se téléchargeait, mais mettait des secondes à se décoder au moment
     # de se peindre (écran blanc au défilement). rafraichir.py découpe en tuiles.
-    from PIL import Image
+    from PIL import Image, ImageStat
     for chemin in sorted(glob.glob(os.path.join(SRC, "assets", "img", "*.webp"))):
         w, h = Image.open(chemin).size
         if w * h > 4_200_000:
             erreur("image trop lourde à décoder : %s (%d × %d = %.1f Mpx) — à découper en tuiles (rafraichir.py)"
                    % (os.path.basename(chemin), w, h, w * h / 1e6))
+        # ⚠️ Une capture TROUÉE (06/09) : au-delà d'une certaine surface, Chrome
+        # rendait des bandes vides sans le dire, et la moitié basse des deux
+        # vitrines d'accueil était crème — c'est ce qu'Anthony voyait défiler.
+        # Une tuile de capture entièrement unie n'existe pas légitimement :
+        # les vraies pages ont toujours du texte ou une image quelque part.
+        # (Les blancs de mise en page, eux, ne couvrent jamais un fichier
+        # entier : la tuile fautive mesurait 0,1 d'écart-type.)
+        ecart = ImageStat.Stat(Image.open(chemin).convert("L")).stddev[0]
+        if ecart < 2:
+            erreur("capture trouée : %s est entièrement unie (écart-type %.1f) — refaire la capture (rafraichir.py)"
+                   % (os.path.basename(chemin), ecart))
     # règle du 06/09 (audit du lot 20) : toute image citée par une page existe,
     # et toute image du dossier est citée. Les données structurées de TOUTES
     # les pages pointaient vers og-agalgolab.png, supprimé le 04/09 quand
