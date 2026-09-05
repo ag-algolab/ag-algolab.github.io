@@ -19,6 +19,9 @@ Puis, sur les chiffres :
   - les contrastes des couleurs de style.css (texte sur fond ≥ 4,5:1) ;
   - les faits de src/faits.json qui se recomptent dans les dépôts voisins
     (moliere-plateforme, tagemage) — un écart fait échouer la vérification.
+    Le recomptage est celui de `recompter.py`, qui sait aussi les réécrire :
+    quand la vérification refuse un chiffre, lancer `python outils/recompter.py`
+    puis reconstruire.
 
 Code de sortie : 0 si tout passe, 1 sinon. Les avertissements ne bloquent pas.
 """
@@ -274,34 +277,22 @@ def recompter():
         except Exception:
             return None
 
-    if os.path.isdir(DEPOT_MOLIERE):
-        app = os.path.join(DEPOT_MOLIERE, "src", "app")
-        pages = glob.glob(os.path.join(app, "**", "page.tsx"), recursive=True)
-        comparer("moliere.ecrans", len(pages))
-        comparer("moliere.routes_api", len(glob.glob(os.path.join(app, "api", "**", "route.ts"), recursive=True)))
-        comparer("moliere.migrations", len([n for n in os.listdir(os.path.join(DEPOT_MOLIERE, "db")) if re.match(r"\d\d_.*\.sql$", n)]))
-        rel = [os.path.relpath(p, app).replace(os.sep, "/") for p in pages]
-        comparer("moliere.ecrans_site", sum(1 for r in rel if r.startswith("(site)")))
-        comparer("moliere.ecrans_eleve", sum(1 for r in rel if r.startswith("eleve")))
-        comparer("moliere.ecrans_prof", sum(1 for r in rel if r.startswith("prof")))
-        comparer("moliere.ecrans_admin", sum(1 for r in rel if r.startswith("admin")))
-        comparer("moliere.ecrans_communs", sum(1 for r in rel if not r.startswith(("(site)", "eleve", "prof", "admin"))))
-        n = compter_git(DEPOT_MOLIERE)
-        if n is not None and n != attendu("moliere.commits"):
-            avertir("moliere.commits : faits.json dit %s, le dépôt en est à %s (à mettre à jour avec la date)" % (attendu("moliere.commits"), n))
-    else:
+    if not os.path.isdir(DEPOT_MOLIERE):
         avertir("dépôt Molière absent : faits non recomptés")
-
-    if os.path.isdir(DEPOT_P600):
-        comparer("p600.pages", len(glob.glob(os.path.join(DEPOT_P600, "public", "*.html"))))
-        comparer("p600.endpoints", len([n for n in os.listdir(os.path.join(DEPOT_P600, "api")) if n.endswith(".js") and not n.startswith("_")]))
-        with open(os.path.join(DEPOT_P600, "donnees", "items.json"), encoding="utf-8") as f:
-            comparer("p600.questions", len(json.load(f)["items"]))
-        n = compter_git(DEPOT_P600)
-        if n is not None and n != attendu("p600.commits"):
-            avertir("p600.commits : faits.json dit %s, le dépôt en est à %s (à mettre à jour avec la date)" % (attendu("p600.commits"), n))
-    else:
+    if not os.path.isdir(DEPOT_P600):
         avertir("dépôt Prépa 600 absent : faits non recomptés")
+
+    # le recomptage est celui de recompter.py, mot pour mot : un seul endroit
+    # décide de ce que compte un « écran » ou un « blanc ».
+    sys.path.insert(0, ICI)
+    import recompter
+    for chemin, valeur in sorted(recompter.mesurer().items()):
+        if chemin.endswith("commits"):
+            if valeur != attendu(chemin):
+                avertir("%s : faits.json dit %s, le dépôt en est à %s (python outils/recompter.py)"
+                        % (chemin, attendu(chemin), valeur))
+        else:
+            comparer(chemin, valeur)
 
     if attendu("total.commits") != attendu("moliere.commits") + attendu("p600.commits"):
         erreur("total.commits ne vaut pas moliere.commits + p600.commits")

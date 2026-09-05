@@ -43,7 +43,7 @@ modifie: 2026-09-05
       <div class="stat"><b data-compte>{{f:p600.questions}}</b><span>[[questions écrites||questions written]]</span><small>[[{{f:p600.blancs}} blancs de 90, donnees/items.json||{{f:p600.blancs}} mock tests of 90, donnees/items.json]]</small></div>
       <div class="stat"><b data-compte>{{f:p600.pages}}</b><span>[[pages||pages]]</span><small>[[fichiers public/*.html||public/*.html files]]</small></div>
       <div class="stat"><b data-compte>{{f:p600.endpoints}}</b><span>[[fonctions serveur||server functions]]</span><small>[[api/*.js, zéro dépendance||api/*.js, zero dependencies]]</small></div>
-      <div class="stat"><b data-compte>{{f:p600.commits}}</b><span>[[commits||commits]]</span><small>[[du {{d:p600.premier_commit}} au 4 septembre 2026||from {{d:p600.premier_commit}} to 4 September 2026]]</small></div>
+      <div class="stat"><b data-compte>{{f:p600.commits}}</b><span>[[commits||commits]]</span><small>[[du {{d:p600.premier_commit}} au {{d:total.releve}}||from {{d:p600.premier_commit}} to {{d:total.releve}}]]</small></div>
       <div class="stat"><b>{{f:p600.jours}}</b><span>[[jours jusqu'à l'ouverture||days to opening]]</span><small>[[du premier fichier au premier compte||from the first file to the first account]]</small></div>
       <div class="stat"><b>{{f:p600.prix}} €</b><span>[[une seule fois, {{f:p600.mois}} mois d'accès||paid once, {{f:p600.mois}} months of access]]</span><small>[[TTC, sans abonnement||incl. VAT, no subscription]]</small></div>
     </div>
@@ -89,10 +89,10 @@ modifie: 2026-09-05
     <div class="panneau">
       <ul class="liste">
         <li><span>[[{{f:p600.questions}} questions écrites à la main, {{f:p600.blancs}} blancs, format officiel documenté||{{f:p600.questions}} questions written by hand, {{f:p600.blancs}} mock tests, documented official format]]</span></li>
-        <li><span>[[Un audit statistique refuse une banque devinable : {{f:p600.sous_tests}} sous-tests sur {{f:p600.sous_tests}} au vert||A statistical audit rejects a guessable bank: {{f:p600.sous_tests}} sub-tests out of {{f:p600.sous_tests}} pass]]</span></li>
+        <li><span>[[Un audit statistique refuse une banque devinable : le {{d:p600.audit}}, {{f:p600.sous_tests_verts}} sous-tests sur {{f:p600.sous_tests_verts}} au vert||A statistical audit rejects a guessable bank: on {{d:p600.audit}}, {{f:p600.sous_tests_verts}} sub-tests out of {{f:p600.sous_tests_verts}} pass]]</span></li>
         <li><span>[[La Logique en SVG, chaque question vérifiée pour n'avoir qu'une lecture||Logic in SVG, each question checked to have a single reading]]</span></li>
       </ul>
-      <div class="v-carte v-nuit"><span class="p">$</span> python marketing/verifier_lot.py --tous<br><span class="c">{{f:p600.sous_tests}} / {{f:p600.sous_tests}} OK · [[longue||longest]] ≤ 20 % · [[courte||shortest]] ≤ 20 % · A–E [[équilibrés||balanced]]</span><br><span class="p">$</span> python marketing/auditer_items.py<br><span class="c">[[banque acceptée||bank accepted]] ✓</span></div>
+      <div class="v-carte v-nuit"><span class="p">$</span> python marketing/verifier_lot.py --tous<br><span class="c">{{f:p600.sous_tests_verts}} / {{f:p600.sous_tests_verts}} OK · [[longue||longest]] ≤ 20 % · [[courte||shortest]] ≤ 20 % · A–E [[équilibrés||balanced]]</span><br><span class="p">$</span> python marketing/auditer_items.py<br><span class="c">[[banque acceptée||bank accepted]] ✓</span></div>
     </div>
   </div>
 </section>

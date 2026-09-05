@@ -2,29 +2,29 @@
   "_commentaire": "Chaque chiffre affiché sur le site vient d'ici, avec sa source et la date du relevé. `python outils/verifier.py` recompte ceux qui se recomptent (dépôts locaux) et refuse la construction si un chiffre a dérivé.",
   "moliere": {
     "ecrans": {
-      "valeur": 72,
-      "source": "nombre de fichiers page.tsx dans src/app du dépôt ag-algolab/moliere-plateforme",
-      "releve": "2026-09-04"
+      "valeur": 71,
+      "source": "fichiers page.tsx de src/app dans le dépôt ag-algolab/moliere-plateforme, hors pages de travail non indexées (demo-*)",
+      "releve": "2026-09-05"
     },
     "routes_api": {
       "valeur": 13,
       "source": "nombre de fichiers route.ts dans src/app/api",
-      "releve": "2026-09-04"
+      "releve": "2026-09-05"
     },
     "migrations": {
       "valeur": 67,
       "source": "fichiers db/NN_*.sql numérotés",
-      "releve": "2026-09-04"
+      "releve": "2026-09-05"
     },
     "lignes_ts": {
-      "valeur": 70795,
+      "valeur": 70988,
       "source": "wc -l sur src/**/*.ts et *.tsx",
-      "releve": "2026-09-04"
+      "releve": "2026-09-05"
     },
     "commits": {
-      "valeur": 524,
+      "valeur": 525,
       "source": "git rev-list --count HEAD",
-      "releve": "2026-09-04"
+      "releve": "2026-09-05"
     },
     "jours": {
       "valeur": 20,
@@ -67,66 +67,71 @@
       "releve": "2026-09-04"
     },
     "ecrans_site": {
-      "valeur": 15,
-      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
-      "releve": "2026-09-04"
+      "valeur": 14,
+      "source": "page.tsx de src/app regroupés par préfixe de route, hors demo-*",
+      "releve": "2026-09-05"
     },
     "ecrans_eleve": {
       "valeur": 20,
-      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
-      "releve": "2026-09-04"
+      "source": "page.tsx de src/app regroupés par préfixe de route",
+      "releve": "2026-09-05"
     },
     "ecrans_prof": {
       "valeur": 9,
-      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
-      "releve": "2026-09-04"
+      "source": "page.tsx de src/app regroupés par préfixe de route",
+      "releve": "2026-09-05"
     },
     "ecrans_admin": {
       "valeur": 21,
-      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
-      "releve": "2026-09-04"
+      "source": "page.tsx de src/app regroupés par préfixe de route",
+      "releve": "2026-09-05"
     },
     "ecrans_communs": {
       "valeur": 7,
-      "source": "liste des page.tsx de src/app, regroupés par préfixe de route",
-      "releve": "2026-09-04"
+      "source": "page.tsx de src/app regroupés par préfixe de route",
+      "releve": "2026-09-05"
     },
     "crons": {
       "valeur": 3,
       "source": "vercel.json : coach (quotidien), rappel-cours (toutes les 5 min), banque-dictees (4 h et 15 h)",
       "releve": "2026-09-04"
+    },
+    "tables": {
+      "valeur": 44,
+      "source": "tables distinctes créées par les migrations db/*.sql (CREATE TABLE)",
+      "releve": "2026-09-05"
     }
   },
   "p600": {
     "pages": {
       "valeur": 28,
       "source": "fichiers public/*.html du dépôt ag-algolab/prepa600",
-      "releve": "2026-09-04"
+      "releve": "2026-09-05"
     },
     "endpoints": {
       "valeur": 16,
       "source": "fichiers api/*.js hors _*.js",
-      "releve": "2026-09-04"
+      "releve": "2026-09-05"
     },
     "questions": {
-      "valeur": 1080,
-      "source": "donnees/items.json : 12 blancs × 90 items",
-      "releve": "2026-09-04"
+      "valeur": 1260,
+      "source": "donnees/items.json : les blancs complets, 90 items chacun",
+      "releve": "2026-09-05"
     },
     "blancs": {
-      "valeur": 12,
-      "source": "donnees/items.json",
-      "releve": "2026-09-04"
+      "valeur": 14,
+      "source": "donnees/items.json : blancs de 90 items (les blancs en cours d'écriture ne comptent pas)",
+      "releve": "2026-09-05"
     },
     "sous_tests": {
-      "valeur": 72,
-      "source": "verifier_lot.py --tous : 72 sous-tests sur 72 au vert",
-      "releve": "2026-09-04"
+      "valeur": 84,
+      "source": "6 sous-tests par blanc complet, tous passés par marketing/verifier_lot.py --tous",
+      "releve": "2026-09-05"
     },
     "commits": {
-      "valeur": 192,
+      "valeur": 198,
       "source": "git rev-list --count HEAD",
-      "releve": "2026-09-04"
+      "releve": "2026-09-05"
     },
     "premier_commit": {
       "valeur": "2026-08-25",
@@ -179,21 +184,36 @@
       "releve": "2026-09-04"
     },
     "blancs_payants": {
-      "valeur": 11,
-      "source": "tous les blancs sauf le premier, qui est gratuit",
-      "releve": "2026-09-04"
+      "valeur": 13,
+      "source": "tous les blancs complets sauf le premier, qui est gratuit",
+      "releve": "2026-09-05"
+    },
+    "sous_tests_verts": {
+      "valeur": 84,
+      "source": "marketing/verifier_lot.py --tous : sous-tests au vert, tous ceux de la banque à cette date",
+      "releve": "2026-09-05"
+    },
+    "audit": {
+      "valeur": "2026-09-05",
+      "source": "date du dernier passage de marketing/verifier_lot.py --tous",
+      "releve": "2026-09-05"
     }
   },
   "total": {
     "commits": {
-      "valeur": 716,
+      "valeur": 723,
       "source": "524 + 192",
-      "releve": "2026-09-04"
+      "releve": "2026-09-05"
     },
     "produits": {
       "valeur": 2,
       "source": "institut-moliere.com et prepa600.com",
       "releve": "2026-09-04"
+    },
+    "releve": {
+      "valeur": "2026-09-05",
+      "source": "date du dernier recomptage",
+      "releve": "2026-09-05"
     }
   },
   "entreprise": {

@@ -159,54 +159,67 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 
 /* ----------------------------------------------------------------- héros */
 .hero { position: relative; padding-top: clamp(40px, 6vw, 84px); padding-bottom: clamp(40px, 6vw, 72px); overflow: hidden; }
+.hero-txt { position: relative; z-index: 2; }
 .hero .h1 { margin-bottom: .4em; }
 .hero .chapo { margin-bottom: .4em; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; align-items: center; }
 @media (min-width: 960px) { .hero-grid { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: 30px; } }
 .hero-grid .h1 { font-size: clamp(2.1rem, 3.5vw, 2.95rem); max-width: none; }
 
-/* les écrans du héros : des cartes face au visiteur, posées sur le sol 3D,
-   en trois rangs de profondeur ; rien ne se superpose (positions dans le HTML) */
-.iso-carte { position: absolute; width: 300px; transform-origin: 50% 100%; --s: 1; transform: scale(var(--s)); }
-.iso-carte.mi { --s: .93; }
-.iso-carte.loin { --s: .86; }
-.iso-carte .ordi { box-shadow: 0 34px 50px -30px rgba(11, 46, 31, .55); }
-.iso-carte.loin .ordi { box-shadow: 0 26px 40px -26px rgba(11, 46, 31, .45); }
-
 /* --------------------------------------------------- la scène isométrique
-   Une scène de 760 × 640 dessinée à l'échelle 1, puis réduite par --k selon
-   la largeur. Le sol est tourné en 3D ; les dalles (ordinateurs) reposent
-   dessus, les téléphones et les étiquettes se redressent face au visiteur. */
-.iso { --k: .84; position: relative; width: 100%; height: calc(760px * var(--k)); margin: 0 auto; }
-.iso-scene { position: absolute; left: 50%; top: 0; width: 760px; height: 760px; margin-left: -380px; transform: scale(var(--k)); transform-origin: 50% 0; perspective: 1800px; }
+   Une scène de 760 × 760 dessinée à l'échelle 1, puis réduite par --k selon
+   la largeur. Le sol est tourné en 3D ; les écrans sont ses ENFANTS : ils
+   héritent de son orientation, donc ils sont posés sur la grille, alignés
+   sur ses lignes — les uns dans un sens, les autres à angle droit (.travers).
+   Chacun lévite à sa hauteur (--z) et à son rythme (--d, --r). Positions au
+   centre (left/top + translate(-50%,-50%)) : la hauteur réelle du cadre ne
+   déplace rien. Rien ne se superpose, vérifié par mesure des quadrilatères. */
+.iso { --k: .84; position: relative; z-index: 0; width: 100%; height: calc(760px * var(--k)); margin: 0 auto; }
+.iso-scene { position: absolute; left: 50%; top: 0; width: 760px; height: 760px; margin-left: -380px; transform: scale(var(--k)); transform-origin: 50% 0; perspective: 2400px; }
 .iso-sol {
   position: absolute; left: 50%; top: 50%; width: 1100px; height: 1100px;
   transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-45deg); transform-style: preserve-3d;
-  background-image: linear-gradient(var(--grille) 1px, transparent 1px), linear-gradient(90deg, var(--grille) 1px, transparent 1px);
-  background-size: 60px 60px; border: 1px solid rgba(4, 120, 87, .3);
 }
-.iso-dalle { position: absolute; width: 280px; transform-style: preserve-3d; }
-.iso-dalle .flotte { position: relative; transform: translateZ(var(--z, 40px)); transform-style: preserve-3d; will-change: transform; }
-.iso-dalle .ordi { box-shadow: -30px 30px 40px -20px rgba(11, 46, 31, .45); }
-/* le téléphone posé sur le coin du cadre : il se redresse face au visiteur */
-/* le coin avant d'une dalle est son coin bas-gauche (le sol tourne de −45°) :
-   c'est là que le téléphone pose son pied, devant l'écran de l'ordinateur */
-.iso-tel-sur { position: absolute; left: -10px; bottom: -22px; width: 100px; transform: rotateZ(45deg) rotateX(-58deg); transform-origin: 50% 100%; }
-.iso-tel-sur .tel { width: 104px; padding: 5px; border-radius: 18px; box-shadow: -24px 24px 36px -18px rgba(11, 46, 31, .55); }
-.iso-tel-sur .tel-ecran { border-radius: 13px; }
-.iso-tel { position: absolute; width: 120px; transform: rotateZ(45deg) rotateX(-58deg); }
-.iso-tel .tel { width: 120px; padding: 6px; border-radius: 20px; box-shadow: -30px 30px 40px -20px rgba(11, 46, 31, .45); }
-.iso-tel .tel-ecran { border-radius: 14px; }
-.iso-tag { position: absolute; background: var(--nuit); color: #fff; font: 600 .68rem/1.3 var(--mono); padding: 7px 10px; border-radius: 6px; transform: rotateZ(45deg) rotateX(-58deg); white-space: nowrap; }
-.iso-tag b { color: var(--menthe); font-size: .95rem; margin-right: 4px; }
-.iso-leg { margin: 6px 0 0; text-align: center; font: 600 .64rem/1.5 var(--mono); color: var(--encre-2); letter-spacing: .08em; text-transform: uppercase; }
-@media (max-width: 1199px) { .iso { --k: .76; } }
+/* la grille est peinte dans un enfant : un masque sur le sol lui-même
+   aplatirait la scène (mask force transform-style: flat) et les écrans
+   retomberaient à plat sur le sol au lieu de léviter. */
+.iso-grille {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(4, 120, 87, .34) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(4, 120, 87, .34) 1px, transparent 1px),
+    linear-gradient(rgba(4, 120, 87, .17) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(4, 120, 87, .17) 1px, transparent 1px);
+  background-size: 300px 300px, 300px 300px, 60px 60px, 60px 60px;
+  -webkit-mask-image: radial-gradient(closest-side, #000 46%, rgba(0, 0, 0, .45) 76%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 46%, rgba(0, 0, 0, .45) 76%, transparent 100%);
+}
+.iso-dalle { position: absolute; width: 232px; transform: translate(-50%, -50%); transform-style: preserve-3d; }
+.iso-dalle.travers { transform: translate(-50%, -50%) rotateZ(90deg); }
+.iso-dalle .flotte { position: relative; transform: translateZ(var(--z, 16px)); transform-style: preserve-3d; will-change: transform; }
+/* l'ombre reste SUR la grille : elle est portée par la dalle (z = 0) pendant
+   que l'écran, lui, s'élève — c'est ce décalage qui fait la lévitation. */
+.iso-dalle::before {
+  content: ""; position: absolute; left: 6%; right: 6%; top: 10%; bottom: 10%;
+  background: rgba(11, 46, 31, .34); border-radius: 42%; filter: blur(15px);
+}
+.iso-dalle .ordi { box-shadow: 0 2px 7px rgba(11, 46, 31, .16); }
+/* à deux colonnes, la scène est décalée de 16 px vers la droite : son coin
+   gauche frôlait sinon la colonne de texte. */
+@media (min-width: 960px) { .iso-scene { margin-left: -364px; } }
+/* --k suit la largeur disponible : à deux colonnes, les écrans doivent
+   rester entre la colonne de texte (16 px de marge) et le bord de la
+   fenêtre — mesuré à 1440, 1280, 1200, 1024, 960, 640, 390 et 320 px. */
+@media (max-width: 1279px) { .iso { --k: .78; } }
+@media (max-width: 1199px) { .iso { --k: .71; } }
+@media (max-width: 1039px) { .iso { --k: .65; } }
 @media (max-width: 959px) { .iso { --k: .8; } }
 @media (max-width: 640px) { .iso { --k: .62; } }
-@media (max-width: 440px) { .iso { --k: .5; } }
+@media (max-width: 440px) { .iso { --k: .46; } }
 
 /* ------------------------------------------------------------ chiffres */
 .stats {
+  position: relative; z-index: 2;
   display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
   background: var(--nuit); border: 1px solid var(--nuit); border-radius: var(--rayon); overflow: hidden;
   margin-top: clamp(28px, 4vw, 44px); box-shadow: var(--ombre);
@@ -214,7 +227,9 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .stat { padding: 18px 18px 16px; min-width: 0; border-right: 1px solid var(--nuit-2); border-bottom: 1px solid var(--nuit-2); }
 .stat b { display: block; font: 800 clamp(1.9rem, 3vw, 2.6rem)/1.15 var(--serif); color: var(--menthe); letter-spacing: -.035em; }
 .stat b .vert, .stat b span { color: var(--menthe); }
-.stat span { display: block; font-size: .95rem; line-height: 1.35; color: var(--nuit-txt); }
+/* > span : le libellé du chiffre. Sans le >, la règle attrapait aussi le
+   <span data-compte> DANS le <b>, et « 71 » sortait en 15 px. */
+.stat > span { display: block; font-size: .95rem; line-height: 1.35; color: var(--nuit-txt); }
 .stat small { display: block; margin-top: 8px; font: 500 .66rem/1.45 var(--mono); color: var(--nuit-txt-2); letter-spacing: .01em; }
 
 .chiffres { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
@@ -390,17 +405,8 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
   .ecran-rot .img-suivant { transition: opacity .9s ease; }
   .rv { opacity: .55; transform: translateY(14px); transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); }
   .rv.in { opacity: 1; transform: none; }
-  .iso-dalle .flotte { animation: flotte 9s cubic-bezier(.45, 0, .55, 1) infinite alternate; }
-  .iso-dalle:nth-child(2) .flotte { animation-delay: -3.1s; }
-  .iso-dalle:nth-child(3) .flotte { animation-delay: -6.2s; }
-  @keyframes flotte { from { transform: translateZ(var(--z, 40px)); } to { transform: translateZ(calc(var(--z, 40px) + 30px)); } }
-  .iso-carte { animation: flotte-plat 9s cubic-bezier(.45, 0, .55, 1) infinite alternate; will-change: transform; }
-  .iso-carte:nth-child(2) { animation-delay: -1.6s; }
-  .iso-carte:nth-child(3) { animation-delay: -3.2s; }
-  .iso-carte:nth-child(4) { animation-delay: -4.8s; }
-  .iso-carte:nth-child(5) { animation-delay: -6.4s; }
-  .iso-carte:nth-child(6) { animation-delay: -8s; }
-  @keyframes flotte-plat { from { transform: scale(var(--s)) translateY(0); } to { transform: scale(var(--s)) translateY(-12px); } }
+  .iso-dalle .flotte { animation: flotte var(--d, 9s) cubic-bezier(.45, 0, .55, 1) infinite alternate; animation-delay: var(--r, 0s); }
+  @keyframes flotte { from { transform: translateZ(var(--z, 16px)); } to { transform: translateZ(calc(var(--z, 16px) + var(--l, 26px))); } }
   .serpentin-trace .trait { transition: stroke-dashoffset .25s linear; }
   .serp-titre::before { transition: background-color .4s ease, border-color .4s ease, box-shadow .4s ease; }
 }

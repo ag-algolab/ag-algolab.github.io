@@ -166,10 +166,26 @@ def main():
             time.sleep(0.35)
             y_parcours += max(300, hauteur // 2)
             hauteur_page = int(c.evaluer("Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)") or hauteur_page)
+        # la remontée se fait aussi par paliers : les observateurs de visibilité
+        # se déclenchent dans les deux sens, et la première image de la page
+        # (celle qu'on voit en premier) manquait sinon une fois sur deux.
+        while y_parcours > 0:
+            y_parcours -= max(300, hauteur // 2)
+            c.evaluer("window.scrollTo(0, %d)" % max(0, y_parcours))
+            time.sleep(0.2)
         c.evaluer("window.scrollTo(0, 0)")
         time.sleep(1.5)
-        c.evaluer("Promise.all(Array.from(document.images).filter(i => !i.complete).map(i => new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 4000); })))")
-        time.sleep(0.8)
+        c.evaluer("Array.from(document.images).forEach(function (i) { i.loading = 'eager'; i.decoding = 'sync'; })")
+        reste = 0
+        for _ in range(8):
+            reste = int(c.evaluer("Array.from(document.images).filter(function (i) { return !i.complete || i.naturalWidth === 0; }).length") or 0)
+            if not reste:
+                break
+            time.sleep(1.0)
+        c.evaluer("document.fonts ? document.fonts.ready.then(function () { return 1; }) : 1")
+        time.sleep(1.2)
+        if reste:
+            print("⚠ %d image(s) toujours pas chargée(s)" % reste)
         y = 0
         if a.depuis:
             y = c.evaluer(JS_DEPUIS % json.dumps(a.depuis))

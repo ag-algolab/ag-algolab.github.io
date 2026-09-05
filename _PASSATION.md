@@ -148,24 +148,35 @@ Chaque chiffre affiché vient de là, avec **sa source et la date du relevé**.
 Le site le promet en pied de page et dans les mentions légales (§ 5) :
 ne jamais écrire un chiffre en dur dans une page.
 
-Pour mettre à jour (à faire quand les deux autres dépôts ont bougé) :
+Pour mettre à jour, un seul geste :
 
 ```bash
-# Molière
-find ../moliere-plateforme/src/app -name page.tsx | wc -l            # ecrans
-find ../moliere-plateforme/src/app/api -name route.ts | wc -l        # routes_api
-ls ../moliere-plateforme/db | grep -cE '^[0-9]{2}_'                   # migrations
-git -C ../moliere-plateforme rev-list --count HEAD                    # commits
-# Prépa 600
-ls ../tagemage/public/*.html | wc -l                                  # pages
-ls ../tagemage/api/*.js | grep -v '/_' | wc -l                        # endpoints
-git -C ../tagemage rev-list --count HEAD                              # commits
+python outils/recompter.py          # recompte les dépôts et réécrit faits.json
+python outils/recompter.py --lire   # affiche les écarts sans rien écrire
 ```
 
-Puis reporter dans `faits.json` avec la nouvelle date de relevé, recalculer
-`total.commits` (somme) et `moliere.jours` (du 16 août à la date du relevé,
-bornes comprises), et relancer `verifier.py`, qui recompte lui-même ce qui se
-recompte.
+Il recompte les écrans, les routes d'API, les migrations, les tables, les
+lignes de TypeScript, les pages, les fonctions serveur, les blancs, les
+questions, les sous-tests et les commits ; il écrit la valeur **et la date du
+relevé** ; il affiche les écarts. `verifier.py` recompte avec **le même code**
+(il importe `recompter.mesurer`) et refuse la mise en ligne au moindre écart :
+les deux ne peuvent pas diverger. Ce qui ne se recompte pas d'ici (dates,
+prix, décisions) reste écrit à la main dans `faits.json`.
+
+Trois définitions, parce qu'un chiffre affiché doit être vrai au mot près :
+
+- un **écran** de Molière = un `page.tsx` de `src/app`, **hors pages de
+  travail** (`demo-*` : reliée nulle part, `robots noindex`). D'où 71, et
+  non 72 : `demo-boutons` est un banc d'essai, pas un écran.
+- un **blanc** de Prépa 600 = un test **complet** de 90 items ; celui qui est
+  en cours d'écriture ne compte pas encore (la banque a gagné le blanc 13
+  pendant le lot 5, entre deux commandes).
+- `p600.sous_tests` n'est écrit que parce que `marketing/verifier_lot.py
+  --tous` passe : **78 sur 78 au vert le 05/09**, relancé ce jour-là.
+
+La date du dernier recomptage est elle-même un fait (`total.releve`) : les
+mentions « comptés dans les dépôts le … » et le dernier jalon de la frise
+Molière la lisent, donc elles ne vieillissent pas toutes seules.
 
 ---
 
@@ -197,32 +208,53 @@ et les étiquettes se redressent face au visiteur.
 | `--menthe` / `--ambre` | `#6EE7B7` / `#FCD34D` | chiffres et lignes sur les blocs nuit |
 
 **La scène isométrique** (`.iso`) : un bloc de 760 × 760 dessiné à l'échelle 1
-puis réduit par `--k` selon la largeur (0,84 → 0,76 → 0,8 → 0,62 → 0,5 → 0,42 sous 360 px). Le
-sol `.iso-sol` est un carré de 760 tourné `rotateX(58deg) rotateZ(-45deg)` ; les
-dalles `.iso-dalle` (ordinateurs) y reposent avec une hauteur `--z` ; les
-téléphones `.iso-tel` et les étiquettes `.iso-tag` reçoivent la rotation
-inverse, donc se redressent. Le sol déborde du bloc (un carré tourné de 45°
-fait 1 075 px de large) : **`.hero { overflow: hidden }` est obligatoire**,
-c'est lui qui empêche le défilement horizontal sur téléphone. Les positions
-sont écrites en `style=""` dans le HTML de chaque page, pas dans le CSS.
+puis réduit par `--k` selon la largeur (0,84 → 0,78 → 0,71 → 0,65 → 0,8 en une
+colonne → 0,62 → 0,46 → 0,42 sous 360 px). Le sol `.iso-sol` est un carré de
+1 100 tourné `rotateX(58deg) rotateZ(-45deg)`, avec `perspective: 2400px` sur
+la scène : ce qui est devant est plus grand, sans qu'on l'écrive. Le
+quadrillage n'est PAS peint sur le sol mais dans un enfant `.iso-grille`
+(60 px, plus une ligne forte tous les 300) — **un masque sur le sol lui-même
+l'aplatirait** (`mask` force `transform-style: flat`) et les écrans
+retomberaient collés au sol. Le sol déborde du bloc : **`.hero { overflow:
+hidden }` est obligatoire**, c'est lui qui empêche le défilement horizontal
+sur téléphone.
 
-**Le héros : six écrans face au visiteur, aucun téléphone** (décisions
-d'Anthony du 04/09 au soir — « ça fait cheap, ce n'est qu'un aperçu », rien
-ne change de page — et du 05/09 — « les téléphones, pas dingue », « tourne les
-écrans dans notre sens pour qu'on puisse voir »). Les cartes `.iso-carte` sont
-des sœurs du sol, pas ses enfants : elles ne sont donc pas tournées, et
-reçoivent seulement une profondeur par l'échelle (`.loin` 0,86 au fond, `.mi`
-0,93 au milieu, 1 devant), trois rangs de deux. Du fond vers l'avant :
-l'administration Molière (**capture d'Anthony, noms et chiffres floutés par
-`ImageFilter.GaussianBlur` avant de sortir de sa machine — « c'est un peu
-sensible », donc la plus loin et la plus petite**), le simulateur Prépa 600,
-le tableau de bord élève, l'accueil Prépa 600, l'accueil Molière, le test de
-niveau. Les positions sont écrites dans le HTML de l'accueil et se vérifient
-par mesure dans le navigateur : rectangles des `.iso-carte .ordi`, aucune
-intersection, et un vide d'au moins 16 px avec la colonne de texte à 1 280 px.
-Sur le chemin riche seulement, les cartes lévitent de 12 px (`flotte-plat`) ;
-les anciennes dalles 3D `.iso-dalle` et les téléphones `.iso-tel` restent dans
-le CSS mais ne sont plus posés nulle part.
+**Le héros : six écrans POSÉS SUR LA GRILLE** (Anthony, 05/09 au soir : « la
+grille doit servir d'endroit où les sites sont posés… ils se relèvent un petit
+peu puis redescendent, pas tous au même moment… ils doivent être parallèles et
+perpendiculaires aux lignes de la grille, dans les deux sens »). Les
+`.iso-dalle` sont donc **des enfants du sol** : ils héritent de son
+orientation. La moitié reçoit en plus `.travers` (`rotateZ(90deg)`), d'où les
+deux directions. Chaque dalle est placée par son CENTRE (`left`/`top` +
+`translate(-50%, -50%)`), en pixels du sol : la hauteur réelle du cadre ne
+déplace donc rien. Trois rangs de deux, du fond vers l'avant : les tarifs de
+Prépa 600 et **l'administration Molière** (capture d'Anthony, **seuls les noms
+d'élèves floutés** — il a demandé le 05/09 que les chiffres restent nets,
+« c'est celui qui est le plus loin à droite, on ne le verra pas même en
+zoomant »), le tableau de bord élève et la page de la plateforme, l'accueil
+Prépa 600 et l'accueil Molière (le plus grand, devant).
+
+**La lévitation** : chaque dalle porte `--z` (hauteur au repos, 16 à 34 px),
+`--l` (amplitude, 22 à 30), `--d` (durée, 7,6 à 11,2 s) et `--r` (retard
+négatif) — d'où le décalage entre elles. L'ombre est portée par la dalle
+elle-même (`::before`, z = 0, donc **sur la grille**) pendant que l'écran
+s'élève : c'est ce décalage qui fait la lévitation. Hors chemin riche, chaque
+écran reste posé à sa hauteur `--z`, rien ne bouge.
+
+**Comment les positions sont vérifiées** : un écran tourné en 3D n'a pas de
+rectangle, il a un quadrilatère. On insère quatre marqueurs de taille nulle
+aux quatre coins de chaque `.ordi`, on lit leur `getBoundingClientRect()` (la
+projection exacte, perspective comprise), et on teste l'intersection par axes
+séparateurs, plus la distance à la colonne de texte, au bandeau des chiffres
+et aux bords de la fenêtre. Mesuré à 1 440, 1 280, 1 200, 1 199, 1 140, 1 024,
+960, 900, 390 et 320 px : aucune intersection, jamais rien hors de la fenêtre,
+16 px au moins avec la colonne de texte. **Les paliers de `--k` viennent de
+là** : la scène doit tenir entre le texte et le bord.
+
+**Le bandeau des chiffres passe au-dessus de la grille** (`.stats` et
+`.hero-txt` en `position: relative; z-index: 2`, la scène en `z-index: 0`) :
+un élément positionné se peint sinon par-dessus le contenu en flux, et la
+grille traversait le bandeau vert nuit.
 
 **Les vitrines qui déroulent** (`.vitrine`, `.defile`, script `site.js`) :
 un ordinateur montre la page ENTIÈRE (`<nom>-full.webp`, 800 px de large) ;
@@ -328,6 +360,21 @@ Ajouté le 5 septembre 2026 (ses retours du soir et de la nuit) :
     prédire ») ; la simulation fait ensuite partir la tendance dans le sens
     annoncé, et le dit.
 
+Ajouté le 5 septembre 2026 (deuxième soirée) :
+
+14. **Les écrans sont posés sur la grille**, alignés sur ses lignes dans les
+    deux sens, en lévitation décalée — plus de cartes de face (§4).
+15. **Le bandeau des quatre chiffres passe au-dessus de la grille** : on ne
+    doit pas voir le quadrillage le traverser.
+16. **Les chiffres du tableau de bord d'administration ne sont plus floutés**
+    (seuls les noms d'élèves le restent : ce sont des personnes réelles).
+17. **Le simulateur et le test de niveau sortent du héros** (« très moche ») :
+    la page des tarifs de Prépa 600 et la page de la plateforme Molière les
+    remplacent.
+18. **Le trio de chiffres de l'Institut Molière ne dit plus les commits** :
+    écrans, routes d'API, **tables en base**. Et les chiffres affichés sont
+    recomptés pour de bon (§3) : 71 écrans, pas 72.
+
 ---
 
 ## 6. Ce qui reste à Anthony
@@ -380,6 +427,18 @@ Ajouté le 5 septembre 2026 (ses retours du soir et de la nuit) :
   questions grossit pendant qu'on travaille ici) : quand `verifier.py`
   refuse, relancer les deux scripts de mise à jour (§3) et reconstruire,
   sans discuter.
+- **`mask` ou `filter` aplatit une scène 3D** : appliqué au sol, le masque du
+  quadrillage annulait `transform-style: preserve-3d` et les écrans
+  retombaient à plat dessus. Peindre la grille dans un enfant.
+- **Un élément positionné se peint par-dessus le contenu en flux**, même
+  écrit avant lui : c'est pour ça que la grille passait sur le bandeau des
+  chiffres. `position: relative; z-index` sur ce qui doit rester devant.
+- **La première image d'une page manque une fois sur deux dans les captures**
+  (Anthony, 05/09 : « la photo de l'atelier de communication au tout début »).
+  `capturer_cdp.py` descend puis **remonte par paliers** (les observateurs de
+  visibilité se déclenchent dans les deux sens), repasse toutes les images en
+  `loading="eager"`, attend qu'aucune ne soit incomplète, et prévient s'il en
+  manque encore.
 - **Le serveur local** est déclaré dans le `launch.json` de la session
   Claude Code du dossier `PycharmProjects\Youtube`, pas dans ce dépôt :
   `python -m http.server 8873 --directory C:/Users/antho/projets/agalgolab/public`.
@@ -466,3 +525,16 @@ Ajouté le 5 septembre 2026 (ses retours du soir et de la nuit) :
   de cette nuit. Prépa 600 a encore grossi pendant le lot (990 puis 1 080
   questions, 12 blancs, 72 sous-tests au vert) : `faits.json` suit, le
   vérificateur a refusé deux fois avant. Assets en `?v=5`.
+- **05/09/2026 (nuit)** — Lot 5, ses retours du soir. La grille redevient un
+  sol : les six écrans y sont **posés**, alignés sur ses lignes dans les deux
+  sens, et lévitent chacun à sa hauteur et à son rythme ; le bandeau des
+  chiffres passe au-dessus ; les positions sont vérifiées par quadrilatères à
+  dix largeurs. Le simulateur et le test de niveau quittent le héros au profit
+  des tarifs Prépa 600 et de la plateforme Molière. Les chiffres du tableau de
+  bord d'administration redeviennent nets, seuls les noms d'élèves sont
+  floutés. Nouveau `outils/recompter.py` : les chiffres se recomptent et se
+  réécrivent en une commande, et `verifier.py` partage ce code — au passage,
+  **71 écrans et non 72** (une page de travail ne compte pas), 44 tables en
+  base à la place des commits dans le trio Molière, 13 blancs et 1 170
+  questions pour Prépa 600, 78 sous-tests sur 78 au vert. Captures des deux
+  sites refaites avec l'attente des images renforcée. Assets en `?v=6`.
