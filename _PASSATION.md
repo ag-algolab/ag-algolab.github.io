@@ -467,7 +467,13 @@ Vercel, Telegram, Resend, Gemini, Claude Code — chacune avec son logo
 (tracés **Simple Icons**, domaine public, inclus en SVG dans la page) en
 couleur de marque (`--marque`), qui flotte (`socle-flotte`) et respire
 (`socle-souffle`) avec un retard et une durée propres (`--r`, `--d`). En
-flex centré : 6 + 5 sur grand écran, 2 par rangée sur téléphone. Les rôles
+flex centré : 6 + 5 sur grand écran, 2 par rangée sur téléphone. **Rien que
+du `transform` dans les animations** (06/09, « les logos vivent mal, c'est
+pas fluide ») : la première version animait aussi `box-shadow`, ce qui
+repeignait onze tuiles à chaque image ; l'ombre est fixe désormais et
+`will-change: transform` promeut tuiles et logos. Les rôles sont courts
+(deux ou trois mots, « the application », « rights, 67 migrations ») : il
+a demandé de retirer les préfixes comme « l'atelier : ». Les rôles
 sont ceux du dépôt Molière (`package.json`, `lib/email.ts` pour Resend,
 `voix-serveur.ts` et `ocr-preuve.ts` pour Gemini, `GEMINI_MODEL` pour le
 Coach).
@@ -839,3 +845,8 @@ Ajouté le 5 septembre 2026 (nuit) :
   nouveau tableau de bord. Faits recomptés (le dépôt Molière a bougé : 72
   écrans, 71 716 lignes ; Prépa 600 : 120 sous-tests, 1 800 questions).
   Assets en `?v=12`. **Plus rien en attente.**
+- **06/09/2026 (matin)** — Lot 12. Le socle saccadait : l'ombre animée
+  repeignait onze tuiles à chaque image ; animations en `transform` seul,
+  ombre fixe, `will-change`. Rôles raccourcis (« the application », « always
+  on the most capable models on the market » sans « the workshop: »).
+  Assets en `?v=13`.
