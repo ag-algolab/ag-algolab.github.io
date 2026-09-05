@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=16">
+<link rel="stylesheet" href="/assets/style.css?v=17">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@graph": [
@@ -224,55 +224,25 @@
   </div>
 </section>
 
-<section class="sec sec-filet">
-  <div class="wrap" data-onglets>
+<section class="sec sec-filet" id="espaces">
+  <div class="wrap">
     <div class="sec-tete">
       <p class="etq">Quatre espaces, un seul projet</p>
       <h2 class="h2">Le rôle du compte décide de ce qui s'ouvre.</h2>
-      <p class="chapo">Quatre plans, un seul bâtiment. Les espaces professeur et administration contiennent des données de familles : ils sont dessinés, pas photographiés. Survolez une ligne, le plan la montre.</p>
+      <p class="chapo">Un seul bâtiment, quatre badges. Passez-en un : la porte s'ouvre sur ce que ce rôle voit, et rien d'autre. Les espaces professeur et administration ne se photographient pas — ils contiennent des données de familles.</p>
     </div>
-    <div class="onglets" role="tablist">
-      <button class="onglet" type="button" role="tab" aria-selected="true">Site public · 14</button>
-      <button class="onglet" type="button" role="tab" aria-selected="false">Élève · 20</button>
-      <button class="onglet" type="button" role="tab" aria-selected="false">Professeur · 9</button>
-      <button class="onglet" type="button" role="tab" aria-selected="false">Administration · 22</button>
+    <div class="badges" role="tablist" data-badges>
+      <button class="badge" type="button" role="tab" aria-selected="true" data-role="site" style="--c:#0EA5E9"><i class="badge-trou" aria-hidden="true"></i><span class="badge-av" aria-hidden="true">V</span><b>Visiteur</b><span class="badge-n">14 écrans</span><small>sans compte</small><span class="badge-piste" aria-hidden="true"></span></button>
+      <button class="badge" type="button" role="tab" aria-selected="false" data-role="eleve" style="--c:#10B981"><i class="badge-trou" aria-hidden="true"></i><span class="badge-av" aria-hidden="true">É</span><b>Élève</b><span class="badge-n">20 écrans</span><small>badge vert</small><span class="badge-piste" aria-hidden="true"></span></button>
+      <button class="badge" type="button" role="tab" aria-selected="false" data-role="prof" style="--c:#F59E0B"><i class="badge-trou" aria-hidden="true"></i><span class="badge-av" aria-hidden="true">P</span><b>Professeur</b><span class="badge-n">9 écrans</span><small>badge ambre</small><span class="badge-piste" aria-hidden="true"></span></button>
+      <button class="badge" type="button" role="tab" aria-selected="false" data-role="admin" style="--c:#0B2E1F"><i class="badge-trou" aria-hidden="true"></i><span class="badge-av" aria-hidden="true">A</span><b>Administration</b><span class="badge-n">22 écrans</span><small>badge noir</small><span class="badge-piste" aria-hidden="true"></span></button>
     </div>
-    <div class="panneau actif">
-      <ul class="liste">
-        <li data-bloc="1"><span>Présentation par public, programmes, carte des 7 sites</span></li>
-        <li data-bloc="2"><span>Inscription en ligne avec règlement déclaré et lecture automatique du reçu</span></li>
-        <li data-bloc="3"><span>Essai gratuit de 3 jours, sans carte bancaire</span></li>
-        <li data-bloc="4"><span>Test de niveau français et anglais, test indicatif dys</span></li>
-        <li data-bloc="5"><span>Candidature de professeur, vérification de certificat en ligne</span></li>
-      </ul>
-      <div class="plan-col"><p class="plan-promesse">Le visiteur se renseigne, se teste et s'inscrit — sans appeler personne.</p><div class="plan" data-plan><div class="plan-tete"><span class="plan-role">Site public</span><span class="plan-n">14 écrans</span></div><div class="plan-corps"><ul class="plan-menu"><li>Accueil</li><li>Communication</li><li>Soutien scolaire</li><li>Enseigner</li><li>Test de niveau</li><li>Nous rejoindre</li></ul><div class="plan-blocs"><div class="plan-bloc" data-bloc="1"><b>Programmes · 7 sites</b><i></i><i></i></div><div class="plan-bloc" data-bloc="2"><b>Inscription · reçu lu</b><i></i><i></i></div><div class="plan-bloc" data-bloc="3"><b>Essai 3 jours</b><i></i><i></i></div><div class="plan-bloc" data-bloc="4"><b>Test de niveau · dys</b><i></i><i></i></div><div class="plan-bloc" data-bloc="5"><b>Candidature · certificat</b><i></i><i></i></div></div></div></div></div>
-    </div>
-    <div class="panneau">
-      <ul class="liste">
-        <li data-bloc="1"><span>Bibliothèque ouverte à son niveau, lecteur intégré sans téléchargement</span></li>
-        <li data-bloc="2"><span>Dictées audio corrigées à la seconde, faute par faute</span></li>
-        <li data-bloc="3"><span>Calcul mental chronométré, échecs, concours mensuel</span></li>
-        <li data-bloc="4"><span>Coach Molière à toute heure, à la voix comme à l'écrit, photo d'un exercice comprise</span></li>
-        <li data-bloc="5"><span>Progression, séries, calendrier, comptes rendus de chaque cours</span></li>
-      </ul>
-      <div class="plan-col"><p class="plan-promesse">Chaque jour, quelque chose à faire ; chaque semaine, la preuve que c'est fait.</p><div class="plan" data-plan><div class="plan-tete"><span class="plan-role">Élève</span><span class="plan-n">20 écrans</span></div><div class="plan-corps"><ul class="plan-menu"><li>Tableau de bord</li><li>Coach 24/24</li><li>Mes cours</li><li>Calendrier</li><li>Bibliothèque</li><li>Dictées</li><li>Calcul mental</li><li>Échecs</li><li>Concours</li><li>Progression</li><li>Mon niveau</li></ul><div class="plan-blocs"><div class="plan-bloc" data-bloc="1"><b>Bibliothèque · lecteur</b><i></i><i></i></div><div class="plan-bloc" data-bloc="2"><b>Dictées · correction</b><i></i><i></i></div><div class="plan-bloc" data-bloc="3"><b>Calcul · échecs · concours</b><i></i><i></i></div><div class="plan-bloc" data-bloc="4"><b>Coach · voix · photo</b><i></i><i></i></div><div class="plan-bloc" data-bloc="5"><b>Progression · séries · comptes rendus</b><i></i><i></i></div></div></div></div></div>
-    </div>
-    <div class="panneau">
-      <ul class="liste">
-        <li data-bloc="1"><span>L'appel de chaque séance</span></li>
-        <li data-bloc="2"><span>Ses séances et ses comptes rendus, publiés chez l'élève et annoncés dans le groupe Telegram de la classe</span></li>
-        <li data-bloc="3"><span>Ses dictées, ses publications, son profil</span></li>
-      </ul>
-      <div class="plan-col"><p class="plan-promesse">L'appel, la séance, le compte rendu : publié chez l'élève, annoncé dans le groupe.</p><div class="plan" data-plan><div class="plan-tete"><span class="plan-role">Professeur</span><span class="plan-n">9 écrans</span></div><div class="plan-corps"><ul class="plan-menu"><li>Accueil</li><li>Présences</li><li>Séances</li><li>Publier</li><li>Dictées</li><li>Profil</li></ul><div class="plan-blocs"><div class="plan-bloc" data-bloc="1"><b>L'appel</b><i></i><i></i></div><div class="plan-bloc" data-bloc="2"><b>Séances · comptes rendus → élève · Telegram</b><i></i><i></i></div><div class="plan-bloc" data-bloc="3"><b>Dictées · publications · profil</b><i></i><i></i></div></div></div></div></div>
-    </div>
-    <div class="panneau">
-      <ul class="liste">
-        <li data-bloc="1"><span>Prospects, relances, envois ciblés</span></li>
-        <li data-bloc="2"><span>Dossiers d'inscription, encaissements, classes, horaires, membres</span></li>
-        <li data-bloc="3"><span>Essais gratuits : qui a accroché, qui non ; l'activité de chaque élève</span></li>
-        <li data-bloc="4"><span>Bibliothèque, ressources, candidatures, certificats, état du Coach</span></li>
-      </ul>
-      <div class="plan-col"><p class="plan-promesse">Qui a payé, qui a accroché, qui décroche : la rentrée se pilote dedans.</p><div class="plan" data-plan><div class="plan-tete"><span class="plan-role">Administration</span><span class="plan-n">22 écrans</span></div><div class="plan-corps"><ul class="plan-menu"><li>Prospects</li><li>Demandes</li><li>Dossiers</li><li>Paiements</li><li>Classes</li><li>Élèves</li><li>Essais</li><li>Envois</li><li>Relances</li><li>Candidatures</li><li>Certificats</li><li>Ressources</li><li>IA</li></ul><div class="plan-blocs"><div class="plan-bloc" data-bloc="1"><b>Prospects · relances · envois</b><i></i><i></i></div><div class="plan-bloc" data-bloc="2"><b>Dossiers · encaissements · classes · membres</b><i></i><i></i></div><div class="plan-bloc" data-bloc="3"><b>Essais : qui a accroché</b><i></i><i></i></div><div class="plan-bloc" data-bloc="4"><b>Ressources · candidatures · certificats · Coach</b><i></i><i></i></div></div></div></div></div>
+    <div class="porte" data-porte>
+      <div class="porte-lecteur" aria-hidden="true"><i class="led"></i><span>badge lu · porte ouverte</span></div>
+      <div class="porte-panneau actif" role="tabpanel" data-role="site" style="--c:#0EA5E9"><p class="porte-promesse">Le visiteur se renseigne, se teste et s'inscrit — sans appeler personne.</p><p class="porte-titre">Ce qui s'ouvre</p><ul class="pastilles"><li style="--k:0">Accueil</li><li style="--k:1">Communication</li><li style="--k:2">Soutien scolaire</li><li style="--k:3">Enseigner</li><li style="--k:4">Test de niveau</li><li style="--k:5">Test dys</li><li style="--k:6">Nous rejoindre</li><li style="--k:7">Essai 3 jours</li></ul><ul class="liste liste-porte"><li><span>Présentation par public, programmes, carte des 7 sites</span></li><li><span>Inscription en ligne, règlement déclaré, reçu lu automatiquement</span></li><li><span>Test de niveau français et anglais, test indicatif dys</span></li><li><span>Candidature de professeur, certificat vérifié en ligne</span></li></ul></div>
+      <div class="porte-panneau" role="tabpanel" data-role="eleve" style="--c:#10B981"><p class="porte-promesse">Chaque jour, quelque chose à faire ; chaque semaine, la preuve que c'est fait.</p><p class="porte-titre">Ce qui s'ouvre</p><ul class="pastilles"><li style="--k:0">Tableau de bord</li><li style="--k:1">Coach 24/24</li><li style="--k:2">Mes cours</li><li style="--k:3">Calendrier</li><li style="--k:4">Bibliothèque</li><li style="--k:5">Dictées</li><li style="--k:6">Calcul mental</li><li style="--k:7">Échecs</li><li style="--k:8">Concours</li><li style="--k:9">Progression</li><li style="--k:10">Mon niveau</li></ul><ul class="liste liste-porte"><li><span>Bibliothèque ouverte à son niveau, lecteur intégré</span></li><li><span>Dictées audio corrigées à la seconde, faute par faute</span></li><li><span>Coach Molière à toute heure, à la voix comme à l'écrit</span></li><li><span>Progression, séries, calendrier, comptes rendus de chaque cours</span></li></ul></div>
+      <div class="porte-panneau" role="tabpanel" data-role="prof" style="--c:#F59E0B"><p class="porte-promesse">L'appel, la séance, le compte rendu : publié chez l'élève, annoncé dans le groupe.</p><p class="porte-titre">Ce qui s'ouvre</p><ul class="pastilles"><li style="--k:0">Présences</li><li style="--k:1">Séances</li><li style="--k:2">Comptes rendus</li><li style="--k:3">Publier</li><li style="--k:4">Dictées</li><li style="--k:5">Profil</li></ul><ul class="liste liste-porte"><li><span>L'appel de chaque séance</span></li><li><span>Ses comptes rendus, publiés chez l'élève et annoncés dans le groupe Telegram de la classe</span></li><li><span>Ses dictées, ses publications, son profil</span></li><li><span>Pas de capture : l'espace contient des données d'élèves</span></li></ul></div>
+      <div class="porte-panneau" role="tabpanel" data-role="admin" style="--c:#0B2E1F"><p class="porte-promesse">Qui a payé, qui a accroché, qui décroche : la rentrée se pilote dedans.</p><p class="porte-titre">Ce qui s'ouvre</p><ul class="pastilles"><li style="--k:0">Prospects</li><li style="--k:1">Demandes</li><li style="--k:2">Dossiers</li><li style="--k:3">Paiements</li><li style="--k:4">Classes</li><li style="--k:5">Élèves</li><li style="--k:6">Essais</li><li style="--k:7">Envois</li><li style="--k:8">Relances</li><li style="--k:9">Candidatures</li><li style="--k:10">Certificats</li><li style="--k:11">Ressources</li><li style="--k:12">État du Coach</li></ul><ul class="liste liste-porte"><li><span>Prospects, relances, envois ciblés</span></li><li><span>Dossiers d'inscription, encaissements, classes, horaires, membres</span></li><li><span>Essais gratuits : qui a accroché, qui non ; l'activité de chaque élève</span></li><li><span>Pas de capture : l'espace contient des données de familles</span></li></ul></div>
     </div>
   </div>
 </section>
@@ -422,6 +392,6 @@
 </footer>
 
 <noscript><style>.nav{display:flex}</style></noscript>
-<script src="/assets/site.js?v=16" defer></script>
+<script src="/assets/site.js?v=17" defer></script>
 </body>
 </html>

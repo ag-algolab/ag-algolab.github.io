@@ -239,6 +239,64 @@
     poser();
   });
 
+  /* ------------------------------------------------------- les badges (Molière)
+     Passer un badge (souris ou touche) ouvre le panneau de son rôle ; laissé
+     tranquille et visible, le lecteur passe les quatre badges à tour de rôle
+     (chemin riche). */
+  chaque('[data-badges]', function (barre) {
+    var badges = barre.querySelectorAll('.badge');
+    var porte = barre.parentNode.querySelector('[data-porte]');
+    if (!porte || !badges.length) return;
+    var panneaux = porte.querySelectorAll('.porte-panneau');
+    var k = 0, main = false, dernier = 0;
+    var ouvrir = function (role) {
+      Array.prototype.forEach.call(badges, function (b, i) { var oui = b.getAttribute('data-role') === role; b.setAttribute('aria-selected', oui ? 'true' : 'false'); if (oui) k = i; });
+      Array.prototype.forEach.call(panneaux, function (pn) { pn.classList.toggle('actif', pn.getAttribute('data-role') === role); });
+      porte.classList.remove('change');
+      void porte.offsetWidth;
+      porte.classList.add('change');
+    };
+    Array.prototype.forEach.call(badges, function (b) {
+      b.addEventListener('click', function () { dernier = Date.now(); ouvrir(b.getAttribute('data-role')); });
+      if (souris) b.addEventListener('mouseenter', function () { dernier = Date.now(); ouvrir(b.getAttribute('data-role')); });
+    });
+    if (souris) {
+      barre.addEventListener('mouseenter', function () { main = true; });
+      barre.addEventListener('mouseleave', function () { main = false; });
+      porte.addEventListener('mouseenter', function () { main = true; });
+      porte.addEventListener('mouseleave', function () { main = false; });
+    }
+    if (riche && 'IntersectionObserver' in window) {
+      var visible = false;
+      new IntersectionObserver(function (es) { es.forEach(function (en) { visible = en.isIntersecting; }); }, { threshold: .3 }).observe(porte);
+      setInterval(function () {
+        if (!visible || main || doc.hidden || Date.now() - dernier < 7000) return;
+        ouvrir(badges[(k + 1) % badges.length].getAttribute('data-role'));
+      }, 5000);
+    }
+  });
+
+  /* ----------------------------------------------- le récit (Prépa 600)
+     L'étape qui passe la ligne du milieu de la fenêtre devient l'étape
+     active ; le téléphone collé change de page avec elle. */
+  chaque('[data-recit]', function (bloc) {
+    var etapes = bloc.querySelectorAll('.recit-etape'), imgs = bloc.querySelectorAll('.recit-tel img'), leg = bloc.querySelector('[data-recit-leg]');
+    if (!etapes.length || !imgs.length) return;
+    var activer = function (et) {
+      Array.prototype.forEach.call(etapes, function (e) { e.classList.toggle('actif', e === et); });
+      var n = parseInt(et.getAttribute('data-ecran'), 10) || 0;
+      Array.prototype.forEach.call(imgs, function (im, i) { im.classList.toggle('actif', i === n); if (i === n) im.loading = 'eager'; });
+      if (leg && imgs[n]) leg.textContent = imgs[n].getAttribute('data-page');
+    };
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (en) { if (en.isIntersecting) activer(en.target); });
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+      Array.prototype.forEach.call(etapes, function (e) { io.observe(e); });
+    }
+    activer(etapes[0]);
+  });
+
   /* ------------------------------------------ l'écran qui enchaîne les pages
      Les pages de l'espace élève, l'une après l'autre : la suivante arrive
      de la droite et recouvre la précédente, toutes les trois secondes.

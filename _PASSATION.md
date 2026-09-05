@@ -518,7 +518,58 @@ haut sont fixes, on ne perd que du bas), puis 1 100 × 688 en WebP à 80. Le
 tableau de bord donne aussi `moliere-eleve.webp` (960 × 600, héros et
 onglets). La même recette vaut pour toute capture qu'il enverra.
 
-**Les quatre plans** (page Molière, « Quatre espaces, un seul projet »,
+**Les quatre badges** (page Molière, « Quatre espaces, un seul projet »,
+06/09 après-midi — les plans d'architecte ci-dessous ont été **rejetés** :
+« je n'aime pas le design, change complètement l'idée »). L'idée neuve prend
+le titre au mot : *le rôle du compte décide de ce qui s'ouvre* → **quatre
+badges d'accès** (`.badge`, un cordon, un trou, une pastille à l'initiale,
+une piste magnétique de la couleur du rôle : bleu visiteur, vert élève,
+ambre professeur, noir administration), **un lecteur** (`.porte-lecteur`,
+LED qui pulse, qui passe à l'ambre le temps d'une lecture) et **une porte**
+(`.porte`) qui s'ouvre sur le panneau du rôle : sa promesse en gros, « ce qui
+s'ouvre » en pastilles qui apparaissent l'une après l'autre (les vraies
+entrées du menu de l'espace), puis trois ou quatre puces. Passer un badge à
+la souris ou le toucher l'ouvre ; sur le chemin riche, le lecteur passe les
+quatre badges à tour de rôle toutes les 5 s quand personne n'y touche. Les
+quatre rôles sont traités pareil : rien n'est photographié ici.
+
+**Les six dalles du héros sont moins rangées** (06/09 : « il faut qu'elles
+soient moins nettement placées ») : largeurs différentes (`--w`, 198 à
+288 px) et centres sortis du damier régulier — voir les `style` des
+`.iso-dalle` dans `index.html`. Vérifié comme avant, par quadrilatères
+projetés et axes séparateurs, à 1 280, 1 024 et 390 px.
+
+**Prépa 600, page refaite** (06/09 : « elle ne doit rien avoir à voir avec
+celle de l'Institut Molière… des designs dynamiques qui se découvrent
+lorsqu'on navigue »). La page redéfinit les jetons sur `body.page-prepa-600`
+— papier bleu très pâle, encre nuit bleue, accent bleu, `--menthe` devient
+un bleu clair — et l'en-tête suit (`color-mix` sur `--papier`). La
+composition n'a plus rien de commun :
+1. **Héros** : le texte, et à droite un bloc nuit avec le **6** géant
+   (`.six`, compteur), premier fichier, premier compte, questions écrites.
+2. **Le récit en six jours** (`.recit`, `[data-recit]`) : un téléphone
+   **collé** à gauche (`position: sticky`) dont l'écran change de page
+   pendant que six étapes défilent à droite (25 août, 26, 27–28, 30, 31,
+   aujourd'hui) ; l'étape qui passe la ligne du milieu de la fenêtre
+   devient active (`IntersectionObserver`, `rootMargin -45 %`), les autres
+   s'estompent. Chaque étape porte un chiffre de la journée — **les
+   « mises en ligne » sont les commits de la journée dans le dépôt
+   Prépa 600** (`git log --date=short` : 2, 16, 1 + 3, 22, 43), dates
+   passées donc figées ; la dernière étape lit `faits.json`. Les pages du
+   téléphone sont celles d'aujourd'hui, la légende le dit.
+3. **Ce que le candidat obtient** : les quatre graphiques du lot 15 en
+   grille de deux (chronomètre, rapport-exemple, tuiles des blancs, points
+   de l'audit), toujours remplis au défilement (`--p`).
+4. **Le barème** au curseur (inchangé).
+5. **Un bandeau de logos qui défile** (`.defilant`, piste dupliquée,
+   34 s, pause au survol, masque aux bords ; statique et centré avec
+   « réduire le mouvement »).
+6. L'appel final.
+Ont disparu de cette page : la vitrine du héros, le manège, la bande des
+chiffres, les onglets, le socle en tuiles.
+
+**Les quatre plans** (page Molière — REMPLACÉS par les badges, gardés ici
+pour mémoire, « Quatre espaces, un seul projet »,
 06/09 : « certaines pages ne peuvent pas être affichées… un design
 dynamique, parlant, créatif »). Les espaces professeur et administration
 tiennent des données de familles : on ne les photographie pas. Chaque
@@ -691,6 +742,13 @@ Ajouté le 6 septembre 2026 :
     remplissent au défilement, souris qui nomme ce qu'elle survole,
     curseur du barème. Tout ce qui est chiffré vient de `faits.json` ; le
     rapport est un exemple et le dit.
+
+37. **Les deux pages de cas ne se ressemblent pas** : Molière en menthe,
+    héros-vitrine, manège, réacteur ; Prépa 600 en bleu, récit à téléphone
+    collé, graphiques au défilement, bandeau qui défile. Une page de cas peut
+    porter les couleurs de son produit.
+38. **Le héros de l'accueil n'est pas un damier** : tailles et positions
+    irrégulières, toujours vérifiées par géométrie.
 
 ---
 
@@ -950,3 +1008,11 @@ Ajouté le 6 septembre 2026 :
   téléphone le soir · corrigé le lendemain ». Deux collisions de classes
   évitées de justesse (`.bulle` → `.bulle-temps` pour la carte du temps ;
   rappel : `.note`, `.bulle`, `.nb` sont pris). Assets en `?v=16`.
+- **06/09/2026 (fin d'après-midi)** — Lot 17. Les plans d'architecte sont
+  rejetés : les quatre espaces Molière deviennent **quatre badges, un
+  lecteur, une porte** (promesse, pastilles du menu, puces ; passage
+  automatique). Les six dalles du héros perdent leur damier (largeurs et
+  centres irréguliers, géométrie revérifiée). **Prépa 600 est refaite de
+  bout en bout** : jetons bleus sur `body.page-prepa-600`, héros au « 6 »
+  géant, récit en six jours à téléphone collé, quatre graphiques en grille,
+  barème, bandeau de logos qui défile. Assets en `?v=17`.

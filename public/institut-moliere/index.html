@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=16">
+<link rel="stylesheet" href="/assets/style.css?v=17">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@graph": [
@@ -224,55 +224,25 @@
   </div>
 </section>
 
-<section class="sec sec-filet">
-  <div class="wrap" data-onglets>
+<section class="sec sec-filet" id="espaces">
+  <div class="wrap">
     <div class="sec-tete">
       <p class="etq">Four areas, one project</p>
       <h2 class="h2">The account's role decides what opens.</h2>
-      <p class="chapo">Four floor plans, one building. The teacher and administration areas hold families' data: they are drawn, not photographed. Hover a line, the plan shows it.</p>
+      <p class="chapo">One building, four badges. Swipe one: the door opens on what that role sees, and nothing else. The teacher and administration areas are not photographed — they hold families' data.</p>
     </div>
-    <div class="onglets" role="tablist">
-      <button class="onglet" type="button" role="tab" aria-selected="true">Public site · 14</button>
-      <button class="onglet" type="button" role="tab" aria-selected="false">Student · 20</button>
-      <button class="onglet" type="button" role="tab" aria-selected="false">Teacher · 9</button>
-      <button class="onglet" type="button" role="tab" aria-selected="false">Administration · 22</button>
+    <div class="badges" role="tablist" data-badges>
+      <button class="badge" type="button" role="tab" aria-selected="true" data-role="site" style="--c:#0EA5E9"><i class="badge-trou" aria-hidden="true"></i><span class="badge-av" aria-hidden="true">V</span><b>Visitor</b><span class="badge-n">14 screens</span><small>no account</small><span class="badge-piste" aria-hidden="true"></span></button>
+      <button class="badge" type="button" role="tab" aria-selected="false" data-role="eleve" style="--c:#10B981"><i class="badge-trou" aria-hidden="true"></i><span class="badge-av" aria-hidden="true">É</span><b>Student</b><span class="badge-n">20 screens</span><small>green badge</small><span class="badge-piste" aria-hidden="true"></span></button>
+      <button class="badge" type="button" role="tab" aria-selected="false" data-role="prof" style="--c:#F59E0B"><i class="badge-trou" aria-hidden="true"></i><span class="badge-av" aria-hidden="true">P</span><b>Teacher</b><span class="badge-n">9 screens</span><small>amber badge</small><span class="badge-piste" aria-hidden="true"></span></button>
+      <button class="badge" type="button" role="tab" aria-selected="false" data-role="admin" style="--c:#0B2E1F"><i class="badge-trou" aria-hidden="true"></i><span class="badge-av" aria-hidden="true">A</span><b>Administration</b><span class="badge-n">22 screens</span><small>black badge</small><span class="badge-piste" aria-hidden="true"></span></button>
     </div>
-    <div class="panneau actif">
-      <ul class="liste">
-        <li data-bloc="1"><span>Presentation by audience, programmes, map of the 7 sites</span></li>
-        <li data-bloc="2"><span>Online registration with declared payment and automatic reading of the receipt</span></li>
-        <li data-bloc="3"><span>3-day free trial, no bank card</span></li>
-        <li data-bloc="4"><span>French and English level test, indicative dyslexia test</span></li>
-        <li data-bloc="5"><span>Teacher application, online certificate verification</span></li>
-      </ul>
-      <div class="plan-col"><p class="plan-promesse">The visitor learns, tests themselves and signs up — without calling anyone.</p><div class="plan" data-plan><div class="plan-tete"><span class="plan-role">Public site</span><span class="plan-n">14 screens</span></div><div class="plan-corps"><ul class="plan-menu"><li>Home</li><li>Communication</li><li>Tutoring</li><li>Teach</li><li>Level test</li><li>Join us</li></ul><div class="plan-blocs"><div class="plan-bloc" data-bloc="1"><b>Programmes · 7 sites</b><i></i><i></i></div><div class="plan-bloc" data-bloc="2"><b>Registration · receipt read</b><i></i><i></i></div><div class="plan-bloc" data-bloc="3"><b>3-day trial</b><i></i><i></i></div><div class="plan-bloc" data-bloc="4"><b>Level test · dys</b><i></i><i></i></div><div class="plan-bloc" data-bloc="5"><b>Application · certificate</b><i></i><i></i></div></div></div></div></div>
-    </div>
-    <div class="panneau">
-      <ul class="liste">
-        <li data-bloc="1"><span>Library open at their level, built-in reader without download</span></li>
-        <li data-bloc="2"><span>Audio dictations corrected instantly, mistake by mistake</span></li>
-        <li data-bloc="3"><span>Timed mental arithmetic, chess, monthly contest</span></li>
-        <li data-bloc="4"><span>Molière Coach at any hour, by voice or in writing, photo of an exercise included</span></li>
-        <li data-bloc="5"><span>Progress, streaks, calendar, reports of each lesson</span></li>
-      </ul>
-      <div class="plan-col"><p class="plan-promesse">Something to do every day; every week, the proof it was done.</p><div class="plan" data-plan><div class="plan-tete"><span class="plan-role">Student</span><span class="plan-n">20 screens</span></div><div class="plan-corps"><ul class="plan-menu"><li>Dashboard</li><li>Coach 24/24</li><li>My classes</li><li>Calendar</li><li>Library</li><li>Dictations</li><li>Mental arithmetic</li><li>Chess</li><li>Contest</li><li>Progress</li><li>My level</li></ul><div class="plan-blocs"><div class="plan-bloc" data-bloc="1"><b>Library · reader</b><i></i><i></i></div><div class="plan-bloc" data-bloc="2"><b>Dictations · correction</b><i></i><i></i></div><div class="plan-bloc" data-bloc="3"><b>Arithmetic · chess · contest</b><i></i><i></i></div><div class="plan-bloc" data-bloc="4"><b>Coach · voice · photo</b><i></i><i></i></div><div class="plan-bloc" data-bloc="5"><b>Progress · streaks · reports</b><i></i><i></i></div></div></div></div></div>
-    </div>
-    <div class="panneau">
-      <ul class="liste">
-        <li data-bloc="1"><span>Attendance for each session</span></li>
-        <li data-bloc="2"><span>Their sessions and reports, published in the pupil's area and announced in the class's Telegram group</span></li>
-        <li data-bloc="3"><span>Their dictations, posts and profile</span></li>
-      </ul>
-      <div class="plan-col"><p class="plan-promesse">Attendance, session, report: published in the pupil's area, announced in the group.</p><div class="plan" data-plan><div class="plan-tete"><span class="plan-role">Teacher</span><span class="plan-n">9 screens</span></div><div class="plan-corps"><ul class="plan-menu"><li>Home</li><li>Attendance</li><li>Sessions</li><li>Publish</li><li>Dictations</li><li>Profile</li></ul><div class="plan-blocs"><div class="plan-bloc" data-bloc="1"><b>Attendance</b><i></i><i></i></div><div class="plan-bloc" data-bloc="2"><b>Sessions · reports → pupil · Telegram</b><i></i><i></i></div><div class="plan-bloc" data-bloc="3"><b>Dictations · posts · profile</b><i></i><i></i></div></div></div></div></div>
-    </div>
-    <div class="panneau">
-      <ul class="liste">
-        <li data-bloc="1"><span>Prospects, follow-ups, targeted mailings</span></li>
-        <li data-bloc="2"><span>Registration files, payments, classes, timetables, members</span></li>
-        <li data-bloc="3"><span>Free trials: who engaged, who did not; each pupil's activity</span></li>
-        <li data-bloc="4"><span>Library, resources, applications, certificates, Coach status</span></li>
-      </ul>
-      <div class="plan-col"><p class="plan-promesse">Who paid, who engaged, who is slipping: the school year is steered from inside.</p><div class="plan" data-plan><div class="plan-tete"><span class="plan-role">Administration</span><span class="plan-n">22 screens</span></div><div class="plan-corps"><ul class="plan-menu"><li>Prospects</li><li>Requests</li><li>Files</li><li>Payments</li><li>Classes</li><li>Pupils</li><li>Trials</li><li>Mailings</li><li>Follow-ups</li><li>Applications</li><li>Certificates</li><li>Resources</li><li>IA</li></ul><div class="plan-blocs"><div class="plan-bloc" data-bloc="1"><b>Prospects · follow-ups · mailings</b><i></i><i></i></div><div class="plan-bloc" data-bloc="2"><b>Files · payments · classes · members</b><i></i><i></i></div><div class="plan-bloc" data-bloc="3"><b>Trials: who engaged</b><i></i><i></i></div><div class="plan-bloc" data-bloc="4"><b>Resources · applications · certificates · Coach</b><i></i><i></i></div></div></div></div></div>
+    <div class="porte" data-porte>
+      <div class="porte-lecteur" aria-hidden="true"><i class="led"></i><span>badge read · door open</span></div>
+      <div class="porte-panneau actif" role="tabpanel" data-role="site" style="--c:#0EA5E9"><p class="porte-promesse">The visitor learns, tests themselves and signs up — without calling anyone.</p><p class="porte-titre">What opens</p><ul class="pastilles"><li style="--k:0">Home</li><li style="--k:1">Communication</li><li style="--k:2">Tutoring</li><li style="--k:3">Teach</li><li style="--k:4">Level test</li><li style="--k:5">Dys test</li><li style="--k:6">Join us</li><li style="--k:7">3-day trial</li></ul><ul class="liste liste-porte"><li><span>Presentation by audience, programmes, map of the 7 sites</span></li><li><span>Online registration, declared payment, receipt read automatically</span></li><li><span>French and English level test, indicative dyslexia test</span></li><li><span>Teacher application, certificate verified online</span></li></ul></div>
+      <div class="porte-panneau" role="tabpanel" data-role="eleve" style="--c:#10B981"><p class="porte-promesse">Something to do every day; every week, the proof it was done.</p><p class="porte-titre">What opens</p><ul class="pastilles"><li style="--k:0">Dashboard</li><li style="--k:1">Coach 24/24</li><li style="--k:2">My classes</li><li style="--k:3">Calendar</li><li style="--k:4">Library</li><li style="--k:5">Dictations</li><li style="--k:6">Mental arithmetic</li><li style="--k:7">Chess</li><li style="--k:8">Contest</li><li style="--k:9">Progress</li><li style="--k:10">My level</li></ul><ul class="liste liste-porte"><li><span>Library open at their level, built-in reader</span></li><li><span>Audio dictations corrected instantly, mistake by mistake</span></li><li><span>Molière Coach at any hour, by voice or in writing</span></li><li><span>Progress, streaks, calendar, reports of each lesson</span></li></ul></div>
+      <div class="porte-panneau" role="tabpanel" data-role="prof" style="--c:#F59E0B"><p class="porte-promesse">Attendance, session, report: published in the pupil's area, announced in the group.</p><p class="porte-titre">What opens</p><ul class="pastilles"><li style="--k:0">Attendance</li><li style="--k:1">Sessions</li><li style="--k:2">Reports</li><li style="--k:3">Publish</li><li style="--k:4">Dictations</li><li style="--k:5">Profile</li></ul><ul class="liste liste-porte"><li><span>Attendance for each session</span></li><li><span>Their reports, published in the pupil's area and announced in the class's Telegram group</span></li><li><span>Their dictations, posts and profile</span></li><li><span>No capture: the area holds pupils' data</span></li></ul></div>
+      <div class="porte-panneau" role="tabpanel" data-role="admin" style="--c:#0B2E1F"><p class="porte-promesse">Who paid, who engaged, who is slipping: the school year is steered from inside.</p><p class="porte-titre">What opens</p><ul class="pastilles"><li style="--k:0">Prospects</li><li style="--k:1">Requests</li><li style="--k:2">Files</li><li style="--k:3">Payments</li><li style="--k:4">Classes</li><li style="--k:5">Pupils</li><li style="--k:6">Trials</li><li style="--k:7">Mailings</li><li style="--k:8">Follow-ups</li><li style="--k:9">Applications</li><li style="--k:10">Certificates</li><li style="--k:11">Resources</li><li style="--k:12">Coach status</li></ul><ul class="liste liste-porte"><li><span>Prospects, follow-ups, targeted mailings</span></li><li><span>Registration files, payments, classes, timetables, members</span></li><li><span>Free trials: who engaged, who did not; each pupil's activity</span></li><li><span>No capture: the area holds families' data</span></li></ul></div>
     </div>
   </div>
 </section>
@@ -422,6 +392,6 @@
 </footer>
 
 <noscript><style>.nav{display:flex}</style></noscript>
-<script src="/assets/site.js?v=16" defer></script>
+<script src="/assets/site.js?v=17" defer></script>
 </body>
 </html>
