@@ -348,9 +348,24 @@ def main():
     dossier = {os.path.basename(f) for f in glob.glob(os.path.join(SRC, "assets", "img", "*"))}
     for manquante in sorted(citees - dossier):
         erreur("image citée mais absente du dossier : %s" % manquante)
+    # ⚠️ Une image dont plus aucune page ne parle N'EST PAS supprimée tout de
+    # suite : GitHub Pages sert le HTML avec `max-age=600`, donc pendant dix
+    # minutes des visiteurs réclament encore l'ancienne liste de tuiles. Le
+    # 06/09, sept tuiles supprimées le jour même ont vidé les deux vitrines de
+    # l'accueil chez Anthony. On ne retire donc qu'au passage SUIVANT
+    # (`--nettoyer`, et seulement au-delà d'un jour).
+    import time as _t
     for orpheline in sorted(dossier - citees):
-        avertir("image que plus aucune page ne cite : %s (%d Ko)"
-                % (orpheline, os.path.getsize(os.path.join(SRC, "assets", "img", orpheline)) // 1024))
+        chemin = os.path.join(SRC, "assets", "img", orpheline)
+        heures = (_t.time() - os.path.getmtime(chemin)) / 3600.0
+        poids = os.path.getsize(chemin) // 1024
+        if "--nettoyer" in sys.argv and heures > 24:
+            os.remove(chemin)
+            print("  retirée : %s (%d Ko, plus citée depuis %.0f h)" % (orpheline, poids, heures))
+        else:
+            avertir("image que plus aucune page ne cite : %s (%d Ko, %.0f h) — "
+                    "`python outils/verifier.py --nettoyer` la retirera passé un jour"
+                    % (orpheline, poids, heures))
     verifier_contrastes()
     if "--sans-depots" not in sys.argv:
         recompter()

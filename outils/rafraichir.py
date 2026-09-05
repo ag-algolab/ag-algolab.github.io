@@ -87,22 +87,34 @@ def largeur(nom, defaut):
 
 def sauver(nom, im, qualite):
     """nom.webp si l'image tient sous le plafond ; sinon nom-1.webp, nom-2.webp…
-    (tranches de hauteur égale, la dernière plus courte). Efface la forme
-    précédente : un nom n'existe que sous une seule forme."""
-    for chemin in glob.glob(os.path.join(IMG, nom + "*.webp")):
-        if re.fullmatch(re.escape(nom) + r"(-\d+)?\.webp", os.path.basename(chemin)):
-            os.remove(chemin)
+    (tranches de hauteur égale, la dernière plus courte).
+
+    ⚠️ NE SUPPRIME PLUS la forme précédente (06/09). GitHub Pages sert le HTML
+    avec `max-age=600` : pendant dix minutes, un visiteur garde l'ancienne page,
+    qui réclame l'ancien nombre de tuiles. Le jour où le compte a changé
+    (7 tuiles → 2 pour l'accueil Prépa 600), ces visiteurs ont eu des 404 et
+    des vitrines vides — le bug qu'Anthony a revu le 06/09 au soir. Les
+    anciennes restent donc en place ; `python outils/verifier.py --nettoyer`
+    les retire une fois qu'elles ne servent plus depuis plus d'un jour, c'est-
+    à-dire au lot suivant, bien après l'expiration des caches."""
+    anciennes = sorted(os.path.basename(c) for c in glob.glob(os.path.join(IMG, nom + "*.webp"))
+                       if re.fullmatch(re.escape(nom) + r"(-\d+)?\.webp", os.path.basename(c)))
     if im.width * im.height <= PLAFOND_PX:
         im.save(os.path.join(IMG, nom + ".webp"), quality=qualite, method=6)
-        return [nom + ".webp"]
-    n = math.ceil(im.width * im.height / PLAFOND_PX)
-    pas = math.ceil(im.height / n)
-    sorties = []
-    for k in range(n):
-        tuile = im.crop((0, k * pas, im.width, min(im.height, (k + 1) * pas)))
-        fichier = "%s-%d.webp" % (nom, k + 1)
-        tuile.save(os.path.join(IMG, fichier), quality=qualite, method=6)
-        sorties.append(fichier)
+        sorties = [nom + ".webp"]
+    else:
+        n = math.ceil(im.width * im.height / PLAFOND_PX)
+        pas = math.ceil(im.height / n)
+        sorties = []
+        for k in range(n):
+            tuile = im.crop((0, k * pas, im.width, min(im.height, (k + 1) * pas)))
+            fichier = "%s-%d.webp" % (nom, k + 1)
+            tuile.save(os.path.join(IMG, fichier), quality=qualite, method=6)
+            sorties.append(fichier)
+    survivantes = [f for f in anciennes if f not in sorties]
+    if survivantes:
+        print("    · %d ancienne(s) tuile(s) laissée(s) en place le temps que les caches expirent : %s"
+              % (len(survivantes), ", ".join(survivantes)))
     return sorties
 
 # nom, url, options de capturer_cdp

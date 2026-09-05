@@ -1087,6 +1087,16 @@ Ajouté le 6 septembre 2026 :
 - **Le serveur local** est déclaré dans le `launch.json` de la session
   Claude Code du dossier `PycharmProjects\Youtube`, pas dans ce dépôt :
   `python -m http.server 8873 --directory C:/Users/antho/projets/agalgolab/public`.
+- **Supprimer une image casse les pages déjà servies.** GitHub Pages envoie le
+  HTML avec `max-age=600` : pendant dix minutes, des visiteurs gardent la page
+  précédente, qui réclame l'ancienne liste de tuiles. Le 06/09 au soir, sept
+  tuiles retirées dans le même lot ont vidé les deux vitrines de l'accueil
+  chez Anthony (404 sur `p600-accueil-full-3..7`) alors que le site servi,
+  lui, était complet — les trente images de la page répondaient toutes.
+  Depuis : `rafraichir.sauver()` ne supprime plus l'ancienne forme, et
+  `python outils/verifier.py --nettoyer` ne retire une image que si plus
+  aucune page ne la cite **depuis plus d'un jour**. En attendant, un
+  rechargement forcé (Ctrl + Maj + R) suffit à débloquer un navigateur.
 - **Une image nette n'est pas une image assez grande** : le poids en Ko et le
   code HTTP ne disent rien, et l'œil se trompe sur une capture d'écran à ×1.
   La seule mesure qui vaut est le rapport **largeur de source ÷ largeur
