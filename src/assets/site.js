@@ -84,7 +84,7 @@
     var img = boite.querySelector('img');
     if (!img) return;
     if (souris && !reduit) {
-      var cadre = boite.closest('.ordi, .tel') || boite;
+      var cadre = boite.closest('.ordi, .tel, .tablette') || boite;
       cadre.addEventListener('mouseenter', function () {
         var d = distance(boite);
         if (d <= 0) return;

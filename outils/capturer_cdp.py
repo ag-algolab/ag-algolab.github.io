@@ -7,7 +7,9 @@ texte, puis photographie d'une zone. Ce que `capturer.py` ne sait pas faire.
     python outils/capturer_cdp.py <url> <sortie.png> [options]
       --mobile                 émule un téléphone de 390 × 844, échelle 2
       --largeur N --hauteur N  fenêtre (défaut 1280 × 900 ; 390 × 844 en mobile)
-      --clic "texte"           clique le premier bouton/lien/label contenant ce texte
+      --clic "texte"           clique le bouton/lien/étiquette de ce texte (répétable)
+      --echelle N              densité de pixels (2 = écran fin)
+      --tactile                émule le tactile sans changer de navigateur (tablette)
       --depuis "texte"         la capture commence au haut de l'élément contenant ce texte
       --decalage N             ajuste ce départ (en px CSS, négatif = plus haut)
       --long N                 hauteur de la capture en px CSS (défaut : la fenêtre)
@@ -81,7 +83,9 @@ class Cdp:
 JS_CLIC = r"""
 (function (texte) {
   const cands = Array.from(document.querySelectorAll('button, a, label, [role="button"], [role="radio"], input'));
-  const cible = cands.find(el => (el.textContent || el.value || '').replace(/\s+/g, ' ').trim().toLowerCase().includes(texte.toLowerCase()));
+  const lire = el => (el.textContent || el.value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  const t = texte.replace(/\s+/g, ' ').trim().toLowerCase();
+  const cible = cands.find(el => lire(el) === t) || cands.find(el => lire(el).includes(t));
   if (!cible) return 'introuvable';
   cible.scrollIntoView({block: 'center'});
   cible.click();
@@ -92,7 +96,16 @@ JS_CLIC = r"""
 JS_DEPUIS = r"""
 (function (texte) {
   const tous = Array.from(document.querySelectorAll('body *'));
-  const el = tous.find(e => e.children.length < 6 && (e.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase().includes(texte.toLowerCase()));
+  // Le PLUS PETIT élément visible qui porte ce texte. Prendre le premier dans
+  // l'ordre du document tombait sur un conteneur haut de toute la page (ou sur
+  // une région d'annonce invisible) : la capture démarrait alors à 0.
+  const vus = tous.filter(e => e.children.length < 6
+    && (e.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase().includes(texte.toLowerCase()))
+    .map(e => ({e, r: e.getBoundingClientRect()}))
+    .filter(o => o.r.height > 4);
+  if (!vus.length) return null;
+  vus.sort((a, b) => a.r.height - b.r.height);
+  const el = vus[0].e;
   if (!el) return null;
   const r = el.getBoundingClientRect();
   return Math.round(r.top + window.scrollY);
@@ -107,7 +120,10 @@ def main():
     ap.add_argument("--mobile", action="store_true")
     ap.add_argument("--largeur", type=int)
     ap.add_argument("--hauteur", type=int)
-    ap.add_argument("--clic")
+    ap.add_argument("--clic", action="append", default=[],
+                    help="clique le premier bouton/lien/étiquette portant ce texte (répétable, dans l'ordre)")
+    ap.add_argument("--echelle", type=int, default=0, help="densité de pixels (2 = écran fin)")
+    ap.add_argument("--tactile", action="store_true", help="émule le tactile sans changer le navigateur (tablette)")
     ap.add_argument("--depuis")
     ap.add_argument("--decalage", type=int, default=0)
     ap.add_argument("--long", type=int)
@@ -147,16 +163,19 @@ def main():
         c.envoyer("Page.enable")
         c.envoyer("Runtime.enable")
         c.envoyer("Emulation.setDeviceMetricsOverride", {
-            "width": largeur, "height": hauteur, "deviceScaleFactor": 2 if a.mobile else 1, "mobile": bool(a.mobile)})
+            "width": largeur, "height": hauteur,
+            "deviceScaleFactor": a.echelle or (2 if a.mobile else 1), "mobile": bool(a.mobile)})
+        if a.tactile and not a.mobile:
+            c.envoyer("Emulation.setTouchEmulationEnabled", {"enabled": True})
         if a.mobile:
             c.envoyer("Emulation.setUserAgentOverride", {"userAgent": UA_MOBILE})
             c.envoyer("Emulation.setTouchEmulationEnabled", {"enabled": True})
         c.envoyer("Page.navigate", {"url": a.url})
         c.attendre("Page.loadEventFired", 40)
         time.sleep(a.attente)
-        if a.clic:
-            print("clic :", c.evaluer(JS_CLIC % json.dumps(a.clic)))
-            time.sleep(2.5)
+        for quoi in a.clic:
+            print("clic :", c.evaluer(JS_CLIC % json.dumps(quoi)))
+            time.sleep(2.2)
         # les images chargées à la demande n'apparaissent qu'une fois vues :
         # on parcourt toute la page par paliers, on laisse charger, on remonte
         hauteur_page = int(c.evaluer("Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)") or 0)
@@ -201,7 +220,7 @@ def main():
         long_ = min(long_, max(1, int(hauteur_page) - y))
         r = c.envoyer("Page.captureScreenshot", {
             "format": "png", "captureBeyondViewport": True,
-            "clip": {"x": 0, "y": y, "width": largeur, "height": long_, "scale": 2 if a.mobile else 1}})
+            "clip": {"x": 0, "y": y, "width": largeur, "height": long_, "scale": a.echelle or (2 if a.mobile else 1)}})
         with open(a.sortie, "wb") as f:
             f.write(base64.b64decode(r["data"]))
         print("%s : %d octets (%d × %d px CSS)" % (os.path.basename(a.sortie), os.path.getsize(a.sortie), largeur, long_))

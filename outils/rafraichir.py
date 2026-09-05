@@ -4,6 +4,7 @@ Rafraîchit les captures des deux plateformes — À LANCER CHAQUE SEMAINE.
 
     python outils/rafraichir.py            # tout
     python outils/rafraichir.py moliere    # une seule famille (moliere | p600)
+    python outils/rafraichir.py --reconvertir   # refabrique les WebP, sans Edge
 
 Les sites évoluent ; le site vitrine doit montrer leur état réel. Chaque page
 est photographiée EN ENTIER (ordinateur 1280 px et téléphone 390 px) avec
@@ -11,7 +12,7 @@ Edge piloté par son protocole de débogage (`capturer_cdp.py`), puis convertie
 en WebP dans `src/assets/img/` :
 
   <nom>.webp         ordinateur, 960 px de large, le haut de la page (1500 px)  → héros
-  <nom>-full.webp    ordinateur, 800 px de large, la page entière             → vitrines qui déroulent
+  <nom>-full.webp    ordinateur, 1100 px de large, la page entière            → vitrines qui déroulent
   <nom>-m.webp       téléphone, 390 px de large, le haut (1702 px)
   <nom>-m-full.webp  téléphone, 360 px de large, la page entière
 
@@ -57,10 +58,23 @@ CAPTURES = {
         ("p600-simulateur-m", P600 + "/simulateur.html", ["--mobile", "--long", "30000", "--attente", "5"]),
     ],
 }
-# les deux téléphones du héros : une zone précise d'une page
+# les zones : un moment précis d'une page, en une seule image (pas de -full).
+# nom, url, options de capture, largeur stockée
 ZONES = [
-    ("moliere-form-m", MOLIERE + "/inscription-cours", ["--mobile", "--clic", "première fois", "--depuis", "Avez-vous déjà un compte", "--decalage", "330", "--long", "1300"]),
-    ("p600-fuites-m", P600 + "/", ["--mobile", "--depuis", "FUITE 01", "--decalage", "-90", "--long", "1140", "--attente", "7"]),
+    # le test de niveau COMMENCÉ : on choisit le français, on photographie la
+    # première question — « pour montrer à quoi ressemble le test » (06/09).
+    ("moliere-test-debut-m", MOLIERE + "/test-de-niveau",
+     ["--mobile", "--clic", "du niveau A1.1", "--depuis", "sur 4 de ce palier", "--decalage", "-120", "--long", "1000", "--attente", "6"], 480),
+    # l'inscription sur une TABLETTE : à cette largeur, le formulaire se lit.
+    ("moliere-inscription-tab", MOLIERE + "/inscription-cours",
+     ["--largeur", "820", "--hauteur", "1180", "--echelle", "2", "--tactile", "--clic", "première fois", "--long", "1400", "--attente", "5"], 1000),
+    # la candidature de « Enseigner », avec des réponses cochées : c'est l'état
+    # sélectionné qu'Anthony veut montrer, pas le formulaire vide.
+    ("moliere-enseigner", MOLIERE + "/enseigner",
+     ["--largeur", "1280", "--hauteur", "1000", "--clic", "Professeur en fonction", "--clic", "Français",
+      "--clic", "Anglais", "--clic", "Des enfants et des adolescents",
+      "--depuis", "pas une de plus", "--decalage", "-150", "--long", "1000", "--attente", "5"], 1100),
+    ("p600-fuites-m", P600 + "/", ["--mobile", "--depuis", "FUITE 01", "--decalage", "-90", "--long", "1140", "--attente", "7"], 390),
 ]
 
 
@@ -86,22 +100,41 @@ def convertir(nom, mobile):
     else:
         haut = im.resize((960, round(im.height * 960 / im.width)), Image.LANCZOS)
         haut.crop((0, 0, 960, min(haut.height, 1500))).save(os.path.join(IMG, nom + ".webp"), quality=82, method=6)
-        full = im.resize((800, round(im.height * 800 / im.width)), Image.LANCZOS)
-        full = full.crop((0, 0, 800, min(full.height, 16000)))
-        full.save(os.path.join(IMG, nom + "-full.webp"), quality=76, method=6)
+        # 1 100 px : sur la page de cas, l'écran de l'ordinateur fait 1 038 px
+        # de large. À 800, l'image était agrandie, donc floue (Anthony, 06/09).
+        full = im.resize((1100, round(im.height * 1100 / im.width)), Image.LANCZOS)
+        full = full.crop((0, 0, 1100, min(full.height, 22000)))
+        full.save(os.path.join(IMG, nom + "-full.webp"), quality=70, method=6)
     print("  → %s : haut %s, entière %s (%d Ko)" % (nom, haut.size, full.size, os.path.getsize(os.path.join(IMG, nom + "-full.webp")) // 1024))
 
 
-def zone(nom, url, options):
+def zone(nom, url, options, largeur=390):
     if capturer(nom, url, options):
         im = Image.open(os.path.join(BRUT, nom + ".png")).convert("RGB")
-        im = im.resize((390, round(im.height * 390 / im.width)), Image.LANCZOS)
-        im.save(os.path.join(IMG, nom + ".webp"), quality=84, method=6)
-        print("  → %s : %s" % (nom, im.size))
+        im = im.resize((largeur, round(im.height * largeur / im.width)), Image.LANCZOS)
+        im.save(os.path.join(IMG, nom + ".webp"), quality=80, method=6)
+        print("  → %s : %s (%d Ko)" % (nom, im.size, os.path.getsize(os.path.join(IMG, nom + ".webp")) // 1024))
+
+
+def reconvertir():
+    """Refabrique les WebP depuis les PNG déjà capturés, sans ouvrir Edge."""
+    for fam in CAPTURES:
+        for nom, _, options in CAPTURES[fam]:
+            convertir(nom, "--mobile" in options)
+    for nom, _, options, largeur in ZONES:
+        src = os.path.join(BRUT, nom + ".png")
+        if os.path.exists(src):
+            im = Image.open(src).convert("RGB")
+            im = im.resize((largeur, round(im.height * largeur / im.width)), Image.LANCZOS)
+            im.save(os.path.join(IMG, nom + ".webp"), quality=80, method=6)
+            print("  → %s : %s" % (nom, im.size))
 
 
 def main():
     os.makedirs(BRUT, exist_ok=True)
+    if "--reconvertir" in sys.argv:
+        reconvertir()
+        return
     familles = [a for a in sys.argv[1:] if a in CAPTURES] or list(CAPTURES)
     for fam in familles:
         print("== " + fam)
@@ -110,8 +143,8 @@ def main():
                 convertir(nom, "--mobile" in options)
     if not sys.argv[1:] or "zones" in sys.argv[1:]:
         print("== zones du héros")
-        for nom, url, options in ZONES:
-            zone(nom, url, options)
+        for nom, url, options, largeur in ZONES:
+            zone(nom, url, options, largeur)
     print("Fini. Relancer : python outils/construire.py && python outils/verifier.py")
 
 
