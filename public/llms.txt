@@ -5,8 +5,8 @@
 Contact: anthony@agalgolab.com
 
 ## Pages
-- [AG Algo Lab — Complete web platforms, built solo](https://agalgolab.com/) (en) : Anthony Gocmen designs and builds complete web platforms, solo, from idea to launch. Two products in production, open to the public.
-- [AG Algo Lab — Plateformes web complètes, construites seul](https://agalgolab.com/fr/) (fr) : Anthony Gocmen conçoit et construit des plateformes web complètes, seul, de l'idée à la mise en ligne. Deux produits en production, ouverts au public.
+- [AG Algo Lab — Web platforms and market systems, built solo](https://agalgolab.com/) (en) : Two products in production, built solo from idea to launch. Master's in Finance, Dauphine – PSL; a personal reversal-signal engine on BTC and SOL.
+- [AG Algo Lab — Plateformes web et systèmes de marché, construits seul](https://agalgolab.com/fr/) (fr) : Deux produits en production, construits seul de l'idée à la mise en ligne. Master en finance Dauphine – PSL ; moteur personnel de signaux de retournement sur BTC et SOL.
 - [Institut Molière: the site and the platform, built solo](https://agalgolab.com/institut-moliere/) (en) : The public site, platform, teacher area and administration of a language institute, built solo: 72 screens, 533 commits in 21 days.
 - [Institut Molière : le site et la plateforme, construits seul](https://agalgolab.com/fr/institut-moliere/) (fr) : Le site public, la plateforme, l'espace professeur et l'administration d'un institut de langues, construits seul : 72 écrans, 533 commits en 21 jours.
 - [Legal notice — AG Algo Lab](https://agalgolab.com/mentions-legales/) (en) : Publisher, hosting, personal data and intellectual property of the agalgolab.com website, published by Anthony Gocmen (AG Algo Lab).
