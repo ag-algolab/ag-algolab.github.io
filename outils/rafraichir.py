@@ -98,6 +98,14 @@ ZONES = [
       "--clic", "Anglais", "--clic", "Des enfants et des adolescents",
       "--long", "30000", "--attente", "5"], 1600),  # depuis le HAUT de la page (06/09 : « on ne voit pas le haut »)
     ("p600-fuites-m", P600 + "/", ["--mobile", "--depuis", "FUITE 01", "--decalage", "-90", "--long", "1140", "--attente", "7"], 390),
+    # les six écrans du téléphone collé du récit Prépa 600 (06/09) : le haut de
+    # six pages, en 600 px pour rester net dans un téléphone de 300 px CSS
+    ("p600-accueil-tel", P600 + "/", ["--mobile", "--long", "4000", "--attente", "6"], 600),
+    ("p600-methode-tel", P600 + "/methode.html", ["--mobile", "--long", "4000", "--attente", "5"], 600),
+    ("p600-diagnostic-tel", P600 + "/diagnostic.html", ["--mobile", "--long", "4000", "--attente", "5"], 600),
+    ("p600-tarifs-tel", P600 + "/tarifs.html", ["--mobile", "--long", "4000", "--attente", "5"], 600),
+    ("p600-calcul-tel", P600 + "/calcul-score.html", ["--mobile", "--long", "4000", "--attente", "5"], 600),
+    ("p600-questions-tel", P600 + "/questions-tage-mage.html", ["--mobile", "--long", "4000", "--attente", "5"], 600),
 ]
 
 

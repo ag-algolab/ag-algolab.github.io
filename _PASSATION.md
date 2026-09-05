@@ -568,6 +568,44 @@ composition n'a plus rien de commun :
 Ont disparu de cette page : la vitrine du héros, le manège, la bande des
 chiffres, les onglets, le socle en tuiles.
 
+**Le récit Prépa 600, réécrit pour vendre** (06/09 au soir : « axe pas sur
+6 jours jusqu'à la publication mais au premier utilisateur… toutes les
+étapes, pense-les pour être marketing… un vrai cheminement »). Le fil est
+**de l'idée au premier utilisateur**, puis **trouvé sans publicité** :
+1. L'idée (25 août) — un blanc complet et gratuit, rapport entier ;
+2. Le site, le lendemain (26) — une adresse à donner ;
+3. L'épreuve, écrite (30) — six sous-tests, six blancs, la plateforme ;
+4. Un seul prix (31) — `p600.prix` €, une fois, `p600.mois` mois ;
+5. Le premier utilisateur (31 au soir) — premier compte, J+6 ;
+6. Trouvé sans publicité (aujourd'hui) — pages écrites pour les assistants
+   IA autant que pour Google, comptes sans publicité, la banque grandit.
+Les puces de chaque étape sont des faits, plus des comptes de commits (« 2
+mises en ligne », rejeté). **Le barème a disparu de la page** (« tout le
+monde le connaît », et il ne veut pas d'un marketing qui repose sur du
+faux) : plus de section, plus de curseur ; la mention de la marque FNEGE
+reste en note sous les quatre graphiques. La décision est aussi consignée
+dans le dépôt Prépa 600, `_MARKETING.md` §14. Le point 6 (« ils citent
+Prépa 600 parmi les premiers ») est **l'observation d'Anthony**, pas une
+mesure de ce dépôt ; ce qui est vérifiable, c'est le canal (`llms.txt`,
+FAQ, fiches) et la provenance enregistrée des inscriptions.
+
+**Les six écrans du téléphone collé** sont six zones `*-tel` de
+`rafraichir.py` (accueil, méthode, diagnostic, tarifs, calcul du score,
+questions fréquentes), haut de page sur 4 000 px CSS, stockées en 600 px —
+nettes dans un téléphone de 300 px CSS à 2×. Elles se rafraîchissent chaque
+semaine comme le reste.
+
+**Septième dalle du héros** : `p600-modules.webp`, la section des quatre
+modules de prepa600.com, capture d'Anthony (06/09 : « il y a un blanc dans
+le quadrillage, ajoute cette fenêtre »), égalisée comme celles de l'espace
+élève (16:10, 1 440 × 900, original dans `_travail/`). Placée en travers à
+(300, 610) ; géométrie revérifiée à 1 280, 1 024 et 390 px.
+
+**Typographie** : base à 17 px (`html { font-size: 106.25% }`), chapos plus
+grands, et du **gras sur les faits** dans les chapos et les étapes (« utilise
+le gras un peu partout… des textes très lisibles, assez gros »). `p b` est
+encré plus foncé que le texte courant.
+
 **Les quatre plans** (page Molière — REMPLACÉS par les badges, gardés ici
 pour mémoire, « Quatre espaces, un seul projet »,
 06/09 : « certaines pages ne peuvent pas être affichées… un design
@@ -749,6 +787,15 @@ Ajouté le 6 septembre 2026 :
     porter les couleurs de son produit.
 38. **Le héros de l'accueil n'est pas un damier** : tailles et positions
     irrégulières, toujours vérifiées par géométrie.
+
+39. **Prépa 600 se raconte de l'idée au premier utilisateur**, jamais « en
+    six jours jusqu'à la publication », et **jamais sur le barème** — tout le
+    monde le connaît. Consigné dans `_MARKETING.md` §14 du dépôt Prépa 600.
+40. **Pas de comptes de commits dans un texte de vente** (« 2 mises en
+    ligne, ça fait con ») ; ne pas raconter le changement de nom.
+41. **Tout chiffre du site vient de `faits.json`**, y compris dans les
+    récits ; un chiffre historique figé (une date passée) est toléré, un
+    compte qui bouge ne l'est pas.
 
 ---
 
@@ -1016,3 +1063,12 @@ Ajouté le 6 septembre 2026 :
   bout en bout** : jetons bleus sur `body.page-prepa-600`, héros au « 6 »
   géant, récit en six jours à téléphone collé, quatre graphiques en grille,
   barème, bandeau de logos qui défile. Assets en `?v=17`.
+- **06/09/2026 (soir)** — Lot 18. Récit Prépa 600 réécrit pour vendre : de
+  l'idée au premier utilisateur, puis trouvé sans publicité ; six écrans de
+  téléphone neufs (zones `*-tel`, 600 px) ; barème retiré de la page et
+  décision consignée dans le dépôt Prépa 600 (`_MARKETING.md` §14).
+  Septième dalle du héros (modules Prépa 600, capture d'Anthony), géométrie
+  revérifiée. Pastilles des badges complétées (élève : règlements, profil ;
+  administration : membres, écoles, groupes à former, lectures, dictées,
+  ressources de classe). Base typographique à 17 px, gras sur les faits.
+  Assets en `?v=18`.

@@ -45,7 +45,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* 17 px de base : « des textes très lisibles, assez gros » (Anthony, 06/09) */
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; font-size: 106.25%; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   margin: 0;
@@ -73,7 +74,8 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 800; letter-spacing: -.
 .h3 { font-size: clamp(1.35rem, 2vw, 1.7rem); letter-spacing: -.025em; }
 .h4 { font-size: 1.15rem; font-weight: 700; letter-spacing: -.015em; margin-bottom: .35em; }
 h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
-.chapo { font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.55; color: var(--encre-2); max-width: 64ch; }
+.chapo { font-size: clamp(1.1rem, 1.5vw, 1.28rem); line-height: 1.55; color: var(--encre-2); max-width: 62ch; }
+.chapo b, p b { color: var(--encre); font-weight: 700; }
 .max-70 { max-width: 70ch; }
 .mono { font-family: var(--mono); }
 .vert { color: var(--vert); }
@@ -985,9 +987,11 @@ body.page-prepa-600 { --papier: #EEF4FB; --papier-2: #E2ECF8; --encre: #0B1F3A; 
 .recit-etape:not(.actif) { opacity: .45; }
 .recit-etape time { display: block; font: 700 .74rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-txt); margin-bottom: 8px; }
 .recit-etape h3 { font: 800 clamp(1.5rem, 2.6vw, 2.1rem)/1.15 var(--serif); letter-spacing: -.03em; margin: 0 0 10px; }
-.recit-etape p { margin: 0 0 12px; font-size: 1.02rem; line-height: 1.55; color: var(--encre-2); max-width: 52ch; }
+.recit-etape p { margin: 0 0 12px; font-size: 1.08rem; line-height: 1.55; color: var(--encre-2); max-width: 52ch; }
+.recit-etape p b { color: var(--encre); }
 .recit-fait { display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--nuit); color: var(--nuit-txt); font: 600 .82rem/1 var(--mono); }
-.recit-fait b { font: 800 1.3rem/1 var(--serif); color: var(--menthe); letter-spacing: -.03em; }
+/* .recit-etape p b encre le gras des paragraphes : le chiffre de la pastille doit rester clair sur nuit */
+.recit-etape .recit-fait b { font: 800 1.3rem/1 var(--serif); color: var(--menthe); letter-spacing: -.03em; }
 @media (max-width: 899px) { .recit-etape { min-height: 0; } .recit-etape:not(.actif) { opacity: .7; } }
 /* les quatre graphiques en grille */
 .graphes-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 22px; }
