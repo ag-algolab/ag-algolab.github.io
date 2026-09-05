@@ -314,6 +314,18 @@ la fin — « ce qui est impressionnant, c'est de voir qu'il y a même le RIB »
 Le défilement au survol a été accéléré de moitié (`d / 380` au lieu de
 `d / 220`, 22 s au plus) : on le croyait figé.
 
+**Les quatre écrans sont en table de deux sur deux** (`.ecrans-4`), plus en
+carrousel : la tablette et l'espace élève en haut, la candidature et le
+téléphone du test en bas, chacun centré dans sa case et posé sur la ligne du
+bas de sa rangée. En damier : deux appareils hauts, deux fenêtres larges.
+
+**Chaque `<img>` locale porte l'empreinte de son contenu** (`?v=` + 8
+caractères de SHA-1, posé par `construire.py` en même temps que `width` et
+`height`). Sans elle, une capture rafraîchie garde le même nom de fichier et
+le navigateur sert l'ancienne pendant des jours : le 05/09, les vitrines
+s'arrêtaient au tiers de la page parce que l'image en cache était plus courte
+que la nouvelle. C'est le genre de panne qu'on croit être un bug de code.
+
 **Les coordonnées bancaires de l'institut sont floutées avant la photo**
 (`--masquer "Titulaire" "Banque :" "RIB :" "IBAN"` dans `rafraichir.py`) :
 elles sont publiques sur la page d'inscription de l'institut, mais elles
@@ -658,3 +670,10 @@ Ajouté le 6 septembre 2026 (soir) :
   ambre, verte. Les chiffres de la page Molière perdent les commits et les
   migrations au profit des tables en base et des automatisations. « Début
   août ». Assets en `?v=8`. Reste en attente : les écrans de l'espace élève.
+- **05/09/2026 (après-midi)** — Lot 8. Les quatre écrans passent en table de
+  deux sur deux, centrés, alignés par le bas ; titre « Quatre écrans, quatre
+  personnes ». Les images portent l'empreinte de leur contenu : c'était le
+  cache du navigateur, et non le script, qui arrêtait les vitrines au tiers de
+  la page. Date de mise en ligne de l'Institut Molière revérifiée dans le
+  dépôt (premier commit le 16/08, commit « Le site est en ligne » le 25/08) :
+  « mi-août » est rétabli. Assets en `?v=9`.

@@ -32,6 +32,7 @@ main, tout part de `src/`.
 """
 import html
 import json
+import hashlib
 import os
 import re
 import shutil
@@ -121,6 +122,18 @@ def resoudre(texte, lang, slug):
     return dimensions_images(texte)
 
 
+_empreintes = {}
+
+
+def empreinte(chemin):
+    """Huit caractères du contenu du fichier : l'adresse change quand l'image
+    change, et le navigateur ne peut plus servir la précédente."""
+    if chemin not in _empreintes:
+        with open(chemin, "rb") as f:
+            _empreintes[chemin] = hashlib.sha1(f.read()).hexdigest()[:8]
+    return _empreintes[chemin]
+
+
 def dimensions_images(texte):
     """Pose width et height sur chaque <img> locale d'après le fichier réel :
     les captures sont rafraîchies chaque semaine et changent de hauteur."""
@@ -134,6 +147,13 @@ def dimensions_images(texte):
             return balise
         w, h = Image.open(chemin).size
         balise = re.sub(r'\s(width|height)="[^"]*"', "", balise)
+        # …et une empreinte du contenu dans l'adresse. Une capture rafraîchie
+        # garde le même nom de fichier : sans ça, le navigateur d'un visiteur
+        # (ou celui d'Anthony) sert l'ancienne image pendant des jours, et la
+        # vitrine s'arrête au tiers de la page parce que l'image est plus
+        # courte qu'avant. Vérifié le 05/09 : c'était exactement ça.
+        balise = balise.replace('src="/assets/img/%s"' % src,
+                                'src="/assets/img/%s?v=%s"' % (src, empreinte(chemin)), 1)
         return balise.replace("<img ", '<img width="%d" height="%d" ' % (w, h), 1)
     return re.sub(r'<img [^>]*src="/assets/img/[^"]+"[^>]*>', poser, texte)
 

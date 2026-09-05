@@ -508,6 +508,17 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .carte-ecran .leg span { color: var(--encre-2); font-size: .86rem; }
 .carte-ecran .leg .etq { margin: 0 0 6px; }
 
+/* Quatre écrans en table de deux sur deux, chacun centré dans sa case et
+   posé sur la ligne du bas (Anthony, 05/09 : « une table de quatre, deux en
+   haut, deux en bas, centré »). En damier : la tablette et le téléphone sont
+   hauts, les deux fenêtres sont larges. */
+.ecrans-4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 30px; align-items: end; justify-items: center; margin-top: 26px; }
+.ecrans-4 .carte-ecran { width: 100%; max-width: 520px; background: none; border: 0; padding: 0; }
+.ecrans-4 .carte-ecran .leg { text-align: center; }
+.ecrans-4 .carte-tel { max-width: 250px; }
+.ecrans-4 .carte-tab { max-width: 400px; }
+@media (max-width: 720px) { .ecrans-4 { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
+
 /* -------------------------------------------------------------- onglets */
 .onglets { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
 .onglet { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--filet); background: var(--carte); font: 600 .92rem var(--sans); color: var(--encre); cursor: pointer; }

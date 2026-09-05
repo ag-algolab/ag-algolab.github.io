@@ -90,7 +90,7 @@
         if (d <= 0) return;
         // vitesse : une page entière descend en une vingtaine de secondes au plus.
         // À d / 220 c'était deux fois trop lent, on croyait l'image figée.
-        img.style.transition = 'transform ' + Math.min(22, Math.max(3, d / 380)) + 's linear';
+        img.style.transition = 'transform ' + Math.min(20, Math.max(6, d / 300)) + 's linear';
         img.style.transform = 'translateY(' + (-d) + 'px)';
       });
       cadre.addEventListener('mouseleave', function () {
