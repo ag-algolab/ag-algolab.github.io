@@ -518,6 +518,52 @@ haut sont fixes, on ne perd que du bas), puis 1 100 × 688 en WebP à 80. Le
 tableau de bord donne aussi `moliere-eleve.webp` (960 × 600, héros et
 onglets). La même recette vaut pour toute capture qu'il enverra.
 
+**Les quatre plans** (page Molière, « Quatre espaces, un seul projet »,
+06/09 : « certaines pages ne peuvent pas être affichées… un design
+dynamique, parlant, créatif »). Les espaces professeur et administration
+tiennent des données de familles : on ne les photographie pas. Chaque
+onglet montre donc un **plan d'architecte** (`.plan`, fond nuit quadrillé) :
+le **vrai menu** de l'espace à gauche (les dossiers de `src/app/prof` et
+`src/app/admin` du dépôt Molière), un **bloc par puce** de la liste à droite
+(`data-bloc` = numéro de la puce), une promesse d'une ligne au-dessus
+(`.plan-promesse`) et le nombre d'écrans (`faits.json`). Survoler une puce
+allume son bloc et réciproquement ; sur le chemin riche, la lumière se
+promène toute seule d'un bloc à l'autre (1,7 s) ; à l'ouverture d'un onglet,
+les blocs entrent l'un après l'autre (`plan-entre`). Les quatre espaces sont
+traités pareil — un site qui mélangerait captures et plans paraîtrait
+dépareillé, et les captures réelles sont déjà dans le manège et le héros.
+
+**Prépa 600 en mouvement** (même demande : « du dynamisme… des graphismes
+pro et évolutifs… quand on fait une action ça suit »). Le carrousel « À voir
+en premier » devient le même **manège** que Molière (`[data-anneau]`, ordre
+ordinateur · téléphone · ordinateur · téléphone ; l'accueil téléphone, déjà
+dans le héros, sort). Les quatre onglets du produit reçoivent chacun un
+**graphique SVG/CSS** qui **se remplit au défilement** : `site.js` pose
+`--p` (0 → 1) sur chaque `[data-progres]` pendant qu'il traverse la fenêtre,
+et le CSS s'en sert (`stroke-dashoffset`, `scaleX`, opacités, `clamp()`).
+Sans script `--p` vaut 1 et tout est dessiné ; avec « réduire le mouvement »,
+`--p` vaut 1 d'emblée.
+- **Le chronomètre** : six arcs de 20 min (les six sous-tests officiels).
+- **Le rapport** : jauge sur 600, six notes sur 15, **carte du temps de
+  90 cases** (juste / fausse / vide) que la souris nomme case par case
+  (question, temps, résultat). C'est un **exemple, écrit comme tel** — un
+  vrai rapport n'existe qu'après une épreuve. Les chiffres de l'exemple
+  sont cohérents entre eux : 57 justes → 57 × 4 × 600/360 = 380 ; 9 vides →
+  12 points laissés (1,33 par case).
+- **Les blancs** : une tuile par blanc (`data-tuiles` = `p600.blancs`), la
+  première « 0 € », les autres se déverrouillent ; la souris nomme la tuile.
+- **La banque** : un point par sous-test audité (`data-points` =
+  `p600.sous_tests_verts`) qui passe au vert, et cinq barres A–E égales.
+- **Le barème** : un **curseur** de 0 à 90 cases vides ; les points laissés
+  suivent (`v × 4 × 600/360 × 0,2` = 1,33 par case, la formule de
+  tagemage.fr reprise par prepa600.com). Ce bloc remplace la grille `.g2` par
+  `.bareme-grille`. Le socle passe en logos (HTML, JavaScript, Node.js,
+  Vercel, Supabase, Stripe, Resend, Telegram, Claude Code, banc d'essai).
+
+⚠️ `.note` est déjà pris (la source en petit mono sous les textes) : les
+barres du rapport sont `.nb`. La collision avait réduit la source du barème à
+une colonne de 44 px.
+
 ⚠️ Les `nth-child` du réacteur comptent **le `<svg>` comme premier enfant**
 (puis le cœur, puis les nœuds de 3 à 10) : le premier jet en avait mis trois
 à gauche et cinq à droite.
@@ -635,6 +681,16 @@ Ajouté le 5 septembre 2026 (nuit) :
 34. **Les captures de l'espace élève viennent de son écran** (compte
     d'essai), jamais d'une session que je tiendrais ; elles s'égalisent par
     script, et deux pages sont écartées (règlements, profil).
+
+Ajouté le 6 septembre 2026 :
+
+35. **Ce qu'on ne peut pas photographier, on le dessine** : un plan
+    d'architecte par espace, avec le vrai menu, et la même forme pour les
+    quatre (pas de mélange captures / plans dans une même section).
+36. **Prépa 600 bouge autant que Molière** : manège, graphiques qui se
+    remplissent au défilement, souris qui nomme ce qu'elle survole,
+    curseur du barème. Tout ce qui est chiffré vient de `faits.json` ; le
+    rapport est un exemple et le dit.
 
 ---
 
@@ -879,3 +935,9 @@ Ajouté le 5 septembre 2026 (nuit) :
   étaient agrandies sur un écran à 1,5×. Rafraîchissement complet à
   `--echelle 2`, stockage en 1 600 / 1 440 px (zones : 1 600, 1 500, 780),
   garde Pillow levée, `moliere-eleve` refait en 1 440. Assets en `?v=14`.
+- **06/09/2026 (midi)** — Lot 15. Molière : les quatre espaces deviennent
+  quatre plans d'architecte (menu réel, un bloc par promesse, survol
+  croisé, entrée en cascade). Prépa 600 : manège à la place du carrousel ;
+  chronomètre, rapport-exemple avec carte du temps, tuiles des blancs,
+  points de l'audit — tous remplis au défilement (`--p`) ; curseur du
+  barème ; socle en logos. Collision `.note` corrigée. Assets en `?v=15`.

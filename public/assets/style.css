@@ -775,3 +775,117 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
   /* en fondu, pas en glissement (Anthony, 06/09 : « fais un dégradé pour passer de l'un à l'autre ») */
   .enchaine img { transition: opacity .8s ease; }
 }
+
+/* ------------------------------------------------- les quatre plans (Molière)
+   Les espaces professeur et administration contiennent des données de
+   familles : pas de capture. À la place, un PLAN d'architecte de chaque
+   espace (Anthony, 06/09 : « certaines pages ne peuvent pas être
+   affichées… un design dynamique, parlant »). Le menu est le vrai menu de
+   l'espace ; chaque bloc répond à une puce de la liste (data-bloc) : la
+   survoler allume le bloc. À l'ouverture d'un onglet, les blocs entrent
+   l'un après l'autre. */
+.plan-col { min-width: 0; }
+.plan-promesse { margin: 0 0 12px; font: 700 1.05rem/1.4 var(--sans); letter-spacing: -.01em; color: var(--encre); }
+.plan { background: var(--nuit); color: var(--nuit-txt); border-radius: 16px; padding: 14px; box-shadow: var(--ombre); font: 500 .68rem/1.4 var(--mono);
+  background-image: linear-gradient(rgba(110, 231, 183, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(110, 231, 183, .07) 1px, transparent 1px); background-size: 24px 24px; }
+.plan-tete { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 0 2px 10px; border-bottom: 1px solid rgba(110, 231, 183, .25); margin-bottom: 10px; }
+.plan-role { font: 800 .9rem/1.2 var(--sans); color: #fff; letter-spacing: -.01em; }
+.plan-n { color: var(--menthe); }
+.plan-corps { display: grid; grid-template-columns: 34% minmax(0, 1fr); gap: 10px; }
+.plan-menu { list-style: none; margin: 0; padding: 8px 0; display: grid; align-content: start; gap: 3px; border-right: 1px solid rgba(110, 231, 183, .25); }
+.plan-menu li { padding: 3px 8px; border-radius: 6px; color: var(--nuit-txt-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.plan-menu li:first-child { background: rgba(252, 211, 77, .9); color: var(--nuit); font-weight: 700; }
+.plan-blocs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-content: start; padding: 8px 0; }
+.plan-bloc { position: relative; padding: 9px 10px 10px; border-radius: 8px; border: 1px solid rgba(110, 231, 183, .3); background: rgba(255, 255, 255, .04); min-width: 0; transition: border-color .25s ease, background-color .25s ease, transform .25s ease; }
+.plan-bloc:first-child { grid-column: 1 / -1; }
+.plan-bloc b { display: block; color: #fff; font-weight: 600; margin-bottom: 7px; overflow-wrap: anywhere; }
+.plan-bloc i { display: block; height: 4px; border-radius: 2px; background: rgba(110, 231, 183, .28); margin-top: 4px; width: 84%; }
+.plan-bloc i + i { width: 58%; }
+.plan-bloc.vise { border-color: var(--menthe); background: rgba(110, 231, 183, .16); transform: translateY(-2px); }
+.plan-bloc.vise b { color: var(--menthe); }
+.panneau .liste li[data-bloc] { cursor: default; border-radius: 8px; padding: 2px 6px; margin: -2px -6px; transition: background-color .25s ease; }
+.panneau .liste li[data-bloc].vise { background: var(--accent-pale); }
+@media (prefers-reduced-motion: no-preference) {
+  .panneau.actif .plan-bloc { animation: plan-entre .5s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--k, 0) * 90ms); }
+  @keyframes plan-entre { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+}
+.plan-bloc:nth-child(2) { --k: 1; } .plan-bloc:nth-child(3) { --k: 2; } .plan-bloc:nth-child(4) { --k: 3; } .plan-bloc:nth-child(5) { --k: 4; }
+
+/* ------------------------------------------ graphiques qui suivent (Prépa 600)
+   Chaque panneau du produit porte un graphique tracé en SVG/CSS dont le
+   remplissage suit le défilement : site.js pose --p (0 → 1) sur chaque
+   [data-progres] quand il traverse la fenêtre. Sans script, --p vaut 1 et
+   tout est dessiné. Le rapport est un EXEMPLE (dit comme tel) : un vrai
+   rapport n'existe qu'après une épreuve. (Anthony, 06/09 : « des graphismes
+   pro et évolutifs… quand on fait une action ça suit ».) */
+.graphe { background: var(--carte); border: 1px solid var(--filet); border-radius: var(--rayon); padding: clamp(16px, 2.4vw, 24px); min-width: 0; box-shadow: var(--ombre); }
+.graphe svg { display: block; width: 100%; height: auto; }
+.graphe text { font: 600 9.5px var(--mono); fill: var(--encre-2); }
+.graphe text.grand { font: 800 26px var(--serif); fill: var(--encre); letter-spacing: -.03em; }
+.graphe text.petit { font: 600 9px var(--mono); fill: var(--encre-2); letter-spacing: .08em; }
+.graphe-leg { margin: 14px 0 0; font-size: .9rem; color: var(--encre-2); line-height: 1.5; }
+.graphe-note { margin: 8px 0 0; font: 500 .72rem/1.5 var(--mono); color: var(--encre-2); }
+/* le chronomètre */
+.chrono .arc { fill: none; stroke-width: 12; stroke-linecap: butt; }
+.chrono .arc.fond { stroke: var(--filet-2); }
+.chrono .arc.trait { stroke: var(--accent); stroke-dasharray: var(--l); stroke-dashoffset: calc(var(--l) * (1 - clamp(0, var(--p, 1) * 6 - var(--i), 1))); }
+/* le rapport */
+.rapport-haut { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px; align-items: center; }
+.jauge .fond { fill: none; stroke: var(--filet-2); stroke-width: 14; }
+.jauge .trait { fill: none; stroke: var(--accent); stroke-width: 14; stroke-linecap: round; stroke-dasharray: var(--l); stroke-dashoffset: calc(var(--l) * (1 - var(--p, 1) * var(--v))); }
+.notes { display: grid; gap: 6px; }
+/* .nb et pas .note : .note est déjà la source en petit mono sous les textes */
+.nb { display: grid; grid-template-columns: 44px minmax(0, 1fr) 36px; gap: 8px; align-items: center; font: 600 .68rem/1 var(--mono); color: var(--encre-2); }
+.nb b { display: block; height: 8px; border-radius: 4px; background: var(--filet-2); overflow: hidden; }
+.nb b i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: 0 50%; transform: scaleX(calc(var(--p, 1) * var(--v))); border-radius: 4px; }
+.nb em { font-style: normal; text-align: right; color: var(--encre); }
+.carte-temps { margin-top: 16px; }
+.cases { display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)); gap: 3px; }
+.cases i { display: block; aspect-ratio: 1; border-radius: 3px; background: var(--filet-2); cursor: crosshair; transition: transform .15s ease, opacity .3s ease; opacity: calc(clamp(0, var(--p, 1) * 90 - var(--q, 0), 1) * .85 + .15); }
+.cases .c-j { background: var(--accent-vif); }
+.cases .c-f { background: #F59E9B; }
+.cases .c-v { background: #D1D9D5; }
+.cases i.vise, .cases i:hover { transform: scale(1.35); outline: 2px solid var(--encre); z-index: 1; position: relative; }
+.bulle { margin: 10px 0 0; font: 600 .74rem/1.4 var(--mono); color: var(--encre); min-height: 1.4em; }
+.lg { display: inline-flex; align-items: center; gap: 6px; margin-right: 14px; }
+.lg::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--accent-vif); }
+.lg-f::before { background: #F59E9B; }
+.lg-v::before { background: #D1D9D5; }
+/* les blancs */
+.tuiles { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.tuile { position: relative; aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--filet); background: var(--papier); display: grid; place-items: center; font: 700 .8rem/1 var(--mono); color: var(--encre-2); cursor: default; overflow: hidden; transition: transform .2s ease; }
+.tuile::after { content: ""; position: absolute; inset: 0; background: var(--accent); opacity: calc(clamp(0, var(--p, 1) * var(--n) - var(--k), 1)); transition: opacity .3s ease; }
+.tuile span { position: relative; z-index: 1; color: var(--encre); }
+.tuile.ouverte span { color: #fff; }
+.tuile.gratuit { border-color: var(--accent); }
+.tuile.gratuit::after { background: var(--ambre); }
+.tuile.gratuit span { color: var(--encre); }
+.tuile:hover { transform: translateY(-3px); }
+.prix-ligne { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin-top: 16px; font-size: .9rem; color: var(--encre-2); }
+.prix-ligne b { font: 800 1.6rem/1 var(--serif); color: var(--encre); letter-spacing: -.03em; }
+.mois { display: inline-flex; gap: 4px; }
+.mois em { display: block; width: 26px; height: 10px; border-radius: 5px; background: var(--filet-2); overflow: hidden; position: relative; }
+.mois em::after { content: ""; position: absolute; inset: 0; background: var(--accent); transform-origin: 0 50%; transform: scaleX(clamp(0, var(--p, 1) * 4 - var(--j, 0), 1)); }
+.mois em:nth-child(2) { --j: 1; } .mois em:nth-child(3) { --j: 2; } .mois em:nth-child(4) { --j: 3; }
+/* la banque */
+.points { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 5px; }
+.points i { display: block; aspect-ratio: 1; border-radius: 50%; background: var(--filet-2); position: relative; }
+.points i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent-vif); transform: scale(clamp(0, var(--p, 1) * var(--n) - var(--k), 1)); }
+.audit-titre { margin: 14px 0 12px; font-size: .95rem; color: var(--encre-2); }
+.audit-titre b { font: 800 1.4rem/1 var(--serif); color: var(--encre); letter-spacing: -.03em; margin-right: .3em; }
+.lettres { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; align-items: end; height: 90px; }
+.lettres div { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: 100%; gap: 6px; text-align: center; font: 700 .72rem/1 var(--mono); color: var(--encre-2); }
+.lettres b { display: block; position: relative; border-radius: 6px 6px 0 0; background: var(--filet-2); overflow: hidden; }
+.lettres b i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--v) * 100% / .21); background: var(--accent); transform-origin: 50% 100%; transform: scaleY(clamp(0, var(--p, 1) * 5 - var(--i), 1)); }
+/* le barème, au curseur */
+.bareme-grille { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; }
+@media (min-width: 900px) { .bareme-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; } }
+.bareme { background: var(--nuit); color: var(--nuit-txt); border-radius: var(--rayon); padding: clamp(18px, 2.4vw, 28px); }
+.bareme-tete { display: flex; justify-content: space-between; align-items: baseline; font: 600 .74rem/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--nuit-txt-2); }
+.bareme-tete output { font: 800 2.2rem/1 var(--serif); color: var(--menthe); letter-spacing: -.03em; text-transform: none; }
+.bareme input[type="range"] { width: 100%; margin: 14px 0 12px; accent-color: var(--menthe); cursor: ew-resize; }
+.bareme-barre { height: 10px; border-radius: 5px; background: var(--nuit-2); overflow: hidden; }
+.bareme-barre i { display: block; height: 100%; background: linear-gradient(90deg, var(--menthe), var(--ambre)); transform-origin: 0 50%; transform: scaleX(var(--v)); transition: transform .15s ease-out; }
+.bareme-res { margin: 14px 0 0; font-size: .95rem; line-height: 1.5; color: var(--nuit-txt); }
+.bareme-res b { font: 800 1.5rem/1 var(--serif); color: var(--ambre); letter-spacing: -.03em; }
+.bareme-grille .socle { grid-column: 1 / -1; }

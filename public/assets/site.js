@@ -126,6 +126,119 @@
     ordi.addEventListener('mouseleave', function () { v.classList.remove('ordi-devant'); });
   });
 
+  /* ------------------------------------------------- les plans (Molière)
+     Survoler une puce de la liste allume le bloc du plan qui lui répond ;
+     laissé tranquille, le plan promène lui-même la lumière de bloc en bloc
+     (chemin riche seulement). */
+  chaque('[data-onglets]', function (bloc) {
+    chaque('.panneau', function (pan) {
+      var puces = pan.querySelectorAll('.liste li[data-bloc]');
+      var blocs = pan.querySelectorAll('.plan-bloc');
+      if (!puces.length || !blocs.length) return;
+      var main = false, k = 0, minuterie = null;
+      var viser = function (n) {
+        Array.prototype.forEach.call(puces, function (li) { li.classList.toggle('vise', li.getAttribute('data-bloc') === n); });
+        Array.prototype.forEach.call(blocs, function (b) { b.classList.toggle('vise', b.getAttribute('data-bloc') === n); });
+      };
+      if (souris) {
+        Array.prototype.forEach.call(puces, function (li) {
+          li.addEventListener('mouseenter', function () { main = true; viser(li.getAttribute('data-bloc')); });
+          li.addEventListener('mouseleave', function () { main = false; });
+        });
+      }
+      if (riche) {
+        minuterie = setInterval(function () {
+          if (main || !pan.classList.contains('actif') || doc.hidden) return;
+          k = (k + 1) % blocs.length;
+          viser(blocs[k].getAttribute('data-bloc'));
+        }, 1700);
+      }
+    }, bloc);
+  });
+
+  /* ------------------------------------- graphiques qui suivent le défilement
+     --p va de 0 (le bloc entre par le bas) à 1 (son tiers haut est passé) ;
+     le CSS s'en sert pour remplir arcs, barres, tuiles, points. Avec
+     « réduire le mouvement », --p vaut 1 d'emblée. */
+  var progres = doc.querySelectorAll('[data-progres]');
+  if (progres.length) {
+    var mesurerProgres = function () {
+      var h = window.innerHeight || 800;
+      Array.prototype.forEach.call(progres, function (el) {
+        if (reduit) { el.style.setProperty('--p', '1'); return; }
+        var r = el.getBoundingClientRect();
+        if (r.width === 0) return;
+        var p = (h - r.top) / (Math.min(r.height, h * .6) + h * .25);
+        el.style.setProperty('--p', String(Math.max(0, Math.min(1, p))));
+      });
+    };
+    mesurerProgres();
+    window.addEventListener('scroll', mesurerProgres, { passive: true });
+    window.addEventListener('resize', mesurerProgres);
+    setTimeout(mesurerProgres, 500);
+    doc.addEventListener('click', function (e) { if (e.target.closest('.onglet')) setTimeout(mesurerProgres, 30); });
+  }
+
+  /* les tuiles des blancs et les points de l'audit : autant que le fait */
+  chaque('[data-tuiles]', function (grille) {
+    var n = parseInt(grille.getAttribute('data-tuiles'), 10) || 0, k, html = '';
+    grille.style.setProperty('--n', String(n));
+    for (k = 0; k < n; k++) {
+      html += '<div class="tuile' + (k === 0 ? ' gratuit' : '') + '" style="--k:' + k + '" data-k="' + (k + 1) + '"><span>' + (k === 0 ? '0 €' : (k + 1)) + '</span></div>';
+    }
+    grille.innerHTML = html;
+    var leg = grille.parentNode.querySelector('[data-tuile-leg]');
+    if (leg && souris) {
+      var texte = leg.textContent, fr = (doc.documentElement.lang || 'en').slice(0, 2) === 'fr';
+      grille.addEventListener('mouseover', function (e) {
+        var t = e.target.closest('.tuile');
+        if (!t) return;
+        var i = t.getAttribute('data-k');
+        leg.textContent = i === '1' ? (fr ? 'Blanc n° 1 · gratuit · 90 questions, rapport entier' : 'Mock test 1 · free · 90 questions, full report')
+                                    : (fr ? 'Blanc n° ' + i + ' · 90 questions · ouvert par le paiement unique' : 'Mock test ' + i + ' · 90 questions · opened by the single payment');
+      });
+      grille.addEventListener('mouseleave', function () { leg.textContent = texte; });
+    }
+  });
+  chaque('[data-points]', function (grille) {
+    var n = parseInt(grille.getAttribute('data-points'), 10) || 0, k, html = '';
+    grille.style.setProperty('--n', String(n));
+    for (k = 0; k < n; k++) html += '<i style="--k:' + k + '"></i>';
+    grille.innerHTML = html;
+  });
+
+  /* la carte du temps : une case = une question ; la survoler la nomme */
+  chaque('[data-carte-temps]', function (carte) {
+    var bulle = carte.querySelector('.bulle'), cases = carte.querySelectorAll('.cases i');
+    if (!bulle || !cases.length) return;
+    var fr = (doc.documentElement.lang || 'en').slice(0, 2) === 'fr';
+    Array.prototype.forEach.call(cases, function (c, i) { c.style.setProperty('--q', String(i)); });
+    var texte = bulle.textContent;
+    carte.addEventListener('mouseover', function (e) {
+      var c = e.target.closest('.cases i');
+      if (!c) return;
+      var t = parseInt(c.getAttribute('data-t'), 10), m = Math.floor(t / 60), sec = t % 60;
+      var etat = c.classList.contains('c-j') ? (fr ? 'juste' : 'right') : c.classList.contains('c-f') ? (fr ? 'fausse' : 'wrong') : (fr ? 'laissée vide' : 'left blank');
+      bulle.textContent = (fr ? 'Question ' : 'Question ') + c.getAttribute('data-q') + ' · ' + (m ? m + ' min ' : '') + sec + ' s · ' + etat;
+    });
+    carte.addEventListener('mouseleave', function () { bulle.textContent = texte; });
+  });
+
+  /* le barème : le curseur suit la souris, les points suivent le curseur */
+  chaque('[data-bareme]', function (bloc) {
+    var curseur = bloc.querySelector('input[type="range"]');
+    var n = bloc.querySelector('[data-bareme-n]'), pts = bloc.querySelector('[data-bareme-pts]'), barre = bloc.querySelector('[data-bareme-barre]');
+    if (!curseur || !n || !pts || !barre) return;
+    var poser = function () {
+      var v = parseInt(curseur.value, 10) || 0;
+      n.textContent = String(v);
+      pts.textContent = String(Math.round(v * 4 * 600 / 360 * 0.2 * 10) / 10).replace('.', (doc.documentElement.lang || 'en').slice(0, 2) === 'fr' ? ',' : '.');
+      barre.style.setProperty('--v', String(v / 90));
+    };
+    curseur.addEventListener('input', poser);
+    poser();
+  });
+
   /* ------------------------------------------ l'écran qui enchaîne les pages
      Les pages de l'espace élève, l'une après l'autre : la suivante arrive
      de la droite et recouvre la précédente, toutes les trois secondes.
