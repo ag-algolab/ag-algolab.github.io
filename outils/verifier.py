@@ -336,6 +336,21 @@ def main():
         if w * h > 4_200_000:
             erreur("image trop lourde à décoder : %s (%d × %d = %.1f Mpx) — à découper en tuiles (rafraichir.py)"
                    % (os.path.basename(chemin), w, h, w * h / 1e6))
+    # règle du 06/09 (audit du lot 20) : toute image citée par une page existe,
+    # et toute image du dossier est citée. Les données structurées de TOUTES
+    # les pages pointaient vers og-agalgolab.png, supprimé le 04/09 quand
+    # og.py s'est mis à fabriquer une image par langue — un lien mort que
+    # personne ne voyait, parce qu'il n'est lu que par les robots.
+    citees = set()
+    for page in pages:
+        with open(page, encoding="utf-8") as f:
+            citees |= set(re.findall(r"/assets/img/([A-Za-z0-9._-]+\.(?:webp|png|jpg|jpeg|svg))", f.read()))
+    dossier = {os.path.basename(f) for f in glob.glob(os.path.join(SRC, "assets", "img", "*"))}
+    for manquante in sorted(citees - dossier):
+        erreur("image citée mais absente du dossier : %s" % manquante)
+    for orpheline in sorted(dossier - citees):
+        avertir("image que plus aucune page ne cite : %s (%d Ko)"
+                % (orpheline, os.path.getsize(os.path.join(SRC, "assets", "img", orpheline)) // 1024))
     verifier_contrastes()
     if "--sans-depots" not in sys.argv:
         recompter()

@@ -252,7 +252,10 @@ def jsonld(meta, lang, slug):
         "email": COURRIEL,
         "founder": {"@id": DOMAINE + "/#anthony"},
         "logo": DOMAINE + "/assets/img/icone-512.png",
-        "image": DOMAINE + "/assets/img/og-agalgolab.png",
+        # la version de la langue : og-agalgolab.png tout court n'existe plus
+        # depuis que og.py fabrique une image par langue (lien mort dans les
+        # données structurées de toutes les pages, trouvé à l'audit du lot 20)
+        "image": DOMAINE + image_partage({}, lang),
         "vatID": "FR77935081703",
         "identifier": {"@type": "PropertyValue", "propertyID": "SIREN", "value": "935081703"},
         "address": {"@type": "PostalAddress", "streetAddress": "6 rue de la Norée",

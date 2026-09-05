@@ -17,6 +17,11 @@ ordinateur (1280 × 900) puis en téléphone (390 × 844, échelle 2) :
     `rafraichir.py` fabrique les WebP à cette taille — la mise en page
     décide, la capture suit. Ce qui dépasse d'un quart est signalé comme du
     poids pour rien ;
+  - chaque cadre d'écran (ordinateur, téléphone, tablette) est PEINT quand on
+    saute dessus d'un coup de molette : la fenêtre est photographiée 400 ms
+    après le saut et le cadre doit être bariolé, pas uni. C'est la seule
+    mesure de la promesse du lot 19 — `img.complete` dit « téléchargée », pas
+    « peinte » (`--sans-peinture` pour s'en passer) ;
   - aucun débordement horizontal (`scrollWidth` ≤ largeur de la fenêtre),
     en haut de page et une fois descendu tout en bas ;
   - en téléphone, chaque cible tactile visible (bouton, lien-bouton, onglet,
@@ -31,6 +36,7 @@ de huit jours.
 
     python outils/verifier_rendu.py                      # tout, depuis PowerShell
     python outils/verifier_rendu.py --nettete            # + le tableau image par image
+    python outils/verifier_rendu.py --sans-peinture      # sans le contrôle de peinture
     python outils/verifier_rendu.py --lire               # n'écrit pas faits.json
     python outils/verifier_rendu.py --pages /fr/prepa-600/ /fr/   # certaines pages
 
@@ -46,6 +52,7 @@ libre : pas besoin du serveur local.
 Code de sortie : 0 si tout passe, 1 sinon.
 """
 import argparse
+import base64
 import datetime
 import functools
 import glob
@@ -62,6 +69,7 @@ import time
 import urllib.request
 
 import websocket  # websocket-client
+from PIL import Image, ImageStat
 
 sys.stdout.reconfigure(encoding="utf-8")
 ICI = os.path.dirname(os.path.abspath(__file__))
@@ -76,6 +84,8 @@ DELAI_IMAGES = 8.0      # secondes, en local
 CIBLE_MIN = 44          # px, dans les deux dimensions
 TEXTURE_MAX = 16383     # px, plafond d'une image décodée
 PIXELS_MAX = 4_200_000  # pixels par image : au-delà, des secondes de décodage à la peinture
+DELAI_PEINTURE = 0.4    # secondes après un saut sur un cadre : le temps qu'un œil accorde
+UNI_MAX = 8.0           # écart-type des gris sous lequel un cadre est « uni » : blanc
 NETTETE_MIN = 2.0       # px source par px CSS : en deçà, l'image est AGRANDIE sur un écran ×2 → flou
 NETTETE_EXCES = 1.25    # au-delà de 1,25 fois le besoin : du poids pour rien (avertissement)
 DENSITE = {"ordi": 2, "tel": 3}  # densité d'écran visée par fenêtre, pour calculer la largeur à stocker
@@ -194,6 +204,72 @@ JS_ETAT = r"""
 """ % (CIBLE_MIN, TEXTURE_MAX, TEXTURE_MAX, PIXELS_MAX, "%s")
 
 
+CADRES = ".ordi-ecran, .tel-ecran, .tablette-ecran"
+
+JS_SAUT = """
+(function (i) {
+  var e = document.querySelectorAll('%s')[i]; if (!e) return null;
+  window.scrollTo({top: e.getBoundingClientRect().top + scrollY - innerHeight * 0.25, behavior: 'auto'});
+  return true;
+})(%%d)
+""" % CADRES
+
+JS_CADRE = """
+(function (i) {
+  var e = document.querySelectorAll('%s')[i]; if (!e) return null;
+  var r = e.getBoundingClientRect();
+  var o = 1, p = e;   // une section encore en fondu d'apparition est unie de plein droit
+  while (p && p !== document.body) { o = Math.min(o, parseFloat(getComputedStyle(p).opacity)); p = p.parentElement; }
+  var im = e.querySelector('img');
+  return {x: r.x, y: r.y, w: r.width, h: r.height, opacite: o,
+          src: im ? (im.currentSrc || '').split('/').pop().split('?')[0] : '',
+          dans: r.top < innerHeight && r.bottom > 0};
+})(%%d)
+""" % CADRES
+
+
+def coupe(c, boite, fenetre):
+    """L'écart-type des gris du cadre, sur la fenêtre TELLE QU'ELLE EST PEINTE.
+    ⚠️ On photographie la fenêtre entière puis on découpe : le `clip` du
+    protocole est en coordonnées de page, pas de fenêtre — il photographierait
+    le haut du document."""
+    r = c.envoyer("Page.captureScreenshot", {"format": "png"})
+    im = Image.open(io.BytesIO(base64.b64decode(r["data"]))).convert("L")
+    d = im.width / float(fenetre["width"])
+    x0, y0 = max(0, int(boite["x"] * d)), max(0, int(boite["y"] * d))
+    x1 = min(im.width, int((boite["x"] + boite["w"]) * d))
+    y1 = min(im.height, int((boite["y"] + min(boite["h"], 500)) * d))
+    if x1 - x0 < 8 or y1 - y0 < 8:
+        return None
+    return ImageStat.Stat(im.crop((x0, y0, x1, y1))).stddev[0]
+
+
+def peinture(c, chemin, nom, fenetre, erreurs):
+    """La promesse du lot 19, mesurée : on saute d'un coup sur un cadre et il
+    est PEINT, pas blanc. `img.complete` ne le dit pas — une image trop lourde
+    se décode au moment d'être peinte (l'écran blanc du 06/09)."""
+    n = c.evaluer("document.querySelectorAll('%s').length" % CADRES) or 0
+    unis = 0
+    for i in range(n):
+        c.evaluer(JS_SAUT % i)
+        time.sleep(DELAI_PEINTURE)
+        b = c.evaluer(JS_CADRE % i)
+        if not b or not b["dans"] or b["w"] < 20 or b["h"] < 20:
+            continue
+        ecart = coupe(c, b, fenetre)
+        if ecart is None:
+            continue
+        if ecart < UNI_MAX and b["opacite"] < 0.99:   # apparition en cours : on la laisse finir
+            time.sleep(1.0)
+            b = c.evaluer(JS_CADRE % i) or b
+            ecart = coupe(c, b, fenetre) or 0
+        if ecart < UNI_MAX:
+            unis += 1
+            erreurs.append("%s %s : cadre %d (%s) encore uni %d ms après le saut dessus — écran blanc"
+                           % (chemin, nom, i + 1, b["src"] or "sans image", DELAI_PEINTURE * 1000))
+    return n, unis
+
+
 class Silencieux(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a):
         pass
@@ -264,7 +340,7 @@ def fermer_edge(proc, prof):
         time.sleep(1)
 
 
-def examiner(c, base, chemin, nom, fenetre, erreurs, mesures=None):
+def examiner(c, base, chemin, nom, fenetre, erreurs, mesures=None, sans_peinture=False):
     """Une page dans une fenêtre : renvoie (cassées, débordement, cible min).
     `mesures` accumule, par image, la largeur source, la plus grande largeur
     d'affichage et la largeur qu'il faudrait stocker (px CSS × densité)."""
@@ -320,8 +396,11 @@ def examiner(c, base, chemin, nom, fenetre, erreurs, mesures=None):
         erreurs.append("%s : cible tactile sous %d px — %s" % (ou, CIBLE_MIN, cb))
     for e in c.erreurs:
         erreurs.append("%s : %s" % (ou, e))
-    print("  %s %-24s %-5s %2d images en %.1f s · débordement %d px%s" % (
+    cadres, unis = (0, 0) if sans_peinture else peinture(c, chemin, nom, fenetre, erreurs)
+    c.evaluer("window.scrollTo(0, 0)")
+    print("  %s %-24s %-5s %2d images en %.1f s · débordement %d px · %d cadre(s) peint(s)%s" % (
         "✓" if not [e for e in erreurs if e.startswith(ou)] else "✗", chemin, nom, etat.get("total", 0), delai, debord,
+        cadres - unis,
         " · cible min %s px" % etat.get("cibleMin") if fenetre["mobile"] and etat.get("cibleMin") is not None else ""))
     return len(etat.get("cassees", [])), debord, etat.get("cibleMin")
 
@@ -363,6 +442,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--lire", action="store_true", help="n'écrit ni src/faits.json ni src/affichage.json")
     ap.add_argument("--nettete", action="store_true", help="affiche le tableau image par image (source, affiché, besoin)")
+    ap.add_argument("--sans-peinture", action="store_true", help="saute le contrôle « le cadre est peint à l'arrivée » (deux fois plus rapide)")
     ap.add_argument("--pages", nargs="*", help="chemins à contrôler (défaut : toutes les pages de public/)")
     a = ap.parse_args()
     if not os.path.isdir(PUB):
@@ -382,7 +462,7 @@ def main():
         c.envoyer("Network.setCacheDisabled", {"cacheDisabled": True})
         for chemin in pages:
             for nom, fenetre in FENETRES:
-                k, d, m = examiner(c, base, chemin, nom, dict(fenetre), erreurs, mesures)
+                k, d, m = examiner(c, base, chemin, nom, dict(fenetre), erreurs, mesures, a.sans_peinture)
                 cassees += k
                 debord = max(debord, d)
                 if m is not None:

@@ -104,7 +104,12 @@ python outils/verifier_rendu.py --nettete  # + le tableau image par image
 ```
 
 Sert `public/` sur un port libre, ouvre chaque page en ordinateur (1 280 ×
-900) puis en téléphone (390 × 844, échelle 2) et refuse si : une image n'est
+900) puis en téléphone (390 × 844, échelle 2). Il **saute sur chaque cadre
+d'écran** comme le ferait un coup de molette, photographie la fenêtre 400 ms
+plus tard et exige que le cadre soit bariolé, pas uni : c'est la seule mesure
+de la promesse du lot 19, puisque `img.complete` dit « téléchargée », pas
+« peinte » (108 cadres au dernier passage ; `--sans-peinture` pour s'en
+passer). Il refuse aussi si : une image n'est
 pas chargée et décodée **sans défiler** en moins de 8 s, une image est cassée,
 déclarée `loading="lazy"`, plus large ou plus haute que 16 383 px ou plus
 lourde que 4,2 Mpx ; **une image est agrandie** — moins de deux pixels de
@@ -129,6 +134,12 @@ le CSS suffit donc ; le contrôle refuse tant que l'image n'a pas été refaite
 la **mise en page** (`offsetWidth`), pas celle du rectangle à l'écran : dans
 le manège, une pièce est rapetissée par un `scale()` tant qu'elle est en
 arrière, mais c'est sa taille de devant qui doit être nette.
+
+`verifier.py` contrôle en plus, depuis l'audit du lot 20, que **toute image
+citée par une page existe** et que **toute image du dossier est citée** : les
+données structurées de toutes les pages pointaient vers `og-agalgolab.png`,
+supprimé le 04/09 quand `og.py` s'est mis à fabriquer une image par langue —
+un lien mort que personne ne voyait, parce que seuls les robots le lisent.
 
 ### Regarder en local
 
@@ -1303,4 +1314,11 @@ Ajouté le 6 septembre 2026 :
   d'inscription à 550 au lieu de 1 500. Page Molière −636 Ko, accueil
   −459 Ko, dossier d'images 5,4 → 4,1 Mo, deux fichiers morts retirés,
   logo à 170 px. Netteté minimale du site : **2,04**, affichée dans la
-  méthode de l'accueil (`site.nettete_min`).
+  méthode de l'accueil (`site.nettete_min`). **Audit demandé par Anthony
+  dans la foulée** (« vérifie que ça ne contredit pas ce que tu as déjà
+  fait ») : les dix garanties du lot 19 remesurées une à une, toutes au vert,
+  et deux ajouts qu'il a fait naître — `verifier_rendu.py` saute désormais
+  sur chaque cadre et exige qu'il soit **peint** 400 ms plus tard (108 cadres,
+  la promesse du lot 19 enfin mesurée et non plus supposée), et `verifier.py`
+  refuse une image citée mais absente : les données structurées de toutes les
+  pages pointaient depuis le 04/09 vers une image de partage supprimée.
