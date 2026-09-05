@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=15">
+<link rel="stylesheet" href="/assets/style.css?v=16">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@graph": [
@@ -297,36 +297,27 @@
         <li class="serp-etape passe">
           <div class="serp-titre"><span class="num">01</span><h3>La vision</h3></div>
           <div class="serp-contenu">
-            <p>Vous décrivez votre activité en trois lignes. Je ne reviens pas avec un devis ligne à ligne : je reviens avec le produit que vous n'aviez pas dessiné. Le test de niveau gratuit qui remplit les inscriptions, le bilan que les familles reçoivent sans que personne l'écrive, le tableau de bord qui montre qui décroche avant qu'il parte.</p>
-            <p>Puis un prix, et la première page en ligne le lendemain.</p>
+            <p>Vous décrivez votre activité en <b>trois lignes</b>. Je ne reviens pas avec un devis : je reviens avec <b>le produit que vous n'aviez pas dessiné</b> — le test gratuit qui remplit les inscriptions, le bilan que les familles reçoivent tout seul, l'alerte quand un élève décroche.</p>
             <div class="v-carte">
-              <p class="bulle moi"><small>Vous</small>Une école de langues, deux salles, des cours en ligne aussi. On a un site mais rien pour suivre les élèves.</p>
-              <p class="bulle lui"><small>Anthony</small>Qui vous appelle avant de s'inscrire ? Personne : ils hésitent. Un test de niveau gratuit de trois minutes, et ils s'inscrivent une fois le résultat en main. J'ajoute le bilan hebdomadaire pour les familles et l'alerte quand un élève décroche.</p>
-              <p class="bulle moi"><small>Vous</small>On n'avait pas pensé au test.</p>
-              <p class="bulle lui"><small>Anthony</small>C'est mon travail. Voilà le périmètre, le prix, et la première page en ligne demain.</p>
+              <p class="bulle lui"><small>Anthony</small><b>C'est mon travail.</b> Voilà le périmètre, le prix, et la première page en ligne demain.</p>
             </div>
           </div>
         </li>
         <li class="serp-etape droite passe">
           <div class="serp-titre"><span class="num">02</span><h3>En ligne dès le premier jour</h3></div>
           <div class="serp-contenu">
-            <p>Pas de maquette à valider pendant trois semaines. Chaque lot est mis en ligne le jour même, sur votre nom de domaine. Vous relisez sur votre téléphone le soir, je corrige dans la journée. Le produit réel avance sous vos yeux.</p>
-            <div class="v-carte">
-              <p class="etq">Institut Molière · les mises en ligne</p>
-              <div class="frise-deploy">
-                <div><time>16 AOÛT</time><i style="--w:12%"></i><b>premier commit</b></div>
-                <div><time>19 AOÛT</time><i style="--w:38%"></i><b>direction artistique en ligne</b></div>
-                <div><time>25 AOÛT</time><i style="--w:64%"></i><b>institut-moliere.com</b></div>
-                <div><time>AUJOURD'HUI</time><i style="--w:100%"></i><b>533 commits</b></div>
-              </div>
-              <p class="note" style="margin:18px 0 0">Chaque commit est une mise en ligne. Un lot par jour au minimum, relu sur téléphone le soir même.</p>
+            <p><b>Pas de maquette</b> à valider pendant trois semaines. Chaque lot est <b>en ligne le jour même</b>, sur votre nom de domaine. Vous relisez sur votre <b>téléphone le soir</b>, je corrige <b>dans la journée</b>.</p>
+            <div class="v-carte semaine">
+              <p class="etq">Une semaine type</p>
+              <ul class="semaine-jours"><li><span>L</span><i></i></li><li><span>M</span><i></i></li><li><span>M</span><i></i></li><li><span>J</span><i></i></li><li><span>V</span><i></i></li><li><span>S</span><i></i></li><li><span>D</span><i></i></li></ul>
+              <p class="semaine-leg"><b>En ligne</b> chaque jour · <b>relu</b> sur votre téléphone le soir · <b>corrigé</b> le lendemain</p>
             </div>
           </div>
         </li>
         <li class="serp-etape passe">
           <div class="serp-titre"><span class="num">03</span><h3>Construit avec Claude Code</h3></div>
           <div class="serp-contenu">
-            <p>L'agent de programmation d'Anthropic, toujours sur les modèles les plus performants du marché. Je décris, il construit, je relis, je mesure. Ce qui demandait une équipe et un trimestre demande une personne et quelques semaines : la plateforme de l'Institut Molière, 72 écrans en 20 jours.</p>
+            <p>L'agent de programmation d'Anthropic, <b>toujours sur les modèles les plus performants du marché</b>. Je décris, il construit, je relis, je mesure. <b>72 écrans en 20 jours</b> pour l'Institut Molière, seul.</p>
             <div class="v-carte v-nuit">
               <span class="p">$</span> claude<br>
               <span class="c">› construis l'espace élève : bibliothèque ouverte au niveau, dictées corrigées, calcul mental</span><br>
@@ -340,7 +331,7 @@
         <li class="serp-etape droite passe">
           <div class="serp-titre"><span class="num">04</span><h3>Mesuré, jamais jugé à l'œil</h3></div>
           <div class="serp-contenu">
-            <p>Contraste, cibles tactiles, débordements, liens, chiffres : un script refuse la mise en ligne si quelque chose cloche. Les chiffres de ce site sont recomptés dans les dépôts avant chaque publication : si un nombre d'écrans bouge, le texte suit, ou rien ne part.</p>
+            <p>Un script <b>refuse la mise en ligne</b> si quelque chose cloche : contraste, boutons trop petits, liens cassés. Les <b>chiffres sont recomptés</b> avant chaque publication — si un nombre bouge, le texte suit, ou rien ne part.</p>
             <div class="v-carte">
               <p class="etq">verifier.py · avant chaque mise en ligne</p>
               <ul class="coche">
@@ -356,7 +347,7 @@
         <li class="serp-etape passe">
           <div class="serp-titre"><span class="num">05</span><h3>Documenté pour être repris</h3></div>
           <div class="serp-contenu">
-            <p>Un document de passation, tenu à jour à chaque lot : où tout se trouve, comment changer un réglage, ce qui reste à faire, les pièges déjà rencontrés. Vous ne dépendez pas de moi : n'importe quel développeur peut reprendre le lendemain.</p>
+            <p>Un <b>document de passation</b>, tenu à jour à chaque lot : où tout se trouve, comment changer un réglage, ce qui reste à faire. <b>Vous ne dépendez pas de moi</b> : n'importe quel développeur reprend le lendemain.</p>
             <div class="v-carte doc">
               <b>_PASSATION.md</b>
               <span class="t">## 1.</span> Où tout se trouve<br>
@@ -467,6 +458,6 @@
 </footer>
 
 <noscript><style>.nav{display:flex}</style></noscript>
-<script src="/assets/site.js?v=15" defer></script>
+<script src="/assets/site.js?v=16" defer></script>
 </body>
 </html>

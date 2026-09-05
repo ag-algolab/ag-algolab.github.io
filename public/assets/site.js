@@ -209,7 +209,7 @@
 
   /* la carte du temps : une case = une question ; la survoler la nomme */
   chaque('[data-carte-temps]', function (carte) {
-    var bulle = carte.querySelector('.bulle'), cases = carte.querySelectorAll('.cases i');
+    var bulle = carte.querySelector('.bulle-temps'), cases = carte.querySelectorAll('.cases i');
     if (!bulle || !cases.length) return;
     var fr = (doc.documentElement.lang || 'en').slice(0, 2) === 'fr';
     Array.prototype.forEach.call(cases, function (c, i) { c.style.setProperty('--q', String(i)); });

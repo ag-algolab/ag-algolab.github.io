@@ -127,7 +127,8 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .marque { display: inline-flex; align-items: center; gap: 10px; font: 800 1.15rem/1 var(--sans); letter-spacing: -.03em; color: var(--encre); text-decoration: none; min-height: 44px; }
 .marque img { height: 32px; width: auto; flex: none; }
 .marque-carre { width: 12px; height: 12px; background: var(--accent); transform: rotate(45deg); flex: none; }
-.nav { display: flex; align-items: center; gap: 4px 22px; }
+/* la nav se range à droite, collée aux outils : au milieu elle flottait (Anthony, 06/09) */
+.nav { display: flex; align-items: center; gap: 4px 22px; margin-left: auto; margin-right: 8px; }
 .nav a { color: var(--encre); text-decoration: none; font-size: .96rem; font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
 .nav a:hover { color: var(--accent-txt); }
 .nav .btn-nav { color: #fff; }
@@ -435,8 +436,9 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .serpentin-trace path { fill: none; stroke-width: 3; stroke-linecap: round; }
 .serpentin-trace .fond { stroke: var(--filet); }
 .serpentin-trace .trait { stroke: var(--accent); }
-.serp-etapes { list-style: none; margin: 0; padding: 20px 0; display: grid; gap: clamp(70px, 10vw, 130px); }
-.serp-etape { display: grid; grid-template-columns: minmax(0, 1fr) 180px minmax(0, 1fr); gap: 0 20px; align-items: center; min-height: 480px; }
+/* textes raccourcis le 06/09 : les étapes se resserrent, sinon le chemin traverse du vide */
+.serp-etapes { list-style: none; margin: 0; padding: 20px 0; display: grid; gap: clamp(40px, 6vw, 80px); }
+.serp-etape { display: grid; grid-template-columns: minmax(0, 1fr) 180px minmax(0, 1fr); gap: 0 20px; align-items: center; min-height: 300px; }
 .serp-titre { grid-column: 2; text-align: center; position: relative; }
 .serp-titre::before { content: ""; display: block; width: 18px; height: 18px; border-radius: 50%; background: var(--carte); border: 3px solid var(--filet); margin: 0 auto 12px; position: relative; z-index: 1; }
 .serp-etape.passe .serp-titre::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 7px var(--accent-pale); }
@@ -846,7 +848,8 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .cases .c-f { background: #F59E9B; }
 .cases .c-v { background: #D1D9D5; }
 .cases i.vise, .cases i:hover { transform: scale(1.35); outline: 2px solid var(--encre); z-index: 1; position: relative; }
-.bulle { margin: 10px 0 0; font: 600 .74rem/1.4 var(--mono); color: var(--encre); min-height: 1.4em; }
+/* .bulle-temps et pas .bulle : .bulle est la bulle de conversation de la méthode */
+.bulle-temps { margin: 10px 0 0; font: 600 .74rem/1.4 var(--mono); color: var(--encre); min-height: 1.4em; }
 .lg { display: inline-flex; align-items: center; gap: 6px; margin-right: 14px; }
 .lg::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--accent-vif); }
 .lg-f::before { background: #F59E9B; }
@@ -889,3 +892,18 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .bareme-res { margin: 14px 0 0; font-size: .95rem; line-height: 1.5; color: var(--nuit-txt); }
 .bareme-res b { font: 800 1.5rem/1 var(--serif); color: var(--ambre); letter-spacing: -.03em; }
 .bareme-grille .socle { grid-column: 1 / -1; }
+
+/* la semaine type (méthode, étape 2) : sept jours, une mise en ligne chacun —
+   à la place d'une frise de commits que personne hors métier ne lisait */
+.semaine-jours { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.semaine-jours li { display: grid; justify-items: center; gap: 8px; padding: 12px 4px 10px; border-radius: 12px; background: var(--papier); border: 1px solid var(--filet); font: 700 .78rem/1 var(--mono); color: var(--encre-2); }
+.semaine-jours i { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); position: relative; }
+.semaine-jours i::after { content: ""; position: absolute; left: 7px; top: 4px; width: 5px; height: 10px; border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+.semaine-leg { margin: 14px 0 0; font-size: .92rem; color: var(--encre-2); line-height: 1.5; }
+.semaine-leg b { color: var(--encre); }
+@media (prefers-reduced-motion: no-preference) {
+  .serp-etape.passe .semaine-jours i { animation: coche-pop .5s cubic-bezier(.2, .8, .2, 1.2) both; }
+  .semaine-jours li:nth-child(2) i { animation-delay: .1s; } .semaine-jours li:nth-child(3) i { animation-delay: .2s; } .semaine-jours li:nth-child(4) i { animation-delay: .3s; }
+  .semaine-jours li:nth-child(5) i { animation-delay: .4s; } .semaine-jours li:nth-child(6) i { animation-delay: .5s; } .semaine-jours li:nth-child(7) i { animation-delay: .6s; }
+  @keyframes coche-pop { from { transform: scale(0); } to { transform: scale(1); } }
+}

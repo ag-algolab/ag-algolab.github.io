@@ -941,3 +941,12 @@ Ajouté le 6 septembre 2026 :
   chronomètre, rapport-exemple avec carte du temps, tuiles des blancs,
   points de l'audit — tous remplis au défilement (`--p`) ; curseur du
   barème ; socle en logos. Collision `.note` corrigée. Assets en `?v=15`.
+- **06/09/2026 (après-midi)** — Lot 16. La nav se range à droite
+  (`margin-left: auto`). La méthode de l'accueil est raccourcie : trois
+  lignes par étape, **les clés en gras**, la conversation de l'étape 1
+  réduite au dernier message (« C'est mon travail »), l'étape 2 perd la frise
+  de commits (illisible hors métier) pour une **semaine type** : sept jours,
+  une mise en ligne cochée chacun, « en ligne chaque jour · relu sur votre
+  téléphone le soir · corrigé le lendemain ». Deux collisions de classes
+  évitées de justesse (`.bulle` → `.bulle-temps` pour la carte du temps ;
+  rappel : `.note`, `.bulle`, `.nb` sont pris). Assets en `?v=16`.
