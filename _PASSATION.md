@@ -114,6 +114,20 @@ Edge n'écrit rien. ⚠️ Le headless plafonne à **504 px** de large : c'est l
 capture « téléphone », et l'absence de débordement à 375 px se prouve par
 mesure dans le navigateur, pas par capture.
 
+**Les options de `capturer_cdp.py` ajoutées le 06/09** : `--clic` est
+**répétable** (les clics partent dans l'ordre, 2,2 s entre chacun) et vise
+d'abord une correspondance **exacte** du texte, sinon « Français » tombait sur
+le menu « Communication ▼ français · anglais » ; `--echelle N` fixe la densité
+de pixels et `--tactile` émule le doigt sans changer de navigateur (c'est le
+couple qui fabrique une tablette : `--largeur 820 --hauteur 1180 --echelle 2
+--tactile`) ; `--depuis` vise désormais **le plus petit élément visible**
+portant le texte — il tombait sinon sur un conteneur haut de toute la page, ou
+sur une région d'annonce invisible, et la capture démarrait à 0.
+
+`python outils/rafraichir.py --reconvertir` refabrique tous les WebP depuis
+les PNG déjà capturés, **sans ouvrir Edge** : c'est ce qu'il faut lancer après
+avoir changé une largeur ou une qualité d'image.
+
 ### Les images de partage
 
 `python outils/og.py` (PowerShell) fabrique `og-agalgolab.png`,
@@ -269,6 +283,33 @@ comment ça s'adapte au téléphone ») ; `capturer_cdp.py` fait défiler toute 
 page avant de photographier, sinon les images chargées à la demande
 manquent dans le bas (c'était le cas à partir d'« Écoles françaises »).
 
+**Les cadres doivent se voir** (Anthony, 06/09 : « c'est vraiment blanc sur
+blanc, on se doute au niveau de la forme, mais ça ne fait pas encore vrai ») :
+la barre du navigateur `.ordi-barre` est teintée (`#CBE3D7`, pastilles à 30 %
+d'encre), et **le téléphone `.tel` comme la tablette `.tablette` ont un corps
+sombre** (`--nuit`). Trois cadres, trois silhouettes reconnaissables sans
+lire. La tablette est le troisième : mêmes proportions que la capture
+(41 / 59), et elle défile au survol comme les deux autres (`site.js` cherche
+`.ordi, .tel, .tablette`).
+
+**Les quatre écrans de la page Molière** (le carrousel, choisi par Anthony le
+06/09) : le **test de niveau COMMENCÉ** sur téléphone — on clique « Français »
+et on photographie la première question, « pour montrer à quoi ressemble le
+test » ; **l'inscription sur TABLETTE** — « c'est beaucoup plus lisible,
+sinon c'est vraiment compliqué de le lire » ; **l'espace élève** ; et **la
+candidature de "Enseigner"** sur ordinateur avec trois réponses cochées —
+c'est l'état sélectionné qu'il veut montrer, pas le formulaire vide. Sont
+sortis : la page « la plateforme » et l'accueil sur téléphone, déjà présents
+ailleurs. Ces trois nouveautés sont des **zones** de `rafraichir.py` : elles
+se refont donc toutes les semaines comme le reste.
+
+**La netteté des grandes vitrines** : sur la page de cas, l'écran de
+l'ordinateur fait **1 038 px de large**. Les images de page entière étaient
+en 800 px, donc agrandies, donc floues (« elle est floue, donc ce n'est pas
+top »). Elles sont maintenant en **1 100 px, qualité 70** — l'accueil Molière
+pèse 451 Ko au lieu de 311. Mesurer avant de choisir une résolution :
+`getBoundingClientRect()` sur `.ordi-ecran` de la page concernée.
+
 **Les captures se rafraîchissent CHAQUE SEMAINE** (`python outils/rafraichir.py`
 depuis PowerShell) : les deux sites évoluent, et la vitrine doit montrer
 leur état réel. `construire.py` relit la taille de chaque image à la
@@ -375,6 +416,21 @@ Ajouté le 5 septembre 2026 (deuxième soirée) :
     écrans, routes d'API, **tables en base**. Et les chiffres affichés sont
     recomptés pour de bon (§3) : 71 écrans, pas 72.
 
+Ajouté le 6 septembre 2026 :
+
+19. **Les cadres doivent se lire** : navigateur teinté, téléphone et tablette
+    sombres (§4).
+20. **Les grandes vitrines ne doivent pas être floues** : images de page
+    entière en 1 100 px.
+21. **Le carrousel de la page Molière** : test commencé (téléphone),
+    inscription (tablette), espace élève, candidature « Enseigner » avec des
+    réponses cochées.
+22. **L'espace élève doit défiler d'un écran à l'autre au survol** (« le petit
+    truc jaune du menu de gauche change ») — EN ATTENTE : il faut un compte
+    élève, et je ne crée pas de compte ni ne saisis de mot de passe. Anthony
+    doit fournir les captures, ou ouvrir une session dans un navigateur que je
+    pilote. Voir §6.
+
 ---
 
 ## 6. Ce qui reste à Anthony
@@ -382,6 +438,14 @@ Ajouté le 5 septembre 2026 (deuxième soirée) :
 0. **Chaque semaine** : `python outils/rafraichir.py` (PowerShell), puis
    `construire.py`, `verifier.py`, commit, push — les captures des deux
    sites doivent montrer leur état réel.
+
+1. **Les écrans de l'espace élève** (demandé le 06/09) : il veut que la carte
+   « espace élève » passe d'une page à l'autre au survol, pour qu'on voie le
+   repère jaune se déplacer dans le menu de gauche. Il faut donc les captures
+   de toutes les pages de `/eleve` — et il faut être connecté. Deux façons :
+   Anthony les prend lui-même (« Démo espace élève » depuis l'administration,
+   une capture par page), ou il ouvre une session dans un navigateur que je
+   peux piloter. Le mécanisme d'affichage, lui, existe déjà (`.ecran-rot`).
 
 1. **Search Console** : ajouter la propriété `agalgolab.com` (validation
    DNS chez Porkbun) et soumettre `https://agalgolab.com/sitemap.xml`.
@@ -538,3 +602,13 @@ Ajouté le 5 septembre 2026 (deuxième soirée) :
   base à la place des commits dans le trio Molière, 13 blancs et 1 170
   questions pour Prépa 600, 78 sous-tests sur 78 au vert. Captures des deux
   sites refaites avec l'attente des images renforcée. Assets en `?v=6`.
+- **06/09/2026** — Lot 6, ses retours sur la page Molière. Le carrousel montre
+  quatre écrans choisis : le test de niveau commencé (téléphone), l'inscription
+  sur tablette, l'espace élève, la candidature « Enseigner » avec des réponses
+  cochées. Nouveau cadre `.tablette`, et les trois cadres reçoivent du
+  contraste (barre teintée, corps sombres). Les images de page entière passent
+  à 1 100 px : la vitrine de la page de cas fait 1 038 px de large, elle était
+  floue. `capturer_cdp.py` gagne les clics multiples, la correspondance exacte,
+  `--echelle`, `--tactile`, et un `--depuis` qui vise le plus petit élément
+  visible ; `rafraichir.py` gagne trois zones et `--reconvertir`. Reste en
+  attente : les captures de l'espace élève, qui demandent une session.
