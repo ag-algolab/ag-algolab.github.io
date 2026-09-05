@@ -64,7 +64,7 @@ ZONES = [
     # ⚠️ Ces trois-là descendent JUSQU'AU BAS de la page (--long 30000) : dans
     # les vitrines, l'écran déroule l'image, et Anthony veut voir la fin —
     # « ça s'arrête au tout début… ce qui est impressionnant, c'est de voir
-    # qu'il y a même le RIB » (06/09). Le départ, lui, est choisi : la première
+    # qu'il y a même le RIB » (05/09). Le départ, lui, est choisi : la première
     # question du test, le haut du formulaire, la première question de la
     # candidature.
     #
@@ -114,7 +114,7 @@ def convertir(nom, mobile):
         haut = im.resize((960, round(im.height * 960 / im.width)), Image.LANCZOS)
         haut.crop((0, 0, 960, min(haut.height, 1500))).save(os.path.join(IMG, nom + ".webp"), quality=82, method=6)
         # 1 100 px : sur la page de cas, l'écran de l'ordinateur fait 1 038 px
-        # de large. À 800, l'image était agrandie, donc floue (Anthony, 06/09).
+        # de large. À 800, l'image était agrandie, donc floue (Anthony, 05/09).
         full = im.resize((1100, round(im.height * 1100 / im.width)), Image.LANCZOS)
         full = full.crop((0, 0, 1100, min(full.height, 22000)))
         full.save(os.path.join(IMG, nom + "-full.webp"), quality=70, method=6)

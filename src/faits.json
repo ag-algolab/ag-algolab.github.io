@@ -189,7 +189,7 @@
       "releve": "2026-09-05"
     },
     "sous_tests_verts": {
-      "valeur": 84,
+      "valeur": 96,
       "source": "marketing/verifier_lot.py --tous : sous-tests au vert, tous ceux de la banque à cette date",
       "releve": "2026-09-05"
     },

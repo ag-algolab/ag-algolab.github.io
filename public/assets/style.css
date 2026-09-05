@@ -264,13 +264,13 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 
 /* -------------------------------------------------------------- planches */
 /* Les cadres se voient. Blanc sur blanc, on devinait un navigateur ou un
-   téléphone à sa forme, sans le lire (Anthony, 06/09) : la barre du
+   téléphone à sa forme, sans le lire (Anthony, 05/09) : la barre du
    navigateur est teintée, le téléphone et la tablette ont un corps sombre. */
 .ordi { border: 1px solid rgba(11, 46, 31, .3); background: var(--carte); border-radius: 12px; box-shadow: var(--ombre); overflow: hidden; }
 .ordi-barre { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-bottom: 1px solid rgba(11, 46, 31, .18); background: #CBE3D7; }
 /* les trois pastilles d'une fenêtre : rouge, ambre, verte. Grises, elles ne
    disaient rien ; colorées, on reconnaît un navigateur au premier coup d'œil
-   (Anthony, 06/09 : « le petit bouton vert et le petit bouton rouge »). */
+   (Anthony, 05/09 : « le petit bouton vert et le petit bouton rouge »). */
 .ordi-barre i { width: 8px; height: 8px; border-radius: 50%; background: rgba(11, 46, 31, .3); }
 .ordi-barre i:nth-of-type(1) { background: #EE6A5F; }
 .ordi-barre i:nth-of-type(2) { background: #F5BD4F; }
@@ -285,7 +285,7 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .tel-grand { width: min(100%, 300px); }
 /* la tablette : le même corps sombre que le téléphone, en plus large — le
    formulaire d'inscription y est lisible, ce qu'il n'était pas sur un
-   téléphone (Anthony, 06/09). L'écran garde les proportions de la capture. */
+   téléphone (Anthony, 05/09). L'écran garde les proportions de la capture. */
 .tablette { width: 100%; border: 1px solid var(--nuit); border-radius: 20px; padding: 12px 10px; background: var(--nuit); box-shadow: 0 24px 44px -26px rgba(11, 46, 31, .7); }
 .tablette-ecran { position: relative; aspect-ratio: 41 / 59; border-radius: 8px; overflow: hidden; background: #fff; }
 .tablette-ecran img { position: absolute; left: 0; top: 0; width: 100%; height: auto; }
@@ -498,7 +498,7 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .carrousel > .carte-tab { flex-basis: min(72%, 400px); }
 .carte-ecran { background: var(--carte); border: 1px solid var(--filet); border-radius: var(--rayon); padding: 14px; }
 /* dans un carrousel, la carte blanche autour de l'appareil ne sert à rien :
-   on montre l'appareil, et son nom dessous, centré (Anthony, 06/09). */
+   on montre l'appareil, et son nom dessous, centré (Anthony, 05/09). */
 .carrousel .carte-ecran { background: none; border: 0; padding: 0; }
 .carrousel .carte-ecran .leg { text-align: center; }
 .carte-ecran .ordi-ecran { aspect-ratio: 16 / 10; }

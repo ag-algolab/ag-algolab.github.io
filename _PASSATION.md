@@ -114,7 +114,7 @@ Edge n'écrit rien. ⚠️ Le headless plafonne à **504 px** de large : c'est l
 capture « téléphone », et l'absence de débordement à 375 px se prouve par
 mesure dans le navigateur, pas par capture.
 
-**Les options de `capturer_cdp.py` ajoutées le 06/09** : `--clic` est
+**Les options de `capturer_cdp.py` ajoutées le 05/09** : `--clic` est
 **répétable** (les clics partent dans l'ordre, 2,2 s entre chacun) et vise
 d'abord une correspondance **exacte** du texte, sinon « Français » tombait sur
 le menu « Communication ▼ français · anglais » ; `--echelle N` fixe la densité
@@ -283,7 +283,7 @@ comment ça s'adapte au téléphone ») ; `capturer_cdp.py` fait défiler toute 
 page avant de photographier, sinon les images chargées à la demande
 manquent dans le bas (c'était le cas à partir d'« Écoles françaises »).
 
-**Les cadres doivent se voir** (Anthony, 06/09 : « c'est vraiment blanc sur
+**Les cadres doivent se voir** (Anthony, 05/09 : « c'est vraiment blanc sur
 blanc, on se doute au niveau de la forme, mais ça ne fait pas encore vrai ») :
 la barre du navigateur `.ordi-barre` est teintée (`#CBE3D7`, pastilles à 30 %
 d'encre), et **le téléphone `.tel` comme la tablette `.tablette` ont un corps
@@ -293,7 +293,7 @@ lire. La tablette est le troisième : mêmes proportions que la capture
 `.ordi, .tel, .tablette`).
 
 **Les quatre écrans de la page Molière** (le carrousel, choisi par Anthony le
-06/09) : le **test de niveau COMMENCÉ** sur téléphone — on clique « Français »
+05/09) : le **test de niveau COMMENCÉ** sur téléphone — on clique « Français »
 et on photographie la première question, « pour montrer à quoi ressemble le
 test » ; **l'inscription sur TABLETTE** — « c'est beaucoup plus lisible,
 sinon c'est vraiment compliqué de le lire » ; **l'espace élève** ; et **la
@@ -303,7 +303,7 @@ sortis : la page « la plateforme » et l'accueil sur téléphone, déjà prése
 ailleurs. Ces trois nouveautés sont des **zones** de `rafraichir.py` : elles
 se refont donc toutes les semaines comme le reste.
 
-Le 06/09 au soir, quatre corrections sur ce carrousel : **plus de carte
+Le 05/09 au soir, quatre corrections sur ce carrousel : **plus de carte
 blanche autour des appareils** (« ça ne sert à rien que tu mettes quatre
 rectangles blancs »), juste l'appareil et **son nom centré dessous**, sans
 sous-description ; les appareils sont **alignés par le bas**
@@ -322,7 +322,7 @@ jamais par des coordonnées de rectangle, qui vieilliraient à la première
 mise à jour de la page.
 
 **Les trois pastilles de la barre du navigateur sont rouge, ambre et verte**
-(06/09) : grises, elles ne disaient pas « fenêtre ».
+(05/09) : grises, elles ne disaient pas « fenêtre ».
 
 **La netteté des grandes vitrines** : sur la page de cas, l'écran de
 l'ordinateur fait **1 038 px de large**. Les images de page entière étaient
@@ -471,7 +471,7 @@ Ajouté le 6 septembre 2026 (soir) :
    `construire.py`, `verifier.py`, commit, push — les captures des deux
    sites doivent montrer leur état réel.
 
-1. **Les écrans de l'espace élève** (demandé le 06/09, redemandé le soir) :
+1. **Les écrans de l'espace élève** (demandé le 05/09, redemandé le soir) :
    la carte « espace élève » doit passer d'une page à l'autre au survol,
    toutes les 3 secondes, par un glissement de la droite vers la gauche —
    coach, mes cours, calendrier, bibliothèque, dictées, calcul mental,
@@ -640,7 +640,7 @@ Ajouté le 6 septembre 2026 (soir) :
   base à la place des commits dans le trio Molière, 13 blancs et 1 170
   questions pour Prépa 600, 78 sous-tests sur 78 au vert. Captures des deux
   sites refaites avec l'attente des images renforcée. Assets en `?v=6`.
-- **06/09/2026** — Lot 6, ses retours sur la page Molière. Le carrousel montre
+- **05/09/2026 (fin de matinée)** — Lot 6, ses retours sur la page Molière. Le carrousel montre
   quatre écrans choisis : le test de niveau commencé (téléphone), l'inscription
   sur tablette, l'espace élève, la candidature « Enseigner » avec des réponses
   cochées. Nouveau cadre `.tablette`, et les trois cadres reçoivent du
@@ -650,7 +650,7 @@ Ajouté le 6 septembre 2026 (soir) :
   `--echelle`, `--tactile`, et un `--depuis` qui vise le plus petit élément
   visible ; `rafraichir.py` gagne trois zones et `--reconvertir`. Reste en
   attente : les captures de l'espace élève, qui demandent une session.
-- **06/09/2026 (soir)** — Lot 7. Le carrousel de la page Molière perd ses
+- **05/09/2026 (midi)** — Lot 7. Le carrousel de la page Molière perd ses
   cartes blanches : les appareils, alignés par le bas, avec leur nom centré
   dessous. Les trois captures descendent jusqu'au bas de la page et le
   défilement au survol est deux fois plus vif. Les coordonnées bancaires de
