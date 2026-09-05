@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=9">
+<link rel="stylesheet" href="/assets/style.css?v=10">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@graph": [
@@ -190,9 +190,9 @@
     <div class="sec-tete">
       <p class="etq">À voir en premier</p>
       <h2 class="h2">Quatre écrans, quatre personnes.</h2>
-      <p class="chapo">Le visiteur qui se teste, la famille qui s'inscrit, l'élève qui travaille, le professeur qui postule. Passez la souris sur un écran : il déroule sa page entière.</p>
+      <p class="chapo">Le visiteur qui se teste, la famille qui s'inscrit, l'élève qui travaille, le professeur qui postule. Faites tourner le manège, au doigt ou à la souris ; l'écran de devant déroule sa page entière au survol.</p>
     </div>
-    <div class="ecrans-4">
+    <div class="ecrans-4" data-anneau>
       <div class="carte-ecran carte-tab"><div class="tablette"><div class="tablette-ecran defile"><img width="1000" height="8022" src="/assets/img/moliere-inscription-tab.webp?v=883755c1" alt="Le formulaire d'inscription sur tablette, du premier choix au règlement" loading="lazy"></div></div><p class="leg"><b>L'inscription, question par question</b></p></div>
       <div class="carte-ecran"><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/eleve</span></div><div class="ordi-ecran"><img width="960" height="600" src="/assets/img/moliere-eleve.webp?v=2d0be1d5" alt="Le tableau de bord de l'élève" loading="lazy"></div></div><p class="leg"><b>L'espace élève</b></p></div>
       <div class="carte-ecran"><div class="ordi"><div class="ordi-barre" aria-hidden="true"><i></i><i></i><i></i><span class="url">institut-moliere.com/enseigner</span></div><div class="ordi-ecran defile"><img width="1100" height="2487" src="/assets/img/moliere-enseigner.webp?v=1be55403" alt="Le formulaire de candidature des professeurs, trois réponses cochées" loading="lazy"></div></div><p class="leg"><b>La candidature des professeurs</b></p></div>
@@ -276,21 +276,28 @@
   </div>
 </section>
 
-<section class="sec sec-filet sec-papier">
+<section class="sec sec-filet sec-nuit">
   <div class="wrap">
     <div class="sec-tete">
       <p class="etq">Les automatismes</p>
-      <h2 class="h2">Ce qui tourne sans personne.</h2>
+      <h2 class="h2">Ce qui tourne <em>sans personne</em>.</h2>
+      <p class="chapo">Le site enregistre, la plateforme réagit. Huit automatismes partent du même cœur vers Telegram, l'e-mail ou l'administration — personne ne les lance.</p>
     </div>
-    <div class="auto">
-      <div class="auto-item" data-rv><span class="tag">Telegram</span><p><b>Alertes à l'équipe</b>Inscription, candidature, test de niveau, paiement, panne du Coach.</p></div>
-      <div class="auto-item" data-rv><span class="tag">Telegram</span><p><b>Un groupe par classe</b>Le bot annonce le cours avant, le compte rendu après.</p></div>
-      <div class="auto-item" data-rv><span class="tag">E-mail</span><p><b>Le bilan hebdomadaire</b>Aux familles, nominatif, sans que personne l'écrive.</p></div>
-      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>Relance des élèves silencieux</b>Après trois jours sans venue.</p></div>
-      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>Rappel avant chaque cours</b>Dix minutes avant, dans le groupe.</p></div>
-      <div class="auto-item" data-rv><span class="tag">Cron</span><p><b>La voix des dictées</b>Sonorisées deux fois par jour, par lots.</p></div>
-      <div class="auto-item" data-rv><span class="tag">IA</span><p><b>Lecture des reçus</b>Preuve de paiement lue, bénéficiaire vérifié.</p></div>
-      <div class="auto-item" data-rv><span class="tag">IA</span><p><b>Le signal dys</b>Compté sur chaque dictée ; l'administration est alertée, jamais la famille.</p></div>
+    <div class="reacteur" data-reacteur>
+      <svg class="reacteur-trace" aria-hidden="true" focusable="false"></svg>
+      <div class="reacteur-coeur">
+        <p class="etq">Le cœur</p>
+        <b>institut-moliere.com</b>
+        <span class="reacteur-meta">44 tables en base · 3 crons · Telegram · e-mail · IA</span>
+      </div>
+      <div class="noeud" data-rv><span class="noeud-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><p><b>Alertes à l'équipe</b>Inscription, candidature, test de niveau, paiement, panne du Coach.</p><span class="tag">Telegram · à l'instant</span></div>
+      <div class="noeud" data-rv><span class="noeud-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></span><p><b>Un groupe par classe</b>Le bot annonce le cours avant, le compte rendu après.</p><span class="tag">Telegram · avant et après le cours</span></div>
+      <div class="noeud" data-rv><span class="noeud-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6"/></svg></span><p><b>Le bilan hebdomadaire</b>Aux familles, nominatif, sans que personne l'écrive.</p><span class="tag">E-mail · chaque semaine</span></div>
+      <div class="noeud" data-rv><span class="noeud-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 22h14M5 2h14M17 22v-4.2a2 2 0 0 0-.6-1.4L12 12l-4.4 4.4a2 2 0 0 0-.6 1.4V22M7 2v4.2a2 2 0 0 0 .6 1.4L12 12l4.4-4.4a2 2 0 0 0 .6-1.4V2"/></svg></span><p><b>Relance des élèves silencieux</b>Après trois jours sans venue.</p><span class="tag">E-mail · après 3 jours</span></div>
+      <div class="noeud" data-rv><span class="noeud-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 22a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM12 10v4l2 2M5 3 2 6M22 6l-3-3M6 19l-2 2M18 19l2 2"/></svg></span><p><b>Rappel avant chaque cours</b>Dix minutes avant, dans le groupe.</p><span class="tag">Cron · toutes les 5 min</span></div>
+      <div class="noeud" data-rv><span class="noeud-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M11 5 6 9H2v6h4l5 4V5zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></span><p><b>La voix des dictées</b>Sonorisées deux fois par jour, par lots.</p><span class="tag">Cron · 2 fois par jour</span></div>
+      <div class="noeud" data-rv><span class="noeud-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M9 15l2 2 4-4"/></svg></span><p><b>Lecture des reçus</b>Preuve de paiement lue, bénéficiaire vérifié.</p><span class="tag">IA · à chaque preuve</span></div>
+      <div class="noeud" data-rv><span class="noeud-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><p><b>Le signal dys</b>Compté sur chaque dictée ; l'administration est alertée, jamais la famille.</p><span class="tag">IA · à chaque dictée</span></div>
     </div>
   </div>
 </section>
@@ -376,6 +383,6 @@
 </footer>
 
 <noscript><style>.nav{display:flex}</style></noscript>
-<script src="/assets/site.js?v=9" defer></script>
+<script src="/assets/site.js?v=10" defer></script>
 </body>
 </html>

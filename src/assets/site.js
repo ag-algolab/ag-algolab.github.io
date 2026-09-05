@@ -122,6 +122,243 @@
     ordi.addEventListener('mouseleave', function () { v.classList.remove('ordi-devant'); });
   });
 
+  /* --------------------------------------------- le manège des écrans
+     Quatre écrans posés sur un cercle vu de trois quarts : celui de devant
+     est grand et net, les autres s'éloignent, rapetissent et s'assombrissent.
+     On le fait tourner au doigt, à la souris, aux flèches ou aux points ;
+     laissé tranquille et visible, il avance d'un cran toutes les cinq
+     secondes. Tout est projeté ici, en 2D : position, échelle et ordre de
+     peinture viennent de la profondeur — aucun preserve-3d, donc aucune
+     surprise de navigateur. Le script ne tourne (requestAnimationFrame) que
+     pendant un mouvement ; au repos, seul le balancement CSS des côtés vit.
+     Sans script ou avec « réduire le mouvement » : la table de deux sur
+     deux reste telle quelle. */
+  chaque('[data-anneau]', function (bloc) {
+    if (reduit) return;
+    var pieces = Array.prototype.filter.call(bloc.children, function (e) { return e.classList.contains('carte-ecran'); });
+    var n = pieces.length;
+    if (n < 3) return;
+    var pas = 360 / n;
+    var fr = (doc.documentElement.lang || 'en').slice(0, 2) === 'fr';
+    bloc.classList.add('anneau');
+    chaque('img', function (img) { img.setAttribute('draggable', 'false'); }, bloc);
+    bloc.insertAdjacentHTML('afterbegin',
+      '<svg class="anneau-sol" aria-hidden="true" focusable="false"><defs><radialGradient id="anneau-lueur" cx="50%" cy="50%" r="50%">' +
+      '<stop offset="0" stop-color="#10B981" stop-opacity=".26"/><stop offset=".65" stop-color="#10B981" stop-opacity=".1"/>' +
+      '<stop offset="1" stop-color="#10B981" stop-opacity="0"/></radialGradient></defs>' +
+      '<path class="disque" d="M0 0"/><path class="cercle-2" d="M0 0"/><path class="cercle" d="M0 0"/>' +
+      pieces.map(function () { return '<circle class="ancre" r="3.5"/>'; }).join('') + '</svg>');
+    var sol = bloc.firstElementChild;
+    var ancres = sol.querySelectorAll('.ancre');
+    var legendes = pieces.map(function (p) { var l = p.querySelector('.leg'); return l ? l.textContent.trim() : ''; });
+    var cmd = doc.createElement('div');
+    cmd.className = 'anneau-cmd';
+    cmd.innerHTML = '<button type="button" class="anneau-btn" data-sens="1" aria-label="' + (fr ? 'Écran précédent' : 'Previous screen') + '">‹</button><div class="anneau-points">' +
+      legendes.map(function (l, i) { return '<button type="button" class="anneau-point" data-i="' + i + '" aria-label="' + l.replace(/"/g, '&quot;') + '"></button>'; }).join('') +
+      '</div><button type="button" class="anneau-btn" data-sens="-1" aria-label="' + (fr ? 'Écran suivant' : 'Next screen') + '">›</button>';
+    var leg = doc.createElement('p');
+    leg.className = 'anneau-leg'; leg.setAttribute('aria-live', 'polite');
+    bloc.parentNode.insertBefore(cmd, bloc.nextSibling);
+    bloc.parentNode.insertBefore(leg, cmd.nextSibling);
+    pieces.forEach(function (p, i) { p.style.setProperty('--bd', (4.6 + i * .7) + 's'); p.style.setProperty('--br', (-i * 1.3) + 's'); });
+
+    /* la géométrie : R le rayon du cercle, F la distance de l'œil, pente
+       l'inclinaison du cercle (0 = vu de face, 1 = vu du dessus), y0 la
+       ligne du centre du cercle. Tout est en pixels du bloc. */
+    var W = 0, R = 0, F = 0, pente = 0, y0 = 0, dims = [], base = 0, devant = -1;
+    var proj = function (a, r) {
+      var X = r * Math.sin(a), Z = r * Math.cos(a), s = F / (F - Z);
+      return [W / 2 + X * s, y0 + Z * pente * s, s, Z];
+    };
+    var tracerSol = function () {
+      var pts = [], pts2 = [], k;
+      for (k = 0; k <= 72; k++) { var a = k * 5 * Math.PI / 180; pts.push(proj(a, R)); pts2.push(proj(a, R * .8)); }
+      var chemin = function (ps) { return 'M' + ps.map(function (q) { return q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join('L') + 'Z'; };
+      sol.setAttribute('viewBox', '0 0 ' + W + ' ' + (bloc.clientHeight || 1));
+      sol.querySelector('.disque').setAttribute('d', chemin(pts));
+      sol.querySelector('.cercle').setAttribute('d', chemin(pts));
+      sol.querySelector('.cercle-2').setAttribute('d', chemin(pts2));
+    };
+    var mesurer = function () {
+      W = bloc.clientWidth || 1;
+      var etroit = W < 700;
+      // R + la demi-largeur d'un ordinateur (.18 W) doit tenir dans W/2, sinon
+      // la pièce de côté est rognée par le bord du bloc (mesuré : 23 px à .34)
+      R = W * (etroit ? .36 : .32); F = 4 * R;
+      // l'inclinaison : assez forte sur grand écran pour que la pièce du fond
+      // dépasse au-dessus de celle de devant — à .25 elle était cachée derrière
+      pente = etroit ? .26 : .5;
+      pieces.forEach(function (p) {
+        var k = p.classList.contains('carte-tel') ? (etroit ? .21 : .135) : p.classList.contains('carte-tab') ? (etroit ? .30 : .19) : (etroit ? .56 : .36);
+        p.style.width = Math.round(W * k) + 'px';
+      });
+      dims = pieces.map(function (p) { return { w: p.offsetWidth, h: p.offsetHeight }; });
+      // la hauteur du bloc : la pièce la plus haute, à la place où elle monte le plus
+      var haut = Infinity, i, j;
+      for (i = 0; i < n; i++) for (j = 0; j < n; j++) {
+        var q = proj(j * pas * Math.PI / 180, R);
+        haut = Math.min(haut, q[3] * pente * q[2] - dims[i].h * q[2]);
+      }
+      y0 = 12 - haut;
+      bloc.style.height = Math.round(y0 + R * pente * F / (F - R) + 28) + 'px';
+      tracerSol();
+    };
+    var minLeg = null;
+    var marquer = function () {
+      chaque('.anneau-point', function (b) { b.setAttribute('aria-current', Number(b.getAttribute('data-i')) === devant ? 'true' : 'false'); }, cmd);
+      leg.classList.add('change');
+      clearTimeout(minLeg);
+      minLeg = setTimeout(function () { leg.textContent = legendes[devant]; leg.classList.remove('change'); }, 220);
+    };
+    var poser = function () {
+      var iDevant = 0, zMax = -Infinity;
+      pieces.forEach(function (p, i) {
+        var q = proj((base + i * pas) * Math.PI / 180, R), s = q[2], Z = q[3];
+        p.style.transform = 'translate(' + (q[0] - W / 2 - dims[i].w / 2).toFixed(1) + 'px,' + (q[1] - dims[i].h).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+        p.style.zIndex = String(Math.round(1000 + Z));
+        var prof = 1 - (Z / R + 1) / 2;
+        p.style.setProperty('--voile', (prof * .34).toFixed(3));
+        p.style.setProperty('--amp', Z > R * .92 ? '0' : '1');
+        if (Z > zMax) { zMax = Z; iDevant = i; }
+        if (ancres[i]) { ancres[i].setAttribute('cx', q[0].toFixed(1)); ancres[i].setAttribute('cy', q[1].toFixed(1)); }
+      });
+      if (iDevant !== devant) { devant = iDevant; marquer(); }
+    };
+
+    /* tourner : d'un angle à l'autre, en décélérant */
+    var anim = null;
+    var tourner = function (cible) {
+      if (anim) cancelAnimationFrame(anim);
+      var depart = base, delta = cible - depart, t0 = null;
+      if (Math.abs(delta) < .01) { base = cible; poser(); return; }
+      var duree = Math.min(900, 380 + Math.abs(delta) * 3.2);
+      var etape = function (t) {
+        if (t0 === null) t0 = t;
+        var u = Math.min(1, (t - t0) / duree), e = 1 - Math.pow(1 - u, 3);
+        base = depart + delta * e; poser();
+        anim = u < 1 ? requestAnimationFrame(etape) : null;
+      };
+      anim = requestAnimationFrame(etape);
+    };
+    var cran = function () { return Math.round(base / pas) * pas; };
+    var vers = function (i) {
+      var d = ((-i * pas - base) % 360 + 540) % 360 - 180;
+      tourner(base + d);
+    };
+
+    /* tout seul : un cran toutes les cinq secondes, visible, sans souris
+       dessus, et six secondes après le dernier geste */
+    var visible = false, survol = false, tire = false, dernier = 0, minuterie = null;
+    var armer = function () {
+      clearTimeout(minuterie);
+      if (!visible || doc.hidden) return;
+      minuterie = setTimeout(function () {
+        if (!survol && !tire && Date.now() - dernier > 6000) tourner(cran() - pas);
+        armer();
+      }, 4800);
+    };
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { es.forEach(function (en) { visible = en.isIntersecting; armer(); }); }, { threshold: .25 }).observe(bloc);
+    }
+    doc.addEventListener('visibilitychange', armer);
+    if (souris) {
+      bloc.addEventListener('mouseenter', function () { survol = true; });
+      bloc.addEventListener('mouseleave', function () { survol = false; });
+    }
+
+    /* les gestes : flèches, points, glisser, toucher une pièce de côté */
+    cmd.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      dernier = Date.now();
+      if (b.hasAttribute('data-i')) vers(Number(b.getAttribute('data-i')));
+      else tourner(cran() + Number(b.getAttribute('data-sens')) * pas);
+    });
+    var x0 = 0, base0 = 0, bouge = false, touche = null;
+    bloc.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      tire = true; bouge = false; x0 = e.clientX; base0 = base; dernier = Date.now();
+      touche = e.target.closest('.carte-ecran');
+      if (anim) { cancelAnimationFrame(anim); anim = null; }
+      bloc.classList.add('tire');
+      try { bloc.setPointerCapture(e.pointerId); } catch (err) { /* rien */ }
+    });
+    bloc.addEventListener('pointermove', function (e) {
+      if (!tire) return;
+      var dx = e.clientX - x0;
+      if (Math.abs(dx) > 5) bouge = true;
+      if (bouge) { base = base0 + dx / W * 180; poser(); }
+    });
+    var lacher = function () {
+      if (!tire) return;
+      tire = false; bloc.classList.remove('tire'); dernier = Date.now();
+      var i = (!bouge && touche) ? pieces.indexOf(touche) : -1;
+      if (i >= 0 && i !== devant) vers(i); else tourner(cran());
+    };
+    bloc.addEventListener('pointerup', lacher);
+    bloc.addEventListener('pointercancel', lacher);
+
+    var minR = null;
+    window.addEventListener('resize', function () { clearTimeout(minR); minR = setTimeout(function () { mesurer(); poser(); }, 120); });
+    mesurer(); poser();
+    setTimeout(function () { mesurer(); poser(); }, 600);
+  });
+
+  /* ------------------------------------------ le réacteur des automatismes
+     Le cœur au centre, les automatismes autour ; chaque fil est tracé
+     d'après les positions réelles (offsetTop/offsetLeft : la révélation
+     .rv déplace les cartes, pas leur place), et une impulsion y circule —
+     animation SVG native, plus aucun script une fois tracé. En colonne,
+     sur téléphone : un bus descend à gauche du cœur et dessert chaque
+     nœud. Les impulsions sont mises en pause hors de l'écran. */
+  chaque('[data-reacteur]', function (bloc) {
+    var svg = bloc.querySelector('.reacteur-trace');
+    var coeur = bloc.querySelector('.reacteur-coeur');
+    var noeuds = bloc.querySelectorAll('.noeud');
+    if (!svg || !coeur || !noeuds.length) return;
+    var f = function (v) { return v.toFixed(1); };
+    var tracer = function () {
+      var W = bloc.offsetWidth, H = bloc.offsetHeight;
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      var etroit = window.innerWidth < 900;
+      var cx = coeur.offsetLeft + coeur.offsetWidth / 2, cy = coeur.offsetTop + coeur.offsetHeight / 2;
+      var cb = coeur.offsetTop + coeur.offsetHeight, cg = coeur.offsetLeft, cd = coeur.offsetLeft + coeur.offsetWidth;
+      var xb = 9, dernierY = cb, fils = '', pistes = '', pulses = '';
+      var descente = 'M' + f(cx) + ' ' + f(cb) + ' C' + f(cx) + ' ' + f(cb + 26) + ' ' + f(xb) + ' ' + f(cb + 14) + ' ' + f(xb) + ' ' + f(cb + 40);
+      Array.prototype.forEach.call(noeuds, function (nd, i) {
+        var y1 = nd.offsetTop + nd.offsetHeight / 2, d;
+        if (etroit) {
+          var branche = 'M' + f(xb) + ' ' + f(y1 - 14) + ' Q' + f(xb) + ' ' + f(y1) + ' ' + f(xb + 14) + ' ' + f(y1) + ' L' + f(nd.offsetLeft) + ' ' + f(y1);
+          d = descente + ' L' + f(xb) + ' ' + f(y1 - 14) + branche.slice(branche.indexOf(' Q'));
+          fils += '<path class="branche" d="' + branche + '"/>';
+          dernierY = y1;
+        } else {
+          var gauche = nd.offsetLeft < cx;
+          var x0 = gauche ? cg : cd, x1 = gauche ? nd.offsetLeft + nd.offsetWidth : nd.offsetLeft, m = (x0 + x1) / 2;
+          d = 'M' + f(x0) + ' ' + f(cy) + ' C' + f(m) + ' ' + f(cy) + ' ' + f(m) + ' ' + f(y1) + ' ' + f(x1) + ' ' + f(y1);
+          fils += '<path class="branche" d="' + d + '"/>';
+        }
+        pistes += '<path id="reac-' + i + '" class="piste" d="' + d + '"/>';
+        if (!reduit) {
+          var debut = (-i * .9).toFixed(1) + 's';
+          pulses += '<circle class="halo" r="7"><animateMotion dur="3.6s" begin="' + debut + '" repeatCount="indefinite"><mpath href="#reac-' + i + '"/></animateMotion></circle>' +
+            '<circle class="pulse" r="3"><animateMotion dur="3.6s" begin="' + debut + '" repeatCount="indefinite"><mpath href="#reac-' + i + '"/></animateMotion></circle>';
+        }
+      });
+      if (etroit) fils = '<path class="branche" d="' + descente + ' L' + f(xb) + ' ' + f(dernierY - 14) + '"/>' + fils;
+      svg.innerHTML = pistes + fils + pulses;
+    };
+    tracer();
+    var minT = null;
+    window.addEventListener('resize', function () { clearTimeout(minT); minT = setTimeout(tracer, 120); });
+    setTimeout(tracer, 800);
+    if ('IntersectionObserver' in window && svg.pauseAnimations) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (en) { if (en.isIntersecting) svg.unpauseAnimations(); else svg.pauseAnimations(); });
+      }, { threshold: 0 }).observe(bloc);
+    }
+  });
+
   /* ------------------------------------------- la méthode, en serpentin
      Le chemin passe par le nœud de chaque étape ; il est calculé d'après
      les positions réelles. Sur grand écran avec souris il se dessine au

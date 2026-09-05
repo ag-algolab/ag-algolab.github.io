@@ -1,7 +1,7 @@
 # agalgolab.com — passation
 
 > **Ce fichier fait foi.** Il est écrit pour qu'une session neuve reprenne le
-> travail sans rien redécouvrir. Mis à jour le **4 septembre 2026**.
+> travail sans rien redécouvrir. Mis à jour le **5 septembre 2026**.
 >
 > agalgolab.com est le site d'AG Algo Lab, l'entreprise individuelle
 > d'Anthony Gocmen (SIREN 935 081 703, régime réel de TVA). Mi-portfolio,
@@ -389,6 +389,53 @@ Les images de partage (`outils/og.py`) existent **par page et par langue**
 produit, la mise en ligne » / « The vision, the product, the launch », deux
 étiquettes vert nuit dont les chiffres viennent de `faits.json`.
 
+**Le manège des quatre écrans** (page Molière, « À voir en premier »,
+05/09 au soir : « quatre écrans qui pivotent en 3D… ça tourne autour d'un
+cercle posé en 3D… le principal au milieu et les trois autres qui bougent un
+peu sur les côtés »). La table de deux sur deux (`.ecrans-4`) reste le HTML ;
+`site.js` (`[data-anneau]`) la transforme en manège : les quatre pièces sont
+posées sur un cercle de rayon `R = .32 W` (`.36 W` sous 700 px) vu de trois
+quarts, et **tout est projeté en 2D** — position `x = X·s`, ligne de base
+`y = y0 + Z·pente·s`, échelle `s = F/(F − Z)` avec `F = 4R`, ordre de
+peinture `z-index = 1000 + Z`, voile `--voile` d'autant plus sombre que la
+pièce est loin. Aucun `preserve-3d`, donc aucune des surprises de la scène du
+héros. **La pente est de .5 sur grand écran** : à .25 la pièce du fond était
+cachée derrière celle de devant ; à .5 elle dépasse au-dessus, et les quatre
+se voient. Le sol est un `<svg>` (disque en dégradé, cercle plein, cercle
+pointillé à .8 R, un point d'ancrage sous chaque pièce) tracé avec la MÊME
+projection : les pièces sont vraiment posées dessus. Gestes : flèches, points
+(un par écran, `aria-label` = son titre), **glisser au doigt ou à la souris**
+(`pointer events`, `touch-action: pan-y` pour laisser défiler la page),
+toucher une pièce de côté l'amène devant ; laissé tranquille, visible et sans
+souris dessus, il avance d'un cran toutes les 4,8 s. Le script ne tourne
+(`requestAnimationFrame`) que pendant un mouvement ; au repos, seul le
+balancement CSS `bercer` des pièces de côté vit (`--amp: 0` sur celle de
+devant : on lit sa page). Légende unique sous le manège (`aria-live`), les
+`.leg` des pièces sont masquées. **Avec « réduire le mouvement » ou sans
+script : la table de deux sur deux, telle quelle.**
+
+**Le réacteur des automatismes** (même soir : « quelque chose de futuriste…
+que chaque truc ait des visuels et qu'il y ait un lien… disponible sur
+téléphone »). La section devient `.sec-nuit` (fond vert nuit, quadrillage
+de 60 px masqué en ellipse). Au centre, `.reacteur-coeur` (institut-moliere.com,
+tables et crons depuis `faits.json`) ; autour, **huit `.noeud`** — un
+pictogramme en trait (SVG en ligne, 24 × 24), le titre, une ligne, une puce
+mono `canal · cadence`. Les cadences sont celles de `vercel.json` du dépôt
+Molière (`*/5 * * * *` pour le rappel, `0 4` et `0 15` pour les dictées, `0
+16` pour le coach) et des modules `src/lib/*.ts` (seuil de 3 jours, une
+alerte dys par élève). `site.js` (`[data-reacteur]`) **trace les fils
+d'après les positions réelles** (`offsetLeft/offsetTop`, insensibles à la
+révélation `.rv`) : sur grand écran une courbe du bord du cœur au bord de
+chaque nœud ; sous 900 px, une colonne, et **un bus descend à 9 px du bord
+gauche** puis dessert chaque nœud. Sur chaque fil circule une impulsion
+(`<animateMotion>` + `<mpath>`, animation SVG native, aucun script ensuite),
+mise en pause hors écran (`pauseAnimations`). Sans mouvement réduit, le cœur
+respire (`::after`). Sans script : le cœur et huit cartes, sans fils.
+
+⚠️ Les `nth-child` du réacteur comptent **le `<svg>` comme premier enfant**
+(puis le cœur, puis les nœuds de 3 à 10) : le premier jet en avait mis trois
+à gauche et cinq à droite.
+
 ---
 
 ## 5. Ce qui a été décidé le 4 septembre 2026 (les réponses d'Anthony)
@@ -449,7 +496,7 @@ Ajouté le 5 septembre 2026 (deuxième soirée) :
     écrans, routes d'API, **tables en base**. Et les chiffres affichés sont
     recomptés pour de bon (§3) : 71 écrans, pas 72.
 
-Ajouté le 6 septembre 2026 :
+Ajouté le 5 septembre 2026 (fin de matinée) :
 
 19. **Les cadres doivent se lire** : navigateur teinté, téléphone et tablette
     sombres (§4).
@@ -464,7 +511,7 @@ Ajouté le 6 septembre 2026 :
     doit fournir les captures, ou ouvrir une session dans un navigateur que je
     pilote. Voir §6.
 
-Ajouté le 6 septembre 2026 (soir) :
+Ajouté le 5 septembre 2026 (midi) :
 
 23. **Carrousel sans cartes** : l'appareil, son nom centré dessous, rien
     d'autre. Ordre : tablette, espace élève, candidature, test (téléphone).
@@ -474,6 +521,19 @@ Ajouté le 6 septembre 2026 (soir) :
     automatisations, espaces.
 26. **« Début août »**, pas « mi-août » ; la phrase se termine par la date
     réelle de mise en ligne, qui vient de `faits.json`.
+
+Ajouté le 5 septembre 2026 (soir) :
+
+27. **Les quatre écrans tournent en 3D** autour d'un cercle posé, le
+    principal devant, les trois autres visibles et qui bougent un peu ; on le
+    fait tourner soi-même, et ça marche au doigt sur téléphone (« chaque
+    fois, c'est le grand débat »).
+28. **Les automatismes sont un schéma, pas une liste** : un cœur, huit nœuds
+    avec un visuel chacun, des fils entre eux où quelque chose circule.
+    « Un lien » a été lu comme le fil qui relie chaque nœud au cœur ; si
+    c'était un hyperlien par nœud, c'est un attribut à ajouter.
+29. **« Disponible sur téléphone » n'est pas une option** : chaque mécanique
+    a sa forme en colonne, testée à 390 px avant la mise en ligne.
 
 ---
 
@@ -677,3 +737,15 @@ Ajouté le 6 septembre 2026 (soir) :
   la page. Date de mise en ligne de l'Institut Molière revérifiée dans le
   dépôt (premier commit le 16/08, commit « Le site est en ligne » le 25/08) :
   « mi-août » est rétabli. Assets en `?v=9`.
+- **05/09/2026 (soir)** — Lot 9. Les quatre écrans de la page Molière
+  deviennent un manège en 3D (projection 2D calculée, sol SVG tracé avec la
+  même projection, glisser/flèches/points, avance seul toutes les 4,8 s,
+  balancement des pièces de côté) ; la table de deux sur deux reste le repli.
+  Les automatismes deviennent un réacteur : section nuit, cœur au centre,
+  huit nœuds avec pictogramme et cadence vérifiée, fils tracés sur les
+  positions réelles et impulsions SVG, bus vertical sur téléphone. Vérifié en
+  Edge headless à 1 280 et 390 px, y compris après un et trois clics sur la
+  flèche (le panneau caché ne délivre pas `requestAnimationFrame` : les
+  rotations ne se testent qu'en headless). Les faits Prépa 600 ont encore
+  bougé (102 sous-tests, 1 530 questions) : recomptés avant la construction.
+  Assets en `?v=10`. Toujours en attente : les écrans de l'espace élève.
