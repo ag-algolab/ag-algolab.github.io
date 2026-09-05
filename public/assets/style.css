@@ -268,7 +268,13 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
    navigateur est teintée, le téléphone et la tablette ont un corps sombre. */
 .ordi { border: 1px solid rgba(11, 46, 31, .3); background: var(--carte); border-radius: 12px; box-shadow: var(--ombre); overflow: hidden; }
 .ordi-barre { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-bottom: 1px solid rgba(11, 46, 31, .18); background: #CBE3D7; }
+/* les trois pastilles d'une fenêtre : rouge, ambre, verte. Grises, elles ne
+   disaient rien ; colorées, on reconnaît un navigateur au premier coup d'œil
+   (Anthony, 06/09 : « le petit bouton vert et le petit bouton rouge »). */
 .ordi-barre i { width: 8px; height: 8px; border-radius: 50%; background: rgba(11, 46, 31, .3); }
+.ordi-barre i:nth-of-type(1) { background: #EE6A5F; }
+.ordi-barre i:nth-of-type(2) { background: #F5BD4F; }
+.ordi-barre i:nth-of-type(3) { background: #61C454; }
 .ordi-barre .url { margin-left: 8px; font: 500 .64rem/1 var(--mono); color: var(--encre-2); letter-spacing: .02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .ordi-ecran { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; }
 .ordi-ecran img { position: absolute; left: 0; top: 0; width: 100%; height: auto; }
@@ -486,11 +492,15 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .carrousel-nav { display: flex; gap: 8px; flex: none; }
 .carrousel-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--filet); background: var(--carte); cursor: pointer; font-size: 1.1rem; color: var(--encre); }
 .carrousel-nav button:hover { border-color: var(--encre); }
-.carrousel { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 18px; scrollbar-width: thin; scrollbar-color: var(--filet) transparent; }
+.carrousel { display: flex; align-items: end; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 18px; scrollbar-width: thin; scrollbar-color: var(--filet) transparent; }
 .carrousel > * { flex: 0 0 min(84%, 600px); scroll-snap-align: start; min-width: 0; }
 .carrousel > .carte-tel { flex-basis: min(58%, 250px); }
 .carrousel > .carte-tab { flex-basis: min(72%, 400px); }
 .carte-ecran { background: var(--carte); border: 1px solid var(--filet); border-radius: var(--rayon); padding: 14px; }
+/* dans un carrousel, la carte blanche autour de l'appareil ne sert à rien :
+   on montre l'appareil, et son nom dessous, centré (Anthony, 06/09). */
+.carrousel .carte-ecran { background: none; border: 0; padding: 0; }
+.carrousel .carte-ecran .leg { text-align: center; }
 .carte-ecran .ordi-ecran { aspect-ratio: 16 / 10; }
 .carte-ecran .tel { width: 100%; }
 .carte-ecran .leg { margin: 12px 0 0; font-size: .92rem; line-height: 1.45; }

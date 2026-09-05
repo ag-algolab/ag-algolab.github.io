@@ -88,7 +88,9 @@
       cadre.addEventListener('mouseenter', function () {
         var d = distance(boite);
         if (d <= 0) return;
-        img.style.transition = 'transform ' + Math.min(40, Math.max(4, d / 220)) + 's linear';
+        // vitesse : une page entière descend en une vingtaine de secondes au plus.
+        // À d / 220 c'était deux fois trop lent, on croyait l'image figée.
+        img.style.transition = 'transform ' + Math.min(22, Math.max(3, d / 380)) + 's linear';
         img.style.transform = 'translateY(' + (-d) + 'px)';
       });
       cadre.addEventListener('mouseleave', function () {
@@ -102,7 +104,7 @@
             var d = distance(boite);
             if (d <= 0) return;
             boite.style.setProperty('--d', (-d) + 'px');
-            boite.style.setProperty('--duree', Math.min(60, Math.max(8, d / 110)) + 's');
+            boite.style.setProperty('--duree', Math.min(30, Math.max(6, d / 230)) + 's');
             boite.classList.add('auto');
           } else {
             boite.classList.remove('auto');

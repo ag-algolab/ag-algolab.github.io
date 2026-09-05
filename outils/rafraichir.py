@@ -61,19 +61,32 @@ CAPTURES = {
 # les zones : un moment précis d'une page, en une seule image (pas de -full).
 # nom, url, options de capture, largeur stockée
 ZONES = [
-    # le test de niveau COMMENCÉ : on choisit le français, on photographie la
-    # première question — « pour montrer à quoi ressemble le test » (06/09).
+    # ⚠️ Ces trois-là descendent JUSQU'AU BAS de la page (--long 30000) : dans
+    # les vitrines, l'écran déroule l'image, et Anthony veut voir la fin —
+    # « ça s'arrête au tout début… ce qui est impressionnant, c'est de voir
+    # qu'il y a même le RIB » (06/09). Le départ, lui, est choisi : la première
+    # question du test, le haut du formulaire, la première question de la
+    # candidature.
+    #
+    # le test de niveau COMMENCÉ : on choisit le français, on part de la
+    # première question et on descend jusqu'à la fin de la page.
     ("moliere-test-debut-m", MOLIERE + "/test-de-niveau",
-     ["--mobile", "--clic", "du niveau A1.1", "--depuis", "sur 4 de ce palier", "--decalage", "-120", "--long", "1000", "--attente", "6"], 480),
-    # l'inscription sur une TABLETTE : à cette largeur, le formulaire se lit.
+     ["--mobile", "--clic", "du niveau A1.1", "--depuis", "sur 4 de ce palier", "--decalage", "-120", "--long", "30000", "--attente", "6"], 480),
+    # l'inscription sur une TABLETTE : à cette largeur, le formulaire se lit,
+    # et on le déroule en entier — jusqu'à la preuve de règlement.
     ("moliere-inscription-tab", MOLIERE + "/inscription-cours",
-     ["--largeur", "820", "--hauteur", "1180", "--echelle", "2", "--tactile", "--clic", "première fois", "--long", "1400", "--attente", "5"], 1000),
+     ["--largeur", "820", "--hauteur", "1180", "--echelle", "2", "--tactile", "--clic", "première fois",
+      # les coordonnées bancaires de l'institut n'ont rien à faire sur un site
+      # vitrine : on les floute AVANT la photo, par leur texte (un rectangle
+      # vieillirait à la première mise à jour de la page).
+      "--masquer", "Titulaire", "--masquer", "Banque :", "--masquer", "RIB :", "--masquer", "IBAN",
+      "--long", "30000", "--attente", "5"], 1000),
     # la candidature de « Enseigner », avec des réponses cochées : c'est l'état
     # sélectionné qu'Anthony veut montrer, pas le formulaire vide.
     ("moliere-enseigner", MOLIERE + "/enseigner",
      ["--largeur", "1280", "--hauteur", "1000", "--clic", "Professeur en fonction", "--clic", "Français",
       "--clic", "Anglais", "--clic", "Des enfants et des adolescents",
-      "--depuis", "pas une de plus", "--decalage", "-150", "--long", "1000", "--attente", "5"], 1100),
+      "--depuis", "pas une de plus", "--decalage", "-150", "--long", "30000", "--attente", "5"], 1100),
     ("p600-fuites-m", P600 + "/", ["--mobile", "--depuis", "FUITE 01", "--decalage", "-90", "--long", "1140", "--attente", "7"], 390),
 ]
 

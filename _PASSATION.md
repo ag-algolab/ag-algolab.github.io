@@ -303,6 +303,27 @@ sortis : la page « la plateforme » et l'accueil sur téléphone, déjà prése
 ailleurs. Ces trois nouveautés sont des **zones** de `rafraichir.py` : elles
 se refont donc toutes les semaines comme le reste.
 
+Le 06/09 au soir, quatre corrections sur ce carrousel : **plus de carte
+blanche autour des appareils** (« ça ne sert à rien que tu mettes quatre
+rectangles blancs »), juste l'appareil et **son nom centré dessous**, sans
+sous-description ; les appareils sont **alignés par le bas**
+(`.carrousel { align-items: end }`) ; l'ordre commence par la tablette et
+**finit par le téléphone du test** ; et surtout les trois captures descendent
+**jusqu'au bas de la page** (`--long 30000`), parce que l'intérêt est de voir
+la fin — « ce qui est impressionnant, c'est de voir qu'il y a même le RIB ».
+Le défilement au survol a été accéléré de moitié (`d / 380` au lieu de
+`d / 220`, 22 s au plus) : on le croyait figé.
+
+**Les coordonnées bancaires de l'institut sont floutées avant la photo**
+(`--masquer "Titulaire" "Banque :" "RIB :" "IBAN"` dans `rafraichir.py`) :
+elles sont publiques sur la page d'inscription de l'institut, mais elles
+n'ont rien à faire sur un site vitrine. Le floutage se fait **par le texte**,
+jamais par des coordonnées de rectangle, qui vieilliraient à la première
+mise à jour de la page.
+
+**Les trois pastilles de la barre du navigateur sont rouge, ambre et verte**
+(06/09) : grises, elles ne disaient pas « fenêtre ».
+
 **La netteté des grandes vitrines** : sur la page de cas, l'écran de
 l'ordinateur fait **1 038 px de large**. Les images de page entière étaient
 en 800 px, donc agrandies, donc floues (« elle est floue, donc ce n'est pas
@@ -431,6 +452,17 @@ Ajouté le 6 septembre 2026 :
     doit fournir les captures, ou ouvrir une session dans un navigateur que je
     pilote. Voir §6.
 
+Ajouté le 6 septembre 2026 (soir) :
+
+23. **Carrousel sans cartes** : l'appareil, son nom centré dessous, rien
+    d'autre. Ordre : tablette, espace élève, candidature, test (téléphone).
+24. **Les écrans déroulent la page entière**, et deux fois plus vite.
+25. **Les chiffres de la page Molière** : ni commits (« on s'en fout ») ni
+    migrations — écrans, routes d'API, tables en base, lignes de TypeScript,
+    automatisations, espaces.
+26. **« Début août »**, pas « mi-août » ; la phrase se termine par la date
+    réelle de mise en ligne, qui vient de `faits.json`.
+
 ---
 
 ## 6. Ce qui reste à Anthony
@@ -439,13 +471,19 @@ Ajouté le 6 septembre 2026 :
    `construire.py`, `verifier.py`, commit, push — les captures des deux
    sites doivent montrer leur état réel.
 
-1. **Les écrans de l'espace élève** (demandé le 06/09) : il veut que la carte
-   « espace élève » passe d'une page à l'autre au survol, pour qu'on voie le
-   repère jaune se déplacer dans le menu de gauche. Il faut donc les captures
-   de toutes les pages de `/eleve` — et il faut être connecté. Deux façons :
-   Anthony les prend lui-même (« Démo espace élève » depuis l'administration,
-   une capture par page), ou il ouvre une session dans un navigateur que je
-   peux piloter. Le mécanisme d'affichage, lui, existe déjà (`.ecran-rot`).
+1. **Les écrans de l'espace élève** (demandé le 06/09, redemandé le soir) :
+   la carte « espace élève » doit passer d'une page à l'autre au survol,
+   toutes les 3 secondes, par un glissement de la droite vers la gauche —
+   coach, mes cours, calendrier, bibliothèque, dictées, calcul mental,
+   échecs, concours, progression, niveau. Il faut donc une capture par page
+   de `/eleve`, **et il faut être connecté**.
+   ⚠️ **Je ne saisis pas de mot de passe et je ne crée pas de compte** —
+   Anthony a proposé un compte d'essai, je ne m'en sers pas. Deux façons de
+   débloquer : il prend les captures lui-même (« Démo espace élève » dans
+   l'administration, une par page, fenêtre de 1 280 px), ou il ouvre la
+   session lui-même dans un Edge dont je réutilise le profil / dans un Chrome
+   relié à l'extension. Le mécanisme d'affichage reste à écrire (une vingtaine
+   de lignes : `.ecrans` + un minuteur au survol, sur le chemin riche).
 
 1. **Search Console** : ajouter la propriété `agalgolab.com` (validation
    DNS chez Porkbun) et soumettre `https://agalgolab.com/sitemap.xml`.
@@ -612,3 +650,11 @@ Ajouté le 6 septembre 2026 :
   `--echelle`, `--tactile`, et un `--depuis` qui vise le plus petit élément
   visible ; `rafraichir.py` gagne trois zones et `--reconvertir`. Reste en
   attente : les captures de l'espace élève, qui demandent une session.
+- **06/09/2026 (soir)** — Lot 7. Le carrousel de la page Molière perd ses
+  cartes blanches : les appareils, alignés par le bas, avec leur nom centré
+  dessous. Les trois captures descendent jusqu'au bas de la page et le
+  défilement au survol est deux fois plus vif. Les coordonnées bancaires de
+  l'institut sont floutées à la capture, par leur texte. Pastilles rouge,
+  ambre, verte. Les chiffres de la page Molière perdent les commits et les
+  migrations au profit des tables en base et des automatisations. « Début
+  août ». Assets en `?v=8`. Reste en attente : les écrans de l'espace élève.

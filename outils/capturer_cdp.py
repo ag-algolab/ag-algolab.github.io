@@ -8,6 +8,7 @@ texte, puis photographie d'une zone. Ce que `capturer.py` ne sait pas faire.
       --mobile                 émule un téléphone de 390 × 844, échelle 2
       --largeur N --hauteur N  fenêtre (défaut 1280 × 900 ; 390 × 844 en mobile)
       --clic "texte"           clique le bouton/lien/étiquette de ce texte (répétable)
+      --masquer "texte"        floute le bloc portant ce texte (répétable)
       --echelle N              densité de pixels (2 = écran fin)
       --tactile                émule le tactile sans changer de navigateur (tablette)
       --depuis "texte"         la capture commence au haut de l'élément contenant ce texte
@@ -112,6 +113,23 @@ JS_DEPUIS = r"""
 })(%s)
 """
 
+# Flouter un bloc AVANT la photo : les coordonnées d'un rectangle vieilliraient
+# à la première mise à jour du site, un texte non. Sert aux coordonnées
+# bancaires de l'institut, qui n'ont rien à faire sur un site vitrine.
+JS_MASQUER = r"""
+(function (texte) {
+  const tous = Array.from(document.querySelectorAll('body *'));
+  const vus = tous.filter(e => e.children.length < 6
+    && (e.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase().includes(texte.toLowerCase()))
+    .map(e => ({e, r: e.getBoundingClientRect()}))
+    .filter(o => o.r.height > 4);
+  if (!vus.length) return 'introuvable';
+  vus.sort((a, b) => a.r.height - b.r.height);
+  vus[0].e.style.filter = 'blur(8px)';
+  return vus[0].e.tagName + ' ' + Math.round(vus[0].r.height) + 'px';
+})(%s)
+"""
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -122,6 +140,8 @@ def main():
     ap.add_argument("--hauteur", type=int)
     ap.add_argument("--clic", action="append", default=[],
                     help="clique le premier bouton/lien/étiquette portant ce texte (répétable, dans l'ordre)")
+    ap.add_argument("--masquer", action="append", default=[],
+                    help="floute le plus petit bloc portant ce texte, avant la photo (répétable)")
     ap.add_argument("--echelle", type=int, default=0, help="densité de pixels (2 = écran fin)")
     ap.add_argument("--tactile", action="store_true", help="émule le tactile sans changer le navigateur (tablette)")
     ap.add_argument("--depuis")
@@ -176,6 +196,8 @@ def main():
         for quoi in a.clic:
             print("clic :", c.evaluer(JS_CLIC % json.dumps(quoi)))
             time.sleep(2.2)
+        for quoi in a.masquer:
+            print("flouté :", c.evaluer(JS_MASQUER % json.dumps(quoi)))
         # les images chargées à la demande n'apparaissent qu'une fois vues :
         # on parcourt toute la page par paliers, on laisse charger, on remonte
         hauteur_page = int(c.evaluer("Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)") or 0)
