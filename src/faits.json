@@ -27,24 +27,24 @@
       "releve": "2026-09-05"
     },
     "jours": {
-      "valeur": 20,
-      "source": "du 16 août au 4 septembre 2026, bornes comprises",
-      "releve": "2026-09-04"
+      "valeur": 21,
+      "source": "du premier au dernier commit du dépôt, bornes comprises (git log --format=%cs)",
+      "releve": "2026-09-05"
     },
     "premier_commit": {
       "valeur": "2026-08-16",
-      "source": "git log --reverse",
-      "releve": "2026-09-04"
+      "source": "git log --reverse --format=%cs",
+      "releve": "2026-09-05"
     },
     "en_ligne": {
       "valeur": "2026-08-25",
       "source": "commit « Le site est en ligne : institut-moliere.com » du 25/08/2026",
-      "releve": "2026-09-04"
+      "releve": "2026-09-06"
     },
     "centres": {
       "valeur": 7,
-      "source": "src/lib/institut.ts, CENTRES",
-      "releve": "2026-09-04"
+      "source": "src/lib/institut.ts : chaînes du tableau CENTRES",
+      "releve": "2026-09-05"
     },
     "espaces": {
       "valeur": 4,
@@ -93,12 +93,57 @@
     },
     "crons": {
       "valeur": 3,
-      "source": "vercel.json : coach (quotidien), rappel-cours (toutes les 5 min), banque-dictees (4 h et 15 h)",
-      "releve": "2026-09-04"
+      "source": "vercel.json : chemins distincts dans crons",
+      "releve": "2026-09-05"
     },
     "tables": {
       "valeur": 44,
       "source": "tables distinctes créées par les migrations db/*.sql (CREATE TABLE)",
+      "releve": "2026-09-05"
+    },
+    "rendez_vous": {
+      "valeur": "2026-08-13",
+      "source": "le rendez-vous où le prestataire précédent a refusé de rendre les accès — _PASSATION.md §1",
+      "releve": "2026-09-06"
+    },
+    "automatismes": {
+      "valeur": 8,
+      "source": "les nœuds du réacteur de src/pages/institut-moliere.html (class=\"noeud\") — le texte suit le schéma",
+      "releve": "2026-09-05"
+    },
+    "cron_rappel_min": {
+      "valeur": 5,
+      "source": "vercel.json : schedule */N du cron rappel-cours",
+      "releve": "2026-09-05"
+    },
+    "dictees_par_jour": {
+      "valeur": 2,
+      "source": "vercel.json : entrées crons dont le chemin finit par banque-dictees",
+      "releve": "2026-09-05"
+    },
+    "essai_jours": {
+      "valeur": 3,
+      "source": "src/lib/tarifs.ts : « N jours d'essai »",
+      "releve": "2026-09-05"
+    },
+    "jours_en_ligne": {
+      "valeur": 9,
+      "source": "jours entre moliere.premier_commit et moliere.en_ligne",
+      "releve": "2026-09-05"
+    },
+    "jours_rdv_ligne": {
+      "valeur": 12,
+      "source": "jours entre moliere.rendez_vous et moliere.en_ligne",
+      "releve": "2026-09-05"
+    },
+    "rappel_fenetre_min": {
+      "valeur": 12,
+      "source": "src/app/api/cron/rappel-cours/route.ts : const FENETRE_MINUTES",
+      "releve": "2026-09-05"
+    },
+    "silence_jours": {
+      "valeur": 3,
+      "source": "src/app/api/cron/coach/route.ts : const SEUIL_ABSENCE",
       "releve": "2026-09-05"
     }
   },
@@ -114,29 +159,29 @@
       "releve": "2026-09-05"
     },
     "questions": {
-      "valeur": 2160,
+      "valeur": 2340,
       "source": "donnees/items.json : les blancs complets, 90 items chacun",
       "releve": "2026-09-05"
     },
     "blancs": {
-      "valeur": 24,
+      "valeur": 26,
       "source": "donnees/items.json : blancs de 90 items (les blancs en cours d'écriture ne comptent pas)",
       "releve": "2026-09-05"
     },
     "sous_tests": {
-      "valeur": 144,
+      "valeur": 156,
       "source": "6 sous-tests par blanc complet, tous passés par marketing/verifier_lot.py --tous",
       "releve": "2026-09-05"
     },
     "commits": {
-      "valeur": 213,
+      "valeur": 215,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-05"
     },
     "premier_commit": {
       "valeur": "2026-08-25",
-      "source": "git log --reverse",
-      "releve": "2026-09-04"
+      "source": "git log --reverse --format=%cs",
+      "releve": "2026-09-05"
     },
     "ouverture": {
       "valeur": "2026-08-31",
@@ -150,13 +195,13 @@
     },
     "prix": {
       "valeur": 49,
-      "source": "public/tarifs.html — 49 € TTC pour quatre mois",
-      "releve": "2026-09-04"
+      "source": "public/tarifs.html : « N € TTC, une fois, M mois d'accès »",
+      "releve": "2026-09-05"
     },
     "mois": {
       "valeur": 4,
-      "source": "public/tarifs.html",
-      "releve": "2026-09-04"
+      "source": "public/tarifs.html : « N € TTC, une fois, M mois d'accès »",
+      "releve": "2026-09-05"
     },
     "lignes_js": {
       "valeur": 5564,
@@ -180,11 +225,11 @@
     },
     "prix_boursier": {
       "valeur": 20,
-      "source": "public/index.html : « Boursiers : 20 € »",
-      "releve": "2026-09-04"
+      "source": "public/index.html : « Boursiers : N € »",
+      "releve": "2026-09-05"
     },
     "blancs_payants": {
-      "valeur": 23,
+      "valeur": 25,
       "source": "tous les blancs complets sauf le premier, qui est gratuit",
       "releve": "2026-09-05"
     },
@@ -201,7 +246,7 @@
   },
   "total": {
     "commits": {
-      "valeur": 746,
+      "valeur": 748,
       "source": "524 + 192",
       "releve": "2026-09-05"
     },
@@ -226,6 +271,33 @@
       "valeur": "FR 77 935 081 703",
       "source": "mentions légales",
       "releve": "2026-09-04"
+    }
+  },
+  "site": {
+    "contraste_min": {
+      "valeur": 5.5,
+      "source": "le plus faible contraste des paires texte/fond de verifier.py (PAIRES), sur les jetons de style.css",
+      "releve": "2026-09-05"
+    },
+    "images_cassees": {
+      "valeur": 0,
+      "source": "verifier_rendu.py : images sans pixel décodé, toutes pages, ordinateur et téléphone",
+      "releve": "2026-09-05"
+    },
+    "debordement_px": {
+      "valeur": 0,
+      "source": "verifier_rendu.py : scrollWidth − largeur de fenêtre, le pire de toutes les pages, à 1 280 et 390 px",
+      "releve": "2026-09-05"
+    },
+    "cible_min_px": {
+      "valeur": 44,
+      "source": "verifier_rendu.py : la plus petite cible tactile visible à 390 px (boutons, onglets, badges, menu), min(largeur, hauteur)",
+      "releve": "2026-09-05"
+    },
+    "releve_rendu": {
+      "valeur": "2026-09-05",
+      "source": "date du dernier passage de verifier_rendu.py",
+      "releve": "2026-09-05"
     }
   }
 }

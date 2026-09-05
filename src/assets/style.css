@@ -368,9 +368,11 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .pied-col > :last-child { margin-bottom: 0; }
 .pied-col .marque { margin-bottom: 10px; }
 .pied-titre { font: 700 .7rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--encre); margin-bottom: 10px; }
-.pied-liste { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; line-height: 1.9; }
+.pied-liste { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; line-height: 1.9; }
 .pied a { color: var(--encre); }
-.pied-liste a { display: inline-block; padding: 4px 0; line-height: 1.5; }   /* cible tactile ≥ 24 px */
+/* cibles tactiles ≥ 44 px, mesurées par verifier_rendu.py à 390 px : les liens du pied
+   faisaient 32 px, le courriel 20, le lien du dépôt 41 (06/09) */
+.pied-liste a, .pied-col > p > a, .pied-bas a { display: inline-flex; align-items: center; min-height: 44px; line-height: 1.5; }
 .pied a:hover { color: var(--accent-txt); }
 .pied-bas { margin: 30px 0 0; padding-top: 18px; border-top: 1px solid var(--filet); font-size: .85rem; }
 
@@ -482,7 +484,7 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .vitrine-tel .tel { width: 176px; }
 .vitrine.ordi-devant .vitrine-ordi { z-index: 3; }
 .vitrine-leg { margin: 10px 0 0; font: 500 .74rem/1.5 var(--mono); color: var(--encre-2); }
-.defile.auto img { animation: defile var(--duree, 24s) linear infinite alternate; }
+.defile.auto > img, .defile.auto .defile-piste { animation: defile var(--duree, 24s) linear infinite alternate; }
 @keyframes defile { from { transform: translateY(0); } to { transform: translateY(var(--d, 0px)); } }
 @media (max-width: 640px) {
   .vitrine { padding-right: 62px; padding-bottom: 28px; }
@@ -621,8 +623,9 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .anneau-btn { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--filet); background: var(--carte); color: var(--encre); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font: 700 1.3rem/1 var(--sans); padding: 0 0 3px; }
 .anneau-btn:hover { border-color: var(--encre); }
 .anneau-points { display: flex; }
-.anneau-point { position: relative; width: 26px; height: 26px; border: 0; padding: 0; background: none; cursor: pointer; }
-.anneau-point::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--filet); }
+/* 44 × 44 pour le doigt, un point de 10 px pour l'œil (verifier_rendu.py, 06/09) */
+.anneau-point { position: relative; width: 44px; height: 44px; border: 0; padding: 0; background: none; cursor: pointer; }
+.anneau-point::before { content: ""; position: absolute; inset: 17px; border-radius: 50%; background: var(--filet); }
 .anneau-point[aria-current="true"]::before { background: var(--accent); }
 .anneau-leg { text-align: center; margin: 12px 0 0; font-weight: 700; font-size: 1.05rem; min-height: 1.5em; transition: opacity .22s ease; }
 .anneau-leg.change { opacity: 0; }
@@ -975,7 +978,19 @@ body.page-prepa-600 { --papier: #EEF4FB; --papier-2: #E2ECF8; --encre: #0B1F3A; 
 .recit-grille { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
 @media (min-width: 900px) { .recit-grille { grid-template-columns: 320px minmax(0, 1fr); gap: 60px; align-items: start; } }
 .recit-colle { position: sticky; top: 84px; display: grid; justify-items: center; gap: 12px; z-index: 1; }
-@media (max-width: 899px) { .recit-colle { top: 74px; padding: 8px 0 12px; background: var(--papier); } .recit-colle .tel-grand { width: 170px; } .recit-colle .tel-grand .tel-ecran { border-radius: 18px; } }
+@media (max-width: 899px) {
+  .recit-colle { position: static; }
+  .recit-colle .tel-grand { width: min(100%, 220px); }
+  [data-recit].eclate .recit-colle { display: none; }
+}
+/* l'écran d'une étape, sur téléphone : le même cadre, posé sous le texte */
+.recit-etape-tel { display: none; }
+@media (max-width: 899px) {
+  .recit-etape-tel { display: flex; justify-content: center; margin: 18px 0 0; }
+  .recit-etape-tel .tel { width: min(100%, 230px); }
+  .recit-etape-tel .tel-ecran { border-radius: 20px; }
+  .recit-etape-tel img { position: absolute; left: 0; top: 0; width: 100%; height: auto; }
+}
 .recit-tel img { position: absolute; left: 0; top: 0; width: 100%; height: auto; opacity: 0; transition: opacity .7s ease; }
 .recit-tel img.actif { opacity: 1; }
 .recit-leg { margin: 0; font: 600 .72rem/1.4 var(--mono); color: var(--encre-2); letter-spacing: .02em; text-align: center; }
@@ -991,8 +1006,9 @@ body.page-prepa-600 { --papier: #EEF4FB; --papier-2: #E2ECF8; --encre: #0B1F3A; 
 .recit-etape p b { color: var(--encre); }
 .recit-fait { display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--nuit); color: var(--nuit-txt); font: 600 .82rem/1 var(--mono); }
 /* .recit-etape p b encre le gras des paragraphes : le chiffre de la pastille doit rester clair sur nuit */
-.recit-etape .recit-fait b { font: 800 1.3rem/1 var(--serif); color: var(--menthe); letter-spacing: -.03em; }
-@media (max-width: 899px) { .recit-etape { min-height: 0; } .recit-etape:not(.actif) { opacity: .7; } }
+.recit-etape .recit-fait b { font: 800 1.3rem/1 var(--serif); color: var(--menthe); letter-spacing: -.03em; white-space: nowrap; }   /* « 0 € » se cassait en deux lignes à 331 px (06/09) */
+.recit-fait { max-width: 100%; }   /* le texte de la pastille passe sur deux lignes à côté du chiffre, sans casser la boîte */
+@media (max-width: 899px) { .recit-etape { min-height: 0; padding-left: 22px; } .recit-etape:not(.actif) { opacity: 1; } }
 /* les quatre graphiques en grille */
 .graphes-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 22px; }
 .graphes-grille article { min-width: 0; }
@@ -1009,3 +1025,65 @@ body.page-prepa-600 { --papier: #EEF4FB; --papier-2: #E2ECF8; --encre: #0B1F3A; 
   @keyframes defilant { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 }
 @media (prefers-reduced-motion: reduce) { .defilant-piste { flex-wrap: wrap; width: auto; justify-content: center; gap: 18px 34px; } .defilant { mask-image: none; -webkit-mask-image: none; } }
+
+/* ------------------------------------------------------------------------
+   Le point de départ (page Molière, lot 19) — un double panneau : à gauche
+   le site verrouillé (squelette gris, cadenas), à droite le vrai site en
+   ligne ; entre les deux, le nombre de jours. Tout se pose au défilement
+   avec --p (0 → 1, posé par site.js sur [data-progres]) : les panneaux
+   glissent l'un vers l'autre, le trait se tend, le chiffre se pose, les
+   quatre dates s'allument l'une après l'autre. Sans JS, --p vaut 1 : tout
+   est visible (règle : jamais une visibilité qui dépend d'une transition). */
+.depart { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: clamp(18px, 3vw, 44px); align-items: center; }
+.depart-panneau { min-width: 0; }
+.depart-avant { transform: translateX(calc((1 - clamp(0, var(--p, 1) * 1.6, 1)) * -28px)); opacity: clamp(.12, var(--p, 1) * 1.6, 1); }
+.depart-apres { transform: translateX(calc((1 - clamp(0, var(--p, 1) * 1.6 - .3, 1)) * 28px)); opacity: clamp(.12, var(--p, 1) * 1.6 - .3, 1); }
+.depart-date { margin: 0 0 12px; font: 700 .74rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-txt); }
+.depart-panneau h3 { font: 800 clamp(1.25rem, 2vw, 1.6rem)/1.2 var(--serif); letter-spacing: -.03em; margin: 18px 0 8px; }
+.depart-panneau p:not(.depart-date) { margin: 0; color: var(--encre-2); font-size: 1.04rem; line-height: 1.55; }
+.depart-panneau .ordi-ecran { aspect-ratio: 16 / 10; }
+/* le site verrouillé */
+.depart-bloque .ordi-barre { background: #D9DEDB; border-bottom-color: rgba(11, 46, 31, .12); }
+.depart-bloque .ordi-barre i { background: #B8C0BC !important; }
+.depart-bloque .ordi-barre .url { color: #6B7772; }
+.depart-ecran { background: #F1F4F2; }
+.depart-squelette { position: absolute; inset: 14px 16px; display: grid; gap: 10px; align-content: start; }
+.depart-squelette span { display: block; height: 10px; width: var(--w, 50%); border-radius: 5px; background: #CDD6D1; }
+.depart-squelette span.bloc { height: 34%; width: 100%; border-radius: 8px; }
+.depart-cadenas { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 10px; background: rgba(11, 46, 31, .58); color: #fff; }
+.depart-cadenas svg { width: 36px; height: 36px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.depart-cadenas b { font: 700 .7rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: 7px 11px; border: 1px solid rgba(255, 255, 255, .55); border-radius: 999px; }
+@media (prefers-reduced-motion: no-preference) {
+  .depart-cadenas svg { animation: cadenas 3.6s ease-in-out infinite; }
+  @keyframes cadenas { 0%, 86%, 100% { transform: none; } 89% { transform: translateX(-2px) rotate(-4deg); } 92% { transform: translateX(2px) rotate(4deg); } 95% { transform: translateX(-1px) rotate(-2deg); } }
+}
+/* entre les deux : le trait qui se tend, le nombre de jours qui se pose */
+.depart-entre { display: grid; justify-items: center; gap: 6px; min-width: 104px; }
+.depart-trait { display: block; width: 100%; height: 2px; border-radius: 1px; background: var(--filet); position: relative; overflow: hidden; }
+.depart-trait i { position: absolute; inset: 0; background: var(--accent); transform-origin: 0 50%; transform: scaleX(clamp(0, var(--p, 1) * 2.2 - .7, 1)); }
+.depart-n { font: 800 clamp(3.2rem, 6vw, 4.8rem)/1 var(--serif); letter-spacing: -.05em; color: var(--accent); transform: scale(clamp(.6, var(--p, 1) * 2.2 - .7, 1)); opacity: clamp(0, var(--p, 1) * 2.2 - .7, 1); }
+.depart-u { font: 700 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--encre-2); }
+/* la frise : quatre dates sur un fil, chaque point s'allume à son tour */
+.depart-frise { list-style: none; margin: clamp(30px, 4vw, 48px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; position: relative; }
+.depart-frise::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--filet); }
+.depart-frise li { position: relative; padding-top: 24px; min-width: 0; }
+.depart-frise li::before { content: ""; position: absolute; left: 0; top: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 3px solid var(--papier-2); transform: scale(clamp(0, (var(--p, 1) - .42 - var(--k, 0) * .15) / .08, 1)); }
+.depart-frise time { display: block; font: 700 .7rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-txt); margin-bottom: 4px; }
+.depart-frise span { display: block; font-size: .95rem; color: var(--encre-2); line-height: 1.4; }
+.depart-frise span b { color: var(--encre); }
+@media (max-width: 760px) {
+  .depart { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .depart-entre { grid-auto-flow: column; align-items: center; justify-content: start; gap: 14px; }
+  .depart-trait { width: 56px; }
+  .depart-avant, .depart-apres { transform: none; }
+}
+@media (max-width: 640px) {
+  .depart-frise { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
+  .depart-frise::before { display: none; }
+}
+
+/* la piste d'une vitrine qui déroule : les tuiles d'une page entière (nom-1,
+   nom-2…, rafraichir.py) empilées, et c'est la piste que site.js translate.
+   Le navigateur ne décode que les tuiles visibles : plus d'écran blanc. */
+.defile-piste { position: absolute; left: 0; top: 0; width: 100%; }
+.defile-piste img { position: static; display: block; width: 100%; height: auto; }

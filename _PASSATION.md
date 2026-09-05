@@ -43,7 +43,8 @@ document qui les cite est périmé (les archives les gardent pour mémoire).
 ## 2. Faire tourner la machine
 
 ```
-modifier src/  →  python outils/construire.py  →  python outils/verifier.py
+modifier src/  →  python outils/recompter.py  →  python outils/construire.py  →  python outils/verifier.py
+             →  python outils/verifier_rendu.py (PowerShell, dès qu'une image, une vitrine ou le CSS a bougé)
              →  regarder en local  →  git commit  →  git push  →  Pages déploie (~1 min)
 ```
 
@@ -76,6 +77,8 @@ Puis le corps, avec quatre macros :
 | `[[français||English]]` | un texte, deux langues — partout, y compris dans un attribut |
 | `{{f:moliere.ecrans}}` | un chiffre de `src/faits.json`, formaté dans la langue (70 795 / 70,795) |
 | `{{d:moliere.en_ligne}}` | une date de `faits.json` en toutes lettres (25 août 2026 / 25 August 2026) |
+| `{{m:moliere.jours_en_ligne}}` · `{{M:…}}` | un petit nombre en lettres (neuf / Neuf ; en chiffres au-delà de seize) — pour les phrases (« Neuf jours plus tard ») |
+| `{{t:moliere-accueil-full\|[[alt fr\|\|alt en]]}}` | une capture : une balise `<img>`, ou les **tuiles** `nom-1.webp`, `nom-2.webp`… empilées (l'alt sur la première, les autres `aria-hidden`) |
 | `{{p:prepa-600}}` · `{{accueil}}` | le chemin d'une page dans la langue courante |
 
 ⚠️ Jamais de `||` ni de `]]` ailleurs que dans une macro. Le constructeur
@@ -92,6 +95,26 @@ interne introuvable, lien `http://`, mot interdit (« CTO », « lorem »,
 ne correspond plus au dépôt voisin** (écrans, routes, migrations, pages,
 endpoints, questions). Le nombre de commits ne bloque pas : il avance tout
 seul, il donne un avertissement à mettre à jour avec sa date.
+
+### Vérifier le rendu (Edge headless)
+
+```
+python outils/verifier_rendu.py            # depuis PowerShell, ~1 min
+```
+
+Sert `public/` sur un port libre, ouvre chaque page en ordinateur (1 280 ×
+900) puis en téléphone (390 × 844, échelle 2) et refuse si : une image n'est
+pas chargée et décodée **sans défiler** en moins de 8 s, une image est cassée,
+déclarée `loading="lazy"`, plus large ou plus haute que 16 383 px ou plus
+lourde que 4,2 Mpx ; un débordement horizontal (en haut et tout en bas) ;
+une **cible tactile sous 44 × 44 px** à 390 px (boutons, liens-boutons,
+onglets, badges, champs, liens de menu et de pied — un lien dans une phrase
+ne compte pas) ; une exception JavaScript ou une ressource en erreur. Puis il
+écrit dans `faits.json` ce que la méthode de l'accueil affiche :
+`site.images_cassees`, `site.debordement_px`, `site.cible_min_px`,
+`site.releve_rendu` (`verifier.py` avertit quand ce relevé a plus de huit
+jours). **À lancer dès qu'on touche une image, une vitrine, un cadre ou le
+CSS** — c'est la règle du 06/09, voir §4 « Les images se chargent d'un coup ».
 
 ### Regarder en local
 
@@ -138,6 +161,15 @@ sur une région d'annonce invisible, et la capture démarrait à 0.
 les PNG déjà capturés, **sans ouvrir Edge** : c'est ce qu'il faut lancer après
 avoir changé une largeur ou une qualité d'image.
 
+**Depuis le lot 19, `rafraichir.py` ne capture que ce que le site affiche**
+(`CAPTURES` : accueil et plateforme Molière, accueil et tarifs Prépa 600, les
+deux accueils en téléphone ; `PLEINES` dit lesquelles gardent une page
+entière) et **découpe en tuiles** (`sauver()`) toute image au-delà de 3,6 Mpx :
+`nom-1.webp`, `nom-2.webp`… — un nom n'existe que sous une seule forme, la
+précédente est effacée. Les six écrans du récit Prépa 600 sont rognés à
+1 400 px (ils ne déroulent pas). Le dossier d'images est passé de 8,6 à
+5,4 Mo.
+
 ### Les images de partage
 
 `python outils/og.py` (PowerShell) fabrique `og-agalgolab.png`,
@@ -181,7 +213,22 @@ python outils/recompter.py --lire   # affiche les écarts sans rien écrire
 
 Il recompte les écrans, les routes d'API, les migrations, les tables, les
 lignes de TypeScript, les pages, les fonctions serveur, les blancs, les
-questions, les sous-tests et les commits ; il écrit la valeur **et la date du
+questions, les sous-tests et les commits ; **depuis le lot 19 aussi** (règle
+d'Anthony : « tout ce qui est susceptible de changer NE doit PAS être en
+dur », Molière compris) : les dates de premier commit, `moliere.jours`
+(premier → dernier commit, bornes comprises), `jours_en_ligne` et
+`jours_rdv_ligne` (calculés depuis `en_ligne`, `premier_commit` et
+`rendez_vous`), les crons et leur cadence lus dans `vercel.json`
+(`crons`, `dictees_par_jour`, `cron_rappel_min`), les constantes du code
+(`rappel_fenetre_min` = `FENETRE_MINUTES`, `silence_jours` =
+`SEUIL_ABSENCE`, `essai_jours` dans `tarifs.ts`), les centres
+(`CENTRES` de `institut.ts`), les automatismes (les nœuds `.noeud` du
+réacteur — le texte suit le schéma), le prix, les mois et le tarif
+boursier de Prépa 600 lus dans ses pages, et `site.contraste_min` (la
+paire la plus faible de `verifier.PAIRES`). Un motif qui ne prend plus
+(le code a changé de forme) laisse la valeur en place et l'écrit en
+console : jamais un chiffre inventé. Chaque mesure porte sa source
+(`SOURCES`). il écrit la valeur **et la date du
 relevé** ; il affiche les écarts. `verifier.py` recompte avec **le même code**
 (il importe `recompter.mesurer`) et refuse la mise en ligne au moindre écart :
 les deux ne peuvent pas diverger. Ce qui ne se recompte pas d'ici (dates,
@@ -568,6 +615,72 @@ composition n'a plus rien de commun :
 Ont disparu de cette page : la vitrine du héros, le manège, la bande des
 chiffres, les onglets, le socle en tuiles.
 
+**Les images se chargent d'un coup, et aucune ne dépasse 4 Mpx** (lot 19,
+06/09 : « les sites ne sont pas chargés entièrement quand ils défilent, et
+ça un peu partout… ça ne doit plus jamais se reproduire, check dès que tu y
+touches »). Deux causes, deux remèdes :
+1. `loading="lazy"` sur les vitrines : une page atteinte d'un coup de molette
+   n'avait pas encore lancé le téléchargement. **Interdit désormais** —
+   `construire.py` pose `loading="eager" decoding="async"` sur chaque
+   `<img>`, `verifier.py` refuse le mot dans `src/pages` et `public/`.
+2. La vraie cause, mesurée dans le panneau : l'image était **téléchargée et
+   `complete`**, mais une page entière de 1 600 × 12 000 px (19 Mpx, 75 Mo
+   décodés) se décode **au moment d'être peinte**, plusieurs secondes, et le
+   cache d'images du navigateur ne garde pas des bitmaps de cette taille.
+   D'où les **tuiles** : `rafraichir.sauver()` découpe tout fichier au-delà
+   de 3,6 Mpx, `{{t:nom|alt}}` les empile dans `.defile-piste`, et c'est la
+   piste que `site.js` translate (`cible()` dans le bloc `.defile`). Le
+   navigateur ne décode que les tuiles visibles. En plus, `site.js`
+   **pré-décode** (`img.decode()`, au premier moment libre) chaque écran
+   d'ordinateur, de téléphone et de tablette.
+`verifier_rendu.py` (§2) prouve tout ça dans Edge à chaque lot, et
+`verifier.py` refuse statiquement tout WebP au-delà de 4,2 Mpx.
+
+**Le point de départ, refait** (page Molière, lot 19 : « fais quelque chose de
+plus dynamique, là ça ne donne pas envie de lire »). La frise à quatre
+colonnes devient un **double panneau** (`.depart`, Anthony aime le double
+panneau et le mouvement) : à gauche le site verrouillé — un cadre
+d'ordinateur gris, squelette de lignes, cadenas qui tressaute, « Accès
+refusé » —, à droite la vraie page d'accueil en ligne ; entre les deux, le
+nombre de jours (`moliere.jours_rdv_ligne`, du rendez-vous à la mise en
+ligne) au bout d'un trait qui se tend. Sous les panneaux, quatre dates sur un
+fil (`.depart-frise`, `--k`). Tout se pose au défilement avec `--p`
+(`[data-progres]` sur `.depart-bloc`) : opacités et translations en
+`clamp()`, points qui s'allument l'un après l'autre ; **sans JS, `--p` vaut 1
+et tout est visible** (règle du reveal). Le texte : « Mi-août, l'institut n'a
+plus la main sur son site. Douze jours plus tard, il est en ligne » et
+« Neuf jours de code » — deux faits calculés, plus un « Neuf » écrit à la
+main qui comptait depuis le mauvais jour.
+
+**Le récit Prépa 600 sur téléphone** (lot 19 : « la page est horrible, le
+téléphone est en gros avec des bords, cache tout »). Sous 900 px, le
+téléphone collé occupait la moitié de l'écran, fond opaque, et les étapes
+passaient dessous ; la ligne d'activation (`rootMargin -45 %`) tombait
+derrière lui. Désormais `site.js` **éclate** le récit (`[data-recit].eclate`) :
+l'écran de chaque étape est posé **dans l'étape** (`.recit-etape-tel`, même
+`<img>` clonée, aucun téléchargement de plus, 230 px de large) et le
+téléphone collé disparaît ; sans JS il reste en tête, statique. Plus
+d'estompage des étapes inactives sur téléphone.
+
+**Plus aucun chiffre qui bouge en dur, Molière compris** (lot 19) : le
+réacteur lit `essai_jours`, `silence_jours` (et dit que la relance s'allume
+depuis l'administration — le réglage `relance_lecture` est éteint par défaut
+dans le dépôt), `rappel_fenetre_min`, `cron_rappel_min`,
+`dictees_par_jour`, `automatismes` ; la stat des automatismes compte les
+huit nœuds, pas les trois crons ; l'accueil lit `total.produits` en lettres
+(`{{M:}}`), et sa méthode affiche le vrai contraste minimal
+(`site.contraste_min`), la vraie plus petite cible (`site.cible_min_px`), le
+vrai débordement et les vraies images cassées mesurés par
+`verifier_rendu.py`. Le faux journal de terminal a perdu « 1 migration » et
+« 1 min 52 ». Prépa 600 lit `{{m:p600.jours}}` dans son titre. Seuls restent
+en dur : les constantes de l'épreuve (90 questions, 6 × 20 min, 600), les
+prix de l'offre d'Anthony (500 à 1 250 €) et les dates passées.
+
+**Cibles tactiles à 44 px** : `verifier_rendu.py` a trouvé les liens du pied
+à 32 px, le courriel à 20, le lien du dépôt à 41 et les points du manège à
+26 ; tous passés à 44 (`min-height` sur les liens du pied, bouton de 44 × 44
+avec un point de 10 px).
+
 **Le récit Prépa 600, réécrit pour vendre** (06/09 au soir : « axe pas sur
 6 jours jusqu'à la publication mais au premier utilisateur… toutes les
 étapes, pense-les pour être marketing… un vrai cheminement »). Le fil est
@@ -797,6 +910,17 @@ Ajouté le 6 septembre 2026 :
     récits ; un chiffre historique figé (une date passée) est toléré, un
     compte qui bouge ne l'est pas.
 
+42. **Aucune image ne se charge « à l'approche », et aucune ne dépasse
+    4 Mpx** : tout est `eager`, les pages entières sont en tuiles, et
+    `verifier_rendu.py` le prouve dans Edge à chaque fois qu'on touche une
+    image, une vitrine ou le CSS. « Ça ne doit plus jamais se reproduire. »
+43. **Tout ce qui est susceptible de changer vient de `faits.json`, Molière
+    compris** — constantes du code, cadence des crons, durées, prix — et
+    `recompter.py` va les lire dans les dépôts. Un motif qui ne prend plus
+    laisse la valeur et prévient, jamais il n'invente.
+44. **Sur téléphone, rien de collé qui cache le texte** : le récit Prépa 600
+    éclate, un écran par étape.
+
 ---
 
 ## 6. Ce qui reste à Anthony
@@ -850,6 +974,11 @@ Ajouté le 6 septembre 2026 :
   position voulue et envoyer `new Event('scroll')` (c'est ainsi que le
   serpentin a été validé), ou photographier en Edge headless avec
   `capturer_cdp.py --depuis "un texte"`.
+- **Téléchargée ≠ peinte** : une image `complete` de 19 Mpx met des secondes
+  à se décoder au moment d'être affichée, et le panneau navigateur le montre
+  (écran blanc deux secondes après le chargement, puis l'image). Aucun fichier
+  au-delà de 4 Mpx : tuiles (`rafraichir.sauver`, `{{t:}}`), et
+  `verifier_rendu.py` pour le prouver.
 - **Les chiffres Prépa 600 bougent plusieurs fois par jour** (la banque de
   questions grossit pendant qu'on travaille ici) : quand `verifier.py`
   refuse, relancer les deux scripts de mise à jour (§3) et reconstruire,
@@ -1072,3 +1201,17 @@ Ajouté le 6 septembre 2026 :
   administration : membres, écoles, groupes à former, lectures, dictées,
   ressources de classe). Base typographique à 17 px, gras sur les faits.
   Assets en `?v=18`.
+- **06/09/2026 (nuit)** — Lot 19. Quatre retours d'Anthony. (1) Vitrines
+  blanches au défilement : `loading="lazy"` interdit partout, et la vraie
+  cause traitée — les pages entières de 19 Mpx se décodaient à la peinture —
+  par des **tuiles** (`rafraichir.sauver`, macro `{{t:}}`, `.defile-piste`),
+  pré-décodage, plafond de 4,2 Mpx dans `verifier.py`, et un nouveau
+  `verifier_rendu.py` (Edge headless : images, débordement, cibles
+  tactiles, exceptions) qui écrit `site.*` dans `faits.json` ; captures
+  réduites à celles que le site affiche, dossier d'images 8,6 → 5,4 Mo.
+  (2) Plus aucun chiffre qui bouge en dur, Molière compris : douze mesures
+  de plus dans `recompter.py` (git, `vercel.json`, constantes du code,
+  pages Prépa 600, contraste), macros `{{m:}}`/`{{M:}}`. (3) « Le point de
+  départ » refait en double panneau animé au défilement (site verrouillé /
+  site en ligne, douze jours, quatre dates). (4) Récit Prépa 600 éclaté sur
+  téléphone, un écran par étape. Cibles tactiles à 44 px. Assets en `?v=19`.

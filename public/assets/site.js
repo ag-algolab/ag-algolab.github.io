@@ -75,8 +75,10 @@
      Avec une souris : la page défile quand on est dessus, revient en haut
      quand on part. Sans souris : elle défile toute seule, doucement, tant
      qu'elle est à l'écran. L'état statique est le haut de la page. */
+  /* ce qui déroule : la piste de tuiles (page entière) ou l'image seule */
+  var cible = function (boite) { return boite.querySelector('.defile-piste') || boite.querySelector('img'); };
   var distance = function (boite) {
-    var img = boite.querySelector('img');
+    var img = cible(boite);
     if (!img) return 0;
     // en coordonnées LOCALES (offsetHeight, pas getBoundingClientRect) : dans
     // le manège la pièce est mise à l'échelle, et la mesure à l'écran faisait
@@ -85,7 +87,7 @@
     return Math.max(0, img.offsetHeight - boite.clientHeight);
   };
   chaque('.defile', function (boite) {
-    var img = boite.querySelector('img');
+    var img = cible(boite);
     if (!img) return;
     if (souris && !reduit) {
       var cadre = boite.closest('.ordi, .tel, .tablette') || boite;
@@ -118,6 +120,16 @@
       io.observe(boite);
     }
   });
+  /* pré-décodage : une fois la page posée, chaque écran d'ordinateur, de
+     téléphone ou de tablette est décodé en avance — la peinture est alors
+     immédiate quand on arrive dessus (les tuiles restent sous 4 Mpx, le
+     cache du navigateur les garde). */
+  var predecoder = function () {
+    chaque('.ordi-ecran img, .tel-ecran img, .tablette-ecran img', function (im) {
+      if (im.decode) { im.decode().catch(function () {}); }
+    });
+  };
+  if ('requestIdleCallback' in window) { window.requestIdleCallback(predecoder, { timeout: 2000 }); } else { setTimeout(predecoder, 800); }
   /* l'ordinateur passe devant le téléphone quand la souris est dessus */
   chaque('.vitrine', function (v) {
     var ordi = v.querySelector('.vitrine-ordi');
@@ -295,6 +307,29 @@
       Array.prototype.forEach.call(etapes, function (e) { io.observe(e); });
     }
     activer(etapes[0]);
+    /* Sous 900 px, le téléphone collé occupait la moitié de l'écran et les
+       étapes passaient dessous (Anthony, 06/09). L'écran de chaque étape est
+       posé DANS l'étape (même image, aucun téléchargement de plus) et le
+       téléphone collé disparaît. Sans JS : téléphone statique en tête. */
+    var etroit = window.matchMedia('(max-width: 899px)');
+    var eclater = function () {
+      if (!etroit.matches || bloc.classList.contains('eclate')) return;
+      Array.prototype.forEach.call(etapes, function (et) {
+        var n = parseInt(et.getAttribute('data-ecran'), 10) || 0;
+        if (!imgs[n]) return;
+        var fig = doc.createElement('div');
+        fig.className = 'recit-etape-tel';
+        fig.innerHTML = '<div class="tel"><div class="tel-ecran"><span class="tel-encoche" aria-hidden="true"></span></div></div>';
+        var im = imgs[n].cloneNode(false);
+        im.className = 'actif';
+        im.loading = 'eager';
+        fig.querySelector('.tel-ecran').appendChild(im);
+        et.appendChild(fig);
+      });
+      bloc.classList.add('eclate');
+    };
+    eclater();
+    if (etroit.addEventListener) { etroit.addEventListener('change', eclater); } else if (etroit.addListener) { etroit.addListener(eclater); }
   });
 
   /* ------------------------------------------ l'écran qui enchaîne les pages

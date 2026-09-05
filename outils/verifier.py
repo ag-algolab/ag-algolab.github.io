@@ -14,7 +14,10 @@ Ce qui est contrôlé, page par page :
   - chaque lien interne mène à un fichier de public/ ;
   - aucun lien en http:// ;
   - aucun mot interdit (« CTO », « lorem », « TODO », « Prépa 600® ») ;
-  - la version ?v= de style.css et site.js est la même partout.
+  - la version ?v= de style.css et site.js est la même partout ;
+  - aucun loading="lazy" (règle du 06/09 : tout se charge dès l'ouverture —
+    le rendu réel se contrôle avec verifier_rendu.py, dans Edge) ;
+  - aucune image de src/assets/img au-delà de 4,2 mégapixels (décodage).
 Puis, sur les chiffres :
   - les contrastes des couleurs de style.css (texte sur fond ≥ 4,5:1) ;
   - les faits de src/faits.json qui se recomptent dans les dépôts voisins
@@ -137,12 +140,17 @@ def verifier_page(chemin):
     rel = os.path.relpath(chemin, PUB).replace(os.sep, "/")
     with open(chemin, encoding="utf-8") as f:
         texte = f.read()
-    for macro in ("[[", "||", "]]", "{{f:", "{{d:", "{{p:", "{{accueil}}", "{{contenu}}"):
+    for macro in ("[[", "||", "]]", "{{f:", "{{d:", "{{m:", "{{M:", "{{p:", "{{accueil}}", "{{contenu}}"):
         if macro in texte:
             erreur("%s : macro non résolue « %s »" % (rel, macro))
     for mot in MOTS_INTERDITS:
         if re.search(r"(?<![A-Za-z])" + re.escape(mot) + r"(?![A-Za-z])", texte):
             erreur("%s : mot interdit « %s »" % (rel, mot))
+    # règle du 06/09 : aucune image « à l'approche ». Une vitrine atteinte d'un
+    # coup de molette restait blanche ; tout se charge dès l'ouverture, et
+    # outils/verifier_rendu.py le prouve dans Edge (images, débordement, cibles).
+    if 'loading="lazy"' in texte:
+        erreur("%s : loading=\"lazy\" interdit (toutes les images se chargent dès l'ouverture)" % rel)
     if "http://" in texte.replace("http://www.w3.org", "").replace("http://schema.org", ""):
         erreur("%s : lien en http:// non chiffré" % rel)
     for balise in ("div", "section", "article", "ul", "main"):
@@ -180,7 +188,7 @@ def verifier_page(chemin):
             erreur("%s : JSON-LD invalide (%s)" % (rel, e))
     for img in p.images:
         src = img.get("src", "")
-        if not img.get("alt", "").strip():
+        if not img.get("alt", "").strip() and img.get("aria-hidden") != "true":
             erreur("%s : image sans alt (%s)" % (rel, src))
         if not (img.get("width") and img.get("height")):
             erreur("%s : image sans width/height (%s)" % (rel, src))
@@ -315,9 +323,31 @@ def main():
     js = {a for a in versions if "site.js" in a}
     if len(css) > 1 or len(js) > 1:
         erreur("versions ?v= incohérentes : %s" % sorted(versions))
+    for src_page in glob.glob(os.path.join(SRC, "pages", "*.html")):
+        with open(src_page, encoding="utf-8") as f:
+            if 'loading="lazy"' in f.read():
+                erreur("src/pages/%s : loading=\"lazy\" interdit" % os.path.basename(src_page))
+    # règle du 06/09 : aucune image stockée au-delà de 4,2 Mpx — une image de
+    # 19 Mpx se téléchargeait, mais mettait des secondes à se décoder au moment
+    # de se peindre (écran blanc au défilement). rafraichir.py découpe en tuiles.
+    from PIL import Image
+    for chemin in sorted(glob.glob(os.path.join(SRC, "assets", "img", "*.webp"))):
+        w, h = Image.open(chemin).size
+        if w * h > 4_200_000:
+            erreur("image trop lourde à décoder : %s (%d × %d = %.1f Mpx) — à découper en tuiles (rafraichir.py)"
+                   % (os.path.basename(chemin), w, h, w * h / 1e6))
     verifier_contrastes()
     if "--sans-depots" not in sys.argv:
         recompter()
+    try:
+        import datetime
+        with open(os.path.join(SRC, "faits.json"), encoding="utf-8") as f:
+            releve = json.load(f)["site"]["releve_rendu"]["valeur"]
+        age = (datetime.date.today() - datetime.date.fromisoformat(releve)).days
+        if age > 8:
+            avertir("le relevé de rendu date de %d jours : python outils/verifier_rendu.py (PowerShell)" % age)
+    except (KeyError, ValueError):
+        avertir("aucun relevé de rendu dans faits.json : python outils/verifier_rendu.py (PowerShell)")
     for fichier in ("sitemap.xml", "robots.txt", "llms.txt", "CNAME", "404.html"):
         if not os.path.exists(os.path.join(PUB, fichier)):
             erreur("fichier manquant : " + fichier)

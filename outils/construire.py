@@ -19,8 +19,12 @@ Syntaxe des pages :
                                         attribut (title, alt, content)
   {{f:moliere.ecrans}}                — un chiffre de faits.json, formaté
                                         dans la langue (70 795 / 70,795)
+  {{m:moliere.jours_en_ligne}}        — un petit nombre de faits.json en lettres
+  {{M:moliere.jours_en_ligne}}          (neuf / Neuf ; en chiffres au-delà de seize)
   {{d:moliere.en_ligne}}              — une date de faits.json, en toutes
                                         lettres (25 août 2026 / 25 August 2026)
+  {{t:moliere-accueil-full|[[alt||alt]]}} — une capture, en une balise <img> ou en
+                                        tuiles empilées (nom-1.webp, nom-2.webp…)
   {{p:prepa-600}}                     — le chemin d'une page dans la langue
                                         courante (/prepa-600/ ou /en/prepa-600/)
   {{accueil}}                         — le chemin de l'accueil dans la langue
@@ -80,6 +84,40 @@ def nombre(v, lang):
     return s.replace(",", " ") if lang == "fr" else s
 
 
+MOTS_FR = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix",
+           "onze", "douze", "treize", "quatorze", "quinze", "seize"]
+MOTS_EN = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+           "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen"]
+
+
+def mot(v, lang, majuscule=False):
+    """Un petit nombre en lettres (« neuf jours »), au-delà de seize en chiffres."""
+    if isinstance(v, int) and not isinstance(v, bool) and 0 <= v < len(MOTS_FR):
+        s = (MOTS_FR if lang == "fr" else MOTS_EN)[v]
+    else:
+        s = nombre(v, lang)
+    return s[0].upper() + s[1:] if majuscule else s
+
+
+def images_tuiles(nom, alt):
+    """{{t:nom|alt}} → la ou les balises <img> d'une capture : nom.webp, ou les
+    tuiles nom-1.webp, nom-2.webp… empilées (rafraichir.py découpe toute image
+    au-delà de 4 Mpx : le navigateur ne décode que ce qu'il montre). L'alt va
+    sur la première tuile, les suivantes sont décoratives."""
+    import glob
+    dossier = os.path.join(SRC, "assets", "img")
+    tuiles = [p for p in glob.glob(os.path.join(dossier, nom + "-*.webp"))
+              if re.fullmatch(re.escape(nom) + r"-\d+\.webp", os.path.basename(p))]
+    tuiles.sort(key=lambda p: int(re.search(r"-(\d+)\.webp$", p).group(1)))
+    if not tuiles:
+        if not os.path.exists(os.path.join(dossier, nom + ".webp")):
+            raise KeyError("image inconnue : %s" % nom)
+        return '<img src="/assets/img/%s.webp" alt="%s">' % (nom, alt)
+    return "".join('<img src="/assets/img/%s" alt="%s"%s>' % (os.path.basename(p), alt if k == 0 else "",
+                                                             "" if k == 0 else ' aria-hidden="true"')
+                   for k, p in enumerate(tuiles))
+
+
 def date_lettres(iso, lang):
     a, m, j = (int(x) for x in iso.split("-"))
     if lang == "fr":
@@ -107,8 +145,14 @@ def resoudre(texte, lang, slug):
     def choix(m):
         return m.group(1) if lang == "fr" else m.group(2)
     texte = re.sub(r"\[\[(.*?)\|\|(.*?)\]\]", choix, texte, flags=re.S)
+    texte = re.sub(r"\{\{t:([a-z0-9-]+)\|([^}]*)\}\}",
+                   lambda m: images_tuiles(m.group(1), m.group(2)), texte)
     texte = re.sub(r"\{\{f:([a-z0-9_.]+)\}\}",
                    lambda m: nombre(chercher_fait(m.group(1)), lang), texte)
+    texte = re.sub(r"\{\{m:([a-z0-9_.]+)\}\}",
+                   lambda m: mot(chercher_fait(m.group(1)), lang), texte)
+    texte = re.sub(r"\{\{M:([a-z0-9_.]+)\}\}",
+                   lambda m: mot(chercher_fait(m.group(1)), lang, True), texte)
     texte = re.sub(r"\{\{d:([a-z0-9_.]+)\}\}",
                    lambda m: date_lettres(chercher_fait(m.group(1)), lang), texte)
     texte = re.sub(r"\{\{p:([a-z0-9-]+)\}\}",
@@ -116,7 +160,7 @@ def resoudre(texte, lang, slug):
     texte = texte.replace("{{accueil}}", chemin_page("index", lang))
     texte = texte.replace("{{courriel}}", COURRIEL)
     texte = texte.replace("{{lang}}", lang)
-    reste = re.findall(r"\[\[|\{\{[a-z]+:", texte)
+    reste = re.findall(r"\[\[|\{\{[A-Za-z]+:", texte)
     if reste:
         raise ValueError("macro non résolue dans %s (%s) : %s" % (slug, lang, reste[:3]))
     return dimensions_images(texte)
@@ -146,7 +190,15 @@ def dimensions_images(texte):
         if not os.path.exists(chemin):
             return balise
         w, h = Image.open(chemin).size
-        balise = re.sub(r'\s(width|height)="[^"]*"', "", balise)
+        balise = re.sub(r'\s(width|height|loading|decoding)="[^"]*"', "", balise)
+        # TOUTES les images se chargent dès l'ouverture de la page, jamais « à
+        # l'approche » : avec loading="lazy", une vitrine qu'on atteint d'un
+        # coup de molette restait blanche le temps du téléchargement et du
+        # décodage (Anthony, 06/09 : « les sites ne sont pas chargés
+        # entièrement quand ils défilent… ça ne doit plus jamais se
+        # reproduire »). Le décodage reste asynchrone : il ne bloque pas le
+        # rendu du texte. outils/verifier_rendu.py le contrôle dans Edge.
+        balise = balise.replace("<img ", '<img loading="eager" decoding="async" ', 1)
         # …et une empreinte du contenu dans l'adresse. Une capture rafraîchie
         # garde le même nom de fichier : sans ça, le navigateur d'un visiteur
         # (ou celui d'Anthony) sert l'ancienne image pendant des jours, et la
