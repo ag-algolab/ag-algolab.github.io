@@ -756,3 +756,17 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
   .socle li { transition: border-color .3s ease; }
   .socle li:hover { border-color: var(--marque, var(--encre)); }
 }
+
+/* ------------------------------------------- l'écran qui enchaîne les pages
+   Les onze pages de l'espace élève dans un seul cadre : la suivante arrive
+   de la droite et recouvre la précédente (Anthony, 05/09 : « trois secondes
+   après, ça switch… ça arrive de droite à gauche »). Le script pose .entrant
+   puis .actif ; sans script, seule la première page (.actif) est visible.
+   Les captures viennent de l'écran d'Anthony (compte d'essai), pas de
+   rafraichir.py : l'espace demande une connexion. */
+.enchaine img { transform: translateX(100%); z-index: 0; }
+.enchaine img.actif { transform: none; z-index: 1; }
+.enchaine img.entrant { transform: none; z-index: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .enchaine img { transition: transform .65s cubic-bezier(.2, .7, .2, 1); }
+}

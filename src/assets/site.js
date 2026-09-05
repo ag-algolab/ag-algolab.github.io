@@ -126,6 +126,55 @@
     ordi.addEventListener('mouseleave', function () { v.classList.remove('ordi-devant'); });
   });
 
+  /* ------------------------------------------ l'écran qui enchaîne les pages
+     Les pages de l'espace élève, l'une après l'autre : la suivante arrive
+     de la droite et recouvre la précédente, toutes les trois secondes.
+     Avec une souris : au survol, et retour au tableau de bord quand elle
+     part. Sans souris : tout seul, tant que l'écran est visible. Les images
+     ne se chargent que quand le bloc approche ou qu'on le survole. */
+  chaque('[data-enchaine]', function (boite) {
+    var imgs = boite.querySelectorAll('img');
+    if (imgs.length < 2) return;
+    if (!souris && reduit) return;
+    var i = 0, minuterie = null, occupe = false;
+    var montrer = function (j) {
+      if (occupe || j === i) return;
+      occupe = true;
+      var cur = imgs[i], nx = imgs[j];
+      nx.classList.add('entrant');
+      setTimeout(function () {
+        cur.classList.remove('actif'); nx.classList.remove('entrant'); nx.classList.add('actif');
+        i = j; occupe = false;
+      }, reduit ? 0 : 700);
+    };
+    var suivant = function () { montrer((i + 1) % imgs.length); };
+    var lancer = function () { if (!minuterie) minuterie = setInterval(suivant, 3000); };
+    var arreter = function () { clearInterval(minuterie); minuterie = null; };
+    var charge = false;
+    var charger = function () {
+      if (charge) return;
+      charge = true;
+      Array.prototype.forEach.call(imgs, function (im) { im.loading = 'eager'; });
+    };
+    var cadre = boite.closest('.ordi, .tel, .tablette') || boite;
+    if (souris) {
+      cadre.addEventListener('mouseenter', function () { charger(); lancer(); });
+      cadre.addEventListener('mouseleave', function () {
+        arreter();
+        setTimeout(function () { if (!minuterie) montrer(0); }, 900);
+      });
+    } else if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (en) { if (en.isIntersecting) { charger(); lancer(); } else { arreter(); } });
+      }, { threshold: .3 }).observe(boite);
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es, io) {
+        es.forEach(function (en) { if (en.isIntersecting) { charger(); io.disconnect(); } });
+      }, { rootMargin: '400px' }).observe(boite);
+    }
+  });
+
   /* --------------------------------------------- le manège des écrans
      Quatre écrans posés sur un cercle vu de trois quarts : celui de devant
      est grand et net, les autres s'éloignent, rapetissent et s'assombrissent.

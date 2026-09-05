@@ -472,6 +472,31 @@ sont ceux du dépôt Molière (`package.json`, `lib/email.ts` pour Resend,
 `voix-serveur.ts` et `ocr-preuve.ts` pour Gemini, `GEMINI_MODEL` pour le
 Coach).
 
+**L'espace élève enchaîne ses pages** (`.enchaine` / `[data-enchaine]`,
+05/09 dans la nuit, sur les captures d'Anthony). La pièce « L'espace élève »
+du manège contient **onze images empilées** (`eleve-01-tableau-de-bord` …
+`eleve-11-mon-niveau`, 1 100 × 688, 16:10 exact) ; seule `.actif` est
+visible, les autres attendent à `translateX(100%)`. Toutes les 3 s, la
+suivante reçoit `.entrant` (glisse de la droite en 0,65 s, par-dessus), puis
+devient `.actif`. Avec une souris : au survol du cadre, et **retour au
+tableau de bord** 0,9 s après la sortie. Sans souris : tout seul tant que
+le cadre est visible (30 %). Les onze images sont en `loading="lazy"` et
+passent en `eager` quand le bloc approche (400 px) ou au premier survol —
+les images cachées par le débordement ne se chargeraient jamais sinon.
+L'ordre est celui qu'Anthony a dicté : coach, mes cours, calendrier,
+bibliothèque, dictées, calcul mental, échecs, concours, progression, niveau.
+**Deux captures reçues n'ont pas été prises** : « Mes règlements » (moyens
+de paiement et devise locaux) et « Mon profil » (un numéro de téléphone) —
+et il ne les avait pas citées.
+
+**Comment les captures d'Anthony sont égalisées** (`_travail/eleve/` garde
+les originaux, hors git) : bords sombres rognés (jusqu'à 12 px par côté,
+luminance < 90 — ses captures avaient 5 px de noir à gauche et 0 à 4 px en
+bas), puis cadrage **16:10 ancré en haut à gauche** (le menu et la barre du
+haut sont fixes, on ne perd que du bas), puis 1 100 × 688 en WebP à 80. Le
+tableau de bord donne aussi `moliere-eleve.webp` (960 × 600, héros et
+onglets). La même recette vaut pour toute capture qu'il enverra.
+
 ⚠️ Les `nth-child` du réacteur comptent **le `<svg>` comme premier enfant**
 (puis le cœur, puis les nœuds de 3 à 10) : le premier jet en avait mis trois
 à gauche et cinq à droite.
@@ -586,6 +611,10 @@ Ajouté le 5 septembre 2026 (nuit) :
     schéma animé par carte.
 33. **Les technologies se montrent par leurs logos**, vivants.
 
+34. **Les captures de l'espace élève viennent de son écran** (compte
+    d'essai), jamais d'une session que je tiendrais ; elles s'égalisent par
+    script, et deux pages sont écartées (règlements, profil).
+
 ---
 
 ## 6. Ce qui reste à Anthony
@@ -594,19 +623,10 @@ Ajouté le 5 septembre 2026 (nuit) :
    `construire.py`, `verifier.py`, commit, push — les captures des deux
    sites doivent montrer leur état réel.
 
-1. **Les écrans de l'espace élève** (demandé le 05/09, redemandé le soir) :
-   la carte « espace élève » doit passer d'une page à l'autre au survol,
-   toutes les 3 secondes, par un glissement de la droite vers la gauche —
-   coach, mes cours, calendrier, bibliothèque, dictées, calcul mental,
-   échecs, concours, progression, niveau. Il faut donc une capture par page
-   de `/eleve`, **et il faut être connecté**.
-   ⚠️ **Je ne saisis pas de mot de passe et je ne crée pas de compte** —
-   Anthony a proposé un compte d'essai, je ne m'en sers pas. Deux façons de
-   débloquer : il prend les captures lui-même (« Démo espace élève » dans
-   l'administration, une par page, fenêtre de 1 280 px), ou il ouvre la
-   session lui-même dans un Edge dont je réutilise le profil / dans un Chrome
-   relié à l'extension. Le mécanisme d'affichage reste à écrire (une vingtaine
-   de lignes : `.ecrans` + un minuteur au survol, sur le chemin riche).
+1. ~~Les écrans de l'espace élève~~ — **réglé le 05/09 dans la nuit** :
+   Anthony a envoyé treize captures, onze sont en ligne dans la pièce
+   « L'espace élève » du manège. Pour en changer une : même page, fenêtre
+   de 2 000 px, puis la recette d'égalisation de §4.
 
 1. **Search Console** : ajouter la propriété `agalgolab.com` (validation
    DNS chez Porkbun) et soumettre `https://agalgolab.com/sitemap.xml`.
@@ -810,3 +830,12 @@ Ajouté le 5 septembre 2026 (nuit) :
   tuiles de logos vivants (Simple Icons). Faits Prépa 600 recomptés encore
   (114 sous-tests, 1 710 questions). Assets en `?v=11`. Toujours en
   attente : les écrans de l'espace élève.
+- **05/09/2026 (nuit, suite)** — Lot 11. Anthony envoie treize captures de
+  l'espace élève ; onze sont égalisées par script (rognage des bords noirs,
+  16:10, 1 100 × 688) et montées dans la pièce « L'espace élève » du
+  manège, qui enchaîne les pages toutes les 3 s au survol (glissement de la
+  droite, retour au tableau de bord à la sortie), tout seul sur téléphone.
+  Règlements et profil écartés. `moliere-eleve.webp` refait depuis le
+  nouveau tableau de bord. Faits recomptés (le dépôt Molière a bougé : 72
+  écrans, 71 716 lignes ; Prépa 600 : 120 sous-tests, 1 800 questions).
+  Assets en `?v=12`. **Plus rien en attente.**

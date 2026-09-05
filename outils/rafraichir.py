@@ -58,6 +58,11 @@ CAPTURES = {
         ("p600-simulateur-m", P600 + "/simulateur.html", ["--mobile", "--long", "30000", "--attente", "5"]),
     ],
 }
+# ⚠️ Ne se rafraîchissent PAS ici (il faut être connecté) : moliere-admin.webp,
+# moliere-eleve.webp et les onze eleve-NN-*.webp de l'espace élève. Elles
+# viennent de l'écran d'Anthony ; les originaux sont dans _travail/eleve/
+# (hors git). Pour les refaire : mêmes pages, fenêtre de 2 000 px de large,
+# puis le rognage 16:10 → 1 100 × 688 (voir _PASSATION.md §3).
 # les zones : un moment précis d'une page, en une seule image (pas de -full).
 # nom, url, options de capture, largeur stockée
 ZONES = [
