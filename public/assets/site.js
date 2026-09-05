@@ -78,7 +78,11 @@
   var distance = function (boite) {
     var img = boite.querySelector('img');
     if (!img) return 0;
-    return Math.max(0, img.getBoundingClientRect().height - boite.getBoundingClientRect().height);
+    // en coordonnées LOCALES (offsetHeight, pas getBoundingClientRect) : dans
+    // le manège la pièce est mise à l'échelle, et la mesure à l'écran faisait
+    // descendre l'image un tiers trop loin, dans le blanc (Anthony, 05/09 :
+    // « ça continue à descendre à l'infini »)
+    return Math.max(0, img.offsetHeight - boite.clientHeight);
   };
   chaque('.defile', function (boite) {
     var img = boite.querySelector('img');
@@ -165,7 +169,7 @@
     /* la géométrie : R le rayon du cercle, F la distance de l'œil, pente
        l'inclinaison du cercle (0 = vu de face, 1 = vu du dessus), y0 la
        ligne du centre du cercle. Tout est en pixels du bloc. */
-    var W = 0, R = 0, F = 0, pente = 0, y0 = 0, dims = [], base = 0, devant = -1;
+    var W = 0, R = 0, F = 0, pente = 0, y0 = 0, dims = [], base = 0, devant = -1, sMax = 1;
     var proj = function (a, r) {
       var X = r * Math.sin(a), Z = r * Math.cos(a), s = F / (F - Z);
       return [W / 2 + X * s, y0 + Z * pente * s, s, Z];
@@ -188,16 +192,21 @@
       // l'inclinaison : assez forte sur grand écran pour que la pièce du fond
       // dépasse au-dessus de celle de devant — à .25 elle était cachée derrière
       pente = etroit ? .26 : .5;
+      // les pièces sont mises en page À LEUR TAILLE DE DEVANT (× sMax), puis
+      // seulement réduites : un texte ou une image agrandis par scale() sont
+      // flous, réduits ils restent nets (Anthony, 05/09 : « l'adresse sur le
+      // grand écran est un peu floue, pareil pour le téléphone »)
+      sMax = F / (F - R);
       pieces.forEach(function (p) {
         var k = p.classList.contains('carte-tel') ? (etroit ? .21 : .135) : p.classList.contains('carte-tab') ? (etroit ? .30 : .19) : (etroit ? .56 : .36);
-        p.style.width = Math.round(W * k) + 'px';
+        p.style.width = Math.round(W * k * sMax) + 'px';
       });
       dims = pieces.map(function (p) { return { w: p.offsetWidth, h: p.offsetHeight }; });
       // la hauteur du bloc : la pièce la plus haute, à la place où elle monte le plus
       var haut = Infinity, i, j;
       for (i = 0; i < n; i++) for (j = 0; j < n; j++) {
         var q = proj(j * pas * Math.PI / 180, R);
-        haut = Math.min(haut, q[3] * pente * q[2] - dims[i].h * q[2]);
+        haut = Math.min(haut, q[3] * pente * q[2] - dims[i].h * q[2] / sMax);
       }
       y0 = 12 - haut;
       bloc.style.height = Math.round(y0 + R * pente * F / (F - R) + 28) + 'px';
@@ -214,7 +223,7 @@
       var iDevant = 0, zMax = -Infinity;
       pieces.forEach(function (p, i) {
         var q = proj((base + i * pas) * Math.PI / 180, R), s = q[2], Z = q[3];
-        p.style.transform = 'translate(' + (q[0] - W / 2 - dims[i].w / 2).toFixed(1) + 'px,' + (q[1] - dims[i].h).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+        p.style.transform = 'translate(' + (q[0] - W / 2 - dims[i].w / 2).toFixed(1) + 'px,' + (q[1] - dims[i].h).toFixed(1) + 'px) scale(' + (s / sMax).toFixed(4) + ')';
         p.style.zIndex = String(Math.round(1000 + Z));
         var prof = 1 - (Z / R + 1) / 2;
         p.style.setProperty('--voile', (prof * .34).toFixed(3));

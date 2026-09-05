@@ -68,10 +68,13 @@ ZONES = [
     # question du test, le haut du formulaire, la première question de la
     # candidature.
     #
-    # le test de niveau COMMENCÉ : on choisit le français, on part de la
-    # première question et on descend jusqu'à la fin de la page.
-    ("moliere-test-debut-m", MOLIERE + "/test-de-niveau",
-     ["--mobile", "--clic", "du niveau A1.1", "--depuis", "sur 4 de ce palier", "--decalage", "-120", "--long", "30000", "--attente", "6"], 480),
+    # le test de niveau sur téléphone : l'ACCUEIL du test (« votre niveau en
+    # 3 minutes », la photo, les deux langues), pas une question du test
+    # commencé — « c'est pas attractif » (Anthony, 05/09 au soir). Les autres
+    # pages publiques sur téléphone ont été écartées : elles montrent un
+    # drapeau ou nomment le programme local. 560 px pour rester net sur un
+    # écran fin (la pièce fait 204 px CSS quand elle est devant).
+    ("moliere-test-tel", MOLIERE + "/test-de-niveau", ["--mobile", "--long", "30000", "--attente", "5"], 560),
     # l'inscription sur une TABLETTE : à cette largeur, le formulaire se lit,
     # et on le déroule en entier — jusqu'à la preuve de règlement.
     ("moliere-inscription-tab", MOLIERE + "/inscription-cours",

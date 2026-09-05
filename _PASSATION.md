@@ -432,6 +432,46 @@ gauche** puis dessert chaque nœud. Sur chaque fil circule une impulsion
 mise en pause hors écran (`pauseAnimations`). Sans mouvement réduit, le cœur
 respire (`::after`). Sans script : le cœur et huit cartes, sans fils.
 
+**Netteté du manège** (Anthony, même soir : « institut-moliere.com sur le
+grand écran, c'est un petit peu flou, pareil pour le test »). Un texte ou
+une image agrandis par `scale()` sont flous ; réduits, ils restent nets. Les
+pièces sont donc **mises en page à leur taille de devant** (largeur × `sMax`,
+avec `sMax = F/(F − R)` ≈ 1,33) puis `scale(s / sMax)` : celle de devant est
+à l'échelle 1, les autres réduites. Plus de `will-change: transform`, qui
+figeait la rastérisation. **Le défilement au survol** se mesure désormais en
+coordonnées locales (`img.offsetHeight − boite.clientHeight`) : mesuré à
+l'écran sur une pièce agrandie, il descendait un tiers trop loin, dans le
+blanc (« ça continue à descendre à l'infini »). **Ordre des pièces** :
+tablette · ordinateur (élève) · téléphone · ordinateur (candidature) — un
+ordinateur entre chaque appareil mobile. **La page du téléphone** est
+l'accueil du test de niveau (`moliere-test-tel`, 560 px, page entière), pas
+une question du test commencé (« c'est pas attractif ») ; les six autres
+pages publiques ont été photographiées et écartées : elles montrent un
+drapeau ou nomment le programme local ([[jamais-la-tunisie]]).
+
+**Les décisions, en schémas** (`.decisions` / `.decision` / `.schema`,
+même soir : « faites de manière visuelle et dynamique »). Trois SVG de
+320 × 150 écrits à la main, animés en CSS seul : la demande qui traverse
+écran → serveur → base, acceptée (point vert, base qui s'épaissit) puis
+refusée (point rouge qui rebondit, base rouge) ; la fenêtre de trois niveaux
+qui glisse sur les sept rayons A1.1 → C2 (`NIVEAUX_TEST` du dépôt Molière)
+avec le curseur « son niveau » ; la notification qui part de la base par le
+serveur jusqu'au téléphone (badge ambre) pendant que le fil du navigateur,
+en pointillé, est coupé par une croix. Textes en macros `[[fr||en]]` dans
+les `<text>`. Avec « réduire le mouvement » : chaque schéma est posé dans
+son état le plus lisible.
+
+**Le socle, vivant** (`.socle`, « tu mets les logos en dynamiques vivants »).
+Onze tuiles — Next.js, React, TypeScript, Tailwind, Supabase, PostgreSQL,
+Vercel, Telegram, Resend, Gemini, Claude Code — chacune avec son logo
+(tracés **Simple Icons**, domaine public, inclus en SVG dans la page) en
+couleur de marque (`--marque`), qui flotte (`socle-flotte`) et respire
+(`socle-souffle`) avec un retard et une durée propres (`--r`, `--d`). En
+flex centré : 6 + 5 sur grand écran, 2 par rangée sur téléphone. Les rôles
+sont ceux du dépôt Molière (`package.json`, `lib/email.ts` pour Resend,
+`voix-serveur.ts` et `ocr-preuve.ts` pour Gemini, `GEMINI_MODEL` pour le
+Coach).
+
 ⚠️ Les `nth-child` du réacteur comptent **le `<svg>` comme premier enfant**
 (puis le cœur, puis les nœuds de 3 à 10) : le premier jet en avait mis trois
 à gauche et cinq à droite.
@@ -534,6 +574,17 @@ Ajouté le 5 septembre 2026 (soir) :
     c'était un hyperlien par nœud, c'est un attribut à ajouter.
 29. **« Disponible sur téléphone » n'est pas une option** : chaque mécanique
     a sa forme en colonne, testée à 390 px avant la mise en ligne.
+
+Ajouté le 5 septembre 2026 (nuit) :
+
+30. **Net, ou rien** : un écran de vitrine ne doit jamais être agrandi par
+    `scale()` ; on met en page à la taille finale et on réduit.
+31. **Un ordinateur entre chaque appareil mobile** dans le manège ; et la
+    page du téléphone doit être **attrayante** — l'accueil du test, pas une
+    question.
+32. **Les décisions se montrent**, elles ne se lisent pas seulement : un
+    schéma animé par carte.
+33. **Les technologies se montrent par leurs logos**, vivants.
 
 ---
 
@@ -749,3 +800,13 @@ Ajouté le 5 septembre 2026 (soir) :
   rotations ne se testent qu'en headless). Les faits Prépa 600 ont encore
   bougé (102 sous-tests, 1 530 questions) : recomptés avant la construction.
   Assets en `?v=10`. Toujours en attente : les écrans de l'espace élève.
+- **05/09/2026 (nuit)** — Lot 10. Manège : pièces mises en page à leur
+  taille de devant puis réduites (netteté), défilement au survol en
+  coordonnées locales (plus de descente dans le blanc), ordre tablette ·
+  ordinateur · téléphone · ordinateur, page du téléphone remplacée par
+  l'accueil du test de niveau (`moliere-test-tel`, capture faite ; six
+  autres pages écartées pour référence géographique). Les trois décisions
+  reçoivent chacune un schéma SVG animé en CSS ; le socle devient onze
+  tuiles de logos vivants (Simple Icons). Faits Prépa 600 recomptés encore
+  (114 sous-tests, 1 710 questions). Assets en `?v=11`. Toujours en
+  attente : les écrans de l'espace élève.

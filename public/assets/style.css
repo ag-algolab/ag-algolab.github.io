@@ -600,7 +600,7 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
    Sans script, ou si le visiteur demande moins de mouvement, la table de
    deux sur deux (.ecrans-4) reste telle quelle. */
 .ecrans-4.anneau { display: block; position: relative; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; margin-top: 10px; }
-.ecrans-4.anneau .carte-ecran { position: absolute; left: 50%; top: 0; margin: 0; max-width: none; transform-origin: 50% 100%; will-change: transform; cursor: grab; }
+.ecrans-4.anneau .carte-ecran { position: absolute; left: 50%; top: 0; margin: 0; max-width: none; transform-origin: 50% 100%; cursor: grab; }
 .ecrans-4.anneau.tire .carte-ecran { cursor: grabbing; }
 .ecrans-4.anneau .carte-ecran .leg { display: none; }
 .ecrans-4.anneau .carte-ecran img { pointer-events: none; -webkit-user-drag: none; }
@@ -680,4 +680,79 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 @media (prefers-reduced-motion: no-preference) {
   .reacteur-coeur::after { content: ""; position: absolute; inset: -12px; border-radius: 32px; border: 1px solid rgba(110, 231, 183, .5); animation: coeur 3.2s ease-out infinite; pointer-events: none; }
   @keyframes coeur { from { transform: scale(.96); opacity: .8; } to { transform: scale(1.1); opacity: 0; } }
+}
+
+/* --------------------------------------------------- les décisions, en schémas
+   Trois cartes, chacune coiffée d'un petit schéma SVG qui bouge (Anthony,
+   05/09 au soir : « les décisions doivent être faites de manière visuelle et
+   dynamique »). La demande qui traverse écran → serveur → base et que la
+   base accepte puis refuse ; la fenêtre de trois niveaux qui glisse sur les
+   rayons de la bibliothèque ; la notification qui part du serveur pendant
+   que le fil du navigateur est coupé. Sans mouvement réduit : les schémas
+   sont animés en CSS ; sinon ils sont posés dans leur état le plus lisible. */
+.decisions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 18px; }
+.decision { background: var(--carte); border: 1px solid var(--filet); border-radius: var(--rayon); overflow: hidden; min-width: 0; box-shadow: 0 20px 50px -40px rgba(11, 46, 31, .4); }
+.decision .schema { display: block; width: 100%; height: auto; background: var(--papier-2); border-bottom: 1px solid var(--filet); }
+.decision .texte { padding: 18px 22px 22px; }
+.decision .texte p { margin: 0; }
+.schema text { font: 600 9.5px var(--mono); fill: var(--encre-2); letter-spacing: .02em; }
+.schema .dans { fill: var(--encre); }
+.schema .boite { fill: var(--carte); stroke: var(--encre-2); stroke-width: 1.2; }
+.schema .boite-base { fill: var(--accent-pale); stroke: var(--accent); }
+.schema .fil { fill: none; stroke: var(--encre-2); stroke-width: 1.2; stroke-linecap: round; }
+.schema .fil-accent { stroke: var(--accent); }
+.schema .fil-mort { stroke: #9DB3A8; stroke-dasharray: 3 4; }
+.schema .pastille { fill: var(--encre-2); }
+.schema .cadenas { fill: var(--accent); }
+.schema .point-ok { fill: var(--accent); }
+.schema .point-ko { fill: #DC2626; opacity: 0; }
+.schema .point-mort { fill: #9DB3A8; }
+.schema .croix { fill: none; stroke: #DC2626; stroke-width: 1.6; stroke-linecap: round; }
+.schema .livre { fill: #CFE6DA; }
+.schema .fenetre { fill: rgba(16, 185, 129, .22); stroke: var(--accent); stroke-width: 1.2; }
+.schema .curseur { fill: var(--accent); }
+.schema .ecran-tel { fill: var(--papier); }
+.schema .badge { fill: var(--ambre); stroke: var(--carte); stroke-width: 2; transform-box: fill-box; transform-origin: center; }
+.schema .s2-fen { transform: translateX(86px); }
+.schema .s3-badge { transform: scale(1); }
+@media (prefers-reduced-motion: no-preference) {
+  .schema .s1-ok { animation: s1-ok 6s linear infinite; }
+  .schema .s1-ko { animation: s1-ko 6s linear infinite; }
+  .schema .s1-base { animation: s1-base 6s linear infinite; }
+  @keyframes s1-ok { 0% { transform: translateX(0); opacity: 1; } 40% { transform: translateX(216px); opacity: 1; } 46%, 100% { transform: translateX(216px); opacity: 0; } }
+  @keyframes s1-ko { 0%, 50% { transform: translateX(0); opacity: 0; } 52% { transform: translateX(0); opacity: 1; } 76%, 80% { transform: translateX(178px); opacity: 1; } 98% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(0); opacity: 0; } }
+  @keyframes s1-base { 0%, 36%, 46%, 74%, 84%, 100% { stroke: var(--accent); stroke-width: 1.2; } 40% { stroke: var(--accent); stroke-width: 3; } 78% { stroke: #DC2626; stroke-width: 3; } }
+  .schema .s2-fen { animation: s2-fen 10s ease-in-out infinite; }
+  @keyframes s2-fen { 0%, 22% { transform: translateX(86px); } 32%, 52% { transform: translateX(129px); } 62%, 88% { transform: translateX(43px); } 100% { transform: translateX(86px); } }
+  .schema .s3-pt { animation: s3-pt 4.5s linear infinite; }
+  .schema .s3-badge { animation: s3-badge 4.5s ease-out infinite; }
+  .schema .s3-mort { animation: s3-mort 4.5s linear infinite; }
+  .schema .s3-x { animation: s3-x 4.5s linear infinite; }
+  @keyframes s3-pt { 0% { transform: translateX(0); opacity: 1; } 50% { transform: translateX(226px); opacity: 1; } 54%, 100% { transform: translateX(226px); opacity: 0; } }
+  @keyframes s3-badge { 0%, 50% { transform: scale(0); } 58% { transform: scale(1.25); } 64%, 92% { transform: scale(1); } 100% { transform: scale(0); } }
+  @keyframes s3-mort { 0% { transform: translateX(0); opacity: 1; } 40% { transform: translateX(100px); opacity: 1; } 46%, 100% { transform: translateX(100px); opacity: 0; } }
+  @keyframes s3-x { 0%, 38% { opacity: .35; } 42%, 60% { opacity: 1; } 70%, 100% { opacity: .35; } }
+}
+
+/* ------------------------------------------------------- le socle, vivant
+   Les briques de la plateforme, chacune avec son logo en couleur de marque
+   (tracés Simple Icons, domaine public), qui flottent et respirent, pas
+   toutes au même rythme (Anthony, 05/09 : « les logos en dynamiques
+   vivants »). --marque, --r et --d sont posés dans le HTML. */
+/* en flex centré, pas en grille : onze tuiles font 6 + 5 centrées, là où la
+   grille laissait quatre tuiles collées à gauche sous une rangée de sept */
+.socle { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.socle li { flex: 0 1 172px; position: relative; background: var(--carte); border: 1px solid var(--filet); border-radius: 14px; padding: 18px 14px 14px; text-align: center; min-width: 0; }
+.socle svg { display: block; width: 34px; height: 34px; margin: 0 auto 10px; fill: var(--marque, var(--encre)); }
+.socle b { display: block; font: 700 .8rem/1.3 var(--mono); letter-spacing: .01em; color: var(--encre); }
+.socle span { display: block; margin-top: 3px; font-size: .8rem; line-height: 1.4; color: var(--encre-2); }
+@media (prefers-reduced-motion: no-preference) {
+  .socle li { animation: socle-flotte var(--d, 6s) ease-in-out infinite alternate; animation-delay: var(--r, 0s); }
+  .socle svg { animation: socle-souffle 3.6s ease-in-out infinite alternate; animation-delay: var(--r, 0s); }
+  @keyframes socle-flotte { from { transform: translateY(0); box-shadow: 0 2px 6px -4px rgba(11, 46, 31, .3); } to { transform: translateY(-7px); box-shadow: 0 22px 30px -22px rgba(11, 46, 31, .55); } }
+  @keyframes socle-souffle { from { transform: scale(1) rotate(-2deg); } to { transform: scale(1.1) rotate(2deg); } }
+}
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .socle li { transition: border-color .3s ease; }
+  .socle li:hover { border-color: var(--marque, var(--encre)); }
 }
