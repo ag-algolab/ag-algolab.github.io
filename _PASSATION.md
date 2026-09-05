@@ -104,6 +104,16 @@ Les pages se lisent à `http://localhost:8873/`, `/fr/`, `/institut-moliere/`…
 
 ### Capturer
 
+> ⚠️ **Toutes les fenêtres d'ordinateur sont photographiées à `--echelle 2`
+> et stockées en 1 600 px** (pages entières) / 1 440 px (hauts de page)
+> depuis le 06/09 : sur un écran à 1,5× — un portable Windows —
+> l'ordinateur de la page de cas occupe ~1 560 px physiques, et les
+> anciennes images de 1 100 étaient agrandies, donc floues « partout sur le
+> site quand il s'agit de fenêtre ordi » (Anthony). `Image.MAX_IMAGE_PIXELS
+> = None` dans `rafraichir.py` : l'accueil Molière à l'échelle 2 fait 195
+> mégapixels, au-delà de la garde de Pillow. Les pages entières plafonnent à
+> 16 000 px de haut (limite WebP : 16 383). Le dossier d'images pèse 8,6 Mo.
+
 ```
 python outils/capturer.py --site http://localhost:8873      # depuis PowerShell
 ```
@@ -864,3 +874,8 @@ Ajouté le 5 septembre 2026 (nuit) :
   (opacité, 0,8 s), plus en glissement. La candidature `/enseigner` est
   photographiée **depuis le haut de la page** (plus de `--depuis`), les
   clics restent. Assets en `?v=14`.
+- **06/09/2026 (matin, fin)** — Lot 14. Le flou était **partout où il y a
+  une fenêtre d'ordinateur**, Prépa 600 compris : les captures à 1 100 px
+  étaient agrandies sur un écran à 1,5×. Rafraîchissement complet à
+  `--echelle 2`, stockage en 1 600 / 1 440 px (zones : 1 600, 1 500, 780),
+  garde Pillow levée, `moliere-eleve` refait en 1 440. Assets en `?v=14`.

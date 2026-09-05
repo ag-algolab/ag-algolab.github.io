@@ -17,7 +17,7 @@
       "releve": "2026-09-05"
     },
     "lignes_ts": {
-      "valeur": 71716,
+      "valeur": 71772,
       "source": "wc -l sur src/**/*.ts et *.tsx",
       "releve": "2026-09-05"
     },
@@ -114,17 +114,17 @@
       "releve": "2026-09-05"
     },
     "questions": {
-      "valeur": 1800,
+      "valeur": 1890,
       "source": "donnees/items.json : les blancs complets, 90 items chacun",
       "releve": "2026-09-05"
     },
     "blancs": {
-      "valeur": 20,
+      "valeur": 21,
       "source": "donnees/items.json : blancs de 90 items (les blancs en cours d'écriture ne comptent pas)",
       "releve": "2026-09-05"
     },
     "sous_tests": {
-      "valeur": 120,
+      "valeur": 126,
       "source": "6 sous-tests par blanc complet, tous passés par marketing/verifier_lot.py --tous",
       "releve": "2026-09-05"
     },
@@ -184,7 +184,7 @@
       "releve": "2026-09-04"
     },
     "blancs_payants": {
-      "valeur": 19,
+      "valeur": 20,
       "source": "tous les blancs complets sauf le premier, qui est gratuit",
       "releve": "2026-09-05"
     },

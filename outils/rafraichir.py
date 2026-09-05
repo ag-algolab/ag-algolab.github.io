@@ -24,6 +24,8 @@ import subprocess
 import sys
 
 from PIL import Image
+# une page entière à l'échelle 2 dépasse la garde anti-« bombe » de Pillow (195 Mpx pour l'accueil Molière)
+Image.MAX_IMAGE_PIXELS = None
 
 sys.stdout.reconfigure(encoding="utf-8")
 ICI = os.path.dirname(os.path.abspath(__file__))
@@ -38,20 +40,20 @@ P600 = "https://prepa600.com"
 # nom, url, options de capturer_cdp
 CAPTURES = {
     "moliere": [
-        ("moliere-accueil", MOLIERE + "/", ["--long", "30000", "--attente", "7"]),
-        ("moliere-plateforme", MOLIERE + "/la-plateforme", ["--long", "30000", "--attente", "7"]),
-        ("moliere-test", MOLIERE + "/test-de-niveau", ["--long", "30000", "--attente", "5"]),
-        ("moliere-inscription", MOLIERE + "/inscription-cours", ["--long", "30000", "--attente", "5", "--clic", "première fois"]),
+        ("moliere-accueil", MOLIERE + "/", ["--echelle", "2", "--long", "30000", "--attente", "7"]),
+        ("moliere-plateforme", MOLIERE + "/la-plateforme", ["--echelle", "2", "--long", "30000", "--attente", "7"]),
+        ("moliere-test", MOLIERE + "/test-de-niveau", ["--echelle", "2", "--long", "30000", "--attente", "5"]),
+        ("moliere-inscription", MOLIERE + "/inscription-cours", ["--echelle", "2", "--long", "30000", "--attente", "5", "--clic", "première fois"]),
         ("moliere-accueil-m", MOLIERE + "/", ["--mobile", "--long", "30000", "--attente", "7"]),
         ("moliere-test-m", MOLIERE + "/test-de-niveau", ["--mobile", "--long", "30000", "--attente", "5"]),
         ("moliere-inscription-m", MOLIERE + "/inscription-cours", ["--mobile", "--long", "30000", "--attente", "5", "--clic", "première fois"]),
         ("moliere-plateforme-m", MOLIERE + "/la-plateforme", ["--mobile", "--long", "30000", "--attente", "7"]),
     ],
     "p600": [
-        ("p600-accueil", P600 + "/", ["--long", "30000", "--attente", "7"]),
-        ("p600-test", P600 + "/le-test.html", ["--long", "30000", "--attente", "5"]),
-        ("p600-simulateur", P600 + "/simulateur.html", ["--long", "30000", "--attente", "5"]),
-        ("p600-tarifs", P600 + "/tarifs.html", ["--long", "30000", "--attente", "5"]),
+        ("p600-accueil", P600 + "/", ["--echelle", "2", "--long", "30000", "--attente", "7"]),
+        ("p600-test", P600 + "/le-test.html", ["--echelle", "2", "--long", "30000", "--attente", "5"]),
+        ("p600-simulateur", P600 + "/simulateur.html", ["--echelle", "2", "--long", "30000", "--attente", "5"]),
+        ("p600-tarifs", P600 + "/tarifs.html", ["--echelle", "2", "--long", "30000", "--attente", "5"]),
         ("p600-accueil-m", P600 + "/", ["--mobile", "--long", "30000", "--attente", "7"]),
         ("p600-test-m", P600 + "/le-test.html", ["--mobile", "--long", "30000", "--attente", "5"]),
         ("p600-tarifs-m", P600 + "/tarifs.html", ["--mobile", "--long", "30000", "--attente", "5"]),
@@ -79,7 +81,7 @@ ZONES = [
     # pages publiques sur téléphone ont été écartées : elles montrent un
     # drapeau ou nomment le programme local. 560 px pour rester net sur un
     # écran fin (la pièce fait 204 px CSS quand elle est devant).
-    ("moliere-test-tel", MOLIERE + "/test-de-niveau", ["--mobile", "--long", "30000", "--attente", "5"], 560),
+    ("moliere-test-tel", MOLIERE + "/test-de-niveau", ["--mobile", "--long", "30000", "--attente", "5"], 780),
     # l'inscription sur une TABLETTE : à cette largeur, le formulaire se lit,
     # et on le déroule en entier — jusqu'à la preuve de règlement.
     ("moliere-inscription-tab", MOLIERE + "/inscription-cours",
@@ -88,13 +90,13 @@ ZONES = [
       # vitrine : on les floute AVANT la photo, par leur texte (un rectangle
       # vieillirait à la première mise à jour de la page).
       "--masquer", "Titulaire", "--masquer", "Banque :", "--masquer", "RIB :", "--masquer", "IBAN",
-      "--long", "30000", "--attente", "5"], 1000),
+      "--long", "30000", "--attente", "5"], 1500),
     # la candidature de « Enseigner », avec des réponses cochées : c'est l'état
     # sélectionné qu'Anthony veut montrer, pas le formulaire vide.
     ("moliere-enseigner", MOLIERE + "/enseigner",
-     ["--largeur", "1280", "--hauteur", "1000", "--clic", "Professeur en fonction", "--clic", "Français",
+     ["--largeur", "1280", "--hauteur", "1000", "--echelle", "2", "--clic", "Professeur en fonction", "--clic", "Français",
       "--clic", "Anglais", "--clic", "Des enfants et des adolescents",
-      "--long", "30000", "--attente", "5"], 1100),  # depuis le HAUT de la page (06/09 : « on ne voit pas le haut »)
+      "--long", "30000", "--attente", "5"], 1600),  # depuis le HAUT de la page (06/09 : « on ne voit pas le haut »)
     ("p600-fuites-m", P600 + "/", ["--mobile", "--depuis", "FUITE 01", "--decalage", "-90", "--long", "1140", "--attente", "7"], 390),
 ]
 
@@ -119,12 +121,16 @@ def convertir(nom, mobile):
         full = full.crop((0, 0, 360, min(full.height, 16000)))
         full.save(os.path.join(IMG, nom + "-full.webp"), quality=78, method=6)
     else:
-        haut = im.resize((960, round(im.height * 960 / im.width)), Image.LANCZOS)
-        haut.crop((0, 0, 960, min(haut.height, 1500))).save(os.path.join(IMG, nom + ".webp"), quality=82, method=6)
-        # 1 100 px : sur la page de cas, l'écran de l'ordinateur fait 1 038 px
-        # de large. À 800, l'image était agrandie, donc floue (Anthony, 05/09).
-        full = im.resize((1100, round(im.height * 1100 / im.width)), Image.LANCZOS)
-        full = full.crop((0, 0, 1100, min(full.height, 22000)))
+        # ⚠️ Les écrans d'ordinateur sont photographiés à --echelle 2 (2 560 px
+        # pour 1 280 CSS) et stockés en 1 600 px : un écran à 1,5× (portable
+        # Windows) affiche l'ordinateur de la page de cas sur ~1 560 px
+        # physiques, et 1 100 étaient agrandis, donc flous — « partout sur le
+        # site quand il s'agit de fenêtre ordi » (Anthony, 06/09). Plafond à
+        # 16 000 px de haut : WebP refuse au-delà de 16 383.
+        haut = im.resize((1440, round(im.height * 1440 / im.width)), Image.LANCZOS)
+        haut.crop((0, 0, 1440, min(haut.height, 2250))).save(os.path.join(IMG, nom + ".webp"), quality=80, method=6)
+        full = im.resize((1600, round(im.height * 1600 / im.width)), Image.LANCZOS)
+        full = full.crop((0, 0, 1600, min(full.height, 16000)))
         full.save(os.path.join(IMG, nom + "-full.webp"), quality=70, method=6)
     print("  → %s : haut %s, entière %s (%d Ko)" % (nom, haut.size, full.size, os.path.getsize(os.path.join(IMG, nom + "-full.webp")) // 1024))
 
