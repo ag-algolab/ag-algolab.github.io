@@ -7,7 +7,10 @@ en anglais ET en français.
 
 Écrit les pages HTML temporaires dans _travail/og/, les photographie avec
 Edge headless (une à la fois) et dépose les PNG dans src/assets/img/ :
-og-agalgolab-en.png, og-agalgolab-fr.png, og-institut-moliere-en.png, …
+og-institut-moliere-en.png, og-institut-moliere-fr.png, og-prepa-600-*.png
+(⚠️ plus l'accueil depuis le 06/09 : sa carte de partage est une photo,
+src/assets/img/og-agalgolab.jpg — logo et portrait sur le mur de studio,
+la même dans les deux langues ; ne pas la régénérer ici)
 `construire.py` choisit la version de la langue de la page.
 Relancer ensuite `python outils/construire.py`.
 
@@ -66,10 +69,6 @@ h1 em{font-style:normal;color:#047857}
 
 TEXTES = {
     "fr": {
-        "og-agalgolab": (74, "La vision, le produit, la mise en ligne",
-                         "Des plateformes web complètes, <em>construites seul</em>, posées sur une seule base.",
-                         "agalgolab.com", "<b>%s</b>produits en production" % fait("total.produits"),
-                         "<b>%s</b>commits · %s jours" % (nb(fait("total.commits"), "fr"), fait("moliere.jours"))),
         "og-institut-moliere": (66, "Cas client · en ligne depuis le 25 août 2026",
                                 "Institut Molière : tout le site et toute la plateforme, <em>construits seul</em>.",
                                 "%s écrans · %s routes d'API · %s commits" % (fait("moliere.ecrans"), fait("moliere.routes_api"), fait("moliere.commits")),
@@ -82,10 +81,6 @@ TEXTES = {
                          "<b>%s</b>jours jusqu'à l'ouverture" % fait("p600.jours")),
     },
     "en": {
-        "og-agalgolab": (74, "The vision, the product, the launch",
-                         "Complete web platforms, <em>built solo</em>, resting on a single foundation.",
-                         "agalgolab.com", "<b>%s</b>products in production" % fait("total.produits"),
-                         "<b>%s</b>commits · %s days" % (nb(fait("total.commits"), "en"), fait("moliere.jours"))),
         "og-institut-moliere": (66, "Client case · live since 25 August 2026",
                                 "Institut Molière: the whole site and the whole platform, <em>built solo</em>.",
                                 "%s screens · %s API routes · %s commits" % (fait("moliere.ecrans"), fait("moliere.routes_api"), fait("moliere.commits")),

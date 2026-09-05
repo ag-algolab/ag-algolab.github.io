@@ -210,6 +210,22 @@ n'est plus agrandie à l'écran.
 
 ### Les images de partage
 
+⚠️ **L'accueil ne passe plus par `og.py` depuis le 06/09** : sa carte de
+partage est une photo, `src/assets/img/og-agalgolab.jpg` — le logo à gauche
+et le portrait d'Anthony à droite, sur le mur de studio de sa photo étendu à
+tout le cadre. Elle ne porte aucun texte (le titre et la description viennent
+des balises), donc **une seule image pour les deux langues** ; `image_partage`
+conserve l'extension du fichier et retombe dessus faute de version par langue.
+Fabriquée par Gemini à partir de deux images (le logo détouré en 1 400 px,
+tiré de `_archives/img-v1/logo.png`, et l'original `Photo de profil pro.jpg`
+en 1 024 px) — **mais Gemini a redessiné le logo** : flèche plus grosse, G
+plus épais, contre-forme du A trop ouverte. Le vrai logo a donc été reposé
+par-dessus : la zone est effacée par diffusion de Laplace (le remplissage
+épouse exactement les bords, aucune démarcation sur un dégradé lisse), le
+grain de la photo est remesuré autour et remis, puis le logo détouré est
+composé au même endroit. Les deux pages de cas gardent leurs cartes avec
+texte, fabriquées par `og.py`.
+
 `python outils/og.py` (PowerShell) fabrique `og-agalgolab.png`,
 `og-institut-moliere.png` et `og-prepa-600.png` dans `src/assets/img/`,
 en 1200 × 630, avec les polices et la DA du site. Les textes sont dans le

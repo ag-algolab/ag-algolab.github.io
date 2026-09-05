@@ -131,10 +131,16 @@ def chemin_page(slug, lang):
     return base if slug == "index" else base + slug + "/"
 
 
+DEFAUT_PARTAGE = "/assets/img/og-agalgolab.jpg"
+
+
 def image_partage(meta, lang):
-    """og-agalgolab.png → og-agalgolab-en.png si cette version existe."""
-    img = meta.get("image", "/assets/img/og-agalgolab.png")
-    cand = img[:-4] + "-" + lang + ".png"
+    """og-prepa-600.png → og-prepa-600-en.png si cette version existe.
+    La carte de l'accueil, elle, ne porte aucun texte depuis le 06/09 (le
+    logo et le portrait d'Anthony sur le mur de studio) : une seule image
+    pour les deux langues, et l'extension est conservée."""
+    img = meta.get("image", DEFAUT_PARTAGE)
+    cand = img[:-4] + "-" + lang + img[-4:]
     if os.path.exists(os.path.join(SRC, cand.lstrip("/").replace("/", os.sep))):
         return cand
     return img
