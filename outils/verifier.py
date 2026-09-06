@@ -140,7 +140,7 @@ def verifier_page(chemin):
     rel = os.path.relpath(chemin, PUB).replace(os.sep, "/")
     with open(chemin, encoding="utf-8") as f:
         texte = f.read()
-    for macro in ("[[", "||", "]]", "{{f:", "{{d:", "{{m:", "{{M:", "{{p:", "{{accueil}}", "{{contenu}}"):
+    for macro in ("[[", "||", "]]", "{{f:", "{{d:", "{{j:", "{{m:", "{{M:", "{{p:", "{{accueil}}", "{{contenu}}"):
         if macro in texte:
             erreur("%s : macro non résolue « %s »" % (rel, macro))
     for mot in MOTS_INTERDITS:
@@ -295,7 +295,7 @@ def recompter():
     sys.path.insert(0, ICI)
     import recompter
     for chemin, valeur in sorted(recompter.mesurer().items()):
-        if chemin.endswith("commits"):
+        if chemin.endswith("commits") or chemin == "total.jours_service":
             if valeur != attendu(chemin):
                 avertir("%s : faits.json dit %s, le dépôt en est à %s (python outils/recompter.py)"
                         % (chemin, attendu(chemin), valeur))

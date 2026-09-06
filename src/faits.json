@@ -259,6 +259,16 @@
       "valeur": "2026-09-06",
       "source": "date du dernier recomptage",
       "releve": "2026-09-06"
+    },
+    "jours_service": {
+      "valeur": 12,
+      "source": "jours écoulés depuis la mise en ligne du premier des deux produits",
+      "releve": "2026-09-06"
+    },
+    "passages_jour": {
+      "valeur": 292,
+      "source": "somme des passages quotidiens de tous les crons des deux plateformes (vercel.json)",
+      "releve": "2026-09-06"
     }
   },
   "entreprise": {

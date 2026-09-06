@@ -23,6 +23,7 @@ Syntaxe des pages :
   {{M:moliere.jours_en_ligne}}          (neuf / Neuf ; en chiffres au-delà de seize)
   {{d:moliere.en_ligne}}              — une date de faits.json, en toutes
                                         lettres (25 août 2026 / 25 August 2026)
+  {{j:moliere.en_ligne}}              — la même sans l'année (25 août / 25 August)
   {{t:moliere-accueil-full|[[alt||alt]]}} — une capture, en une balise <img> ou en
                                         tuiles empilées (nom-1.webp, nom-2.webp…)
   {{p:prepa-600}}                     — le chemin d'une page dans la langue
@@ -126,6 +127,15 @@ def date_lettres(iso, lang):
     return "%d %s %d" % (j, MOIS_EN[m - 1], a)
 
 
+def date_courte(iso, lang):
+    """« 25 août » / « 25 August » : sans l'année, quand elle est évidente
+    (deux dates de la même année dans une même phrase)."""
+    _, m, j = (int(x) for x in iso.split("-"))
+    if lang == "fr":
+        return "%s %s" % ("1er" if j == 1 else str(j), MOIS_FR[m - 1])
+    return "%d %s" % (j, MOIS_EN[m - 1])
+
+
 def chemin_page(slug, lang):
     base = "/" if lang == "en" else "/fr/"
     return base if slug == "index" else base + slug + "/"
@@ -161,6 +171,8 @@ def resoudre(texte, lang, slug):
                    lambda m: mot(chercher_fait(m.group(1)), lang, True), texte)
     texte = re.sub(r"\{\{d:([a-z0-9_.]+)\}\}",
                    lambda m: date_lettres(chercher_fait(m.group(1)), lang), texte)
+    texte = re.sub(r"\{\{j:([a-z0-9_.]+)\}\}",
+                   lambda m: date_courte(chercher_fait(m.group(1)), lang), texte)
     texte = re.sub(r"\{\{p:([a-z0-9-]+)\}\}",
                    lambda m: chemin_page(m.group(1), lang), texte)
     texte = texte.replace("{{accueil}}", chemin_page("index", lang))

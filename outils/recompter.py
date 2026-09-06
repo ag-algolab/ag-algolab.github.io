@@ -74,6 +74,8 @@ SOURCES = {
     "moliere.jours_en_ligne": "jours entre moliere.premier_commit et moliere.en_ligne",
     "moliere.jours_rdv_ligne": "jours entre moliere.rendez_vous et moliere.en_ligne",
     "moliere.crons": "vercel.json : chemins distincts dans crons",
+    "total.passages_jour": "somme des passages quotidiens de tous les crons des deux plateformes (vercel.json)",
+    "total.jours_service": "jours écoulés depuis la mise en ligne du premier des deux produits",
     "moliere.dictees_par_jour": "vercel.json : entrées crons dont le chemin finit par banque-dictees",
     "moliere.cron_rappel_min": "vercel.json : schedule */N du cron rappel-cours",
     "moliere.rappel_fenetre_min": "src/app/api/cron/rappel-cours/route.ts : const FENETRE_MINUTES",
@@ -96,6 +98,27 @@ def ecrans_moliere():
     tous = glob.glob(os.path.join(app, "**", "page.tsx"), recursive=True)
     rel = [os.path.relpath(p, app).replace(os.sep, "/") for p in tous]
     return [r for r in rel if not any(m.startswith("demo-") for m in r.split("/"))]
+
+
+def passages_par_jour(schedule):
+    """Combien de fois par jour un cron passe. On ne gère que ce que Vercel
+    accepte ici : « */N m h j M » et « m h * * * »."""
+    champs = schedule.split()
+    if len(champs) != 5:
+        return 0
+    minute, heure = champs[0], champs[1]
+    par_heure = 60 // int(minute[2:]) if minute.startswith("*/") else (1 if minute.isdigit() else 60)
+    heures = 24 if heure == "*" else (24 // int(heure[2:]) if heure.startswith("*/") else 1)
+    return par_heure * heures
+
+
+def faits_date(chemin):
+    """Une date déjà relevée dans faits.json (les dates passées ne bougent plus)."""
+    fam, cle = chemin.split(".")
+    try:
+        return json.load(io.open(FAITS, encoding="utf-8"))[fam][cle]["valeur"]
+    except Exception:
+        return None
 
 
 def mesurer():
@@ -198,6 +221,24 @@ def mesurer():
         m["site.contraste_min"] = round(min(ratios), 1)
     if "moliere.commits" in m and "p600.commits" in m:
         m["total.commits"] = m["moliere.commits"] + m["p600.commits"]
+    # ce que les machines font sans personne devant : on additionne les
+    # passages quotidiens de tous les crons des deux plateformes (*/5 → 288
+    # fois par jour, 0 16 → une fois). C'est un compte de PASSAGES, pas
+    # d'actions utiles : un passage qui ne trouve rien à faire compte aussi.
+    passages = 0
+    for depot in (MOLIERE, P600):
+        chemin = os.path.join(depot, "vercel.json")
+        if not os.path.exists(chemin):
+            continue
+        for c in json.load(io.open(chemin, encoding="utf-8")).get("crons", []):
+            passages += passages_par_jour(c["schedule"])
+    if passages:
+        m["total.passages_jour"] = passages
+    # depuis combien de jours les produits servent : du premier mis en ligne
+    # à aujourd'hui
+    debuts = [d for d in (faits_date("moliere.en_ligne"), faits_date("p600.ouverture")) if d]
+    if debuts:
+        m["total.jours_service"] = jours_entre(min(debuts), datetime.date.today().isoformat())
     return m
 
 
