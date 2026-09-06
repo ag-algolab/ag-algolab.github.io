@@ -17,12 +17,12 @@
       "releve": "2026-09-06"
     },
     "lignes_ts": {
-      "valeur": 92471,
+      "valeur": 92541,
       "source": "wc -l sur src/**/*.ts et *.tsx",
       "releve": "2026-09-06"
     },
     "commits": {
-      "valeur": 545,
+      "valeur": 548,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-06"
     },
@@ -149,7 +149,7 @@
   },
   "p600": {
     "pages": {
-      "valeur": 28,
+      "valeur": 27,
       "source": "fichiers public/*.html du dépôt ag-algolab/prepa600",
       "releve": "2026-09-06"
     },
@@ -174,7 +174,7 @@
       "releve": "2026-09-06"
     },
     "commits": {
-      "valeur": 234,
+      "valeur": 235,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-06"
     },
@@ -246,7 +246,7 @@
   },
   "total": {
     "commits": {
-      "valeur": 779,
+      "valeur": 783,
       "source": "524 + 192",
       "releve": "2026-09-06"
     },

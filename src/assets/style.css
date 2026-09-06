@@ -254,7 +254,7 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 /* ------------------------------------------------------------ chiffres */
 .stats {
   position: relative; z-index: 2;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+  display: grid; grid-template-columns: 1fr 1fr;   /* téléphone : deux carreaux en haut */
   background: var(--nuit); border: 1px solid var(--nuit); border-radius: var(--rayon); overflow: hidden;
   margin-top: clamp(28px, 4vw, 44px); box-shadow: var(--ombre);
 }
@@ -273,10 +273,23 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
    construit, il ne tient donc pas dans une case de chiffre. Elle occupe deux
    carreaux, et garde EXACTEMENT les mêmes tailles de texte que les autres —
    c'est ce qui fait un bandeau rangé plutôt que brouillon. */
-.stat-large { grid-column: span 2; }
+.stat-large { grid-column: 1 / -1; }          /* sur téléphone : un seul cadre, toute la largeur */
 .stat-large > span { max-width: 34ch; }
 .stat-large small { max-width: 52ch; }
-@media (max-width: 560px) { .stat-large { grid-column: span 1; } }
+/* Sur ordinateur, trois colonnes taillées sur ce qu'elles ont à dire : la
+   première assez large pour tenir « personne, de la maquette au déploiement »
+   sur UNE ligne, et la case UE moins large — elle avait un grand vide à sa
+   droite (07/09). */
+@media (min-width: 760px) {
+  /* Largeurs prises sur la MESURE, pas sur une estimation (07/09) : les deux
+     premières lignes mono demandent 326 et 272 px marges comprises, mesurées
+     au canvas dans leur vraie police. Le reste va à la case européenne, dont
+     la ligne tient sur deux lignes sans gêner personne. J'avais d'abord
+     estimé 310 et 258 : huit pixels de moins, et les deux lignes passaient
+     à la ligne. */
+  .stats { grid-template-columns: 1.17fr .98fr 1.85fr; }
+  .stat-large { grid-column: auto; }
+}
 
 .chiffres { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
 .chiffres li { font-size: .95rem; color: var(--encre-2); }
