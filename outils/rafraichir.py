@@ -45,6 +45,7 @@ import re
 import subprocess
 import sys
 
+import numpy as np
 from PIL import Image
 # une page entière à l'échelle 2 dépasse la garde anti-« bombe » de Pillow (195 Mpx pour l'accueil Molière)
 Image.MAX_IMAGE_PIXELS = None
@@ -189,15 +190,20 @@ ZONES = [
      ["--largeur", "1280", "--hauteur", "1000", "--echelle", "2", "--clic", "Professeur en fonction", "--clic", "Français",
       "--clic", "Anglais", "--clic", "Des enfants et des adolescents",
       "--long", "30000", "--attente", "5"], 1600),  # depuis le HAUT de la page (06/09 : « on ne voit pas le haut »)
-    # les six écrans du récit Prépa 600 (06/09) : le haut de six pages, en
-    # 600 px pour rester net dans un téléphone de 300 px CSS, rognés à 1 400 px
-    # de haut (l'écran ne déroule pas : au-delà, c'est du décodage pour rien)
-    ("p600-accueil-tel", P600 + "/", ["--mobile", "--long", "4000", "--attente", "6"], 600, 1400),
-    ("p600-methode-tel", P600 + "/methode.html", ["--mobile", "--long", "4000", "--attente", "5"], 600, 1400),
-    ("p600-diagnostic-tel", P600 + "/diagnostic.html", ["--mobile", "--long", "4000", "--attente", "5"], 600, 1400),
-    ("p600-tarifs-tel", P600 + "/tarifs.html", ["--mobile", "--long", "4000", "--attente", "5"], 600, 1400),
-    ("p600-calcul-tel", P600 + "/calcul-score.html", ["--mobile", "--long", "4000", "--attente", "5"], 600, 1400),
-    ("p600-questions-tel", P600 + "/questions-tage-mage.html", ["--mobile", "--long", "4000", "--attente", "5"], 600, 1400),
+    # les six écrans du récit Prépa 600. Chacun ILLUSTRE son étape (07/09 :
+    # « on ne sait pas du tout pourquoi ça arrive sur calcul ton score ») :
+    # l'idée → l'accueil, la méthode à lire → methode, les six sous-tests →
+    # reviser, le prix → tarifs, ce que le premier utilisateur découvre →
+    # simulateur, les pages que les assistants citent → score-ecoles.
+    # Le dernier champ demande le cadrage MESURÉ : le haut d'une page n'est
+    # qu'un titre et du texte. Le test lui-même et le rapport ne sont pas
+    # capturables : sans compte, ils renvoient l'écran de connexion.
+    ("p600-accueil-tel", P600 + "/", ["--mobile", "--long", "4000", "--attente", "6"], 660, 1540),
+    ("p600-methode-tel", P600 + "/methode.html", ["--mobile", "--long", "9000", "--attente", "5"], 660, 1540, True),
+    ("p600-reviser-tel", P600 + "/reviser.html", ["--mobile", "--long", "9000", "--attente", "5"], 660, 1540, True),
+    ("p600-tarifs-tel", P600 + "/tarifs.html", ["--mobile", "--long", "4000", "--attente", "5"], 660, 1540),
+    ("p600-simulateur-tel", P600 + "/simulateur.html", ["--mobile", "--long", "9000", "--attente", "5"], 660, 1540, True),
+    ("p600-score-ecoles-tel", P600 + "/score-ecoles.html", ["--mobile", "--long", "9000", "--attente", "5"], 660, 1540, True),
 ]
 
 
@@ -207,6 +213,66 @@ def capturer(nom, url, options):
     ok = os.path.exists(sortie) and os.path.getsize(sortie) > 0
     print(("  ok    " if ok else "  ÉCHEC ") + nom + "  " + (r.stdout.strip().splitlines()[-1] if r.stdout.strip() else r.stderr.strip()[-200:]))
     return ok
+
+
+def reperes_blocs(nom):
+    """Les débuts de blocs relevés dans le navigateur à la capture."""
+    chemin = os.path.join(BRUT, nom + ".png.blocs.json")
+    if not os.path.exists(chemin):
+        return [], 0
+    try:
+        d = json.load(io.open(chemin, encoding="utf-8"))
+    except Exception:
+        return [], 0
+    if isinstance(d, dict):
+        return d.get("blocs", []), int(d.get("pied") or 0)
+    return d, 0
+
+
+def fenetre_visuelle(im, ratio, reperes=(), pied=0):
+    """Où cadrer un écran de téléphone : pas en haut de la page, c'est là qu'il
+    n'y a que du titre et du texte (Anthony, 07/09 : « baisse dans la page pour
+    prendre les écrans un peu attractifs, où il y a de la couleur »). On fait
+    glisser la fenêtre sur toute la capture et on garde celle qui a le plus de
+    COULEUR et de DÉTAIL — saturation moyenne et densité de contours. Le
+    rafraîchissement hebdomadaire le refait donc tout seul, même si les pages
+    changent."""
+    hauteur = int(im.width * ratio)
+    if im.height <= hauteur * 1.05:
+        return 0
+    n = 400
+    petite = im.resize((160, n), Image.LANCZOS)
+    a = np.asarray(petite.convert("RGB"), dtype=float) / 255.0
+    sat = (a.max(axis=2) - a.min(axis=2)).mean(axis=1)
+    g = np.asarray(petite.convert("L"), dtype=float)
+    bords = (np.abs(np.diff(g, axis=0, prepend=g[:1])) + np.abs(np.diff(g, axis=1, prepend=g[:, :1]))).mean(axis=1) / 255.0
+    note = 0.65 * sat / max(sat.max(), 1e-6) + 0.35 * bords / max(bords.max(), 1e-6)
+    pas = n / float(im.height)
+    large = max(1, int(hauteur * pas))
+    cumul = np.concatenate([[0], np.cumsum(note)])
+    meilleur, note_max = 0, -1.0
+    for i in range(int(im.height * 0.05 * pas), n - large):
+        m = (cumul[i + large] - cumul[i]) / large
+        if m > note_max:
+            note_max, meilleur = m, i
+    y = int(meilleur / pas)
+    # puis on cale le haut sur un DÉBUT DE BLOC relevé dans le navigateur.
+    # Sans ça, la fenêtre coupe une carte en deux et l'écran a l'air cassé
+    # (07/09 : « les visuels, je ne les trouve pas tops »). Le fond des pages
+    # est en dégradé : chercher une ligne unie ne donnait rien.
+    # la fenêtre doit finir AVANT le pied de page : un écran de vitrine qui
+    # se termine sur le pied a l'air vide (07/09)
+    plafond = im.height - hauteur
+    if pied and pied - hauteur > im.height * 0.05:
+        plafond = min(plafond, pied - hauteur)
+    possibles = [int(v) for v in reperes if 0 <= v <= plafond]
+    if possibles:
+        # parmi les débuts de bloc, celui dont la fenêtre est la mieux notée
+        def note_de(v):
+            i = int(v * pas)
+            return (cumul[min(n, i + large)] - cumul[i]) / large
+        return max(possibles, key=note_de)
+    return y
 
 
 def reduire(im, large, haut_max=None):
@@ -235,22 +301,30 @@ def convertir(nom, mobile):
     print("  → %s : %d fichier(s), %d Ko" % (nom, len(sorties), poids))
 
 
-def convertir_zone(nom, large_defaut, haut_max=None):
-    """`haut_max` est donné pour `large_defaut` : il suit la largeur retenue."""
+def convertir_zone(nom, large_defaut, haut_max=None, auto=False):
+    """`haut_max` est donné pour `large_defaut` : il suit la largeur retenue.
+    `auto` : le cadrage part de la fenêtre la plus regardable, pas du haut."""
     src = os.path.join(BRUT, nom + ".png")
     if not os.path.exists(src):
         return
     im = Image.open(src).convert("RGB")
     large = largeur(nom, large_defaut)
-    petite = reduire(im, large, round(haut_max * large / large_defaut) if haut_max else None)
+    haut = round(haut_max * large / large_defaut) if haut_max else None
+    if auto and haut:
+        blocs, pied = reperes_blocs(nom)
+        y = fenetre_visuelle(im, haut / float(large), blocs, pied)
+        if y:
+            print("    · cadré à %d px (%.0f %% de la page), pas en haut" % (y, 100.0 * y / im.height))
+        im = im.crop((0, y, im.width, im.height))
+    petite = reduire(im, large, haut)
     sorties = sauver(nom, petite, 80)
     poids = sum(os.path.getsize(os.path.join(IMG, f)) for f in sorties) // 1024
     print("  → %s : %s, %d fichier(s), %d Ko" % (nom, petite.size, len(sorties), poids))
 
 
-def zone(nom, url, options, large=390, haut_max=None):
+def zone(nom, url, options, large=390, haut_max=None, auto=False):
     if capturer(nom, url, options):
-        convertir_zone(nom, large, haut_max)
+        convertir_zone(nom, large, haut_max, auto)
 
 
 def manuelles():
@@ -293,7 +367,7 @@ def reconvertir():
         for nom, _, options in CAPTURES[fam]:
             convertir(nom, "--mobile" in options)
     for z in ZONES:
-        convertir_zone(z[0], z[3], z[4] if len(z) > 4 else None)
+        convertir_zone(z[0], z[3], z[4] if len(z) > 4 else None, z[5] if len(z) > 5 else False)
     print("== prises à la main")
     manuelles()
     degraisser()

@@ -133,6 +133,26 @@ JS_MASQUER = r"""
 """
 
 
+JS_REPERES = r"""
+(function (y0, densite) {
+  var vus = [], sel = 'section, article, main > div, [class*="bloc"], [class*="carte"], [class*="section"]';
+  document.querySelectorAll(sel).forEach(function (e) {
+    var r = e.getBoundingClientRect();
+    if (r.height < 120 || r.width < window.innerWidth * 0.5) return;
+    vus.push(Math.round((r.top + window.scrollY - y0) * densite));
+  });
+  vus = vus.filter(function (v, i, t) { return v >= 0 && t.indexOf(v) === i; });
+  vus.sort(function (a, b) { return a - b; });
+  // on fusionne les repères trop proches (des blocs emboîtés)
+  vus = vus.filter(function (v, i) { return i === 0 || v - vus[i - 1] > 24; });
+  // le pied de page : un écran de vitrine n'a pas à finir dessus
+  var f = document.querySelector('footer, [class*="pied"], [class*="footer"]');
+  var pied = f ? Math.round((f.getBoundingClientRect().top + window.scrollY - y0) * densite) : 0;
+  return {blocs: vus, pied: pied};
+})(%d, %d)
+"""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("url")
@@ -267,6 +287,14 @@ def main():
             "clip": {"x": 0, "y": y, "width": largeur, "height": long_, "scale": 1}})
         with open(a.sortie, "wb") as f:
             f.write(base64.b64decode(r["data"]))
+        # Où commencent les blocs de la page. Cadrer un écran de téléphone au
+        # jugé coupe une carte en deux ; avec ces repères, la fenêtre part
+        # toujours d'un début de section (07/09).
+        reperes = c.evaluer(JS_REPERES % (y, a.echelle or (2 if a.mobile else 1))) or []
+        if reperes:
+            with open(a.sortie + ".blocs.json", "w", encoding="utf-8") as f:
+                json.dump(reperes, f)
+            print("  %d repères de bloc" % len(reperes))
         print("%s : %d octets (%d × %d px CSS)" % (os.path.basename(a.sortie), os.path.getsize(a.sortie), largeur, long_))
         # une capture trouée ne se voit pas au poids : on mesure des bandes
         # uniformes (une section qui n'a pas été peinte, une fin vide)

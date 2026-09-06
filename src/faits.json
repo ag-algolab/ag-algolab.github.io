@@ -149,7 +149,7 @@
   },
   "p600": {
     "pages": {
-      "valeur": 28,
+      "valeur": 27,
       "source": "fichiers public/*.html du dépôt ag-algolab/prepa600",
       "releve": "2026-09-06"
     },
@@ -174,7 +174,7 @@
       "releve": "2026-09-06"
     },
     "commits": {
-      "valeur": 223,
+      "valeur": 228,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-06"
     },
@@ -246,7 +246,7 @@
   },
   "total": {
     "commits": {
-      "valeur": 756,
+      "valeur": 761,
       "source": "524 + 192",
       "releve": "2026-09-06"
     },

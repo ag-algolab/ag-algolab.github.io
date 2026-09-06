@@ -106,14 +106,6 @@
       "css": 284,
       "besoin": 642
     },
-    "p600-calcul-tel": {
-      "css": 284,
-      "besoin": 642
-    },
-    "p600-diagnostic-tel": {
-      "css": 284,
-      "besoin": 642
-    },
     "p600-methode-tel": {
       "css": 284,
       "besoin": 642
@@ -122,7 +114,15 @@
       "css": 196,
       "besoin": 582
     },
-    "p600-questions-tel": {
+    "p600-reviser-tel": {
+      "css": 284,
+      "besoin": 642
+    },
+    "p600-score-ecoles-tel": {
+      "css": 284,
+      "besoin": 642
+    },
+    "p600-simulateur-tel": {
       "css": 284,
       "besoin": 642
     },
