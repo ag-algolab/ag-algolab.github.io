@@ -169,6 +169,16 @@ JS_ETAT = r"""
       if (e.closest('[hidden], [aria-hidden="true"], nav:not(.ouvert) .nav-panneau')) return;
       // un lien dans une phrase ne compte pas ; un lien de menu, si
       if (cs.display === 'inline' && !e.closest('nav, header, footer, .nav')) return;
+      // une étiquette posée au-dessus de son champ n'est pas une cible : elle
+      // en AJOUTE une, et le champ, lui, fait bien ses 44 px (07/09). On ne la
+      // compte que si le champ qu'elle commande est lui-même trop petit.
+      if (e.tagName === 'LABEL') {
+        var champ = e.htmlFor ? document.getElementById(e.htmlFor) : e.querySelector('input, textarea, select');
+        if (champ) {
+          var rc = champ.getBoundingClientRect();
+          if (Math.min(rc.width, rc.height) >= %d) return;
+        }
+      }
       var r = e.getBoundingClientRect();
       if (r.width === 0 || r.height === 0) return;
       var m = Math.round(Math.min(r.width, r.height));
@@ -201,7 +211,7 @@ JS_ETAT = r"""
     cibleMin: cibleMin
   };
 })(%s)
-""" % (CIBLE_MIN, TEXTURE_MAX, TEXTURE_MAX, PIXELS_MAX, "%s")
+""" % (CIBLE_MIN, CIBLE_MIN, TEXTURE_MAX, TEXTURE_MAX, PIXELS_MAX, "%s")
 
 
 CADRES = ".ordi-ecran, .tel-ecran, .tablette-ecran"

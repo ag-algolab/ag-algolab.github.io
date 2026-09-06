@@ -59,7 +59,7 @@ COURRIEL = "anthony@agalgolab.com"
 # ⚠️ Tant que l'identifiant vaut « A-REMPLIR », verifier.py refuse la mise en
 #    ligne : un formulaire qui poste dans le vide est pire que pas de
 #    formulaire du tout.
-FORMULAIRE = "https://formspree.io/f/A-REMPLIR"
+FORMULAIRE = "https://formspree.io/f/xeaqldvb"
 
 MOIS_FR = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet",
            "août", "septembre", "octobre", "novembre", "décembre"]
