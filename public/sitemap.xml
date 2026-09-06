@@ -43,6 +43,20 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/mentions-legales/"/>
   </url>
   <url>
+    <loc>https://agalgolab.com/plateforme-ecole/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/plateforme-ecole/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/plateforme-ecole/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/plateforme-ecole/"/>
+  </url>
+  <url>
+    <loc>https://agalgolab.com/fr/plateforme-ecole/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/plateforme-ecole/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/plateforme-ecole/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/plateforme-ecole/"/>
+  </url>
+  <url>
     <loc>https://agalgolab.com/prepa-600/</loc>
     <lastmod>2026-09-06</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/prepa-600/"/>
@@ -57,6 +71,20 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/prepa-600/"/>
   </url>
   <url>
+    <loc>https://agalgolab.com/prix-plateforme-web/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/prix-plateforme-web/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/prix-plateforme-web/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/prix-plateforme-web/"/>
+  </url>
+  <url>
+    <loc>https://agalgolab.com/fr/prix-plateforme-web/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/prix-plateforme-web/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/prix-plateforme-web/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/prix-plateforme-web/"/>
+  </url>
+  <url>
     <loc>https://agalgolab.com/reversal-engine/</loc>
     <lastmod>2026-09-04</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/reversal-engine/"/>
@@ -69,5 +97,19 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/reversal-engine/"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/reversal-engine/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/reversal-engine/"/>
+  </url>
+  <url>
+    <loc>https://agalgolab.com/site-vitrine/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/site-vitrine/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/site-vitrine/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/site-vitrine/"/>
+  </url>
+  <url>
+    <loc>https://agalgolab.com/fr/site-vitrine/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://agalgolab.com/site-vitrine/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/site-vitrine/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://agalgolab.com/site-vitrine/"/>
   </url>
 </urlset>

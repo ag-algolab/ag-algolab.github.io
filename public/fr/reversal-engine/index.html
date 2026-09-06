@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reversal Engine : détecter les retournements de prix en temps réel</title>
+<title>Reversal Engine : les retournements de prix, en temps réel</title>
 <meta name="description" content="Un système de recherche personnel qui détecte des retournements de prix sur SOL et BTC en 15 minutes, envoie le signal sur Telegram et passe l&#x27;ordre.">
 <link rel="canonical" href="https://agalgolab.com/fr/reversal-engine/">
 <link rel="alternate" hreflang="fr" href="https://agalgolab.com/fr/reversal-engine/">
@@ -15,15 +15,15 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="AG Algo Lab">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:title" content="Reversal Engine : détecter les retournements de prix en temps réel">
+<meta property="og:title" content="Reversal Engine : les retournements de prix, en temps réel">
 <meta property="og:description" content="Un système de recherche personnel qui détecte des retournements de prix sur SOL et BTC en 15 minutes, envoie le signal sur Telegram et passe l&#x27;ordre.">
 <meta property="og:url" content="https://agalgolab.com/fr/reversal-engine/">
 <meta property="og:image" content="https://agalgolab.com/assets/img/og-agalgolab.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Reversal Engine : détecter les retournements de prix en temps réel">
+<meta property="og:image:alt" content="Reversal Engine : les retournements de prix, en temps réel">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Reversal Engine : détecter les retournements de prix en temps réel">
+<meta name="twitter:title" content="Reversal Engine : les retournements de prix, en temps réel">
 <meta name="twitter:description" content="Un système de recherche personnel qui détecte des retournements de prix sur SOL et BTC en 15 minutes, envoie le signal sur Telegram et passe l&#x27;ordre.">
 <meta name="twitter:image" content="https://agalgolab.com/assets/img/og-agalgolab.jpg">
 <link rel="icon" href="/assets/img/icone-32.png" sizes="32x32" type="image/png">
@@ -108,7 +108,7 @@
    "@type": "Article",
    "@id": "https://agalgolab.com/fr/reversal-engine/",
    "url": "https://agalgolab.com/fr/reversal-engine/",
-   "name": "Reversal Engine : détecter les retournements de prix en temps réel",
+   "name": "Reversal Engine : les retournements de prix, en temps réel",
    "description": "Un système de recherche personnel qui détecte des retournements de prix sur SOL et BTC en 15 minutes, envoie le signal sur Telegram et passe l'ordre.",
    "inLanguage": "fr",
    "isPartOf": {
@@ -116,7 +116,7 @@
    },
    "dateModified": "2026-09-04",
    "primaryImageOfPage": "https://agalgolab.com/assets/img/og-agalgolab.jpg",
-   "headline": "Reversal Engine : détecter les retournements de prix en temps réel",
+   "headline": "Reversal Engine : les retournements de prix, en temps réel",
    "author": {
     "@id": "https://agalgolab.com/#anthony"
    },
@@ -137,7 +137,7 @@
     {
      "@type": "ListItem",
      "position": 2,
-     "name": "Reversal Engine : détecter les retournements de prix en temps réel",
+     "name": "Reversal Engine : les retournements de prix, en temps réel",
      "item": "https://agalgolab.com/fr/reversal-engine/"
     }
    ]
@@ -171,7 +171,7 @@
   <div class="wrap">
     <p class="etq">Recherche personnelle · crypto · SOL et BTC</p>
     <h1 class="h1">Reversal Engine : voir le retournement <em>avant qu'il se voie</em>.</h1>
-    <p class="chapo">Un système qui surveille SOL et BTC en bougies de 15 minutes, reconnaît des signatures de retournement dans le mouvement des prix, calcule un score de confiance et, au-delà d'un seuil, envoie le signal sur Telegram puis passe l'ordre chez le courtier. Sans intervention manuelle.</p>
+    <p class="chapo">Un système surveille SOL et BTC, bougie après bougie. Quand la structure se retourne, il note sa confiance ; au-delà du seuil, il envoie le signal sur Telegram et passe l'ordre. Sans personne devant l'écran.</p>
     <div class="stats" aria-label="Paramètres">
       <div class="stat"><b>2</b><span>actifs suivis</span><small>SOL / USDC · BTC / USDT</small></div>
       <div class="stat"><b>15 min</b><span>unité de temps</span><small>une décision par bougie</small></div>
@@ -185,7 +185,7 @@
     <div class="sec-tete">
       <p class="etq">Le moteur, en marche</p>
       <h2 class="h2">Une bougie toutes les quinze minutes, un retournement quand la structure le dit.</h2>
-      <p class="chapo">Simulation à données synthétiques : la mécanique est la vraie, les prix et les scores ne le sont pas. Une bougie se forme sous vos yeux ; quand un extremum local est confirmé, le moteur le marque, le note, et n'envoie le signal qu'au-dessus du seuil.</p>
+      <p class="chapo">Simulation à données synthétiques : la mécanique est la vraie, les prix et les scores ne le sont pas. Une bougie se forme sous vos yeux. Quand un extremum est confirmé, le moteur le marque et le note ; le signal ne part qu'au-dessus du seuil.</p>
     </div>
     <div class="moteur" id="moteur">
       <div class="moteur-graph">
@@ -213,8 +213,8 @@
     </div>
     <div class="g3 methode">
       <article class="carte" data-rv><h3 class="h4">Ingestion en temps réel</h3><p>Prix et flux d'ordres reçus en continu sur SOL et BTC, par websocket, en bougies de 15 minutes.</p><ul class="badges"><li>WEBSOCKET</li><li>OHLCV</li><li>FLUX D'ORDRES</li></ul></article>
-      <article class="carte" data-rv><h3 class="h4">Reconnaissance de motifs</h3><p>Un modèle propriétaire reconnaît des signatures structurelles de retournement, invisibles à l'analyse classique, et calcule un score de confiance par signal avant tout envoi.</p><ul class="badges"><li>ARCHITECTURE CONFIDENTIELLE</li><li>SCORE DE CONFIANCE</li></ul></article>
-      <article class="carte" data-rv><h3 class="h4">Exécution automatique</h3><p>Au franchissement du seuil, le signal part sur Telegram avec le prix d'entrée et le score, et l'ordre est transmis au courtier par API.</p><ul class="badges"><li>TELEGRAM</li><li>API COURTIER</li><li>AUCUNE ÉTAPE MANUELLE</li></ul></article>
+      <article class="carte" data-rv><h3 class="h4">Reconnaissance de motifs</h3><p>Un modèle propriétaire reconnaît des signatures de retournement et note sa confiance, signal par signal, avant tout envoi.</p><ul class="badges"><li>ARCHITECTURE CONFIDENTIELLE</li><li>SCORE DE CONFIANCE</li></ul></article>
+      <article class="carte" data-rv><h3 class="h4">Exécution automatique</h3><p>Au-delà du seuil, le signal part sur Telegram avec le prix d'entrée et le score. L'ordre est transmis au courtier par API.</p><ul class="badges"><li>TELEGRAM</li><li>API COURTIER</li><li>AUCUNE ÉTAPE MANUELLE</li></ul></article>
     </div>
     <p class="note" style="margin-top:22px">Projet de recherche personnel. Ce n'est ni un service, ni une offre, ni un conseil en investissement. Les performances ne sont pas publiées et l'architecture du modèle reste confidentielle.</p>
   </div>
@@ -225,7 +225,7 @@
     <div class="carte carte-accent">
       <p class="etq">Ce que ce projet dit de mon travail</p>
       <h2 class="h2">Des systèmes qui tournent seuls, du signal à l'action.</h2>
-      <p class="chapo">La même mécanique sert aux plateformes que je construis : des données qui arrivent, une règle qui décide, une action qui part sans personne derrière l'écran.</p>
+      <p class="chapo">C'est la mécanique de mes plateformes : la donnée arrive, la règle décide, l'action part toute seule.</p>
       <div class="actions">
         <a class="btn btn-p" href="/fr/institut-moliere/">Lire le cas Institut Molière</a>
         <a class="btn btn-s" href="/fr/#offres">Voir les offres</a>
@@ -242,7 +242,7 @@
     <div class="pied-grille">
       <div class="pied-col">
         <a class="marque" href="/fr/"><img width="170" height="109" loading="eager" decoding="async" src="/assets/img/logo-ag.png?v=ba978ca2" alt="AG Algo Lab"><span>AG Algo Lab</span></a>
-        <p>Des plateformes web complètes, construites seul, de l'idée à la mise en ligne : site, espaces membres, paiement, automatisations, données.</p>
+        <p>Des plateformes entières : site public, espaces membres, paiement, automatismes.</p>
         <p><a href="mailto:anthony@agalgolab.com">anthony@agalgolab.com</a></p>
       </div>
       <div class="pied-col">
@@ -251,7 +251,9 @@
           <li><a href="/fr/institut-moliere/">Institut Molière</a></li>
           <li><a href="/fr/prepa-600/">Prépa 600</a></li>
           <li><a href="/fr/reversal-engine/">Reversal Engine</a></li>
-          <li><a href="/fr/#offres">Offres et prix</a></li>
+          <li><a href="/fr/plateforme-ecole/">Plateforme pour une école</a></li>
+          <li><a href="/fr/site-vitrine/">Site vitrine</a></li>
+          <li><a href="/fr/prix-plateforme-web/">Combien ça coûte</a></li>
           <li><a href="/fr/#methode">Méthode</a></li>
           <li><a href="/fr/#a-propos">Qui construit</a></li>
         </ul>

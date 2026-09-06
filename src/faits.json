@@ -2,7 +2,7 @@
   "_commentaire": "Chaque chiffre affiché sur le site vient d'ici, avec sa source et la date du relevé. `python outils/verifier.py` recompte ceux qui se recomptent (dépôts locaux) et refuse la construction si un chiffre a dérivé.",
   "moliere": {
     "ecrans": {
-      "valeur": 72,
+      "valeur": 78,
       "source": "fichiers page.tsx de src/app dans le dépôt ag-algolab/moliere-plateforme, hors pages de travail non indexées (demo-*)",
       "releve": "2026-09-06"
     },
@@ -12,22 +12,22 @@
       "releve": "2026-09-06"
     },
     "migrations": {
-      "valeur": 67,
+      "valeur": 69,
       "source": "fichiers db/NN_*.sql numérotés",
       "releve": "2026-09-06"
     },
     "lignes_ts": {
-      "valeur": 71833,
+      "valeur": 92061,
       "source": "wc -l sur src/**/*.ts et *.tsx",
       "releve": "2026-09-06"
     },
     "commits": {
-      "valeur": 533,
+      "valeur": 535,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-06"
     },
     "jours": {
-      "valeur": 21,
+      "valeur": 22,
       "source": "du premier au dernier commit du dépôt, bornes comprises (git log --format=%cs)",
       "releve": "2026-09-06"
     },
@@ -72,7 +72,7 @@
       "releve": "2026-09-06"
     },
     "ecrans_eleve": {
-      "valeur": 20,
+      "valeur": 24,
       "source": "page.tsx de src/app regroupés par préfixe de route",
       "releve": "2026-09-06"
     },
@@ -87,7 +87,7 @@
       "releve": "2026-09-06"
     },
     "ecrans_communs": {
-      "valeur": 7,
+      "valeur": 9,
       "source": "page.tsx de src/app regroupés par préfixe de route",
       "releve": "2026-09-06"
     },
@@ -97,7 +97,7 @@
       "releve": "2026-09-06"
     },
     "tables": {
-      "valeur": 44,
+      "valeur": 46,
       "source": "tables distinctes créées par les migrations db/*.sql (CREATE TABLE)",
       "releve": "2026-09-06"
     },
@@ -174,7 +174,7 @@
       "releve": "2026-09-06"
     },
     "commits": {
-      "valeur": 228,
+      "valeur": 233,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-06"
     },
@@ -246,7 +246,7 @@
   },
   "total": {
     "commits": {
-      "valeur": 761,
+      "valeur": 768,
       "source": "524 + 192",
       "releve": "2026-09-06"
     },
@@ -312,6 +312,18 @@
     "nettete_min": {
       "valeur": 2.04,
       "source": "verifier_rendu.py : le plus petit rapport largeur de l'image ÷ largeur affichée, toutes images, toutes pages, les deux fenêtres",
+      "releve": "2026-09-06"
+    }
+  },
+  "offres": {
+    "vitrine_min": {
+      "valeur": 500,
+      "source": "prix plancher du site vitrine, décidé par Anthony le 04/09/2026",
+      "releve": "2026-09-06"
+    },
+    "vitrine_max": {
+      "valeur": 1250,
+      "source": "prix plafond du site vitrine, décidé par Anthony le 04/09/2026",
       "releve": "2026-09-06"
     }
   }

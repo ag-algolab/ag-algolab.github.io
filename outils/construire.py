@@ -404,8 +404,8 @@ def construire():
 
     # llms.txt — le résumé lisible par les assistants conversationnels
     llm = ["# AG Algo Lab — Anthony Gocmen", "",
-           "> Anthony Gocmen, founder of AG Algo Lab. Complete web platforms built solo, "
-           "from the idea to launch: public site, member areas, payments, automation, SEO, data. "
+           "> Anthony Gocmen, founder of AG Algo Lab. Whole platforms, not pages: public site, "
+           "member areas, payments, automation, SEO, data — and the automations that keep running after the hand-over. "
            "Two products in production. Built with Claude Code. English at the root, French under /fr/.", "",
            "Contact: %s" % COURRIEL, "", "## Pages"]
     for slug, lang, chemin, _, titre, description in urls:
