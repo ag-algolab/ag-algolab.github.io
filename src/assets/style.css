@@ -263,8 +263,20 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .stat b .vert, .stat b span { color: var(--menthe); }
 /* > span : le libellé du chiffre. Sans le >, la règle attrapait aussi le
    <span data-compte> DANS le <b>, et « 71 » sortait en 15 px. */
-.stat > span { display: block; font-size: .95rem; line-height: 1.35; color: var(--nuit-txt); }
+.stat > span { display: block; font-size: .95rem; line-height: 1.35; color: var(--nuit-txt);
+  /* deux lignes réservées : sans ça, un libellé qui passe à la ligne décalait
+     la ligne mono d'une case par rapport aux autres, et le bandeau paraissait
+     brouillon (07/09) */
+  min-height: 2.7em; }
 .stat small { display: block; margin-top: 8px; font: 500 .66rem/1.45 var(--mono); color: var(--nuit-txt-2); letter-spacing: .01em; }
+/* La case large (07/09) : l'hébergement européen vaut pour tout ce qui est
+   construit, il ne tient donc pas dans une case de chiffre. Elle occupe deux
+   carreaux, et garde EXACTEMENT les mêmes tailles de texte que les autres —
+   c'est ce qui fait un bandeau rangé plutôt que brouillon. */
+.stat-large { grid-column: span 2; }
+.stat-large > span { max-width: 34ch; }
+.stat-large small { max-width: 52ch; }
+@media (max-width: 560px) { .stat-large { grid-column: span 1; } }
 
 .chiffres { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
 .chiffres li { font-size: .95rem; color: var(--encre-2); }
