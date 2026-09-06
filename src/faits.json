@@ -2,7 +2,7 @@
   "_commentaire": "Chaque chiffre affiché sur le site vient d'ici, avec sa source et la date du relevé. `python outils/verifier.py` recompte ceux qui se recomptent (dépôts locaux) et refuse la construction si un chiffre a dérivé.",
   "moliere": {
     "ecrans": {
-      "valeur": 78,
+      "valeur": 77,
       "source": "fichiers page.tsx de src/app dans le dépôt ag-algolab/moliere-plateforme, hors pages de travail non indexées (demo-*)",
       "releve": "2026-09-06"
     },
@@ -17,12 +17,12 @@
       "releve": "2026-09-06"
     },
     "lignes_ts": {
-      "valeur": 92515,
+      "valeur": 92501,
       "source": "wc -l sur src/**/*.ts et *.tsx",
       "releve": "2026-09-06"
     },
     "commits": {
-      "valeur": 540,
+      "valeur": 542,
       "source": "git rev-list --count HEAD",
       "releve": "2026-09-06"
     },
@@ -87,7 +87,7 @@
       "releve": "2026-09-06"
     },
     "ecrans_communs": {
-      "valeur": 9,
+      "valeur": 8,
       "source": "page.tsx de src/app regroupés par préfixe de route",
       "releve": "2026-09-06"
     },
@@ -149,7 +149,7 @@
   },
   "p600": {
     "pages": {
-      "valeur": 27,
+      "valeur": 28,
       "source": "fichiers public/*.html du dépôt ag-algolab/prepa600",
       "releve": "2026-09-06"
     },
@@ -246,7 +246,7 @@
   },
   "total": {
     "commits": {
-      "valeur": 774,
+      "valeur": 776,
       "source": "524 + 192",
       "releve": "2026-09-06"
     },

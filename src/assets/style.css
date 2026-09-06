@@ -1042,7 +1042,12 @@ body.page-prepa-600 { --papier: #EEF4FB; --papier-2: #E2ECF8; --encre: #0B1F3A; 
 @media (max-width: 899px) { .recit-etape { min-height: 0; padding-left: 22px; } .recit-etape:not(.actif) { opacity: 1; } }
 /* les quatre graphiques en grille */
 .graphes-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 22px; }
-.graphes-grille article { min-width: 0; }
+/* Le bas des cadres aligné (07/09) : chaque carte occupe toute la hauteur de
+   sa rangée, et le graphique prend la place qui reste sous un titre d'une ou
+   deux lignes. Sans ça, deux cartes voisines finissaient à des hauteurs
+   différentes. */
+.graphes-grille article { min-width: 0; display: grid; grid-template-rows: auto auto 1fr; align-content: start; }
+.graphes-grille article > .graphe { height: 100%; }
 .graphes-grille article > p { margin: 0 0 14px; color: var(--encre-2); font-size: .97rem; }
 /* le bandeau de logos qui défile */
 .sec-defilant { border-top: 1px solid var(--filet); padding: 26px 0; overflow: hidden; }
