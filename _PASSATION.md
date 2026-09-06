@@ -208,6 +208,30 @@ Le lot 20 y a ajouté deux étapes, lancées avec le reste :
 Le dossier d'images est passé de 8,6 à 5,4 puis **4,1 Mo**, et aucune image
 n'est plus agrandie à l'écran.
 
+### La carte de visite
+
+```
+python outils/carte.py            # depuis PowerShell
+```
+
+Recto et verso dans `_travail/carte/` : deux PDF pour l'imprimeur et deux PNG
+à 300 points par pouce pour regarder. **85 × 55 mm** coupés, plus **3 mm de
+fond perdu** sur les quatre bords — la page fait donc 91 × 61 mm, et tout ce
+qui compte reste à 5 mm du trait de coupe. Même direction artistique que le
+site : menthe, encre, accent, la grille isométrique en filigrane, les polices
+servies depuis `src/assets/fonts/` (embarquées en `data:` pour que le PDF se
+fabrique hors ligne).
+
+Recto : le portrait en rond, le logo, le nom, « Fondateur d'AG Algo Lab » et
+le slogan du site. Verso sur fond nuit : le logo en blanc, les quatre adresses
+et un **QR de 24 mm** vers `agalgolab.com` (dessiné par `segno`, correction
+d'erreur Q, 0,8 mm par module — le double du minimum d'impression).
+
+⚠️ Le QR n'est pas supposé lisible, il est **relu** : après le rendu, un vrai
+lecteur (OpenCV) le décode dans l'image finale, à 100 %, 50 % et 30 % de sa
+taille — trois fois `https://agalgolab.com`. Sans OpenCV installé, le script
+le dit au lieu de se taire.
+
 ### Les images de partage
 
 ⚠️ **L'accueil ne passe plus par `og.py` depuis le 06/09** : sa carte de
