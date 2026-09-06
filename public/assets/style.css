@@ -255,27 +255,33 @@ h1 em, h2 em, h3 em { font-style: normal; color: var(--accent); }
 .stats {
   position: relative; z-index: 2;
   display: grid; grid-template-columns: 1fr 1fr;   /* téléphone : deux carreaux en haut */
+  grid-auto-rows: auto;
   background: var(--nuit); border: 1px solid var(--nuit); border-radius: var(--rayon); overflow: hidden;
   margin-top: clamp(28px, 4vw, 44px); box-shadow: var(--ombre);
 }
-.stat { padding: 18px 18px 16px; min-width: 0; border-right: 1px solid var(--nuit-2); border-bottom: 1px solid var(--nuit-2); }
+/* Les trois cases partagent les mêmes rangées (grille imbriquée) : le grand
+   mot, le libellé et la ligne mono s'alignent d'une case à l'autre, et chaque
+   rangée ne fait que la hauteur qu'il lui faut. J'avais d'abord réservé deux
+   lignes au libellé : ça alignait, mais ça creusait un trou sous les libellés
+   d'une seule ligne (07/09). */
+.stat { padding: 18px 18px 16px; min-width: 0; border-right: 1px solid var(--nuit-2); border-bottom: 1px solid var(--nuit-2);
+  display: grid; grid-template-rows: subgrid; grid-row: span 3; align-content: start; row-gap: 0; }
 .stat b { display: block; font: 800 clamp(1.9rem, 3vw, 2.6rem)/1.15 var(--serif); color: var(--menthe); letter-spacing: -.035em; }
 .stat b .vert, .stat b span { color: var(--menthe); }
 /* > span : le libellé du chiffre. Sans le >, la règle attrapait aussi le
    <span data-compte> DANS le <b>, et « 71 » sortait en 15 px. */
-.stat > span { display: block; font-size: .95rem; line-height: 1.35; color: var(--nuit-txt);
-  /* deux lignes réservées : sans ça, un libellé qui passe à la ligne décalait
-     la ligne mono d'une case par rapport aux autres, et le bandeau paraissait
-     brouillon (07/09) */
-  min-height: 2.7em; }
+.stat > span { display: block; font-size: .95rem; line-height: 1.35; color: var(--nuit-txt); }
 .stat small { display: block; margin-top: 8px; font: 500 .66rem/1.45 var(--mono); color: var(--nuit-txt-2); letter-spacing: .01em; }
 /* La case large (07/09) : l'hébergement européen vaut pour tout ce qui est
    construit, il ne tient donc pas dans une case de chiffre. Elle occupe deux
    carreaux, et garde EXACTEMENT les mêmes tailles de texte que les autres —
    c'est ce qui fait un bandeau rangé plutôt que brouillon. */
 .stat-large { grid-column: 1 / -1; }          /* sur téléphone : un seul cadre, toute la largeur */
-.stat-large > span { max-width: 34ch; }
-.stat-large small { max-width: 52ch; }
+/* Pas de `max-width` ici (07/09) : je l'avais posé à 52ch pour éviter une
+   ligne trop longue, mais la case mesure 524 px et sa ligne mono n'en demande
+   que 427 — la bride cassait donc la ligne pour rien, et le bandeau français
+   restait plus haut que l'anglais d'une ligne entière. C'est la colonne qui
+   fixe la largeur, elle est déjà taillée sur la mesure. */
 /* Sur ordinateur, trois colonnes taillées sur ce qu'elles ont à dire : la
    première assez large pour tenir « personne, de la maquette au déploiement »
    sur UNE ligne, et la case UE moins large — elle avait un grand vide à sa

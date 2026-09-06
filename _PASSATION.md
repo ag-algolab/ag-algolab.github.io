@@ -208,6 +208,27 @@ Le lot 20 y a ajouté deux étapes, lancées avec le reste :
 Le dossier d'images est passé de 8,6 à 5,4 puis **4,1 Mo**, et aucune image
 n'est plus agrandie à l'écran.
 
+### Le formulaire de contact
+
+Le site est servi par GitHub Pages : **rien ne s'exécute côté serveur**. Le
+formulaire de l'accueil poste donc chez **Formspree**
+(`FORMULAIRE` dans `construire.py`, macro `{{formulaire}}`), en **POST HTML
+natif** — pas de `fetch`, donc pas de CORS, et ça marche sans JavaScript.
+Formspree renvoie ensuite le visiteur sur `/merci/` grâce au champ caché
+`_next`, et le champ `_gotcha`, hors de l'écran, avale les robots.
+
+Pourquoi il existe : les six chemins de contact du site étaient des `mailto:`.
+Sur un téléphone sans application de courrier configurée — le cas courant — le
+clic ne fait **rien**, et personne ne le sait. Le `mailto:` et LinkedIn
+restent sous le formulaire : on ajoute un chemin, on n'en retire aucun.
+
+⚠️ `verifier.py` **refuse la mise en ligne** si l'identifiant vaut encore
+`A-REMPLIR`. Un formulaire qui poste dans le vide est pire que pas de
+formulaire. Les mentions légales nomment Formspree comme sous-traitant.
+
+`indexer: non` dans l'en-tête d'une page (comme `merci.html`) pose
+`noindex, follow` et la sort du plan de site et de `llms.txt`.
+
 ### La carte de visite
 
 ```
