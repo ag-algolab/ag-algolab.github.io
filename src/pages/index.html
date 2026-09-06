@@ -266,12 +266,27 @@ modifie: 2026-09-06
         <p class="chapo">[[Décrivez votre activité en trois lignes. Je réponds avec des questions, puis un prix.||Describe your activity in three lines. I reply with questions, then a price.]]</p>
       </div>
       <div class="carte">
-        <p class="etq">[[Adresse||Email]]</p>
-        <div class="adresse">
-          <a href="mailto:{{courriel}}?subject=[[Projet%20%E2%80%94%20AG%20Algo%20Lab||Project%20%E2%80%94%20AG%20Algo%20Lab]]">{{courriel}}</a>
-          <button class="copier" type="button" data-copier="{{courriel}}" data-fait="[[Copiée||Copied]]" data-rate="[[Sélectionnez-la||Select it]]">[[Copier||Copy]]</button>
-        </div>
-        <p class="petit sourdine" style="margin-top:14px">[[Ou sur||Or on]] <a href="https://www.linkedin.com/in/anthony-gocmen" rel="noopener" target="_blank">LinkedIn</a>. [[Français ou anglais.||French or English.]]</p>
+        <form class="form" method="POST" action="{{formulaire}}">
+          <input type="hidden" name="_subject" value="[[Nouveau message depuis agalgolab.com||New message from agalgolab.com]]">
+          <input type="hidden" name="_next" value="https://agalgolab.com[[/fr/merci/||/merci/]]">
+          <input type="hidden" name="_language" value="[[fr||en]]">
+          <p class="champ">
+            <label for="c-nom">[[Votre nom||Your name]]</label>
+            <input id="c-nom" name="nom" type="text" required autocomplete="name">
+          </p>
+          <p class="champ">
+            <label for="c-mail">[[Votre adresse électronique||Your email address]]</label>
+            <input id="c-mail" name="email" type="email" required autocomplete="email">
+          </p>
+          <p class="champ">
+            <label for="c-mot">[[Votre activité, en trois lignes||Your activity, in three lines]]</label>
+            <textarea id="c-mot" name="message" rows="4" required minlength="20"></textarea>
+          </p>
+          <p class="champ piege" aria-hidden="true"><label for="c-site">[[Ne remplissez pas ce champ||Leave this field empty]]</label><input id="c-site" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></p>
+          <button class="btn btn-p btn-full" type="submit">[[Envoyer||Send]]</button>
+          <p class="petit sourdine">[[Votre message m'arrive directement. Réponse sous 24 heures, du lundi au samedi.||Your message reaches me directly. Reply within 24 hours, Monday to Saturday.]]</p>
+        </form>
+        <p class="petit sourdine form-ou">[[Ou écrivez-moi vous-même :||Or write to me yourself:]] <a href="mailto:{{courriel}}?subject=[[Projet%20%E2%80%94%20AG%20Algo%20Lab||Project%20%E2%80%94%20AG%20Algo%20Lab]]">{{courriel}}</a> · <a href="https://www.linkedin.com/in/anthony-gocmen" rel="noopener" target="_blank">LinkedIn</a></p>
       </div>
     </div>
   </div>

@@ -377,6 +377,13 @@ def main():
             avertir("image que plus aucune page ne cite : %s (%d Ko, %.0f h) — "
                     "`python outils/verifier.py --nettoyer` la retirera passé un jour"
                     % (orpheline, poids, heures))
+    # un formulaire qui poste dans le vide perd des clients sans le dire
+    for page in pages:
+        with open(page, encoding="utf-8") as f:
+            if "A-REMPLIR" in f.read():
+                erreur("%s : le formulaire n'a pas d'adresse (FORMULAIRE dans construire.py)"
+                       % os.path.relpath(page, PUB).replace(os.sep, "/"))
+                break
     verifier_contrastes()
     if "--sans-depots" not in sys.argv:
         recompter()

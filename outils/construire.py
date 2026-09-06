@@ -52,6 +52,14 @@ PUB = os.path.join(RACINE, "public")
 DOMAINE = "https://agalgolab.com"
 LANGUES = ("en", "fr")   # l'anglais est la langue principale du site (racine), le français sous /fr/
 COURRIEL = "anthony@agalgolab.com"
+# Le formulaire de contact poste chez Formspree : GitHub Pages ne sert que des
+# fichiers, rien ne s'exécute côté serveur. Le POST est un envoi HTML natif
+# (pas de fetch, donc pas de CORS, et ça marche sans JavaScript) ; Formspree
+# renvoie ensuite le visiteur sur /merci/ grâce au champ caché `_next`.
+# ⚠️ Tant que l'identifiant vaut « A-REMPLIR », verifier.py refuse la mise en
+#    ligne : un formulaire qui poste dans le vide est pire que pas de
+#    formulaire du tout.
+FORMULAIRE = "https://formspree.io/f/A-REMPLIR"
 
 MOIS_FR = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet",
            "août", "septembre", "octobre", "novembre", "décembre"]
@@ -177,6 +185,7 @@ def resoudre(texte, lang, slug):
                    lambda m: chemin_page(m.group(1), lang), texte)
     texte = texte.replace("{{accueil}}", chemin_page("index", lang))
     texte = texte.replace("{{courriel}}", COURRIEL)
+    texte = texte.replace("{{formulaire}}", FORMULAIRE)
     texte = texte.replace("{{lang}}", lang)
     reste = re.findall(r"\[\[|\{\{[A-Za-z]+:", texte)
     if reste:
@@ -354,6 +363,12 @@ def construire():
                 "{{contenu}}": contenu,
                 "{{titre}}": html.escape(titre, quote=True),
                 "{{description}}": html.escape(description, quote=True),
+                # une page « merci » n'a rien à faire dans les résultats de
+                # recherche : `indexer: non` dans son en-tête suffit
+                "{{robots}}": ('<meta name="robots" content="noindex, follow">'
+                               if meta.get("indexer", "oui") == "non" else
+                               '<meta name="robots" content="index, follow, max-image-preview:large,'
+                               ' max-snippet:-1, max-video-preview:-1">'),
                 "{{canonical}}": DOMAINE + chemin,
                 "{{alt_fr}}": DOMAINE + chemin_page(slug, "fr"),
                 "{{alt_en}}": DOMAINE + chemin_page(slug, "en"),
@@ -376,13 +391,16 @@ def construire():
             os.makedirs(dossier, exist_ok=True)
             with open(os.path.join(dossier, "index.html"), "w", encoding="utf-8", newline="\n") as f:
                 f.write(page)
-            urls.append((slug, lang, chemin, meta["modifie"], titre, description))
+            urls.append((slug, lang, chemin, meta["modifie"], titre, description,
+                         meta.get("indexer", "oui") != "non"))
 
     # sitemap avec les alternates de langue
     lignes = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
               'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
-    for slug, lang, chemin, modifie, _, _ in urls:
+    for slug, lang, chemin, modifie, _, _, indexable in urls:
+        if not indexable:      # une page de remerciement n'a rien a faire dans Google
+            continue
         lignes.append("  <url>")
         lignes.append("    <loc>%s%s</loc>" % (DOMAINE, chemin))
         lignes.append("    <lastmod>%s</lastmod>" % modifie)
@@ -408,7 +426,9 @@ def construire():
            "member areas, payments, automation, SEO, data — and the automations that keep running after the hand-over. "
            "Two products in production. Built with Claude Code. English at the root, French under /fr/.", "",
            "Contact: %s" % COURRIEL, "", "## Pages"]
-    for slug, lang, chemin, _, titre, description in urls:
+    for slug, lang, chemin, _, titre, description, indexable in urls:
+        if not indexable:
+            continue
         llm.append("- [%s](%s%s) (%s) : %s" % (titre, DOMAINE, chemin, lang, description))
     with open(os.path.join(PUB, "llms.txt"), "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(llm) + "\n")
@@ -424,7 +444,7 @@ def construire():
 
     # redirections : le 4 septembre 2026 l'anglais vivait sous /en/ ; ces adresses
     # ont pu être indexées, elles renvoient vers la racine (noindex, canonique)
-    for slug, lang, chemin, _, _, _ in urls:
+    for slug, lang, chemin, _, _, _, _ in urls:
         if lang != "en":
             continue
         ancien = "/en/" if slug == "index" else "/en/" + slug + "/"

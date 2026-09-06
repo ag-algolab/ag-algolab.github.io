@@ -31,7 +31,7 @@
 <link rel="apple-touch-icon" href="/assets/img/icone-180.png">
 <link rel="preload" href="/assets/fonts/jakarta-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/jetbrains-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20">
+<link rel="stylesheet" href="/assets/style.css?v=21">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@graph": [
@@ -402,12 +402,27 @@
         <p class="chapo">Describe your activity in three lines. I reply with questions, then a price.</p>
       </div>
       <div class="carte">
-        <p class="etq">Email</p>
-        <div class="adresse">
-          <a href="mailto:anthony@agalgolab.com?subject=Project%20%E2%80%94%20AG%20Algo%20Lab">anthony@agalgolab.com</a>
-          <button class="copier" type="button" data-copier="anthony@agalgolab.com" data-fait="Copied" data-rate="Select it">Copy</button>
-        </div>
-        <p class="petit sourdine" style="margin-top:14px">Or on <a href="https://www.linkedin.com/in/anthony-gocmen" rel="noopener" target="_blank">LinkedIn</a>. French or English.</p>
+        <form class="form" method="POST" action="https://formspree.io/f/A-REMPLIR">
+          <input type="hidden" name="_subject" value="New message from agalgolab.com">
+          <input type="hidden" name="_next" value="https://agalgolab.com/merci/">
+          <input type="hidden" name="_language" value="en">
+          <p class="champ">
+            <label for="c-nom">Your name</label>
+            <input id="c-nom" name="nom" type="text" required autocomplete="name">
+          </p>
+          <p class="champ">
+            <label for="c-mail">Your email address</label>
+            <input id="c-mail" name="email" type="email" required autocomplete="email">
+          </p>
+          <p class="champ">
+            <label for="c-mot">Your activity, in three lines</label>
+            <textarea id="c-mot" name="message" rows="4" required minlength="20"></textarea>
+          </p>
+          <p class="champ piege" aria-hidden="true"><label for="c-site">Leave this field empty</label><input id="c-site" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></p>
+          <button class="btn btn-p btn-full" type="submit">Send</button>
+          <p class="petit sourdine">Your message reaches me directly. Reply within 24 hours, Monday to Saturday.</p>
+        </form>
+        <p class="petit sourdine form-ou">Or write to me yourself: <a href="mailto:anthony@agalgolab.com?subject=Project%20%E2%80%94%20AG%20Algo%20Lab">anthony@agalgolab.com</a> · <a href="https://www.linkedin.com/in/anthony-gocmen" rel="noopener" target="_blank">LinkedIn</a></p>
       </div>
     </div>
   </div>
@@ -461,6 +476,6 @@
 </footer>
 
 <noscript><style>.nav{display:flex}</style></noscript>
-<script src="/assets/site.js?v=20" defer></script>
+<script src="/assets/site.js?v=21" defer></script>
 </body>
 </html>

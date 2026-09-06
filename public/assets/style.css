@@ -1118,3 +1118,25 @@ body.page-prepa-600 { --papier: #EEF4FB; --papier-2: #E2ECF8; --encre: #0B1F3A; 
    Le navigateur ne décode que les tuiles visibles : plus d'écran blanc. */
 .defile-piste { position: absolute; left: 0; top: 0; width: 100%; }
 .defile-piste img { position: static; display: block; width: 100%; height: auto; }
+
+/* ------------------------------------------------------ le formulaire de contact
+   Les six chemins de contact du site étaient des `mailto:` : sur un téléphone
+   sans application de courrier configurée, le clic ne fait rien et personne ne
+   le sait. Le formulaire, lui, part toujours. Champs à 48 px de haut (la règle
+   des 44 px du bout du doigt), contour de focus visible, piège à robots hors
+   de l'écran mais lisible par un lecteur d'écran qui l'ignorera. */
+.form { display: grid; gap: 15px; }
+.champ { display: grid; gap: 6px; margin: 0; }
+.champ label { font: 600 .86rem/1.35 var(--sans); color: var(--encre-2); }
+.champ input, .champ textarea {
+  font: 400 1rem/1.5 var(--sans); color: var(--encre); background: var(--papier);
+  border: 1.5px solid var(--filet); border-radius: 12px; padding: 12px 14px;
+  width: 100%; min-height: 48px; }
+.champ textarea { min-height: 118px; resize: vertical; }
+.champ input:hover, .champ textarea:hover { border-color: var(--encre-2); }
+.champ input:focus-visible, .champ textarea:focus-visible {
+  outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.champ.piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form .btn { width: 100%; }
+.form .petit { margin: 0; }
+.form-ou { margin-top: 16px; }
